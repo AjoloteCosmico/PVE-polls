@@ -35,7 +35,7 @@
         @csrf
         <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
-        <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" disabled="disabled" >
+        <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
         <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}">
         <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
         <input  type="text" name="carrera" class="form-control" hidden value="{{$Egresado->carrera}}">
