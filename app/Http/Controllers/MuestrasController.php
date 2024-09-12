@@ -65,9 +65,19 @@ public function index_20($id){
   
   }
   foreach($carreras as $c){
-    $c->nencuestas=respuestas20::where('nbr2',$c->c)
+    $c->nencuestas_tel=respuestas20::join('egresados','egresados.cuenta','=','respuestas20.cuenta')
+    ->where('muestra',3)
+    ->where('nbr2',$c->c)
     ->where('nbr3',$c->p)
     ->where('completed',1)
+    ->whereIn('aplica', [22,23,17,24,25,12,15])
+    ->get()->count();
+    $c->nencuestas_int=respuestas20::join('egresados','egresados.cuenta','=','respuestas20.cuenta')
+    ->where('muestra',3)
+    ->where('nbr2',$c->c)
+    ->where('nbr3',$c->p)
+    ->where('completed',1)
+    ->whereIn('aplica', [20,104,111])
     ->get()->count();
 
   }
