@@ -259,6 +259,11 @@ class HomeController extends Controller
         //}else{
         //    $link="https://www.pveu.unam.mx/encuesta/01/global/exalumno2.html";
         //}
+        dd( $request->nombre,
+        $request->correo,
+        $request->cuenta,
+        $request->carrera,
+        $request->plantel);
         if($request->anio==2014){
             $link="https://www.pveaju.unam.mx/encuesta/01/act_14/tel_act1_6.php";
         }else{
