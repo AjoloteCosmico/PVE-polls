@@ -8,7 +8,8 @@
             <tr>
             <th>Carrera</th>
             <th>Plantel</th>
-            <th>Realizadas </th>
+            <th>Realizadas Telefonica</th>
+            <th>Realizadas Internet</th>
             <th>Requeridas </th>
             <th>Porcentaje</th>
             <th> </th>
@@ -17,12 +18,13 @@
           </thead>
           <tbody>
             @foreach($carreras as $c)
-            <tr style="background-color:rgba({{255*(1-$c->nencuestas/$c->requeridas_5)}},{{255*($c->nencuestas/$c->requeridas_5)}},0,0.4)">
+            <tr style="background-color:rgba({{255*(1-($c->nencuestas_tel+$c->encuestas_int)/$c->requeridas_5)}},{{255*(($c->nencuestas_tel+$c->encuestas_int)/$c->requeridas_5)}},0,0.4)">
                 <td>{{$c->carrera}} </td>
                 <td>{{$c->plantel}} </td>
-                <td> {{$c->nencuestas}}</td>
+                <td> {{$c->nencuestas_tel}}</td>
+                <td> {{$c->nencuestas_int}}</td>
                 <td> {{$c->requeridas_5}}</td>
-                <td> {{number_format($c->nencuestas *100/$c->requeridas_5,2)}} % </td>
+                <td> {{number_format(($c->nencuestas_tel+$c->encuestas_int) *100/$c->requeridas_5,2)}} % </td>
                 <td><a href="{{route('muestras20.show',[$c->c,$c->p])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Ver Muestra </button></a></td>
                 <td><a href="{{route('muestras20.show',[0,$c->p])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Ver Muestra Plantel </button></a></td>
            

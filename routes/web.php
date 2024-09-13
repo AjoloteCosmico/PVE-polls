@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth']], function(){
     });
 
     /**Encuestas */ //Qué tipo de encuestas? 2014/2019?
-    Route::controller(EncuestasController::class)->group(function(){
+        Route::controller(EncuestasController::class)->group(function(){
         Route::get('/encuestas/2014/show/{id}', 'show_14')->name('encuestas.show_14');
         Route::get('/encuestas/json/{id}', 'json')->name('encuestas.json');
         Route::get('/enc2019_make', 'index')->name('encuestas.make19');
