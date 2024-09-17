@@ -9,7 +9,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
     me = "vinculacionexalumnos@exalumno.unam.mx"
 # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Invitación PVEAJU UNAM (BETA)"
+    msg['Subject'] = "Invitación PVEAJU UNAM"
     msg['From'] = me
     msg['To'] = you
 

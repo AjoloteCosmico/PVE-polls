@@ -147,7 +147,7 @@ public function show_20($carrera,$plantel){
 
   $Codigos=DB::table('codigos')->where('code','>=',3)
   ->orderBy('color')->get();
-  return view('muestras.seg20.show',compact('muestra','Carrera','Codigos','carrera'));
+  return view('muestras.seg20.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
 }
 public function revision(){
   $Encuestas=respuestas20::leftJoin('carreras', function($join)
