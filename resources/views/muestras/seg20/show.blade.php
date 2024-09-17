@@ -10,7 +10,7 @@
     </div>
       <div class='col' style="display: flex;justify-content: center;align-items:flex-end;">
           <a href="{{route('muestras20.index',$plantel)}}">
-            <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; height: 100px; width:300px">Regresar </button>
+            <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; height: 100px; width:300px;font-size: xx-large;"><i class="fas fa-arrow-left" ></i>Regresar</button>
           </a>
       </div>
       <div class='col'>
