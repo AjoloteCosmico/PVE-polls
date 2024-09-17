@@ -58,7 +58,7 @@
 <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
 <script>
   new DataTable('#myTable', {
-   
+    paging: false,
     layout: {
         topStart: {
             buttons: ['print','csv','excel','copy']
