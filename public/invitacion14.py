@@ -9,7 +9,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
     me = "vinculacionexalumnos@exalumno.unam.mx"
 # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Invitación PVEAJU UNAM (BETA)"
+    msg['Subject'] = "Invitación PVEAJU UNAM"
     msg['From'] = me
     msg['To'] = you
 
@@ -69,7 +69,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                 <tbody>
                                                   <tr>
                                                     <td class="col" style="line-height: 24px; font-size: 16px; min-height: 1px; font-weight: normal; padding-right: 24px; margin: 0;" align="left" valign="top">
-                                                      <img class="img-fluid" src="https://i0.wp.com/www.atmosfera.unam.mx/wp-content/uploads/2019/06/unam-escudo-azul.png?ssl=1" alt="Some Image" width="80%" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; max-width: 100%; width: 100%; border-style: none; border-width: 0;">
+                                                      <img class="img-fluid" src="http://www.pve.unam.mx/imagenes/unam.jpg" alt="Some Image" width="80%" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; max-width: 100%; width: 100%; border-style: none; border-width: 0;">
                                                     </td>
                                                     <td class="col-8" style="line-height: 24px; font-size: 16px; min-height: 1px; font-weight: normal; padding-right: 24px; width: 66.666667%; margin: 0;" align="left" valign="top">
                                                       <h1 class="h4  text-center" style="padding-top: 0; padding-bottom: 0; font-weight: 500; vertical-align: baseline; font-size: 24px; line-height: 28.8px; margin: 0;" align="center">PROGRAMA DE VINCULACI&#211;N CON EGRESADOS Y ACAD&#201;MICOS JUBILADOS DE LA UNAM</h1>
@@ -84,7 +84,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                       </table>
                                                     </td>
                                                     <td class="col" style="line-height: 24px; font-size: 16px; min-height: 1px; font-weight: normal; padding-right: 24px; margin: 0;" align="left" valign="top">
-                                                      <img class="img-fluid" src="https://www.pveu.unam.mx/images/logoPVE.png" alt="Some Image" width="80%" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; max-width: 100%; width: 100%; border-style: none; border-width: 0;">
+                                                      <img class="img-fluid" src="http://www.pve.unam.mx/imagenes/pve.jpg" alt="Some Image" width="80%" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; max-width: 100%; width: 100%; border-style: none; border-width: 0;">
                                                     </td>
                                                   </tr>
                                                 </tbody>
@@ -194,7 +194,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                 </tbody>
                                               </table>
                                               <p class="text-gray-700" style="line-height: 24px; font-size: 16px; color: #4a5568; width: 100%; margin: 0;" align="left">La informaci&#243;n que nos proporcione ser&#225; confidencial, para su seguridad usted puede leer nuestro aviso de privacidad en la siguiente direcci&#243;n:
-                                                <a href="https://www.pveu.unam.mx/avisodeprivacidad/index.html" style="color: #0d6efd;"> https://www.pveu.unam.mx/avisodeprivacidad/index.html </a>
+                                                <a href="https://www.pveaju.unam.mx/aviso-de-privacidad.php" style="color: #0d6efd;"> https://www.pveaju.unam.mx/aviso-de-privacidad.php </a>
                                               </p>
                                               <table class="s-3 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                                 <tbody>
@@ -268,7 +268,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                 <tbody>
                                                   <tr>
                                                     <td style="line-height: 24px; font-size: 16px; border-radius: 6px; margin: 0;" align="center">
-                                                      <a style="background-color: #b39648; color: white; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; padding: 8px 12px; border: 1px solid transparent;" href="https://registro.pveu.unam.mx/" target="_blank">REGISTRA TUS DATOS</a>
+                                                      <a style="background-color: #b39648; color: white; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; padding: 8px 12px; border: 1px solid transparent;" href="https://registro.pveaju.unam.mx/" target="_blank">REGISTRA TUS DATOS</a>
                                                     </td>
                                                   </tr>
                                                 </tbody>
@@ -277,7 +277,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                 <tbody>
                                                   <tr>
                                                     <td style="line-height: 24px; font-size: 16px; border-radius: 6px; margin: 0;" align="center">
-                                                      <a style="background-color: #b39648; color: white; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; padding: 8px 12px; border: 1px solid transparent;" href="https://www.pveu.unam.mx/aviso-de-privacidad.php" target="_blank">AVISO DE PRIVACIDAD</a>
+                                                      <a style="background-color: #b39648; color: white; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; padding: 8px 12px; border: 1px solid transparent;" href="https://www.pveaju.unam.mx/aviso-de-privacidad.php" target="_blank">AVISO DE PRIVACIDAD</a>
                                                     </td>
                                                   </tr>
                                                 </tbody>
@@ -286,7 +286,7 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                 <tbody>
                                                   <tr>
                                                     <td style="line-height: 24px; font-size: 16px; border-radius: 6px; margin: 0;" align="center">
-                                                      <a style="background-color: #b39648; color: white; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; padding: 8px 12px; border: 1px solid transparent;" href="https://www.pveu.unam.mx/seguimiento.php#estadistica/" target="_blank">ESTAD&#205;STICAS</a>
+                                                      <a style="background-color: #b39648; color: white; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: normal; white-space: nowrap; padding: 8px 12px; border: 1px solid transparent;" href="https://www.pveaju.unam.mx/seguimiento.php#estadistica/" target="_blank">ESTAD&#205;STICAS</a>
                                                     </td>
                                                   </tr>
                                                 </tbody>

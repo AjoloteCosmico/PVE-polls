@@ -8,7 +8,11 @@
       <div class='col'><h1 class="text-white-25" style="font-color: white; font-weight: bold;">  @if($carrera>0) {{$Carrera->carrera}} @endif </h1> 
     <h1 class="text-white-25" style="font-color: white">{{$Carrera->plantel}}  </h1> 
     </div>
-      <div class='col'></div>
+      <div class='col' style="display: flex;justify-content: center;align-items:flex-end;">
+          <a href="{{route('muestras20.index',$plantel)}}">
+            <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; height: 100px; width:300px">Regresar </button>
+          </a>
+      </div>
       <div class='col'>
         <table>
           <thead> 
