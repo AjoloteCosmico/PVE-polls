@@ -131,6 +131,7 @@ $encuesta->save();
 $Egresado->save();
 }
 public function updateA(Request $request,$id){
+    dd($request);
     $Encuesta=respuestas20::where('registro',$id)->first();
     $Egresado=Egresado::where('cuenta',$Encuesta->cuenta)->where('carrera',$Encuesta->nbr2)->first();
     $Encuesta-> aplica  = Auth::user()->clave;
@@ -202,6 +203,7 @@ public function updateA(Request $request,$id){
     $Encuesta->sec_a=1;
     $Encuesta->save();
     $this->validar_completa($Encuesta->registro);
+   
     return redirect()->route('edit_20',[$Encuesta->registro,'E']);
 }
 
