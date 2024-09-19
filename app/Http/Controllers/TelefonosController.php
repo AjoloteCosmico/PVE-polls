@@ -9,9 +9,9 @@ use App\Models\Carrera;
 use App\Models\Telefono;
 class TelefonosController extends Controller
 {
-    public function create($cuenta,$carrera,$encuesta=0){
+    public function create($cuenta,$carrera,$encuesta){
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
-         
+        
         return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta'));
     }
     public function store(Request $request ,$cuenta,$carrera,$encuesta=0){
@@ -22,8 +22,8 @@ class TelefonosController extends Controller
         $Correo->descripcion=$request->description;
         $Correo->status=0;
         $Correo->save();
-        if($encuesta ==0){
-        return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera]);}
+        if($encuesta == '2020'){
+        return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta]);}
         else{
             return redirect()->route('edit_20',[$encuesta,'SEARCH']);
         }
@@ -33,7 +33,7 @@ class TelefonosController extends Controller
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
         return view('encuesta.seg20.editar_telefono',compact('Egresado','Telefono','encuesta'));
     }
-    public function update(Request $request ,$id,$carrera,$encuesta=0){
+    public function update(Request $request ,$id,$carrera,$encuesta){
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
         
@@ -41,9 +41,8 @@ class TelefonosController extends Controller
         $Telefono->descripcion=$request->description;
         // $Telefono->status=0;
         $Telefono->save();
-
-        if($encuesta ==0){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera]);}
+        if($encuesta == '2020'){
+            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta]);}
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }

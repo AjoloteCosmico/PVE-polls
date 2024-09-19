@@ -18,7 +18,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Encuesta20Controller extends Controller
 {
-    public function act_data($cuenta,$carrera){
+    public function act_data($cuenta, $carrera, $muestra){
         $Egresado=Egresado::where('cuenta', $cuenta)->where('carrera',$carrera)->first();
         $Telefonos=DB::table('telefonos')->where('cuenta','=',$cuenta)
         ->leftJoin('codigos','codigos.code','=','telefonos.status')
@@ -26,7 +26,7 @@ class Encuesta20Controller extends Controller
         $Correos=Correo::where('cuenta','=',$cuenta)->get();
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
-        return view('encuesta.seg20.actualizar_datos',compact('Egresado','Telefonos','Correos','Carrera','Plantel'));
+        return view('encuesta.seg20.actualizar_datos',compact('Egresado','Telefonos','Correos','Carrera','Plantel','muestra'));
     }
 
     public function comenzar($correo, $cuenta, $carrera){

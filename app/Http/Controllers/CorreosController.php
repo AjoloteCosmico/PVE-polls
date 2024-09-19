@@ -10,14 +10,14 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class CorreosController extends Controller
 {
-    public function create($cuenta,$carrera,$encuesta=0){
+    public function create($cuenta,$carrera,$encuesta){
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
      
         return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta'));
     }
-    public function store(Request $request ,$cuenta,$carrera,$encuesta=0){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta){
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         $Correo=new Correo();
         $Correo->cuenta=$cuenta;
@@ -25,14 +25,14 @@ class CorreosController extends Controller
         $Correo->status='en uso';
         $Correo->enviado=0;
         $Correo->save();
-        if($encuesta ==0){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera]);}
+        if($encuesta == '2020'){
+            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta]);}
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
         
     }
-    public function edit($id,$carrera,$encuesta=0){
+    public function edit($id,$carrera,$encuesta){
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
@@ -40,7 +40,7 @@ class CorreosController extends Controller
      
         return view('encuesta.seg20.editar_correo',compact('Egresado','Correo','Carrera','Plantel','encuesta'));
     }
-    public function update(Request $request ,$id,$carrera,$encuesta=0){
+    public function update(Request $request ,$id,$carrera,$encuesta){
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
         
@@ -48,8 +48,8 @@ class CorreosController extends Controller
         $Correo->status=$request->status;
         $Correo->enviado=0;
         $Correo->save();
-        if($encuesta ==0){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera]);}
+        if($encuesta == '2020'){
+            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta]);}
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }

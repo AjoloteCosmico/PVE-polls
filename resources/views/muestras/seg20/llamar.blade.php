@@ -112,7 +112,7 @@
     </div>
     <div class='row'>
         <div class='col'>
-            <a href="{{route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera])}}">
+            <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020])}}">
         <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
         </div> 
         <div class='col'>
