@@ -82,7 +82,8 @@ public function index_20($id){
     ->where('muestra', 3)
     ->where('nbr2', $c->c)
     ->where('nbr3', $c->p)
-    ->where('completed', 1);
+    ->where('completed', 1)
+    ->get();
 
     // dd($queryBase->get());
     // Encuestas por internet
