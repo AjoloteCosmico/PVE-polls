@@ -84,15 +84,16 @@ public function index_20($id){
     ->where('nbr3', $c->p)
     ->where('completed', 1);
 
-    // Encuestas por teléfono
-    $c->nencuestas_tel = $queryBase
-    ->whereIn('aplica', [22, 23, 17, 24, 25, 12, 15])
-    ->count();
-
+    // dd($queryBase->get());
     // Encuestas por internet
     $c->nencuestas_int = $queryBase
     ->whereIn('aplica', [20, 104, 111])
     ->count();
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->whereIn('aplica', [22, 23, 17, 24, 25, 12, 15])
+    ->count();
+   
   }
   // $carreras=collect($carreras);
   return view('muestras.seg20.index',compact('carreras'));
