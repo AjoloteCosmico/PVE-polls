@@ -114,7 +114,7 @@ Otra:<input type="text" class="texto"   id="nar11a" name="nar11a" size="20" maxl
 <option value=57 @if($Encuesta->nar14==57) selected @endif > Profesor Enseñanza Básica</option>
 <option value=58 @if($Encuesta->nar14==58) selected @endif >Otros profesores (Artísticos, deportes, etc.)  </option>
 <option value=33 @if($Encuesta->nar14==33) selected @endif >Labores del hogar </option>
-<option value=34 @if($Encuesta->nar14==34) selected @endif > Jubilado  </option>
+<option value=34 @if($Encuesta->nar14==34) selected @endif > Jubilado o Pensionado </option>
 <option value=35 @if($Encuesta->nar14==35) selected @endif >Finado  </option>
 <option value=36 @if($Encuesta->nar14==36) selected @endif >No trabaja  </option>
 <option value=37 @if($Encuesta->nar14==37) selected @endif >No lo sabe  </option>
@@ -196,7 +196,7 @@ Otra:<input type="text" class="texto" id="nar12otra" name="nar12otra"  maxlength
 <option value=57 @if($Encuesta->nar15==57) selected @endif > Profesor Enseñanza Básica</option>
 <option value=58 @if($Encuesta->nar15==58) selected @endif >Otros profesores (Artísticos, deportes, etc.)  </option>
 <option value=33 @if($Encuesta->nar15==33) selected @endif >Labores del hogar </option>
-<option value=34 @if($Encuesta->nar15==34) selected @endif > Jubilado  </option>
+<option value=34 @if($Encuesta->nar15==34) selected @endif > Jubilado o Pensionado </option>
 <option value=40 @if($Encuesta->nar15==40) selected @endif > Estudiante</option>
 <option value=35 @if($Encuesta->nar15==35) selected @endif >Finado  </option>
 <option value=36 @if($Encuesta->nar15==36) selected @endif >No trabajaba  </option>
@@ -276,7 +276,7 @@ Otra:<input type="text" class="texto" id="nar13otra" name="nar13otra" maxlength=
    <option value=57 @if($Encuesta->nar16==57) selected @endif > Profesor Enseñanza Básica</option>
    <option value=58 @if($Encuesta->nar16==58) selected @endif >Otros profesores (Artísticos, deportes, etc.)  </option>
    <option value=33 @if($Encuesta->nar16==33) selected @endif >Labores del hogar </option>
-    <option value=34 @if($Encuesta->nar16==34) selected @endif > Jubilado  </option>
+    <option value=34 @if($Encuesta->nar16==34) selected @endif > Jubilado o Pensionado</option>
     
 <option value=40 @if($Encuesta->nar16==40) selected @endif > Estudiante</option>
     <option value=35 @if($Encuesta->nar16==35) selected @endif >Finado  </option>
