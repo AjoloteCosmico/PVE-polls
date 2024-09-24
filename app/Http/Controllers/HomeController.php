@@ -251,12 +251,6 @@ class HomeController extends Controller
     }
     
     public function enviar_invitacion(Request $request){
-        //if($request->anio==2014){
-        //    $link="https://www.pveu.unam.mx/encuesta/01/act_14/encuesta_actualizacion.php";
-        //}else{
-        //    $link="https://www.pveu.unam.mx/encuesta/01/global/exalumno2.html";
-        //}
-        
         if($request->anio==2014){
             $link="https://www.pveaju.unam.mx/encuesta/01/act_14/tel_act1_6.php";
         }else{
