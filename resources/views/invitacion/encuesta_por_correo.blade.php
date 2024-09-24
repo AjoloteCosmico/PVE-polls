@@ -38,8 +38,8 @@
         <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
         <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}">
         <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
-        <input  type="text" name="carrera" class="form-control" hidden value="{{$Egresado->carrera}}">
-        <input  type="text" name="plantel" class="form-control" hidden value="{{$Egresado->plantel}}">
+        <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera->carrera}}">
+        <input  type="text" name="plantel" class="form-control" hidden value="{{$Carrera->plantel}}">
         <input  type="number" name="anio" class="form-control" hidden value="{{$Egresado->anio_egreso}}">  
         <br>
         <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
