@@ -102,14 +102,7 @@
         <div class='col'>
         <button type="button" onclick='check_form({{$telefono->id}})' style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Marcar y guardar recado</button>
         </div>    
-        <div class='col'>
-            <a href="{{route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
-        </div> 
-        <div class='col'>
-            <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-arrow-left"></i> Regresar a al muestra</button></a>
-        </div>
+        
     </div>
     
     </form></div>
@@ -117,7 +110,16 @@
             <br>
         @endforeach
     </div>
-
+    <div class='row'>
+        <div class='col'>
+            <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020])}}">
+        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
+        </div> 
+        <div class='col'>
+            <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
+        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-arrow-left"></i> Regresar a al muestra</button></a>
+        </div>
+    </div>
 </div>
 @stop
 

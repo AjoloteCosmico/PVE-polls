@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/2020/F_update/{id}', 'updateF')->name('encuestas.real_update.F');
         Route::post('/encuestas/2020/G_update/{id}', 'updateG')->name('encuestas.real_update.G');
         Route::get('/encuestas/2020/terminar/{id}', 'terminar')->name('terminar');
-        Route::get('/enc2020_actualizar/{cuenta}/{carrera}', 'act_data')->name('encuesta20.act_data');
+        Route::get('/actualizar/{cuenta}/{carrera}/{muestra}', 'act_data')->name('encuesta20.act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
         Route::get('/comenzar_encuesta_2020/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2020');
         Route::get('/encuestas_2020/edit/{id}/{section}', 'edit')->name('edit_20');
         Route::post('/encuestas/real_update/{id}', 'update2')->name('encuestas.real_update');
@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::controller(TelefonosController::class)->group(function(){
         Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}', 'create')->name('agregar_telefono');
         Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}', 'edit')->name('editar_telefono');
-        Route::post('/guardar_telefono{cuenta}/{carrera}/{encuesta?}', 'store')->name('guardar_telefono');
+        Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}', 'store')->name('guardar_telefono');
         Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}', 'update')->name('actualizar_telefono');
     });
 

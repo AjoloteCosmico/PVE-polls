@@ -76,32 +76,29 @@ class HomeController extends Controller
         
         $encuestas20=respuestas20::where('completed','=',1)->get();
         #Grafica de encuestadores
-        $moni20=$encuestas20->where('aplica', '=' ,'12')->count();
+       
         $ere20=$encuestas20->where('aplica', '=' ,'17')->count();
-        $cesar20=$encuestas20->where('aplica', '=' ,'15')->count();
         $eli20=$encuestas20->where('aplica', '=' ,'22')->count();
         $sandy20=$encuestas20->where('aplica', '=' ,'23')->count();
-
-        $moni=$encuestas19->where('aplica', '=' ,'12')->count();
-        $ere=$encuestas19->where('aplica', '=' ,'17')->count();
-        $cesar=$encuestas19->where('aplica', '=' ,'15')->count();
-        $eli=$encuestas19->where('aplica', '=' ,'22')->count();
-        $sandy=$encuestas19->where('aplica', '=' ,'23')->count();
-
-        $moni14=respuestas14::where('aplica', '=' ,'12')->count();
+    
+        $amanda20=$encuestas20->where('aplica', '=' ,'25')->count();
+        $migue20=$encuestas20->where('aplica', '=' ,'24')->count();
+    
+       
         $ere14=respuestas14::where('aplica', '=' ,'17')->count();
-        $cesar14=respuestas14::where('aplica', '=' ,'15')->count();
         $eli14=respuestas14::where('aplica', '=' ,'22')->count();
         $sandy14=respuestas14::where('aplica', '=' ,'23')->count();
+        $amanda14=respuestas14::where('aplica', '=' ,'25')->count();
+        $migue14=respuestas14::where('aplica', '=' ,'24')->count();
+    
         
         $aplica_chart = LarapexChart::barChart()
         ->setTitle('Conteo por encuestador')
         ->setSubtitle('enc2019 vs enc2014 actualizacion')
-         ->addData('2020', [$moni20, $ere20,$cesar20,$eli20,$sandy20])
-         ->addData('2019', [$moni, $ere,$cesar,$eli,$sandy])
-         ->addData('2014', [$moni14, $ere14,$cesar14,$eli14,$sandy14])
+         ->addData('2020', [ $ere20,$eli20,$sandy20,$amanda20,$migue20])
+         ->addData('2014', [ $ere14,$eli14,$sandy14,$amanda14,$migue14])
          ->setColors(['#D1690E', '#EB572F','#f3b87c'])
-         ->setXAxis(['Monica', 'Erendira', 'Cesar', 'Elizabeth', 'Sandra']);
+         ->setXAxis(['Erendira', 'Elizabeth', 'Sandra','Amanda','Miguel']);
     
         $total20=$encuestas20->count();
         $total14=respuestas14::whereNotNull('aplica')->count();
@@ -254,11 +251,6 @@ class HomeController extends Controller
     }
     
     public function enviar_invitacion(Request $request){
-        //if($request->anio==2014){
-        //    $link="https://www.pveu.unam.mx/encuesta/01/act_14/encuesta_actualizacion.php";
-        //}else{
-        //    $link="https://www.pveu.unam.mx/encuesta/01/global/exalumno2.html";
-        //}
         if($request->anio==2014){
             $link="https://www.pveaju.unam.mx/encuesta/01/act_14/tel_act1_6.php";
         }else{

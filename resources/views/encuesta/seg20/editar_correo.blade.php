@@ -8,24 +8,23 @@
         <h1 style="color:white">{{$Egresado->cuenta}}   </h1>
         <h1 style="color:white">{{$Carrera}} {{$Plantel}}   </h1>
     </div>
-    <center >
+    <center>
     <br><br>
-        <form action="{{ route('actualizar_correo',[$Correo->id,$Egresado->carrera,$encuesta])}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('actualizar_correo',[$Correo->id,$Egresado->carrera,$encuesta])}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-    <label for="exampleInputEmail1">Correo</label>
-    <input  style="width:50%" type="email" class="form-control" value="{{$Correo->correo}}" name="correo" aria-describedby="emailHelp" >
-   </div>
-    <div class="form-group"> 
-    <label for="exampleInputEmail1">Status</label>
-    <select style="width:50%" class="form-control" name="status" aria-describedby="emailHelp" placeholder="Enter email">
-    <option value="en uso" @if($Correo->status == 'en uso') selected @endif> En Uso</option>   
-    <option value="sin usar" @if($Correo->status != 'en uso') selected @endif> Sin usar</option>   
-</select>
-  <br>
-  <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-store"></i> Guardar</button>
- 
-  </form>
+            <label for="exampleInputEmail1">Correo</label>
+            <input  style="width:50%" type="email" class="form-control" value="{{$Correo->correo}}" name="correo" aria-describedby="emailHelp" >
+        </div>
+        <div class="form-group"> 
+            <label for="exampleInputEmail1">Status</label>
+            <select style="width:50%" class="form-control" name="status" aria-describedby="emailHelp" placeholder="Enter email">
+                <option value="en uso" @if($Correo->status == 'en uso') selected @endif> En Uso</option>   
+                <option value="sin usar" @if($Correo->status != 'en uso') selected @endif> Sin usar</option>   
+            </select>
+        <br>
+        <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-store"></i> Guardar</button>
+    </form>
    </center>
-    </div>
+</div>
 @endsection
