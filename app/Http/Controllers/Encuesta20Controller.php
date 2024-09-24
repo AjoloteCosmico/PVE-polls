@@ -131,7 +131,7 @@ $encuesta->save();
 $Egresado->save();
 }
 public function updateA(Request $request,$id){
-    dd($request);
+
     $Encuesta=respuestas20::where('registro',$id)->first();
     $Egresado=Egresado::where('cuenta',$Encuesta->cuenta)->where('carrera',$Encuesta->nbr2)->first();
     $Encuesta-> aplica  = Auth::user()->clave;

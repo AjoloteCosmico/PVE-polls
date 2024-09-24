@@ -642,7 +642,7 @@ public function show_14($id){
     
     $Encuesta=respuestas14::where('REGISTRO','=',$id)->first();
     if(!$Encuesta){
-        dd('o_o');
+
         return Redirect::back();
         
     }
