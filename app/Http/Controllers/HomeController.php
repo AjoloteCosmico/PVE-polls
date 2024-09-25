@@ -162,81 +162,108 @@ class HomeController extends Controller
     
     public function resultado(Request $request){
         $encuestas20=DB::table('respuestas20')
-        ->join('egresados','egresados.cuenta','=','respuestas20.cuenta')
-        ->leftJoin('carreras', function($join)
-  {
-      $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2');
-      $join->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');                             
-  })
-        ->select('respuestas20.*','egresados.anio_egreso','carreras.carrera','carreras.plantel')
-        ->where('egresados.anio_egreso','=',2020)
-        ->where('respuestas20.cuenta','=',(int)$request->nc)
-        
-        ->get(); 
+            ->join('egresados','egresados.cuenta','=','respuestas20.cuenta')
+            ->leftJoin('carreras', function($join){
+                $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2');
+                $join->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');                             
+            })
+            ->select('respuestas20.*','egresados.anio_egreso','carreras.carrera','carreras.plantel')
+            ->where('egresados.anio_egreso','=',2020)
+            ->where('respuestas20.cuenta','=',(int)$request->nc)
+            ->get();
+
         $encuestas19=DB::table('respuestas2')
-        ->join('egresados','egresados.cuenta','=','respuestas2.cuenta')
-        ->select('respuestas2.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
-        ->where('egresados.anio_egreso','=',2019)
-        ->where('respuestas2.cuenta','=',(int)$request->nc)
-        ->get(); 
+            ->join('egresados','egresados.cuenta','=','respuestas2.cuenta')
+            ->select('respuestas2.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
+            ->where('egresados.anio_egreso','=',2019)
+            ->where('respuestas2.cuenta','=',(int)$request->nc)
+            ->get(); 
+
         $egresados=DB::table('egresados')
-        ->where('cuenta',(int)$request->nc)
-        ->leftJoin('carreras', function($join)
-        {
-            $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
-            $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
-        })
-        ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel')
-        ->get();
+            ->where('cuenta',(int)$request->nc)
+            ->leftJoin('carreras', function($join){
+                $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+                $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+            })
+            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel')
+            ->get();
+
         $encuestas14=DB::table('respuestas14')
-        ->where('respuestas14.cuenta','=',$request->nc)
-        ->whereNotNull('respuestas14.NGR11')
-        ->get(); 
+            ->where('respuestas14.cuenta','=',$request->nc)
+            ->whereNotNull('respuestas14.NGR11')
+            ->get(); 
+
         $eg14=DB::table('respuestas14')
-        ->where('respuestas14.cuenta','=',$request->nc)
-        ->whereNull('respuestas14.NGR11')
-        ->first();       
+            ->where('respuestas14.cuenta','=',$request->nc)
+            ->whereNull('respuestas14.NGR11')
+            ->first(); 
+                  
         return view('resultado',compact('encuestas20','encuestas19','encuestas14','egresados','eg14'));
     }
     public function resultado_fonetico(Request $request){
 
-        $encuestas20=DB::table('respuestas20')
-        ->join('egresados','egresados.cuenta','=','respuestas20.cuenta')
-        ->leftJoin('carreras', function($join)
-  {
-      $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2');
-      $join->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');                             
-  })
-        ->select('respuestas20.*','egresados.anio_egreso','carreras.carrera','carreras.plantel')
-        ->where('egresados.anio_egreso','=',2020)
-        ->where('respuestas20.nombre','like','%'.mb_strtoupper($request->name, 'UTF-8').'%')
-        ->get(); 
+        $egresados = DB::table('egresados')
+            ->leftJoin('carreras', function($join) {
+                $join->on('carreras.clave_carrera', '=', 'egresados.carrera')
+                    ->on('carreras.clave_plantel', '=', 'egresados.plantel');
+            })
+            ->select('egresados.*', 'carreras.carrera as nombre_carrera', 'carreras.plantel as nombre_plantel')
+            ->where(function($query) use ($request) {
+                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                    ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                    ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            })
+            ->get();
         
-        $encuestas19=DB::table('respuestas2')
-        ->join('egresados','egresados.cuenta','=','respuestas2.cuenta')
-        ->select('respuestas2.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
-        ->where('egresados.anio_egreso','=',2019)
-        ->where('respuestas2.nombre','like','%'.mb_strtoupper($request->name, 'UTF-8').'%')
-        ->get(); 
-        $egresados=Egresado::where('nombre','like','%'.mb_strtoupper($request->name, 'UTF-8').'%')->get();
-        if($request->paterno){
-            $egresados=$egresados->toQuery()->where('paterno','like','%'.mb_strtoupper($request->paterno, 'UTF-8').'%')->get();
-        }
-        if($request->materno){
-            $egresados=$egresados->toQuery()->where('materno','like','%'.mb_strtoupper($request->materno, 'UTF-8').'%')->get();
-        }
-        $encuestas14=DB::table('respuestas14')
-        ->where('respuestas14.cuenta','=',$request->nc)
-        ->whereNotNull('respuestas14.NGR11')
-        ->get(); 
-        $eg14=DB::table('respuestas14')
-        ->where('respuestas14.cuenta','=',$request->nc)
-        ->whereNull('respuestas14.NGR11')
-        ->first();       
-        return view('resultado',compact('encuestas20','encuestas14','egresados','eg14','encuestas19'));
+        $encuestas20 = DB::table('respuestas20')
+            ->join('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
+            ->leftJoin('carreras', function($join) {
+                $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2')
+                     ->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');
+            })
+            ->select('respuestas20.*', 'egresados.anio_egreso', 'carreras.carrera', 'carreras.plantel')
+            ->where('egresados.anio_egreso', '=', 2020)
+            ->where(function($query) use ($request) {
+                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            })
+            ->get();
 
-    
+        $encuestas14 = DB::table('respuestas14')
+            ->join('egresados', 'egresados.cuenta', '=', 'respuestas14.cuenta')
+            ->where(function($query) use ($request) {
+                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            })
+            ->whereNotNull('respuestas14.NGR11')
+            ->get();
+        
+        $eg14 = DB::table('respuestas14')
+            ->join('egresados', 'egresados.cuenta', '=', 'respuestas14.cuenta')
+            ->where(function($query) use ($request) {
+                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            })
+            ->whereNull('respuestas14.NGR11')
+            ->first();
+
+        $encuestas19 = DB::table('respuestas2')
+            ->join('egresados', 'egresados.cuenta', '=', 'respuestas2.cuenta')
+            ->select('respuestas2.*', 'egresados.anio_egreso', 'egresados.carrera', 'egresados.plantel')
+            ->where('egresados.anio_egreso', '=', 2019)
+            ->where(function($query) use ($request) {
+                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
+                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            })
+            ->get();
+        
+        return view('resultado',compact('encuestas20','encuestas14','egresados','eg14','encuestas19'));
     }
+
     public function enviar_aviso(Request $request){
       
            $caminoalpoder=public_path();
@@ -256,6 +283,7 @@ class HomeController extends Controller
         }else{
             $link="https://encuestas.pveaju.unam.mx/encuesta_generacion/2020";
         }
+        
         $caminoalpoder=public_path();
         $process = new Process([
             env('PY_COMAND'),$caminoalpoder.'/invitacion14.py',
@@ -270,10 +298,11 @@ class HomeController extends Controller
             throw new ProcessFailedException($process);
         }
         $data = $process->getOutput();
-        //return redirect()->route('aviso');
+        
         return redirect()->route('encuesta20.act_data', [
             $request->cuenta, 
-            $request->carrera
+            $request->carrera_clave,
+            $request->anio
         ]);
     }
     public function enviar_encuesta($id_correo, $id_egresado){
