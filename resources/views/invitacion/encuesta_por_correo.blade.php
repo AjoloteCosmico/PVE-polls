@@ -39,6 +39,7 @@
         <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}">
         <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
         <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera->carrera}}">
+        <input  type="text" name="carrera_clave" class="form-control" hidden value="{{$Egresado->carrera}}">
         <input  type="text" name="plantel" class="form-control" hidden value="{{$Carrera->plantel}}">
         <input  type="number" name="anio" class="form-control" hidden value="{{$Egresado->anio_egreso}}">  
         <br>
