@@ -25,18 +25,18 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               database=DB_DATABASE,
                               use_pure=False)
 
-encuestas_completas=pd.read_sql("""select respuestas2.aplica, egresados.cuenta, respuestas2.fec_capt, carreras.carrera, carreras.plantel
-                        from ((respuestas2 
-                        inner join egresados on respuestas2.cuenta=egresados.cuenta)
+encuestas_completas=pd.read_sql("""select DISTINCT respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
+                        from ((respuestas20 
+                        inner join egresados on respuestas20.cuenta=egresados.cuenta)
                         inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        
-                        where respuestas2.ngr11f is not null and egresados.anio_egreso=2019""",cnx)
-encuestas_incompletas=pd.read_sql("""select respuestas2.aplica, egresados.cuenta, respuestas2.fec_capt, carreras.carrera, carreras.plantel
-                        from ((respuestas2 
-                        inner join egresados on respuestas2.cuenta=egresados.cuenta)
+                        where respuestas20.completed = 1 and egresados.anio_egreso=2020
+                        ORDER BY respuestas20.registro DESC;""",cnx)
+encuestas_incompletas=pd.read_sql("""select DISTINCT respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
+                        from ((respuestas20 
+                        inner join egresados on respuestas20.cuenta=egresados.cuenta)
                         inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        where respuestas2.ngr11f is  null and egresados.anio_egreso=2019""",cnx)
-egresados=pd.read_sql("""select * from egresados where egresados.anio_egreso=2019""",cnx)
+                        where respuestas20.completed != 1 and egresados.anio_egreso=2020
+                        ORDER BY respuestas20.registro DESC;""",cnx)
 carreras=pd.read_sql("select * from carreras",cnx)
 def formatear_cuenta(columna):
         """ Formatea los números de cuenta para que tengan un formato consistente y comparable
