@@ -202,19 +202,26 @@ class HomeController extends Controller
     }
     public function resultado_fonetico(Request $request){
 
+        $nombre_completo = mb_strtoupper($request->nombre_completo, 'UTF-8');
+        $partes_nombre = explode(' ', $nombre_completo);  // Divide el nombre completo en palabras
+
         $egresados = DB::table('egresados')
             ->leftJoin('carreras', function($join) {
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera')
                     ->on('carreras.clave_plantel', '=', 'egresados.plantel');
             })
             ->select('egresados.*', 'carreras.carrera as nombre_carrera', 'carreras.plantel as nombre_plantel')
-            ->where(function($query) use ($request) {
-                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                    ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                    ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            ->where(function($query) use ($partes_nombre) {
+                foreach ($partes_nombre as $parte) {
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where(DB::raw("SOUNDEX(egresados.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(egresados.paterno)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(egresados.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
+                    });
+                }
             })
             ->get();
-        
+    
         $encuestas20 = DB::table('respuestas20')
             ->join('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
             ->leftJoin('carreras', function($join) {
@@ -223,45 +230,45 @@ class HomeController extends Controller
             })
             ->select('respuestas20.*', 'egresados.anio_egreso', 'carreras.carrera', 'carreras.plantel')
             ->where('egresados.anio_egreso', '=', 2020)
-            ->where(function($query) use ($request) {
-                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            ->where(function($query) use ($partes_nombre) {
+                foreach ($partes_nombre as $parte) {
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where(DB::raw("SOUNDEX(respuestas20.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(respuestas20.paterno)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(respuestas20.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
+                    });
+                }
             })
             ->get();
 
         $encuestas14 = DB::table('respuestas14')
-            ->join('egresados', 'egresados.cuenta', '=', 'respuestas14.cuenta')
-            ->where(function($query) use ($request) {
-                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            ->where(function($query) use ($partes_nombre) {
+                foreach ($partes_nombre as $parte) {
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where(DB::raw("SOUNDEX(respuestas14.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(respuestas14.PATERNO)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(respuestas14.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
+                    });
+                }
             })
             ->whereNotNull('respuestas14.NGR11')
             ->get();
         
         $eg14 = DB::table('respuestas14')
-            ->join('egresados', 'egresados.cuenta', '=', 'respuestas14.cuenta')
-            ->where(function($query) use ($request) {
-                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
+            ->where(function($query) use ($partes_nombre) {
+                foreach ($partes_nombre as $parte) {
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where(DB::raw("SOUNDEX(respuestas14.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(respuestas14.PATERNO)"), '=', DB::raw("SOUNDEX('{$parte}')"))
+                            ->orWhere(DB::raw("SOUNDEX(respuestas14.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
+                    });
+                }
             })
             ->whereNull('respuestas14.NGR11')
             ->first();
 
-        $encuestas19 = DB::table('respuestas2')
-            ->join('egresados', 'egresados.cuenta', '=', 'respuestas2.cuenta')
-            ->select('respuestas2.*', 'egresados.anio_egreso', 'egresados.carrera', 'egresados.plantel')
-            ->where('egresados.anio_egreso', '=', 2019)
-            ->where(function($query) use ($request) {
-                $query->where('egresados.nombre', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.paterno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%')
-                      ->orWhere('egresados.materno', 'like', '%' . mb_strtoupper($request->nombre_completo, 'UTF-8') . '%');
-            })
-            ->get();
         
-        return view('resultado',compact('encuestas20','encuestas14','egresados','eg14','encuestas19'));
+        return view('resultado',compact('encuestas20','encuestas14','egresados','eg14'));
     }
 
     public function enviar_aviso(Request $request){
