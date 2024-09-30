@@ -161,26 +161,25 @@ class HomeController extends Controller
     }
     
     public function resultado(Request $request){
-        $encuestas20=DB::table('respuestas20')
-            ->join('egresados','egresados.cuenta','=','respuestas20.cuenta')
-            ->leftJoin('carreras', function($join){
-                $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2');
-                $join->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');                             
+        $encuestas20 = DB::table('respuestas20')
+            ->join('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
+            ->leftJoin('carreras', function($join) {
+                $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2')
+                    ->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');
             })
-            ->select('respuestas20.*','egresados.anio_egreso','carreras.carrera','carreras.plantel')
-            ->where('egresados.anio_egreso','=',2020)
-            ->where('respuestas20.cuenta','=',(int)$request->nc)
+            ->select('respuestas20.*', 'egresados.anio_egreso', 'carreras.carrera', 'carreras.plantel')
+            ->where('respuestas20.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->get();
 
         $encuestas19=DB::table('respuestas2')
             ->join('egresados','egresados.cuenta','=','respuestas2.cuenta')
             ->select('respuestas2.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
             ->where('egresados.anio_egreso','=',2019)
-            ->where('respuestas2.cuenta','=',(int)$request->nc)
+            ->where('respuestas2.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->get(); 
 
         $egresados=DB::table('egresados')
-            ->where('cuenta',(int)$request->nc)
+            ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->leftJoin('carreras', function($join){
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
                 $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
@@ -189,12 +188,12 @@ class HomeController extends Controller
             ->get();
 
         $encuestas14=DB::table('respuestas14')
-            ->where('respuestas14.cuenta','=',$request->nc)
+            ->where('respuestas14.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->whereNotNull('respuestas14.NGR11')
             ->get(); 
 
         $eg14=DB::table('respuestas14')
-            ->where('respuestas14.cuenta','=',$request->nc)
+            ->where('respuestas14.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->whereNull('respuestas14.NGR11')
             ->first(); 
                   
@@ -213,11 +212,9 @@ class HomeController extends Controller
             ->select('egresados.*', 'carreras.carrera as nombre_carrera', 'carreras.plantel as nombre_plantel')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where(DB::raw("SOUNDEX(egresados.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(egresados.paterno)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(egresados.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
-                    });
+                    $query->orWhere('egresados.nombre', 'LIKE', "%{$parte}%")
+                          ->orWhere('egresados.paterno', 'LIKE', "%{$parte}%")
+                          ->orWhere('egresados.materno', 'LIKE', "%{$parte}%");
                 }
             })
             ->get();
@@ -229,26 +226,22 @@ class HomeController extends Controller
                      ->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');
             })
             ->select('respuestas20.*', 'egresados.anio_egreso', 'carreras.carrera', 'carreras.plantel')
-            ->where('egresados.anio_egreso', '=', 2020)
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where(DB::raw("SOUNDEX(respuestas20.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(respuestas20.paterno)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(respuestas20.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
-                    });
+                    $query->orWhere('respuestas20.nombre', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas20.paterno', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas20.materno', 'LIKE', "%{$parte}%");
                 }
             })
             ->get();
+        
 
         $encuestas14 = DB::table('respuestas14')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where(DB::raw("SOUNDEX(respuestas14.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(respuestas14.PATERNO)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(respuestas14.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
-                    });
+                    $query->orWhere('respuestas14.nombre', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas14.PATERNO', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
                 }
             })
             ->whereNotNull('respuestas14.NGR11')
@@ -257,18 +250,15 @@ class HomeController extends Controller
         $eg14 = DB::table('respuestas14')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where(DB::raw("SOUNDEX(respuestas14.nombre)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(respuestas14.PATERNO)"), '=', DB::raw("SOUNDEX('{$parte}')"))
-                            ->orWhere(DB::raw("SOUNDEX(respuestas14.materno)"), '=', DB::raw("SOUNDEX('{$parte}')"));
-                    });
+                    $query->orWhere('respuestas14.nombre', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas14.PATERNO', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
                 }
             })
             ->whereNull('respuestas14.NGR11')
             ->first();
-
-        
-        return view('resultado',compact('encuestas20','encuestas14','egresados','eg14'));
+            
+            return view('resultado',compact('encuestas20','encuestas14','egresados','eg14'));
     }
 
     public function enviar_aviso(Request $request){
