@@ -25,17 +25,19 @@ cnx = mysql.connector.connect(user=DB_USERNAME,
                               database=DB_DATABASE,
                               use_pure=False)
 
-encuestas_completas=pd.read_sql("""select DISTINCT respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
+encuestas_completas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
                         from ((respuestas20 
                         inner join egresados on respuestas20.cuenta=egresados.cuenta)
                         inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
                         where respuestas20.completed = 1 and egresados.anio_egreso=2020
+                        GROUP BY respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
                         ORDER BY respuestas20.registro DESC;""",cnx)
-encuestas_incompletas=pd.read_sql("""select DISTINCT respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
+encuestas_incompletas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
                         from ((respuestas20 
                         inner join egresados on respuestas20.cuenta=egresados.cuenta)
                         inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        where respuestas20.completed != 1 and egresados.anio_egreso=2020
+                        where respuestas20.completed =! 1 and egresados.anio_egreso=2020
+                        GROUP BY respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
                         ORDER BY respuestas20.registro DESC;""",cnx)
 carreras=pd.read_sql("select * from carreras",cnx)
 def formatear_cuenta(columna):
