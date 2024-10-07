@@ -33,19 +33,18 @@ class Encuesta20Controller extends Controller
         $Correo=Correo::find($correo);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         if($Correo->enviado==0){
-           
-        $caminoalpoder=public_path();
-           $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre,$Correo->correo]);
-           $process->run();
-           if (!$process->isSuccessful()) {
-               throw new ProcessFailedException($process);
-               $Correo->enviado=2;
-               $Correo->save();
-           }else{
-            $Correo->enviado=1;
-            $Correo->save();
-           }
-           $data = $process->getOutput();
+            $caminoalpoder=public_path();
+            $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre,$Correo->correo]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                $Correo->enviado=2;
+                $Correo->save();
+            }else{
+                $Correo->enviado=1;
+                $Correo->save();
+            }
+            $data = $process->getOutput();
            
         }
            $Encuesta=respuestas20::where('cuenta','=',$cuenta)->where('nbr2','=',$carrera)->first();
@@ -456,9 +455,9 @@ public function updateG(Request $request,$id){
             'ngr45' => 'required',
             'ngr45_a' => 'required',
             'ngr45otra' => 'required',
-            'CONOCE' => 'required',
-            'CUE_CRE' => 'required',
-            'UTILIZA' => 'required'];
+            'conoce' => 'required',
+            'cue_cre' => 'required',
+            'utiliza' => 'required'];
     $validated = $request->validate($rules);
     $Encuesta->sec_g=1;
     $Encuesta->save();
@@ -985,12 +984,12 @@ public function update2(Request $request,$id){
         $Encuesta-> ngr45_a  = $request-> ngr45_a ;}
     if(strlen(strval($request-> ngr45otra ))>0){
         $Encuesta-> ngr45otra  = $request-> ngr45otra ;}
-    if(strlen(strval($request-> CONOCE ))>0){
-        $Encuesta-> CONOCE  = $request-> CONOCE ;}
-    if(strlen(strval($request-> CUE_CRE ))>0){
-        $Encuesta-> CUE_CRE  = $request-> CUE_CRE ;}
-    if(strlen(strval($request-> UTILIZA ))>0){
-        $Encuesta-> UTILIZA  = $request-> UTILIZA ;}
+    if(strlen(strval($request-> conoce ))>0){
+        $Encuesta-> conoce  = $request-> conoce ;}
+    if(strlen(strval($request-> cue_cre ))>0){
+        $Encuesta-> cue_cre  = $request-> cue_cre ;}
+    if(strlen(strval($request-> utiliza ))>0){
+        $Encuesta-> utiliza  = $request-> utiliza ;}
     if(strlen(strval($request-> nrx ))>0){
         $Encuesta-> nrx  = $request-> nrx ;}
     if(strlen(strval($request-> nrxx ))>0){
