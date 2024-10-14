@@ -54,11 +54,11 @@ class ReportController extends Controller
                 if($recados->count()>0){
                     $recados=$recados->toQuery()->where('user_id',User::where('clave',$user)->first()->id)->get();}
                 $encuestas20=respuestas20::where('aplica','=',$user)->whereDate('fec_capt','=',$date->format('Y-m-d'))->get();
-                $encuestas14=respuestas14::where('aplica','=',$user)->whereDate('FEC_CAPT','=',$date->format('Y-m-d'))->get();
+                $encuestas14=respuestas14::where('aplica','=',$user)->whereDate('fec_capt','=',$date->format('Y-m-d'))->get();
                 
             }else{
                 $encuestas20=respuestas20::whereDate('fec_capt','=',$date->format('Y-m-d'))->get();
-                $encuestas14=respuestas14::whereDate('FEC_CAPT','=',$date->format('Y-m-d'))->get();
+                $encuestas14=respuestas14::whereDate('fec_capt','=',$date->format('Y-m-d'))->get();
             }
 
             $Dias->push((object)['dia' => $i+1,

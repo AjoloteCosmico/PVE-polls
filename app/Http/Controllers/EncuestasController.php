@@ -560,12 +560,12 @@ if(strlen(strval($request-> ngr45_a ))>0){
     $Encuesta-> ngr45_a  = $request-> ngr45_a ;}
 if(strlen(strval($request-> ngr45otra ))>0){
     $Encuesta-> ngr45otra  = $request-> ngr45otra ;}
-if(strlen(strval($request-> CONOCE ))>0){
-    $Encuesta-> CONOCE  = $request-> CONOCE ;}
-if(strlen(strval($request-> CUE_CRE ))>0){
-    $Encuesta-> CUE_CRE  = $request-> CUE_CRE ;}
-if(strlen(strval($request-> UTILIZA ))>0){
-    $Encuesta-> UTILIZA  = $request-> UTILIZA ;}
+if(strlen(strval($request-> conoce ))>0){
+    $Encuesta-> conoce  = $request-> conoce ;}
+if(strlen(strval($request-> cue_cre ))>0){
+    $Encuesta-> cue_cre  = $request-> cue_cre ;}
+if(strlen(strval($request-> utiliza ))>0){
+    $Encuesta-> utiliza  = $request-> utiliza ;}
 if(strlen(strval($request-> nrx ))>0){
     $Encuesta-> nrx  = $request-> nrx ;}
 if(strlen(strval($request-> nrxx ))>0){
@@ -640,7 +640,7 @@ public function show_14($id){
 
   
     
-    $Encuesta=respuestas14::where('REGISTRO','=',$id)->first();
+    $Encuesta=respuestas14::where('registro','=',$id)->first();
     if(!$Encuesta){
 
         return Redirect::back();

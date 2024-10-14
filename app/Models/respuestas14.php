@@ -10,5 +10,5 @@ class respuestas14 extends Model
     use HasFactory;
     protected $table = 'respuestas14';
     
-    protected $primaryKey = 'REGISTRO';
+    protected $primaryKey = 'registro';
 }

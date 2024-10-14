@@ -981,29 +981,29 @@ c).- Motivo por el que no lo practicó </h2>
 <td>
 <h2 class="reactivo"> 
 129.-¿Conoce usted la credencial de Egresados y sus beneficios? </h2>
-<select class="select" id="CONOCE"  name="CONOCE"  >
+<select class="select" id="conoce"  name="conoce"  >
 <option selected="selected" value="">
-  <option value=1 @if($Encuesta->CONOCE==1) selected @endif >Sí</option>
-<option value=2 @if($Encuesta->CONOCE==2) selected @endif >No</option>
+  <option value=1 @if($Encuesta->conoce==1) selected @endif >Sí</option>
+<option value=2 @if($Encuesta->conoce==2) selected @endif >No</option>
 </select>
     </td>
 <td>
 <h2 class="reactivo">
 130.-¿Ya cuenta con su credencial de Exalumnos?</h2>
-<select class="select" id="CUE_CRE"  name="CUE_CRE"  onchange="bloquear('CUE_CRE',[2],[UTILIZA])">
+<select class="select" id="cue_cre"  name="cue_cre"  onchange="bloquear('cue_cre',[2],[utiliza])">
 <option selected="selected" value="">
-  <option value=1 @if($Encuesta->CUE_CRE==1) selected @endif >Sí</option>
-<option value=2 @if($Encuesta->CUE_CRE==2) selected @endif >No</option>
+  <option value=1 @if($Encuesta->cue_cre==1) selected @endif >Sí</option>
+<option value=2 @if($Encuesta->cue_cre==2) selected @endif >No</option>
 <option value=0 hidden > </option>
       </select>
 
     </td>
     <td colspan="2">
 <h2 class="reactivo">131.-¿Ha utilizado los Beneficios que le otorga el Programa de Vinculación con los Egresados de la UNAM?  </h2>
-<select class="select" id="UTILIZA"  name="UTILIZA" >
+<select class="select" id="utiliza"  name="utiliza" >
 <option selected="selected" value="">
-    <option value=1 @if($Encuesta->UTILIZA==1) selected @endif >Sí</option>
-<option value=2 @if($Encuesta->UTILIZA==2) selected @endif >No</option>
+    <option value=1 @if($Encuesta->utiliza==1) selected @endif >Sí</option>
+<option value=2 @if($Encuesta->utiliza==2) selected @endif >No</option>
 <option value=0 hidden > </option>
       </select>
 
@@ -1094,6 +1094,6 @@ function deportes(){
   [ngr5,ngr7a,ngr7b,ngr7c,ngr7d,ngr7e,ngr7f,ngr7g,ngr13,ngr13b,ngr13c,ngr13d,ngr15,ngr17,ngr19,ngr21,ngr23,ngr25,ngr27,ngr29,ngr31,ngr33,ngr35].forEach(ocultar);
   @endif
 
-  bloquear('CUE_CRE',[2],[UTILIZA])
+  bloquear('cue_cre',[2],[utiliza])
 </script>
 @endpush

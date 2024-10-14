@@ -45,7 +45,7 @@ class HomeController extends Controller
         ->join('egresados','egresados.cuenta','=','respuestas2.cuenta')
         ->select('respuestas2.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
         ->where('egresados.anio_egreso','=',2019)
-        ->whereNotNull('respuestas2.UTILIZA')
+        ->whereNotNull('respuestas2.utiliza')
         ->get();
         $carreras=DB::table('muestras')
         ->leftJoin('carreras', function($join)
@@ -189,12 +189,12 @@ class HomeController extends Controller
 
         $encuestas14=DB::table('respuestas14')
             ->where('respuestas14.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
-            ->whereNotNull('respuestas14.NGR11')
+            ->whereNotNull('respuestas14.ngr11')
             ->get(); 
 
         $eg14=DB::table('respuestas14')
             ->where('respuestas14.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
-            ->whereNull('respuestas14.NGR11')
+            ->whereNull('respuestas14.ngr11')
             ->first(); 
                   
         return view('resultado',compact('encuestas20','encuestas19','encuestas14','egresados','eg14'));
@@ -240,22 +240,22 @@ class HomeController extends Controller
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
                     $query->orWhere('respuestas14.nombre', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas14.PATERNO', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas14.paterno', 'LIKE', "%{$parte}%")
                           ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
                 }
             })
-            ->whereNotNull('respuestas14.NGR11')
+            ->whereNotNull('respuestas14.ngr11')
             ->get();
         
         $eg14 = DB::table('respuestas14')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
                     $query->orWhere('respuestas14.nombre', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas14.PATERNO', 'LIKE', "%{$parte}%")
+                          ->orWhere('respuestas14.paterno', 'LIKE', "%{$parte}%")
                           ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
                 }
             })
-            ->whereNull('respuestas14.NGR11')
+            ->whereNull('respuestas14.ngr11')
             ->first();
             
             return view('resultado',compact('encuestas20','encuestas14','egresados','eg14'));

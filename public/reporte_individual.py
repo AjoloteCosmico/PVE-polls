@@ -29,7 +29,7 @@ encuestas=pd.read_sql("""select respuestas2.aplica, egresados.cuenta, respuestas
                         inner join egresados on respuestas2.cuenta=egresados.cuenta)
                         inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
                         
-                        where (respuestas2.UTILIZA is not null or respuestas2.ngr11f is not null) and egresados.anio_egreso=2019""",cnx)
+                        where (respuestas2.utiliza is not null or respuestas2.ngr11f is not null) and egresados.anio_egreso=2019""",cnx)
 
 ClavesNombres = {'17': 'Erendira', '12':'Mónica', '15':'César', '20':'María', '21':'Ivonne','8':'Elia','7':'otra monica','6':'Silvia','9':'Veronica',
                              '14':'Alberto','18':'Daniela','19':'Elvira','13':'Carolina','22':'Elizabeth'}
