@@ -115,9 +115,9 @@
             <tbody>
                 @foreach($encuestas14 as $e)
                 <tr style="color:#b0a46f" >
-                    <td>{{  $e->nombre}}  {{  $e->PATERNO}}  {{  $e->materno }}   </td>
-                    <td> @if($e->APLICA ){{$e->APLICA}} @else INTERNET @endif </td>
-                    <td>{{$e->FEC_CAPT}}</td>
+                    <td>{{  $e->nombre}}  {{  $e->paterno}}  {{  $e->materno }}   </td>
+                    <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
+                    <td>{{$e->fec_capt}}</td>
                     <td>{{$e->carrera}}</td>     
                     <td>{{$e->plantel}}</td> 
                 </tr> 
@@ -145,18 +145,18 @@
             </thead>
             <tbody>
                 <tr style="color:#b0a46f" >
-                    <td>{{  $eg14->nombre}}  {{  $eg14->PATERNO}}  {{  $eg14->materno }}   </td>
-                    <td> {{$eg14->CUENTA}} </td>
+                    <td>{{  $eg14->nombre}}  {{  $eg14->paterno}}  {{  $eg14->materno }}   </td>
+                    <td> {{$eg14->cuenta}} </td>
                     <td> </td>
                     <td>{{$eg14->carrera}}</td>     
                     <td>{{$eg14->plantel}}</td> 
                     <td>
-                        <a href="{{route('encuestas.show_14',$eg14->REGISTRO)}}">
+                        <a href="{{route('encuestas.show_14',$eg14->registro)}}">
                             <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Hacer encuesta </button>
                         </a>
                     </td>
                     <td>
-                        <a href="{{route('invitacion14',$eg14->REGISTRO)}}">
+                        <a href="{{route('invitacion14',$eg14->registro)}}">
                             <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Enviar correo </button>
                         </a>
                     </td>
