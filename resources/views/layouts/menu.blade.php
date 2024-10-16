@@ -67,6 +67,12 @@
     </a>
 </li>
 <li class="nav-item">
+    <a href="{{ route('empresas.index') }}" class="nav-link {{ Request::is('empresas') ? 'active' : '' }}">
+        <i class="fas fa-building"></i>
+        <p> Empresas   </p>
+    </a>
+</li>
+<li class="nav-item">
     <a href="{{ route('switch_mode') }}" class="nav-link">
     <button  class="btn" style="color:white">
     @if(Auth::user()->dark_mode==1)    

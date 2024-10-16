@@ -256,6 +256,23 @@ CREATE SEQUENCE comentario_registro_seq;
 ALTER TABLE public.comentario OWNER TO fgonzalez;
 ALTER TABLE ONLY public.comentario ALTER COLUMN registro SET DEFAULT nextval('comentario_registro_seq'::regclass);
 
+
+----------------------------------------------------------------------
+CREATE TABLE public.empresas (
+    id bigint NOT NULL,
+    usuario character varying(20),
+    nombre character varying(150),
+    giro character varying(75),
+    clave_giro character varying(20),
+    giro_especifico character varying(150),
+    nota character varying(250),
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+CREATE SEQUENCE empresas_id_seq;
+ALTER TABLE public.empresas OWNER TO fgonzalez;
+ALTER TABLE ONLY public.empresas ALTER COLUMN id SET DEFAULT nextval('empresas_id_seq'::regclass);
+
 ----------------------------------------------------------------------
 CREATE TABLE public.correos (
     id bigint NOT NULL,

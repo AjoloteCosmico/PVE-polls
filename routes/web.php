@@ -21,7 +21,8 @@ use App\Http\Controllers\{
     HomeController,
     ReportController,
     FastPollController,
-    ConfigController
+    ConfigController,
+    EmpresasController
 };
 
 Route::get('/', function () {
@@ -141,6 +142,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/reporte/{report}', 'generate')->name('report');
         Route::get('/reporte/semanal/{semana}/{user?}', 'semanal')->name('reporte.semanal');
     });
+
+    Route::resource('empresas', EmpresasController::class);
 
     //Rutas para encuesta fast
     Route::controller(FastPollController::class)->group(function(){
