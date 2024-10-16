@@ -78,21 +78,19 @@ public function index_20($id){
     ->get()->count();*/
 
     // Partes comunes de la consulta base
-    $queryBase = respuestas20::join('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
-    ->where('muestra', 3)
-    ->where('nbr2', $c->c)
-    ->where('nbr3', $c->p)
-    ->where('completed', 1)
+    $queryBase = Egresado::where('muestra', 3)
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
     ->get();
 
     // Encuestas por teléfono
     $c->nencuestas_tel = $queryBase
-    ->whereIn('aplica', [22, 23, 17, 24, 25, 12, 15])
+    ->where('status', 1)
     ->count();
 
     // Encuestas por internet
     $c->nencuestas_int = $queryBase
-    ->whereIn('aplica', [20, 104, 111])
+    ->where('status', 2)
     ->count();
   }
   // $carreras=collect($carreras);

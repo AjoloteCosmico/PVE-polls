@@ -548,7 +548,7 @@ CREATE TABLE public.respuestas2 (
     created_at timestamp with time zone,
     updated_at timestamp with time zone
 );
-ALTER TABLE public.respuestas2 OWNER TO postgres;
+ALTER TABLE public.respuestas2 OWNER TO fgonzalez;
 
 ----------------------------------------------------------------------
 CREATE TABLE public.egresados (
