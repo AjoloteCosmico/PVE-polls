@@ -60,7 +60,7 @@
                <td>{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
-                <p style="color:rgba(255,255,255,0.5); font-size:1px"> {{$e->order}}</p>
+                <p style="color:rgba(255,255,255,0.5); font-size:1px"> {{$e->orden}}</p>
                 <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
              
               </td>
