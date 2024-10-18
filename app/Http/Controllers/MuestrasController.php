@@ -141,7 +141,7 @@ public function show_20($carrera,$plantel){
     $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
     $muestra=DB::table('egresados')->where('muestra','=','3')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
       ->leftJoin('codigos','codigos.code','=','egresados.status')
-      ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.order')
+      ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
       ->get();
 
   $Codigos=DB::table('codigos')->where('code','>=',3)
