@@ -33,7 +33,7 @@
             <tr>
                 
                 <td>{{$r->section}} </td>
-                <td>{{$r->order}} </td>
+                <td>{{$r->orden}} </td>
                 <td>{{$r->clave}} </td>
                 <td>{{$r->description}} </td>
 

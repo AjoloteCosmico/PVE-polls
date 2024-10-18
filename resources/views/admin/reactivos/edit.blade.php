@@ -15,7 +15,7 @@
        </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Orden</label>
-            <input  style="width:50%" type="number" step="0.001" class="form-control myinput" name="order" value= "{{$Reactivo->order}}">
+            <input  style="width:50%" type="number" step="0.001" class="form-control myinput" name="orden" value= "{{$Reactivo->orden}}">
        </div>
        <div class="form-group">
             <label for="exampleInputEmail1">Clave</label>
