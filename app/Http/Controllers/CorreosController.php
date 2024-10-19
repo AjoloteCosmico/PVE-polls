@@ -22,7 +22,7 @@ class CorreosController extends Controller
         $Correo=new Correo();
         $Correo->cuenta=$cuenta;
         $Correo->correo=$request->correo;
-        $Correo->status='en uso';
+        $Correo->status='13';
         $Correo->enviado=0;
         $Correo->save();
         if($encuesta == '2020'){

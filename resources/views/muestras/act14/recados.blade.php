@@ -4,12 +4,12 @@
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div style="padding:30px;">
-    <span class="badge badge-pill badge-primary" style="background-color: transparent" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}  </h1>
+    <span class="badge badge-pill badge-primary" style="background-color: transparent" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}  </h1>
     </span>
     <h1 class="text-white-40" id="info">{{$Egresado->carrera}} {{$Egresado->plantel}}  </h1>
         <h1 class="text-white-40" id="layer"> Dejar un recado </h1>
     </div>
-    <form action="{{ route('marcar_14',$Egresado->REGISTRO)}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('marcar_14',$Egresado->registro)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
     <label for="exampleInputEmail1">Selecciona un código de color</label>

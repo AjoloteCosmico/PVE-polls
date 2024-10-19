@@ -215,11 +215,12 @@ ALTER SEQUENCE public.carreras_id_seq OWNED BY public.carreras.id;
 
 ----------------------------------------------------------------------
 CREATE TABLE public.codigos (
-    code character varying(45) NOT NULL,
+    code bigint NOT NULL,
     description character varying(100) DEFAULT NULL::character varying,
     color character varying(45) DEFAULT NULL::character varying,
     color_rgb character varying(45) DEFAULT NULL::character varying,
-    orden character varying(7) DEFAULT NULL::character varying
+    orden character varying(7) DEFAULT NULL::character varying,
+    internet bigint
 );
 ALTER TABLE public.codigos OWNER TO fgonzalez;
 
@@ -257,7 +258,7 @@ CREATE TABLE public.correos (
     id bigint NOT NULL,
     correo character varying(255) DEFAULT NULL::character varying,
     cuenta character varying(15),
-    status character varying(45) DEFAULT NULL::character varying,
+    status bigint,
     created_at date,
     updated_at date,
     enviado bigint DEFAULT '0'::bigint
@@ -549,7 +550,7 @@ CREATE TABLE public.egresados (
     correo_unam character varying(110) DEFAULT NULL::character varying,
     sistema character varying(45) DEFAULT NULL::character varying,
     muestra bigint,
-    status character varying(45),
+    status bigint,
     llamadas bigint DEFAULT '0'::bigint,
     updated_at timestamp with time zone,
     sexo character varying(45) DEFAULT NULL::character varying,
@@ -727,7 +728,7 @@ CREATE TABLE public.recados (
     cuenta character varying(45) DEFAULT NULL::character varying,
     recado text,
     fecha timestamp with time zone,
-    status character varying(45),
+    status bigint,
     updated_at timestamp with time zone,
     created_at timestamp with time zone,
     user_id bigint,
@@ -1576,7 +1577,7 @@ CREATE TABLE public.telefonos (
     id bigint NOT NULL,
     cuenta character varying,
     telefono character varying(45) DEFAULT NULL::character varying,
-    status character varying(45) DEFAULT NULL::character varying,
+    status bigint,
     updated_at date,
     created_at date,
     descripcion character varying(255) DEFAULT NULL::character varying

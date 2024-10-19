@@ -26,14 +26,14 @@ class RecadosController extends Controller
     ->where('recados.user_id','=',Auth::user()->id)
     ->select('recados.*','codigos.color_rgb','codigos.description','telefonos.telefono','telefonos.cuenta')
     ->get();
-    $Codigos=DB::table('codigos')->where('code','>=',3)
+    $Codigos=DB::table('codigos')->where('internet','=',0)
     ->orderBy('color')->get();
     return view('recados.index',compact('Recados','Codigos'));
   }
 
     public function recado_14($id){
     $Egresado=respuestas14::find($id);
-    $Recados=Recado::where('cuenta','=',$Egresado->CUENTA)->get();
+    $Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get();
     foreach($Recados as $r){
         $color='';
         switch ($r->status) {
@@ -62,14 +62,14 @@ class RecadosController extends Controller
         $Recado= new Recado();
         $Recado->recado=$request->recado;
         $Recado->status=$request->code;
-        $Recado->cuenta=$Egresado->CUENTA;
+        $Recado->cuenta=$Egresado->cuenta;
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->save();
 
 
         $Egresado->status=$request->code;
         $Egresado->recado=$request->recado;
-        $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->CUENTA)->get()->count();
+        $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get()->count();
         $Egresado->save();
 
        

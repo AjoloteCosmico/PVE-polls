@@ -70,24 +70,24 @@ font-weight: 100; padding: 0.2vw">
         <table  class="my-table" style="font-family: 'Montserrat', sans-serif;
 font-weight: 100; padding: 0.2vw"> 
           <tr>
-            <th colspan="{{$Cuentas->count()}}">Numeros de Cuenta  </th>
+            <th colspan="{{$cuentas->count()}}">Numeros de cuenta  </th>
           </tr>
-          @for($i =1;$i<=ceil($Cuentas->count()/12);$i++)
+          @for($i =1;$i<=ceil($cuentas->count()/12);$i++)
            <tr>
-            @foreach($Cuentas->slice(12*($i-1),12) as $c)
+            @foreach($cuentas->slice(12*($i-1),12) as $c)
             <td style=" vertical-align: top;"> {{$c->cuenta}}   &nbsp; &nbsp;</td>
             @endforeach
             </tr>
             @endfor
           <tr>
-            <th colspan="{{$Cuentas14->count()}}">Numeros de Cuenta 2014 </th>
+            <th colspan="{{$cuentas14->count()}}">Numeros de cuenta 2014 </th>
           </tr>
           
             
-            @for($i =1;$i<=ceil($Cuentas14->count()/12);$i++)
+            @for($i =1;$i<=ceil($cuentas14->count()/12);$i++)
            <tr>
-            @foreach($Cuentas14->slice(12*($i-1),12) as $c)
-            <td style=" vertical-align: top;"> {{$c->CUENTA}}   &nbsp; &nbsp;</td>
+            @foreach($cuentas14->slice(12*($i-1),12) as $c)
+            <td style=" vertical-align: top;"> {{$c->cuenta}}   &nbsp; &nbsp;</td>
             @endforeach
             </tr>
             @endfor

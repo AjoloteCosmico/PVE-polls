@@ -19,8 +19,8 @@
         <div class="form-group"> 
             <label for="exampleInputEmail1">Status</label>
             <select style="width:50%" class="form-control" name="status" aria-describedby="emailHelp" placeholder="Enter email">
-                <option value="en uso" @if($Correo->status == 'en uso') selected @endif> En Uso</option>   
-                <option value="sin usar" @if($Correo->status != 'en uso') selected @endif> Sin usar</option>   
+                <option value="13" @if($Correo->status == '13') selected @endif> En Uso</option>   
+                <option value="14" @if($Correo->status == '14') selected @endif> Sin usar</option>   
             </select>
         <br>
         <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-store"></i> Guardar</button>

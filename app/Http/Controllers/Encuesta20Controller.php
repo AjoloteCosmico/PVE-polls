@@ -23,9 +23,12 @@ class Encuesta20Controller extends Controller
         $Telefonos=DB::table('telefonos')->where('cuenta','=',$cuenta)
         ->leftJoin('codigos','codigos.code','=','telefonos.status')
         ->get();
-        $Correos=Correo::where('cuenta','=',$cuenta)->get();
+        $Correos=Correo::where('cuenta','=',$cuenta)
+        ->Join('codigos','codigos.code','=','correos.status')
+        ->get();
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
+        //dd($Egresado);
         return view('encuesta.seg20.actualizar_datos',compact('Egresado','Telefonos','Correos','Carrera','Plantel','muestra'));
     }
 
@@ -370,9 +373,9 @@ public function updateD(Request $request,$id){
             'ndr11' => 'required',
             'ndr7' => 'required',
             'ndr12' => 'required',
-            'NDR12A' => 'required',
-            'NDR12B' => 'required',
-            'NDR12C' => 'required',
+            'ndr12a' => 'required',
+            'ndr12b' => 'required',
+            'ndr12c' => 'required',
             'ndr15' => 'required',
             'ndr16' => 'required',
             'ndr17' => 'required',
@@ -695,12 +698,12 @@ public function update2(Request $request,$id){
         $Encuesta-> ndr11  = $request-> ndr11 ;}
     if(strlen(strval($request-> ndr12 ))>0){
         $Encuesta-> ndr12  = $request-> ndr12 ;}
-    if(strlen(strval($request-> NDR12A ))>0){
-        $Encuesta-> NDR12A  = $request-> NDR12A ;}
-    if(strlen(strval($request-> NDR12B ))>0){
-        $Encuesta-> NDR12B  = $request-> NDR12B ;}
-    if(strlen(strval($request-> NDR12C ))>0){
-        $Encuesta-> NDR12C  = $request-> NDR12C ;}
+    if(strlen(strval($request-> ndr12a ))>0){
+        $Encuesta-> ndr12a  = $request-> ndr12a ;}
+    if(strlen(strval($request-> ndr12b ))>0){
+        $Encuesta-> ndr12b  = $request-> ndr12b ;}
+    if(strlen(strval($request-> ndr12c ))>0){
+        $Encuesta-> ndr12c  = $request-> ndr12c ;}
     if(strlen(strval($request-> ndr13a ))>0){
         $Encuesta-> ndr13a  = $request-> ndr13a ;}
     if(strlen(strval($request-> ndr14 ))>0){

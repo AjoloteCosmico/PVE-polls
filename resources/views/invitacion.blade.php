@@ -4,15 +4,15 @@
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" style="padding:30px;">
     <h1 class="text-white-50">ENVIAR ENCUESTA POR INTERNET</h1>
-    <h1 class="text-white-50"> {{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}</h1>
+    <h1 class="text-white-50"> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</h1>
     </div>
     <table>
         <tr>
             <th colspan="2">Datos Personales</th>
         </tr>
         <tr>
-            <th>Cuenta</th>
-            <td>{{$Egresado->CUENTA}}</td>
+            <th>cuenta</th>
+            <td>{{$Egresado->cuenta}}</td>
         </tr>
         <tr>
             <th>Carrera</th>
@@ -29,9 +29,9 @@
         @csrf
         <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Egresado->NAR1_A}}">
-    <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}">
-    <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->CUENTA}}">
+    <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Egresado->nar1_a}}">
+    <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}">
+    <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
     <input  type="text" name="carrera" class="form-control" hidden value="{{$Egresado->carrera}}">
     <input  type="text" name="plantel" class="form-control" hidden value="{{$Egresado->plantel}}">
 

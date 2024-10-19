@@ -8,13 +8,13 @@
     <center >
     <br><br>
        <h1> Encuesta guardada con exito </h1>
-<a href="{{route('encuestas.json',$Encuesta->cuenta.$Encuesta->CUENTA)}}">
+<a href="{{route('encuestas.json',$Encuesta->cuenta.$Encuesta->cuenta)}}">
        <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
     <i class="fas fa-download fa-lg"></i> &nbsp; DESCARGAR JSON
   </button></a>
 <br>
 @if($Encuesta->NBR7==2014)
-<a href="{{route('encuestas.show_14',$Encuesta->REGISTRO)}}">
+<a href="{{route('encuestas.show_14',$Encuesta->registro)}}">
        <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
   </button></a>
@@ -38,7 +38,7 @@
 <script>
     setTimeout(
   function() {
-    window.location.replace("{{route('encuestas.json',$Encuesta->cuenta.$Encuesta->CUENTA)}}");
+    window.location.replace("{{route('encuestas.json',$Encuesta->cuenta.$Encuesta->cuenta)}}");
   }, 10);
   </script>
 @endpush

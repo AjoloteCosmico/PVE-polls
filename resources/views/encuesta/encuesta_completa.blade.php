@@ -1014,26 +1014,26 @@ Especifique:</h2>
             </td>
 <td>
 <h2 class="reactivo">96.1 - Cercania al domicilio.  </h2>
-	      <select class="select" id="ndr12a" name="NDR12A" >
+	      <select class="select" id="ndr12a" name="ndr12a" >
         <option selected="selected" value="">
-        <option value=1  @if($Encuesta->NDR12A==1) selected @endif>Muy importante</option>
-        <option value=2  @if($Encuesta->NDR12A==2) selected @endif>Importante</option> 
-        <option value=3  @if($Encuesta->NDR12A==3) selected @endif>Medianamente importante</option> 
-        <option value=4  @if($Encuesta->NDR12A==4) selected @endif>Poco importante</option> 
-        <option value=5  @if($Encuesta->NDR12A==5) selected @endif>Nada importante </option> 
+        <option value=1  @if($Encuesta->ndr12a==1) selected @endif>Muy importante</option>
+        <option value=2  @if($Encuesta->ndr12a==2) selected @endif>Importante</option> 
+        <option value=3  @if($Encuesta->ndr12a==3) selected @endif>Medianamente importante</option> 
+        <option value=4  @if($Encuesta->ndr12a==4) selected @endif>Poco importante</option> 
+        <option value=5  @if($Encuesta->ndr12a==5) selected @endif>Nada importante </option> 
         <option value=0  hidden></option>   
 </select>
 
             </td>
 <td>
 <h2 class="reactivo">96.2 - Experiencia profesional    </h2>
-	<select class="select" id="ndr12b" name="NDR12B" >
+	<select class="select" id="ndr12b" name="ndr12b" >
         <option selected="selected" value="">
-        <option value=1  @if($Encuesta->NDR12B==1) selected @endif>Muy importante</option>
-        <option value=2  @if($Encuesta->NDR12B==2) selected @endif>Importante</option> 
-        <option value=3  @if($Encuesta->NDR12B==3) selected @endif>Medianamente importante</option> 
-        <option value=4  @if($Encuesta->NDR12B==4) selected @endif>Poco importante</option> 
-        <option value=5  @if($Encuesta->NDR12B==5) selected @endif>Nada importante </option> 
+        <option value=1  @if($Encuesta->ndr12b==1) selected @endif>Muy importante</option>
+        <option value=2  @if($Encuesta->ndr12b==2) selected @endif>Importante</option> 
+        <option value=3  @if($Encuesta->ndr12b==3) selected @endif>Medianamente importante</option> 
+        <option value=4  @if($Encuesta->ndr12b==4) selected @endif>Poco importante</option> 
+        <option value=5  @if($Encuesta->ndr12b==5) selected @endif>Nada importante </option> 
         <option value=0  hidden></option>   
 </select>
 
@@ -1042,13 +1042,13 @@ Especifique:</h2>
 <tr>
 <td>
 <h2 class="reactivo"> 96.3 - Título profesional.   </h2>
-	      <select class="select" id="ndr12c" name="NDR12C" >
+	      <select class="select" id="ndr12c" name="ndr12c" >
           <option selected="selected" value="">
-          <option value=1  @if($Encuesta->NDR12C==1) selected @endif>Muy importante</option>
-          <option value=2  @if($Encuesta->NDR12C==2) selected @endif>Importante</option> 
-          <option value=3  @if($Encuesta->NDR12C==3) selected @endif>Medianamente importante</option> 
-          <option value=4  @if($Encuesta->NDR12C==4) selected @endif>Poco importante</option> 
-          <option value=5  @if($Encuesta->NDR12C==5) selected @endif>Nada importante </option> 
+          <option value=1  @if($Encuesta->ndr12c==1) selected @endif>Muy importante</option>
+          <option value=2  @if($Encuesta->ndr12c==2) selected @endif>Importante</option> 
+          <option value=3  @if($Encuesta->ndr12c==3) selected @endif>Medianamente importante</option> 
+          <option value=4  @if($Encuesta->ndr12c==4) selected @endif>Poco importante</option> 
+          <option value=5  @if($Encuesta->ndr12c==5) selected @endif>Nada importante </option> 
           <option value=0  hidden></option>   
 </select>
     </td>

@@ -35,11 +35,11 @@ class ReportController extends Controller
         $inicio->modify('+ '.$dias.' days');//avanzamos al lunes de la semana en cuestion
         $fin=new DateTime('01-01-2024');
         $fin->modify('+ '.($dias+5).' days'); //analogamente, avanzamos al viernes
-        $Cuentas= $encuestas20=respuestas20::whereDate('fec_capt','>=',$inicio)->whereDate('fec_capt','<=',$fin)->where('completed',1)->get();
-        $Cuentas14= $encuestas14=respuestas14::whereDate('fec_capt','>=',$inicio)->whereDate('fec_capt','<=',$fin)->get();
+        $cuentas= $encuestas20=respuestas20::whereDate('fec_capt','>=',$inicio)->whereDate('fec_capt','<=',$fin)->where('completed',1)->get();
+        $cuentas14= $encuestas14=respuestas14::whereDate('fec_capt','>=',$inicio)->whereDate('fec_capt','<=',$fin)->get();
         if($user >0 ){
-            $Cuentas=$Cuentas->toQuery()->where('aplica',$user)->get(); 
-            $Cuentas14=$Cuentas14->toQuery()->where('aplica',$user)->get(); 
+            $cuentas=$cuentas->toQuery()->where('aplica',$user)->get(); 
+            $cuentas14=$cuentas14->toQuery()->where('aplica',$user)->get(); 
             $Encuestador=User::where('clave',$user)->first()->name;
         }else{
             $Encuestador=" ";
@@ -80,16 +80,16 @@ class ReportController extends Controller
 
         // dd($Dias);
         // dd($inicio->format('Y-m-d'),$Dias,$Dias->sum('recados'));
-        // dd($Cuentas->unique('nbr3'));
+        // dd($cuentas->unique('nbr3'));
         $Planteles=[];
-        foreach($Cuentas->unique('nbr3') as $c){
+        foreach($cuentas->unique('nbr3') as $c){
             array_push($Planteles,Carrera::where('clave_plantel',$c->nbr3)->first()->plantel);
         }
         $Planteles14=[];
-        foreach($Cuentas14->unique('NBR3') as $c){
-            array_push($Planteles14,Carrera::where('clave_plantel',$c->NBR3)->first()->plantel);
+        foreach($cuentas14->unique('nbr3') as $c){
+            array_push($Planteles14,Carrera::where('clave_plantel',$c->nbr3)->first()->plantel);
         }
         // dd($Planteles14);
-        return view('reports.semanal',compact('inicio','fin','Dias','Cuentas','Cuentas14','Planteles','semana','Planteles14','Encuestador'));
+        return view('reports.semanal',compact('inicio','fin','Dias','cuentas','cuentas14','Planteles','semana','Planteles14','Encuestador'));
        }
 }

@@ -11,7 +11,7 @@
             <th colspan="2">Datos Personales</th>
         </tr>
         <tr>
-            <th>Cuenta</th>
+            <th>cuenta</th>
             <td>{{$Egresado->cuenta}}</td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
         @csrf
         <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Egresado->NAR1_A}}">
+    <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Egresado->nar1_a}}">
     <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}">
     <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
     <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera}}">

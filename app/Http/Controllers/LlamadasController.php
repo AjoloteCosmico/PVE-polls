@@ -31,7 +31,7 @@ class LlamadasController extends Controller
         ->select('recados.*','codigos.color_rgb','codigos.description')
         ->get();
         $Codigos=DB::table('codigos')
-        ->where('code','>=',3)
+        ->where('internet','=',0)
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();

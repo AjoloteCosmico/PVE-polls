@@ -10,7 +10,7 @@
         <table class="text-white-50" style="width: 45%; border: 5px solid; font-size: 40px;">
             <th class="text-white-50" colspan="2">Datos Personales</th>
             <tr>
-                <td>Cuenta</td>
+                <td>cuenta</td>
                 <td>{{$Egresado->cuenta}}</td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
         <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
         <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
-        <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->PATERNO}} {{$Egresado->materno}}">
+        <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}">
         <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
         <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera->carrera}}">
         <input  type="text" name="carrera_clave" class="form-control" hidden value="{{$Egresado->carrera}}">

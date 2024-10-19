@@ -77,9 +77,9 @@ class FastPollController extends Controller
       'ndr10',
       'ndr11',
       'ndr12',
-      'NDR12A',
-      'NDR12B',
-      'NDR12C',
+      'ndr12a',
+      'ndr12b',
+      'ndr12c',
       'ndr13a',
       'ndr14',
       'ndr15',
@@ -252,15 +252,15 @@ class FastPollController extends Controller
      }
      
      public function check_cuenta(Request $request){
-      $Cuenta=$request->cuenta;
+      $cuenta=$request->cuenta;
       $Egresado=Egresado::where('cuenta',$request->cuenta)->first();
       if($Egresado){
          if($Egresado->anio_egreso==2020){
             //crea una nueva instancia de encuesta
-            $Encuesta=respuestas20::where('cuenta','=',$Cuenta)->first();
+            $Encuesta=respuestas20::where('cuenta','=',$cuenta)->first();
            if(!$Encuesta){
             $Encuesta=new respuestas20();
-            $Encuesta->cuenta=$Cuenta;
+            $Encuesta->cuenta=$cuenta;
             $Encuesta->nombre=$Egresado->nombre;
             $Encuesta->paterno=$Egresado->paterno;
             $Encuesta->materno=$Egresado->materno;

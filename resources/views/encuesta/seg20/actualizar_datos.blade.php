@@ -37,7 +37,7 @@
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
         <tr>
-          <th>Num. Cuenta</th>
+          <th>Num. cuenta</th>
           <th style="width:30%; word-wrap: break-word">Telefono</th>
           <th> Descripcion</th>
           <th>Status</th>
@@ -68,7 +68,7 @@
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
         <tr>
-          <th>Num. Cuenta</th>
+          <th>Num. cuenta</th>
           <th style="width:30%; word-wrap: break-word">Correo</th>
           <th>status</th>
           <th></th>
@@ -81,7 +81,7 @@
         <tr>
           <td>{{$c->cuenta}} </td>
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
-          <td>{{$c->status}} </td>
+          <td>{{$c->description}} </td>
           <td>
             <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$muestra])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 

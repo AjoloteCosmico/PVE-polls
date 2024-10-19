@@ -12,7 +12,7 @@
           <thead>
             <tr>
             <th>Nombre</th>
-            <th>Num. Cuenta</th>
+            <th>Num. cuenta</th>
             <th>Telefono <br> Trabajo</th>
             <th>Telefono <br> Casa</th>
             <th>Correo</th>
@@ -23,14 +23,14 @@
           <tbody>
             @foreach($muestra as $e)
             <tr style="background-color: {{$e->color}};">
-                <td>{{$e->nombre}} {{$e->PATERNO}} {{$e->materno}}</td>
-                <td>{{$e->CUENTA}} </td>
-                <td>{{$e->TELTRA}} </td>
-                <td>{{$e->TELCASA}} </td>
-                <td style="word-wrap:break-word;">{{$e->NAR1_A}} </td>
+                <td>{{$e->nombre}} {{$e->paterno}} {{$e->materno}}</td>
+                <td>{{$e->cuenta}} </td>
+                <td>{{$e->teltra}} </td>
+                <td>{{$e->telcasa}} </td>
+                <td style="word-wrap:break-word;">{{$e->nar1_a}} </td>
                 <td>{{$e->llamadas}} </td>
-                <td><a href="{{route('encuestas.show_14',$e->REGISTRO)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw">Hacer Encuesta </button></a>
-              <br><a href="{{route('encuestas.recado_14',$e->REGISTRO)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;  margin: 0.1vw">Dejar Recado </button></a></td>
+                <td><a href="{{route('encuestas.show_14',$e->registro)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw">Hacer Encuesta </button></a>
+              <br><a href="{{route('encuestas.recado_14',$e->registro)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;  margin: 0.1vw">Dejar Recado </button></a></td>
             </tr>
             @endforeach
           </tbody>
