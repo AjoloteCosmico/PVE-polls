@@ -638,7 +638,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
 <td>
 <h2 class="reactivo">74.- ¿Que actividades realiza? 
 Especifique:</h2>
-<textarea type="text" class="texto" id="ncr12_a"  rows="3"  name="ncr12_a" maxlength="110"  > {{$Encuesta->ncr12_a}} </textarea>
+<textarea type="text" class="texto" id="ncr12_a"  rows="3"  name="ncr12_a" maxlength="500"  > {{$Encuesta->ncr12_a}} </textarea>
     </td>
 <td>
 <h2 class="reactivo"> 75.- ¿Si su trabajo no está relacionado con su carrera
