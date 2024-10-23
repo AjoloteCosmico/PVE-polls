@@ -30,7 +30,7 @@
                 <tr style="color:#b0a46f" >
                     <td>{{  $e->nombre}}   {{  $e->paterno}}  {{  $e->materno }}  </td>
                     <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
-                    <td>{{$e->fec_capt}}</td>
+                    <td>{{$e->updated_at}}</td>
                     <td>{{$e->carrera}}</td>
                     <td>{{$e->plantel}}</td>
                     <td>@if($e->completed != 1) Inompleta @else Completa @endif</td>
@@ -117,7 +117,7 @@
                 <tr style="color:#b0a46f" >
                     <td>{{  $e->nombre}}  {{  $e->paterno}}  {{  $e->materno }}   </td>
                     <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
-                    <td>{{$e->fec_capt}}</td>
+                    <td>{{$e->updated_at}}</td>
                     <td>{{$e->carrera}}</td>     
                     <td>{{$e->plantel}}</td> 
                 </tr> 
