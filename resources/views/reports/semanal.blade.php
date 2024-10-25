@@ -4,7 +4,7 @@
 
 <div class="container-fluid" >
   <div id="tabla" style="print-color-adjust: exact;">
-    <div style="padding:30px;" >
+    <div  >
     <h1 class="text-white-35" style="font-family: 'Montserrat', sans-serif;
 font-weight: 400; padding: 0.2vw" >REPORTE SEMANA {{$semana}} {{$Encuestador}}</h1> 
      <h2 class="text-white-35" style="font-family: 'Montserrat', sans-serif;
@@ -156,6 +156,7 @@ font-weight: 100; padding: 0.2vw">
 
 @push('css')
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400" rel="stylesheet">
+<!--
 <style>
   table{
   th{
@@ -165,6 +166,7 @@ font-weight: 100; padding: 0.2vw">
     background-color: rgb(240, 240, 240);
   }}
 </style>
+-->
 
 @endpush
 

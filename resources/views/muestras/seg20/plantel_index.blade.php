@@ -16,7 +16,7 @@
             <tr >
                 <td>{{$p->plantel}} </td>
               
-                <td><a href="{{route('muestras20.index',$p->clave_plantel)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Ver Muestra </button></a></td>
+                <td><a href="{{route('muestras20.index',$p->clave_plantel)}}"> <button class="btn" >Ver Muestra </button></a></td>
                
               </tr>
             @endforeach

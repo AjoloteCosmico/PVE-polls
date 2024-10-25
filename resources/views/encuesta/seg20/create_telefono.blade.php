@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
+    <div class="padding div" >
     <h1 class="text-white-50">Agregar otro telefono para {{$Egresado->nombre }} </h1>
     <h1 class="text-white-50"></h1>
     </div>

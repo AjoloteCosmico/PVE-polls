@@ -3,14 +3,14 @@
 @section('content')
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
+    <div >
      <div class='row'>
-      <div class='col'><h1 class="text-white-25" style="font-color: white; font-weight: bold;">  @if($carrera>0) {{$Carrera->carrera}} @endif </h1> 
-    <h1 class="text-white-25" style="font-color: white">{{$Carrera->plantel}}  </h1> 
+      <div class='col'><h1 class="text-white-25" >  @if($carrera>0) {{$Carrera->carrera}} @endif </h1> 
+    <h1 class="text-white-25" >{{$Carrera->plantel}}  </h1> 
     </div>
-      <div class='col' style="display: flex;justify-content: center;align-items:flex-end;">
+      <div class='col'>
           <a href="{{route('muestras20.index',$plantel)}}">
-            <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; height: 100px; width:300px;font-size: xx-large;"><i class="fas fa-arrow-left" ></i>Regresar</button>
+            <button class="btn" ><i class="fas fa-arrow-left" ></i>Regresar</button>
           </a>
       </div>
       <div class='col'>
@@ -60,8 +60,8 @@
                <td>{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
-                <p style="color:rgba(255,255,255,0.5); font-size:1px"> {{$e->orden}}</p>
-                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
+                <p> {{$e->orden}}</p>
+                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="btn"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
              
               </td>
             </tr>
@@ -90,44 +90,6 @@
 
 @push('css')
 
-<style>
-
-    @if(Auth::user()->dark_mode ==0) 
-  .table-div{
-    background-color: white;
-    color:black;
-     } 
-
-    .muestra{
-        th{
-            border: 1px solid;
-        }
-        td{
-            border: 0.05vw solid;
-            color:black;
-        }
-    }
-    @else 
-    .table-div{
-    background-color: black;
-    color:white;
-    }
-
-    .muestra{
-        th{
-            border: 1px solid;
-        }
-        td{
-            border: 0.05vw solid;
-            color:white;
-        }
-    }
-
-    @endif
-
-
-    
-</style>
 @endpush
 
 

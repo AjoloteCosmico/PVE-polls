@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-  <div style="padding:30px;">
+  <div >
     <h1 style="color:white"> DATOS DE CONTACTO PARA EL EGRESADO </h1>
     <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
     <h1 style="color:white">{{$Egresado->cuenta}}   </h1>

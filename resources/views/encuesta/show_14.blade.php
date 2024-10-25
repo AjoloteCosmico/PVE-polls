@@ -4,7 +4,7 @@
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}" id='cuerpo' style="scroll-behavior: smooth;">
 
-<div style="padding:30px;" id='datos'>
+<div  id='datos'>
     <h1 class="text-white-50">
                  @if(!is_null($Encuesta->cuenta))
                  COMPLETAR ENCUESTA 2014 @else

@@ -3,31 +3,31 @@
 @section('content')
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
+    <div >
     <table>
         <tr>
             <td >
-            <span class="badge badge-pill badge-primary" style="background-color: transparent" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}  </h1></span>
+            <span class="badge badge-pill badge-primary" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}  </h1></span>
             </td><td>
-            <h1 class="text-white-35" style="font-color: white">{{$Egresado->cuenta}}  </h1>
+            <h1 class="text-white-35">{{$Egresado->cuenta}}  </h1>
             </td>
         </tr>
         <tr>
             <td>   
-                <h1 class="text-white-35" style="font-color: white">{{$Carrera->carrera}}  </h1> 
-                <h1 class="text-white-35" style="font-color: white">{{$Carrera->plantel}}  </h1> 
+                <h1 class="text-white-35">{{$Carrera->carrera}}  </h1> 
+                <h1 class="text-white-35">{{$Carrera->plantel}}  </h1> 
                
-                <h1 class="text-white-35" style="font-color: white">Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h1> 
+                <h1 class="text-white-35">Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h1> 
            
             </td>
-            <td><a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}"><button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-table"></i> Ir a muestra Carrera </button></a>
+            <td><a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}"><button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-table"></i> Ir a muestra Carrera </button></a>
     </td>
         </tr>
         <tr> <td>  </td>
-     <td><a href="{{route('muestras20.show',[0,$Egresado->plantel])}}"><button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-table"></i> Ir a muestra Plantel </button></a></td></tr>
+     <td><a href="{{route('muestras20.show',[0,$Egresado->plantel])}}"><button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-table"></i> Ir a muestra Plantel </button></a></td></tr>
      @if($Encuesta)
      @if($Encuesta->completed==0)
-    <tr><td colspan="2"><a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}"> <button class="btn  btn-lg btn-block" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fas fa-arrow" aria-hidden="true"> </i> &nbsp; Continuar encuesta Inconclusa</button></a>
+    <tr><td colspan="2"><a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}"> <button class="btn  btn-lg btn-block" > <i class="fas fa-arrow" aria-hidden="true"> </i> &nbsp; Continuar encuesta Inconclusa</button></a>
              </td></tr>@endif @endif
     </table>
   
@@ -41,7 +41,7 @@
     <div class="container">
 
     <button type="button" class="btn btn-info" id="{{'tel_button'.$telefono->id}}"data-toggle="collapse" style="background-color: {{$telefono->color_rgb}}"  data-target="{{'#demo'.$telefono->id}}">   <h1 class="text-white-35"> {{$telefono->telefono}}  </h1></button>
-    <div id="{{'demo'.$telefono->id}}" class="collapse" style="background-color: rgba(0,0,0,0.2)">
+    <div id="{{'demo'.$telefono->id}}" class="collapse">
     
         
     <br><h1 class="text-white-40" id="layer"> RECADOS ANTERIORES </h1><br>
@@ -86,7 +86,7 @@
         <label for="exampleInputEmail1">Deja un recado</label>
         <div class="form-group">
         <label for="exampleInputEmail1">Selecciona un código de color</label>
-        <select name="code" id="{{'code'.$telefono->id}}" class="select" style="color: #E0E0E0; background-color: black;" onchange="codigo({{$telefono->id}})">
+        <select name="code" id="{{'code'.$telefono->id}}" class="select"  onchange="codigo({{$telefono->id}})">
             <option value=""> </option>
             @foreach($Codigos as $code)
             <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
@@ -95,12 +95,12 @@
         
         </select>
     </div>
-        <input  style="width:70%" type="text" name="recado" class="form-control texto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
+        <input type="text" name="recado" class="form-control texto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
     </div>
     <br>
     <div class='row'>
         <div class='col'>
-        <button type="button" onclick='check_form({{$telefono->id}})' style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Marcar y guardar recado</button>
+        <button type="button" onclick='check_form({{$telefono->id}})'  class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Marcar y guardar recado</button>
         </div>    
         
     </div>
@@ -113,11 +113,11 @@
     <div class='row'>
         <div class='col'>
             <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
+        <button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
         </div> 
         <div class='col'>
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-arrow-left"></i> Regresar a al muestra</button></a>
+        <button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-arrow-left"></i> Regresar a al muestra</button></a>
         </div>
     </div>
 </div>

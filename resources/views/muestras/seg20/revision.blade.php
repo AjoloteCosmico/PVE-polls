@@ -6,7 +6,7 @@
     
     <div class="col-6 col-lg-12 table-responsive table-div">
       
-        <table class="table text-xl muestra " id="myTable" style="table-layout:fixed;">
+        <table class="table text-xl muestra " id="myTable">
           <thead>
             <tr>
             <th>Nombre</th>
@@ -27,7 +27,7 @@
                 <td>{{$e->fec_capt}} </td>
                 <td> {{$e->carrera}}</td>
                 <td> {{$e->plantel}}</td>
-                <td><a href="{{route('edit_20',[$e->registro,'SEARCH'])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button></a>
+                <td><a href="{{route('edit_20',[$e->registro,'SEARCH'])}}"> <button class="btn"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button></a>
               </td>
             </tr>
             @endforeach
@@ -39,43 +39,7 @@
 
 @push('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-<style>
 
-  @if(Auth::user()->dark_mode ==0) 
-    .table-div{
-      background-color: white;
-      color:black;
-     } 
-
-    .muestra{
-        th{
-            border: 1px solid;
-        }
-        td{
-            border: 0.05vw solid;
-            color:black;
-        }
-    }
-    @else 
-    .table-div{
-    background-color: black;
-    color:white;
-    }
-
-    .muestra{
-        th{
-            border: 1px solid;
-        }
-        td{
-            border: 0.05vw solid;
-            color:white;
-        }
-    }
-
-    @endif
-
-
-</style>
 @endpush
 
 @push('js')

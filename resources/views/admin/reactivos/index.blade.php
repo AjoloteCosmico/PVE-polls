@@ -42,7 +42,7 @@
                 <td>{{$r->extra_label}} </td>
                
                 <td>@if($r->child==1) Si @else No @endif </td>
-                <td><a href="{{route('reactivos.edit',$r->id)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Editar </button></a></td>
+                <td><a href="{{route('reactivos.edit',$r->id)}}"> <button class="btn" >Editar </button></a></td>
            
               </tr>
             @endforeach
@@ -58,7 +58,7 @@
 
 @push('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
+<!--
 <style>
     @if(Auth::user()->dark_mode ==0) 
   .table-div{
@@ -93,6 +93,7 @@
 
     @endif
 </style>
+-->
 @endpush
 
 @push('js')

@@ -3,12 +3,12 @@
 @section('content')
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
+    <div >
     <h1 class="text-white-50">  </h1>
         <h1 class="text-white-50"> </h1>
     </div>
     <div class="col-6 col-lg-12 table-responsive">
-        <table class="table text-xl " id="myTable" style="table-layout:fixed;">
+        <table class="table text-xl " id="myTable">
           <thead>
             <tr>
             <th>Nombre</th>
@@ -29,8 +29,8 @@
                 <td>{{$e->telcasa}} </td>
                 <td style="word-wrap:break-word;">{{$e->nar1_a}} </td>
                 <td>{{$e->llamadas}} </td>
-                <td><a href="{{route('encuestas.show_14',$e->registro)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw">Hacer Encuesta </button></a>
-              <br><a href="{{route('encuestas.recado_14',$e->registro)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;  margin: 0.1vw">Dejar Recado </button></a></td>
+                <td><a href="{{route('encuestas.show_14',$e->registro)}}"> <button class="btn"  ; color:white; margin: 0.1vw">Hacer Encuesta </button></a>
+              <br><a href="{{route('encuestas.recado_14',$e->registro)}}"> <button class="btn"  ; color:white;  margin: 0.1vw">Dejar Recado </button></a></td>
             </tr>
             @endforeach
           </tbody>

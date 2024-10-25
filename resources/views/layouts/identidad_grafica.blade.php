@@ -4,6 +4,10 @@
     font-family: "Montserrat", sans-serif;
 }
 
+body{
+    display: block;
+}
+
 /*estilos de texto*/
 
 /*titulo*/
@@ -69,7 +73,7 @@ th{
 td{
     border: 2px solid #000b1b;
     text-align: center;
-    background-color: white;
+    color: white;
     padding: 8px;
     font-weight: 600;
 }
@@ -221,6 +225,7 @@ div{
 .degradado{
     background-image: linear-gradient(#b8b8b8 15%, #ffffff 70%, #b8b8b8 );
 }
+
 /*Form controls*/
 input{
     border-radius: 6px;
@@ -233,5 +238,13 @@ input{
     color: #000b1b;
     margin: 10px;
     background-color: white;
+}
+
+footer{
+    background:#343A40;
+    border-top: 1px solid #dee2e6;
+    color: #869099;
+    padding: 1rem;
+    margin-left: 250px;
 }
 </style>

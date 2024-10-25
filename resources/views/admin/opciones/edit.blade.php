@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
+    <div class="padding div" >
      <h1 class="text-white-50" style="color:white"> EDITAR Opcion </h1>
     </div>
     <center >
@@ -25,6 +25,7 @@
 
 
 @push('css')
+<!--
 <style>
 table{
     font-size:2.1vw;
@@ -42,4 +43,5 @@ table{
         font-size:1.4vw !important;
     }
 </style>
+-->
 @endpush

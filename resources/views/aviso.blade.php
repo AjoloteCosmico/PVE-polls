@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
+    <div class="padding div">
     <h1 class="text-white-50">Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
         <h1 class="text-white-50"> Deseas Enviar un aviso de privacidad?</h1>
     </div>
@@ -12,14 +12,14 @@
         @csrf
         <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email">
+    <input type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email">
    </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Nombre del Egresado</label>
-    <input  style="width:50%" type="text" name="nombre" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre">
+    <input  type="text" name="nombre" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre">
   </div>
   <br>
-  <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
+  <button type="submit" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
  
   </form>
    </center>
