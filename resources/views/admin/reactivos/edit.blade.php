@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
+    <div class="padding div" >
      <h1 class="text-white-50" style="color:white"> EDITAR PREGUNTA {{$Reactivo->clave}}</h1>
     </div>
     <center >
@@ -79,7 +79,7 @@
 <tr>
     <td>{{$o->clave}} </td>
     <td>{{$o->descripcion}} </td>
-    <td><a href="{{route('options.edit',$o->id)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Editar </button></a></td>
+    <td><a href="{{route('options.edit',$o->id)}}"> <button class="btn" >Editar </button></a></td>
            
 </tr>
 @endforeach

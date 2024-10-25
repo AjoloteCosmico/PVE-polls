@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
+    <div>
     <h1 class="text-white-50">  Estas son tus muestras {{Auth::user()->name }} </h1>
         <h1 class="text-white-50"> </h1>
     </div>
-    <div class="padding-conteiner" style="padding: 30px">
+    <div class="padding-conteiner">
         <h1 class="text-white-50"> ESTUDIO 2019</h1>
 <br><br>
     <!-- aca van los cuadros -->
@@ -19,10 +19,10 @@
           <div class="card shadow-sm">
             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="true"><title>Placeholder</title><rect width="100%" height="100%" fill="{{Auth::user()->color}}"/>
             <text x="20%" y="50%" fill="#eceeef" dy=".3em"> {{$m->plantel}} </text>
-            <text x="20%" y="40%" fill="#eceeef" dy=".10em" style="size:40px;"> {{$m->carrera}} </text></svg>
+            <text x="20%" y="40%" fill="#eceeef" dy=".10em" > {{$m->carrera}} </text></svg>
 
             <div class="card-body">
-              <p class="card-text" style="color:black;">Egresaron {{$m->poblacion}} alumnos de esta carrera, se requiere encuestar a {{$m->requeridas_5}} de ellos. </p>
+              <p class="card-text">Egresaron {{$m->poblacion}} alumnos de esta carrera, se requiere encuestar a {{$m->requeridas_5}} de ellos. </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
@@ -39,7 +39,7 @@
         </div>
         </div>
     </div>
-    <div class="padding-conteiner"style="padding:30px" >
+    <div class="padding-conteiner" >
         <h1 class="text-white-50"> ACTUALIZACION 2014</h1>
     </div>
 </div>

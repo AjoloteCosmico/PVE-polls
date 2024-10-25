@@ -3,14 +3,14 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
+    <div class="padding div">
     <h1 class="text-white-50">Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
         <h1 class="text-white-50"> Links Actualizados al</h1>
     </div>
     <center >
    
-<div style="color : black; background-color:rgba(250,250,250,0.57); font-size:1.5vw">
-        <div class="col" style="padding:7.5vw;"> 
+<div>
+        <div class="col" > 
             <div class="row link-card"> 
                 <div class="col">
                  Actualizacion 2014 internet
@@ -65,27 +65,6 @@
 
 @push('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-<style>
-    .link-card{
-        padding: 2.9vw; 
-        background-color: #002B7A;
-        border-radius: 2.3vw 4.2vw;
-        border-color: white;
-        margin: 2.3vw;
-        color:white;
-        font-size: 2.0vw;
-        width: auto;
-    }
-    .link-card:hover {
-	background-color: #05307f;
-	transform: translateY(-3px);
-	transition: 0.2s all ease;
-}
-    .link{
-        padding: 0.5vw;
-        color:#FAFAFA;
 
-    }
-</style>
 @endpush
 

@@ -74,7 +74,7 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('switch_mode') }}" class="nav-link">
-    <button  class="btn" style="color:white">
+    <button  class="btn" >
     @if(Auth::user()->dark_mode==1)    
     <i class="fas fa-sun"></i>
         <p>  desactivar <br>Modo oscuro </p>

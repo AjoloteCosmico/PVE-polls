@@ -17,7 +17,7 @@
                 <td>{{$c->carrera}} </td>
                 <td>{{$c->plantel}} </td>
                
-                <td><a href="{{route('muestras14.show',[$c->carrera,$c->plantel])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Ver Muestra </button></a></td>
+                <td><a href="{{route('muestras14.show',[$c->carrera,$c->plantel])}}"> <button class="btn" >Ver Muestra </button></a></td>
             </tr>
             @endforeach
           </tbody>
