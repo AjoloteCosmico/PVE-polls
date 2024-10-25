@@ -122,15 +122,15 @@ public function plantel_index(){
 
 
 public function show_20($carrera,$plantel){
-
-    $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
-    $muestra=DB::table('egresados')->where('muestra','=','3')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
-      ->leftJoin('codigos','codigos.code','=','egresados.status')
-      ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
-      ->get();
+  $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
+  $muestra=DB::table('egresados')->where('muestra','=','3')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
+    ->leftJoin('codigos','codigos.code','=','egresados.status')
+    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+    ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
+  
   return view('muestras.seg20.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
 }
 public function revision(){

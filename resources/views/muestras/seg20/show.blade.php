@@ -143,15 +143,13 @@
   new DataTable('#myTable', {
     fixedHeader: true,
     @if($carrera>0)
-
     paging: false,
     @else
     pageLength: 300,
     @endif
     responsive: true,
-    sorting: [[6, 'asc'],[1, 'asc']],
-    
-});
+    sorting: [[6, 'asc'],[1, 'asc'],[2,'asc']],
+    });
 </script>
 
  
