@@ -12,6 +12,7 @@
     <h1>
         ENCUESTA 2020
     </h1>
+    
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl" id="myTable2">
             <thead>
@@ -51,8 +52,11 @@
 
     @else
         No hay encuestas 2020 para mostrar unu, 
-
-    @if($egresados->count() > 0) deseas hacer una nueva encuesta¿?
+    @endif
+    
+    @if($egresados->count() > 0) 
+    <h1>Egresados</h1>
+    <h3>¿Deseas hacer una nueva encuesta? </h3>
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl" id="myTable">
             <thead>
@@ -95,9 +99,12 @@
         </table>
     </div>
 
+    @else
+        No hay egresados que mostrar
+
     @endif
     
-    @endif
+    
 
     @if($encuestas14->count()>0)
     <h1>

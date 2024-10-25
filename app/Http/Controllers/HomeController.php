@@ -179,12 +179,12 @@ class HomeController extends Controller
             ->get(); 
 
         $egresados=DB::table('egresados')
-            ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->leftJoin('carreras', function($join){
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
                 $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
             })
             ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel')
+            ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->get();
 
         $encuestas14=DB::table('respuestas14')
