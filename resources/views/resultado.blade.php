@@ -13,10 +13,11 @@
         ENCUESTA 2020
     </h1>
     <div class="col-6 col-sm-12 table-responsive">
-        <table class="table  text-xl">
+        <table class="table  text-xl" id="myTable2">
             <thead>
                 <tr>
                 <th>Egresado</th>
+                <th>Cuenta</th>
                 <th>Aplicador</th>
                 <th>Fecha</th>
                 <th>Carrera</th>
@@ -29,6 +30,7 @@
                 @foreach($encuestas20 as $e)
                 <tr style="color:#b0a46f" >
                     <td>{{  $e->nombre}}   {{  $e->paterno}}  {{  $e->materno }}  </td>
+                    <td>{{$e->cuenta}}</td>
                     <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
                     <td>{{$e->fec_capt}}</td>
                     <td>{{$e->carrera}}</td>
@@ -102,10 +104,11 @@
         ENCUESTA ACTUALIZACION 2014
     </h1>
     <div class="col-6 col-sm-12 table-responsive">
-        <table class="table  text-xl">
+        <table class="table  text-xl" id="myTable3">
             <thead>
                 <tr>
                 <th>Egresado</th>
+                <th>Cuenta</th>
                 <th>Aplicador</th>
                 <th>fecha</th>
                 <th>Carrera</th>
@@ -116,6 +119,7 @@
                 @foreach($encuestas14 as $e)
                 <tr style="color:#b0a46f" >
                     <td>{{  $e->nombre}}  {{  $e->paterno}}  {{  $e->materno }}   </td>
+                    <td>{{$e->cuenta}}</td>
                     <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
                     <td>{{$e->fec_capt}}</td>
                     <td>{{$e->carrera}}</td>     
@@ -173,13 +177,10 @@
 @push('js')
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
- 
-  console.log('script jalando ¿?');
-  $(document).ready(function() {
-    $('#myTable').DataTable();
-} );
-$(document).ready(function() {
-    $('#myTable2').DataTable();
-} );
- </script>
+    $(document).ready(function() {
+        $('#myTable').DataTable();
+        $('#myTable2').DataTable();
+        $('#myTable3').DataTable();
+    } );
+</script>
 @endpush

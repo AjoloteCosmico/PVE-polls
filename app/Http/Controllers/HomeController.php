@@ -200,10 +200,16 @@ class HomeController extends Controller
         return view('resultado',compact('encuestas20','encuestas19','encuestas14','egresados','eg14'));
     }
     public function resultado_fonetico(Request $request){
-
         $nombre_completo = mb_strtoupper($request->nombre_completo, 'UTF-8');
         $partes_nombre = explode(' ', $nombre_completo);  // Divide el nombre completo en palabras
 
+        // Obtener las partes necesarias
+        $nombre = isset($partes_nombre[0]) ? $partes_nombre[0] : null;
+        $segundo_nombre = isset($partes_nombre[1]) ? $partes_nombre[1] : null;
+        $paterno = isset($partes_nombre[count($partes_nombre) - 2]) ? $partes_nombre[count($partes_nombre) - 2] : null;
+        $materno = isset($partes_nombre[count($partes_nombre) - 1]) ? $partes_nombre[count($partes_nombre) - 1] : null;
+
+        // Consulta para la tabla `egresados`
         $egresados = DB::table('egresados')
             ->leftJoin('carreras', function($join) {
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera')
@@ -212,13 +218,16 @@ class HomeController extends Controller
             ->select('egresados.*', 'carreras.carrera as nombre_carrera', 'carreras.plantel as nombre_plantel')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->orWhere('egresados.nombre', 'LIKE', "%{$parte}%")
-                          ->orWhere('egresados.paterno', 'LIKE', "%{$parte}%")
-                          ->orWhere('egresados.materno', 'LIKE', "%{$parte}%");
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where('egresados.nombre', 'LIKE', "%{$parte}%")
+                                ->orWhere('egresados.paterno', 'LIKE', "%{$parte}%")
+                                ->orWhere('egresados.materno', 'LIKE', "%{$parte}%");
+                    });
                 }
             })
             ->get();
-    
+
+        // Consulta para la tabla `respuestas20`
         $encuestas20 = DB::table('respuestas20')
             ->join('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
             ->leftJoin('carreras', function($join) {
@@ -228,20 +237,23 @@ class HomeController extends Controller
             ->select('respuestas20.*', 'egresados.anio_egreso', 'carreras.carrera', 'carreras.plantel')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->orWhere('respuestas20.nombre', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas20.paterno', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas20.materno', 'LIKE', "%{$parte}%");
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where('respuestas20.nombre', 'LIKE', "%{$parte}%")
+                                ->orWhere('respuestas20.paterno', 'LIKE', "%{$parte}%")
+                                ->orWhere('respuestas20.materno', 'LIKE', "%{$parte}%");
+                    });
                 }
             })
             ->get();
-        
 
         $encuestas14 = DB::table('respuestas14')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->orWhere('respuestas14.nombre', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas14.paterno', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where('respuestas14.nombre', 'LIKE', "%{$parte}%")
+                                ->orWhere('respuestas14.paterno', 'LIKE', "%{$parte}%")
+                                ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
+                    });
                 }
             })
             ->whereNotNull('respuestas14.ngr11')
@@ -250,9 +262,11 @@ class HomeController extends Controller
         $eg14 = DB::table('respuestas14')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
-                    $query->orWhere('respuestas14.nombre', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas14.paterno', 'LIKE', "%{$parte}%")
-                          ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where('respuestas14.nombre', 'LIKE', "%{$parte}%")
+                                ->orWhere('respuestas14.paterno', 'LIKE', "%{$parte}%")
+                                ->orWhere('respuestas14.materno', 'LIKE', "%{$parte}%");
+                    });
                 }
             })
             ->whereNull('respuestas14.ngr11')
