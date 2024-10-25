@@ -296,6 +296,7 @@ class HomeController extends Controller
         }
         
         $caminoalpoder=public_path();
+        
         $process = new Process([
             env('PY_COMAND'),$caminoalpoder.'/invitacion14.py',
             $request->nombre,
@@ -310,6 +311,10 @@ class HomeController extends Controller
         }
         $data = $process->getOutput();
         
+        $egresado = Egresado::where('cuenta', $request->cuenta)->first();
+        $egresado->status = 8; //8 es el status de correo enviado en tabla codigos.
+        $egresado->save();
+
         return redirect()->route('encuesta20.act_data', [
             $request->cuenta, 
             $request->carrera_clave,
