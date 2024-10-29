@@ -67,7 +67,6 @@ class EmpresasController extends Controller
     public function update(Request $request, $id){
         // Validar la solicitud
         $request->validate([
-            'usuario' => 'required|string|max:20',
             'nombre' => 'required|string|max:150',
             'giro' => 'required|string|max:75',
             'clave_giro' => 'required|string|max:20',
