@@ -44,12 +44,14 @@
                     <td>{{ $empresa->giro_especifico }}</td>
                     <td>{{ $empresa->nota }}</td>
                     <td>
+                    @if($empresa->usuario == Auth::user()->clave)
                         <a href="{{ route('empresas.edit', $empresa->id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta empresa?');">Eliminar</button>
                         </form>
+                    @endif
                     </td>
                 </tr>
             @endforeach

@@ -16,6 +16,7 @@ class Empresas extends Model
         'clave_giro',
         'giro_especifico',
         'nota',
+        'registro',
     ];
 
     // Si tienes un campo id autoincremental, no necesitas incluirlo en fillable.
