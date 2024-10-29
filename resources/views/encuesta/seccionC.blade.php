@@ -114,7 +114,7 @@
                </select>
                <br>
                <h2 class="reactivo"> Giro específico </h2>
-               <textarea  class="texto" id="giro_especifico" name="giro_especifico" cols="30" maxlength="65" value=0 >@if($Empresa!=null){{$Empresa->giro_especifico}}@endif</textarea>
+               <textarea  class="texto" id="giro_especifico" name="giro_especifico" cols="30" maxlength="550" value=0 >@if($Empresa!=null){{$Empresa->giro_especifico}}@endif</textarea>
             </td>
             <td>
                <h2 class="reactivo">65a).- Otra:</h2>
@@ -521,6 +521,8 @@
    bloquear('ncr8',[2,0],[ncr9])
    porque();
    var warning = false;
+
+
 </script>
 <script>
    console.log('marcandooo rojo');
