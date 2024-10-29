@@ -44,7 +44,7 @@
                     <td>{{ $empresa->giro_especifico }}</td>
                     <td>{{ $empresa->nota }}</td>
                     <td>
-                    @if($empresa->usuario == Auth::user()->clave)
+                    @if($empresa->usuario == Auth::user()->clave || Auth::user()->confidential >= 2)
                         <a href="{{ route('empresas.edit', $empresa->id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" style="display:inline;">
                             @csrf
