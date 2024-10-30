@@ -68,10 +68,10 @@ class EmpresasController extends Controller
         // Validar la solicitud
         $request->validate([
             'nombre' => 'required|string|max:150',
-            'giro' => 'required|string|max:75',
             'clave_giro' => 'required|string|max:20',
             'giro_especifico' => 'required|string|max:550',
             'nota' => 'nullable|string|max:250',
+            'sector' => 'nullable|int|max:250',
         ]);
 
         // Encontrar la empresa y actualizarla

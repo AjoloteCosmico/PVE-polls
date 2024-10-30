@@ -84,8 +84,7 @@
                <h2 class="reactivo">65.- ¿En qué sector se ubica? </h2>
                <select class="select" id="ncr4" name="ncr4"   onchange="bloquear('ncr4',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24],[ncr4a])">
                   <option selected="selected" value="">
-                     <option value=1 @if($Encuesta->ncr4==1) selected @endif> Agricultura, ganadería, aprovechamiento forestal, caza y pesca
-                  </option>
+                  <option value=1 @if($Encuesta->ncr4==1) selected @endif> Agricultura, ganadería, aprovechamiento forestal, caza y pesca</option>
                   <option value=19 @if($Encuesta->ncr4==19) selected @endif>Asociaciones y agrupaciones</option>
                   <option value=20 @if($Encuesta->ncr4==20) selected @endif>Actividades de gobierno, organismos internacionales y extraterritoriales</option>
                   <option value=4 @if($Encuesta->ncr4==4) selected @endif>Construcción</option>

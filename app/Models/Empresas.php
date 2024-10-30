@@ -12,11 +12,11 @@ class Empresas extends Model
     protected $fillable = [
         'usuario',
         'nombre',
-        'giro',
         'clave_giro',
         'giro_especifico',
         'nota',
         'registro',
+        'sector',
     ];
 
     // Si tienes un campo id autoincremental, no necesitas incluirlo en fillable.
