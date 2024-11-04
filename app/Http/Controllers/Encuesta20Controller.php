@@ -453,7 +453,7 @@ class Encuesta20Controller extends Controller
             "ncr18" => "required",
             "ncr19" => "required",
             "ncr20" => "required",
-            "ncr21_a" => "required",
+            "ncr21" => "required",
             "ncr22" => "required",
             "ncr24" => "required",
             "ncr24a" => "required",

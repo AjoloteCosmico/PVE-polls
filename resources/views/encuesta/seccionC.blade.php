@@ -312,7 +312,7 @@
          <tr>
             <td>
                <h2 class="reactivo"> 81.- ¿Cuáles son sus ingresos mensuales promedio en su o sus trabajos?  </h2>
-               <INPUT type="text" class="texto"  id="ncr21_a" name="ncr21_a" size="10" maxlength="6" value="{{$Encuesta->ncr21_a}}"  onKeyPress="return acceptNum(event)" > 
+               <INPUT type="text" class="texto"  id="ncr21" name="ncr21" size="10" maxlength="6" value="{{$Encuesta->ncr21}}"  onKeyPress="return acceptNum(event)" > 
                (solo enteros, sin centavos, comas, ni puntos) 
             </td>
             <td>
@@ -424,54 +424,54 @@
      console.log("C1 value:"+c1_value);
      switch(c1_value){
        case '1':
-         reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr4a,ncr5,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22,ncr23];
+         reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr4a,ncr5,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22,ncr23];
          reactivosPorCerrar.forEach(visibilizar);
 
          reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(ocultar);
        break;
        case '2':
-         reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr4a,ncr5,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22,ncr23];
+         reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr4a,ncr5,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22,ncr23];
          reactivosPorCerrar.forEach(visibilizar);
 
          reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(ocultar);
        break;
        case '3':
-         reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22];
+         reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
 
          reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '4':
-         reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22];
+         reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
 
          reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];;
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '5':
-         reactivosPorAbrir=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22];
+         reactivosPorAbrir=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorAbrir.forEach(visibilizar);
          reactivosPorCerrar=[ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr22,ncr24,ncr24a,ncr24porque,ncr23];
          reactivosPorCerrar.forEach(ocultar);
        break;
        case '6':
-         reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22,ncr23];
+         reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22,ncr23];
          reactivosPorCerrar.forEach(ocultar);
          
          reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '7':
-         reactivosPorAbrir=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22];
+         reactivosPorAbrir=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorAbrir.forEach(visibilizar);
          reactivosPorCerrar=[ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr22,ncr24,ncr24a,ncr24porque,ncr23];
          reactivosPorCerrar.forEach(ocultar);
        break;
        case '8':
-         reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21_a,ncr22];
+         reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
 
          reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];

@@ -726,7 +726,7 @@ Especifique:</h2>
 <td>
 <h2 class="reactivo"> 81.- ¿Cuáles son sus ingresos mensuales promedio en su o sus trabajos?  </h2>
     
-    <INPUT type="text" class="texto"  id="ncr21_a" name="ncr21_a" size="10" maxlength="6" value="{{$Encuesta->ncr21_a}}"  onKeyPress="return acceptNum(event)" > 
+    <INPUT type="text" class="texto"  id="ncr21" name="ncr21" size="10" maxlength="6" value="{{$Encuesta->ncr21}}"  onKeyPress="return acceptNum(event)" > 
     (solo enteros, sin centavos, comas, ni puntos) 
         </td>
 <td>
