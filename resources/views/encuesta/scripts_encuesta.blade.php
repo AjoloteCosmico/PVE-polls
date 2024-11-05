@@ -46,7 +46,7 @@
       console.log('Bloquear: '+reactivo)
       reactivosPorCerrar.forEach(ocultar);
     }else{
-      console.log('Desbloquear: '+reactivreactivoosPorCerrar)
+      console.log('Desbloquear: '+reactivo);
       reactivosPorCerrar.forEach(visibilizar);
     }
   }
