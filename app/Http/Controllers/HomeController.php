@@ -312,8 +312,8 @@ class HomeController extends Controller
         $data = $process->getOutput();
         
         $egresado = Egresado::where('cuenta', $request->cuenta)->first();
-        $egresado->status = 8; //8 es el status de correo enviado en tabla codigos.
-        $egresado->save();
+        //$egresado->status = 8; //8 es el status de correo enviado en tabla codigos.
+        //$egresado->save();
 
         return redirect()->route('encuesta20.act_data', [
             $request->cuenta, 
