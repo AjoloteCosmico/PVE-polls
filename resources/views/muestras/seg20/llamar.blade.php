@@ -108,13 +108,14 @@
     </form></div>
     </div>
             <br>
+            <div class='col'>
+            <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020,$telefono->id])}}">
+        <button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
+        </div> 
         @endforeach
     </div>
     <div class='row'>
-        <div class='col'>
-            <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020])}}">
-        <button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-file"></i> Actualizar datos de contacto</button></a>
-        </div> 
+        
         <div class='col'>
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
         <button type="button"  class="btn btn-success btn-lg">  <i class="fas fa-arrow-left"></i> Regresar a al muestra</button></a>
