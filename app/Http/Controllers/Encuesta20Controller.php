@@ -18,8 +18,9 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Encuesta20Controller extends Controller
 {
-    public function act_data($cuenta, $carrera, $muestra)
+    public function act_data($cuenta, $carrera, $muestra,$telefono_id)
     {
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado = Egresado::where("cuenta", $cuenta)
             ->where("carrera", $carrera)
             ->first();
@@ -44,6 +45,7 @@ class Encuesta20Controller extends Controller
         return view(
             "encuesta.seg20.actualizar_datos",
             compact(
+                "TelefonoEnLlamada",
                 "Egresado",
                 "Telefonos",
                 "Correos",

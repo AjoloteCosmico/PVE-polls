@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+<div class="numero_telefonico">
+  Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
+</div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
   <div style="padding:30px;">
     <h1 style="color:white"> DATOS DE CONTACTO PARA EL EGRESADO </h1>
@@ -111,9 +113,24 @@
 </div>
 @stop
 
-@section('css')
+@push('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-@stop
+<style>
+  /* Estilos del rectángulo */
+  .numero_telefonico {
+    position: fixed;          /* Posición fija en la pantalla */
+    top: 50px;                /* Separación de la parte superior */
+    z-index: 2;
+    right: 30px;              /* Separación de la parte derecha */
+    padding: 10px 20px;       /* Relleno interno */
+    background-color: {{Auth::user()->color}};   /* Fondo oscuro */
+    color: white;             /* Texto en blanco */
+    border-radius: 8px;       /* Bordes redondeados */
+    font-size: 1.5vw;          /* Tamaño del texto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  }
+</style>
+@endpush
 
 @push('js')
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
