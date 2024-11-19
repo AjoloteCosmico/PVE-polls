@@ -11,18 +11,10 @@
     @endif
 
     <!-- Botón para agregar una nueva empresa -->
-    <!-- <a href="{{ route('empresas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Empresa</a> -->
-
-    <!-- Formulario de búsqueda -->
-    <form method="GET" action="{{ route('empresas.index') }}" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Buscar empresa..." value="{{ request()->query('search') }}">
-            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
-        </div>
-    </form>
+    <a href="{{ route('empresas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Empresa</a>
 
     <!-- Tabla de Empresas -->
-    <table class="table table-bordered" id="myTable">
+    <table class="table table-bordered dataTable" id="myTable">
         <thead>
             <tr>
                 <th>Usuario</th>
@@ -103,20 +95,18 @@
         </tbody>
     </table>
 
-    <!-- Paginación -->
-    {{ $empresas->links() }}
 </div>
 @endsection
 
 
 @section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.1/css/buttons.dataTables.css"/>
+    
 @stop
 
 @push('js')
-    <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.print.min.js"></script>
@@ -132,8 +122,5 @@
             }
                 
         });
-        $(document).ready(function() {
-        $('#myTable').DataTable();
-        } );
     </script>
 @endpush
