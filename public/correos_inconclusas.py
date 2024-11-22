@@ -31,20 +31,48 @@ try:
 except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
-encuestas_completas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        from ((respuestas20 
-                        inner join egresados on respuestas20.cuenta=egresados.cuenta)
-                        inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        where respuestas20.completed = 1 and egresados.anio_egreso=2020
-                        GROUP BY respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        ORDER BY respuestas20.registro DESC;""",cnx)
-encuestas_incompletas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        from ((respuestas20 
-                        inner join egresados on respuestas20.cuenta=egresados.cuenta)
-                        inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        where respuestas20.completed =! 1 and egresados.anio_egreso=2020
-                        GROUP BY respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        ORDER BY respuestas20.registro DESC;""",cnx)
+encuestas_completas=pd.read_sql("""SELECT 
+                                        respuestas20.aplica, 
+                                        egresados.cuenta, 
+                                        respuestas20.fec_capt, 
+                                        carreras.carrera, 
+                                        carreras.plantel
+                                    FROM 
+                                        respuestas20 
+                                    INNER JOIN 
+                                        egresados 
+                                        ON respuestas20.cuenta = egresados.cuenta
+                                    INNER JOIN 
+                                        carreras  
+                                        ON carreras.clave_carrera = egresados.carrera 
+                                        AND carreras.clave_plantel = egresados.plantel
+                                    WHERE 
+                                        respuestas20.completed = 1 
+                                        AND egresados.anio_egreso = 2020
+                                    ORDER BY 
+                                        respuestas20.registro DESC;
+                                    """,cnx)
+
+encuestas_incompletas=pd.read_sql("""SELECT 
+                                        respuestas20.aplica, 
+                                        egresados.cuenta, 
+                                        respuestas20.fec_capt, 
+                                        carreras.carrera, 
+                                        carreras.plantel
+                                    FROM 
+                                        respuestas20 
+                                    INNER JOIN 
+                                        egresados 
+                                        ON respuestas20.cuenta = egresados.cuenta
+                                    INNER JOIN 
+                                        carreras  
+                                        ON carreras.clave_carrera = egresados.carrera 
+                                        AND carreras.clave_plantel = egresados.plantel
+                                    WHERE 
+                                        respuestas20.completed != 1 
+                                        AND egresados.anio_egreso = 2020
+                                    ORDER BY 
+                                        respuestas20.registro DESC;""",cnx)
 carreras=pd.read_sql("select * from carreras",cnx)
 def formatear_cuenta(columna):
         """ Formatea los números de cuenta para que tengan un formato consistente y comparable
