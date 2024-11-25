@@ -1,4 +1,3 @@
-import sys
 import xlsxwriter
 import pandas as pd
 import sys
@@ -7,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from datetime import date
 
+from sqlalchemy import create_engine
 today = date.today()
 load_dotenv()
 
@@ -31,7 +31,13 @@ try:
 except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
-encuestas_completas=pd.read_sql("""SELECT 
+# Crear la URI de conexión
+database_uri = f"postgresql+psycopg2://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
+
+# Crear el motor de SQLAlchemy
+engine = create_engine(database_uri)
+
+df_completas="""SELECT 
                                         respuestas20.aplica, 
                                         egresados.cuenta, 
                                         respuestas20.fec_capt, 
@@ -51,9 +57,9 @@ encuestas_completas=pd.read_sql("""SELECT
                                         AND egresados.anio_egreso = 2020
                                     ORDER BY 
                                         respuestas20.registro DESC;
-                                    """,cnx)
-
-encuestas_incompletas=pd.read_sql("""SELECT 
+                                    """
+encuestas_completas = pd.read_sql(df_completas, engine)
+df_incompletas="""SELECT 
                                         respuestas20.aplica, 
                                         egresados.cuenta, 
                                         respuestas20.fec_capt, 
@@ -72,7 +78,10 @@ encuestas_incompletas=pd.read_sql("""SELECT
                                         respuestas20.completed != 1 
                                         AND egresados.anio_egreso = 2020
                                     ORDER BY 
-                                        respuestas20.registro DESC;""",cnx)
+                                        respuestas20.registro DESC;"""
+encuestas_incompletas= pd.read_sql(df_incompletas, engine)
+print(encuestas_completas,encuestas_incompletas)
+egresados=pd.read_sql("select * from egresados",cnx)
 carreras=pd.read_sql("select * from carreras",cnx)
 def formatear_cuenta(columna):
         """ Formatea los números de cuenta para que tengan un formato consistente y comparable
