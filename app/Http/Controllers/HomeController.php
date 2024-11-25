@@ -318,17 +318,18 @@ class HomeController extends Controller
         return redirect()->route('encuesta20.act_data', [
             $request->cuenta, 
             $request->carrera_clave,
-            $request->anio
+            $request->anio,
+            $request->telefono
         ]);
     }
-    public function enviar_encuesta($id_correo, $id_egresado){
+    public function enviar_encuesta($id_correo, $id_egresado,$telefono){
         $Egresado=Egresado::find($id_egresado);   
         $Correo=Correo::find($id_correo);
         $Carrera = DB::table('carreras')
         ->where('clave_carrera', '=', $Egresado->carrera)
         ->where('clave_plantel', '=', $Egresado->plantel)
         ->first();  
-        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera'));
+        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera','telefono'));
     }
 }
 

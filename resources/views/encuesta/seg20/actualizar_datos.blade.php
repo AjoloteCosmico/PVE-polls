@@ -92,7 +92,7 @@
             </a>
           </td>
           <td>
-            <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
+            <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
                 <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$muestra}} POR CORREO
               </button>
