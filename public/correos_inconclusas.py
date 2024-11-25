@@ -178,7 +178,7 @@ date_content_bold = workbook.add_format({
     'num_format': 'dd/mm/yy'})
 worksheet = workbook.add_worksheet()
 worksheet.merge_range('C2:H3', 'PROGRAMA DE VINCULACION A EGRESADOS UNAM', negro_b)
-worksheet.merge_range('C4:H4', 'EGRESADOS CON ENCUESTAS INCONCLUSAS 2019', negro_b)
+worksheet.merge_range('C4:H4', 'EGRESADOS CON ENCUESTAS INCONCLUSAS 2020', negro_b)
 worksheet.insert_image("A1", "img/logoPVE.png",{"x_scale": 0.2, "y_scale": 0.2})
 worksheet.merge_range('G6:H6',today, date_content_bold)
 
