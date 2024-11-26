@@ -19,6 +19,13 @@
         </button>
       </a>
     </div>
+    <div class="col">
+      <a href="{{route('llamar_20',[$Egresado->cuenta])}}">
+        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
+          <i class="fas fa-arrow-left"></i>Regresar
+        </button>
+      </a>
+    </div>
     <div class="col"> 
       <a href="{{route('muestras20.show',[0,$Egresado->plantel])}}">
         <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
@@ -30,7 +37,7 @@
   <div class="col-6 col-lg-12 table-responsive">
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $muestra])}}">
+      <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $muestra, $TelefonoEnLlamada->id])}}">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
@@ -53,7 +60,7 @@
             <td style="width:40%; word-wrap: break-word">{{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$muestra])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
+            <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
           </td>
         </tr>
         @endforeach
@@ -62,7 +69,7 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$muestra])}}">
+        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}">
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
@@ -85,7 +92,7 @@
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$muestra])}}"> 
+            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>

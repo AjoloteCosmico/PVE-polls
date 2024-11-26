@@ -78,10 +78,10 @@ Route::group(['middleware' => ['auth']], function(){
     
     /** Telefonos */
     Route::controller(TelefonosController::class)->group(function(){
-        Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}', 'create')->name('agregar_telefono');
-        Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}', 'edit')->name('editar_telefono');
-        Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}', 'store')->name('guardar_telefono');
-        Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}', 'update')->name('actualizar_telefono');
+        Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id}', 'create')->name('agregar_telefono');
+        Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id}', 'edit')->name('editar_telefono');
+        Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id}', 'store')->name('guardar_telefono');
+        Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id}', 'update')->name('actualizar_telefono');
     });
 
     /**Encuestas */ //Qué tipo de encuestas? 2014/2019?
@@ -104,10 +104,10 @@ Route::group(['middleware' => ['auth']], function(){
 
     /**Correos */
     Route::controller(CorreosController::class)->group(function(){
-        Route::get('/agregar_correo/{cuenta}/{carrera}/{encuesta?}', 'create')->name('agregar_correo');
-        Route::get('/editar_correo/{id}/{carrera}/{encuesta?}', 'edit')->name('editar_correo');
-        Route::post('/guardar_correo{cuenta}/{carrera}/{encuesta?}', 'store')->name('guardar_correo');
-        Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}',  'update')->name('actualizar_correo');
+        Route::get('/agregar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id}', 'create')->name('agregar_correo');
+        Route::get('/editar_correo/{id}/{carrera}/{encuesta?}/{telefono_id}', 'edit')->name('editar_correo');
+        Route::post('/guardar_correo{cuenta}/{carrera}/{encuesta?}/{telefono_id}', 'store')->name('guardar_correo');
+        Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
     });
     
