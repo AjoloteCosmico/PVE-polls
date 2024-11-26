@@ -13,6 +13,7 @@ use App\Models\historico_encuestas;
 use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 use File;
+use Session;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -20,6 +21,8 @@ class Encuesta20Controller extends Controller
 {
     public function act_data($cuenta, $carrera, $muestra,$telefono_id)
     {
+
+        Session::put('telefono_encuesta',$telefono_id);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado = Egresado::where("cuenta", $cuenta)
             ->where("carrera", $carrera)

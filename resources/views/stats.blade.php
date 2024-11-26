@@ -56,14 +56,8 @@
 </div>
         
 
-<script src="{{ $chart->cdn() }}"></script>
-{!! $chart->script() !!}
 
-
-    <script src="{{ $aplica_chart->cdn() }}"></script>
-   <div style='color: black'>
-    {!! $aplica_chart->script() !!}
-    </div>
+  
 @endsection
 
 @push('css')
@@ -104,4 +98,11 @@
 } );
  </script>
 
+<script src="{{ $chart->cdn() }}"></script>
+{!! $chart->script() !!}
+
+
+<script src="{{ $aplica_chart->cdn() }}"></script>
+  
+{!! $aplica_chart->script() !!}
  @endpush
