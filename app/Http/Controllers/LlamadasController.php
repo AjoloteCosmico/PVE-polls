@@ -16,7 +16,8 @@ use App\Models\Recado;
 class LlamadasController extends Controller
 {
     public function llamar_20($id){
-        $Egresado=Egresado::where('cuenta','=',$id)->where('muestra','=',3)->first();
+        // $Egresado=Egresado::where('cuenta','=',$id)->where('muestra','=',3)->first();
+        $Egresado=Egresado::where('cuenta','=',$id)->first();
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
         $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();
