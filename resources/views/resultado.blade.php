@@ -38,7 +38,7 @@
                     <td>{{$e->plantel}}</td>
                     <td>@if($e->completed != 1) Inompleta @else Completa @endif</td>
                     <td>@if($e->completed != 1)  
-                        <a href="{{ route('edit_20',[ $e->registro,'SEARCH'])}}">
+                        <a href="{{ route('llamar_20',$e->cuenta)}}">
                             <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
                                 <i class="fas fa-edit  "></i> Completar
                             </button>
