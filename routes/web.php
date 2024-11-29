@@ -22,7 +22,8 @@ use App\Http\Controllers\{
     ReportController,
     FastPollController,
     ConfigController,
-    EmpresasController
+    EmpresasController,
+    PosgradoController
 };
 
 Route::get('/', function () {
@@ -166,4 +167,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/encuestas/2020/llamar/{id}', [LlamadasController::class, 'llamar_20'])->name('llamar_20');
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Rutas para la encuesta de posgrado
+    Route::controller(PosgradoController::class)->group(function(){
+       Route::get('/posgrado/render/{section}', 'show')->name('posgrado_vista');
+    });
+    
 });
