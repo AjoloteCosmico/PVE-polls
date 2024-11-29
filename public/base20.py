@@ -32,4 +32,6 @@ except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
 encuestas=pd.read_sql("""select * from respuestas20""",cnx)
+for col in ['created_at','updated_at','fec_capt']:
+    encuestas[col]=encuestas[col].astype(str)
 encuestas.to_excel('storage/base20.xlsx');
