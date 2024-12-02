@@ -29,6 +29,11 @@
     <a href="{{ route('report','base20')}}"  > <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; ENCUESTAS 2020 BASE (al dia de hoy)
     </button></a>
+
+    <a href="{{ route('report','estado_muestra_2020')}}"  > <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
+        <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Estado muestra 2020
+        </button></a>
+        
     </div>
 
 <br>
