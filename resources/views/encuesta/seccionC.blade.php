@@ -376,6 +376,7 @@
                   <option value=17 @if($Encuesta->ncr24porque==17) selected @endif>Cerro la empresa debido a la pandemia</option>
                   <option value=5  @if($Encuesta->ncr24porque==5) selected @endif>Otra</option> 
                   <option value=9  @if($Encuesta->ncr24porque==9) selected @endif>Jubilarse o Pensionarse</option> 
+                  <option value=18  @if($Encuesta->ncr24porque==18) selected @endif>Cambio de residencia</option> 
                   <option value=0   @if($Encuesta->ncr24!=12) selected @endif hidden></option>   
                </select>
             </td>
