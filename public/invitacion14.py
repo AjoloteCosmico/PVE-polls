@@ -70,11 +70,11 @@ def AvisoPrivacidad(nombre,you,cuenta,carrera,plantel,link):
                                                               <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
                                                                   <tbody>
                                                                       <tr>
-                                                                          <td style="width:420pt; vertical-align:middle;">
+                                                                          <td style="width:420pt; vertical-align:left;">
                                                                               <table cellspacing="0" cellpadding="0" style="width:100%; border-collapse:collapse;">
                                                                                   <tbody>
                                                                                       <tr>
-                                                                                          <td style="vertical-align:middle;">
+                                                                                          <td style="vertical-align:middle; text-align: left;">
                                                                                               <p style="margin-top:0pt; margin-bottom:0pt; line-height:15.75pt;"><br>"""+nombre+"""</p>
                                                                                               <p style="margin-top:0pt; margin-bottom:0pt; line-height:15.75pt;"><br>Número de Cta: """+cuenta+"""</p>
                                                                                               <p style="margin-top:0pt; margin-bottom:0pt; line-height:15.75pt;"><br>"""+plantel+"""</p>
