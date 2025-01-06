@@ -4,28 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresas;
+use DB;
 
 class EmpresasController extends Controller
 {
     public function index(Request $request){
-        $query = Empresas::query();
-
-        // Si hay una búsqueda, filtrar las empresas
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('usuario', 'like', "%$search%")
-                ->orWhere('nombre', 'like', "%$search%")
-                ->orWhere('giro', 'like', "%$search%")
-                ->orWhere('clave_giro', 'like', "%$search%")
-                ->orWhere('giro_especifico', 'like', "%$search%")
-                ->orWhere('nota', 'like', "%$search%");
-            });
-        }
-
-        // Paginación de empresas
-        $empresas = $query->paginate(10);
-        //dd($empresas);
+        $empresas = DB::table('empresas')
+        ->select()
+        ->get();
+        
+        //dd(compact('empresas'));
         return view('empresas.index', compact('empresas'));
     }
 
@@ -44,7 +32,6 @@ class EmpresasController extends Controller
         $request->validate([
             'usuario' => 'required|string|max:20',
             'nombre' => 'required|string|max:150',
-            'giro' => 'required|string|max:75',
             'clave_giro' => 'required|string|max:20',
             'giro_especifico' => 'required|string|max:150',
             'nota' => 'nullable|string|max:250',
@@ -67,12 +54,11 @@ class EmpresasController extends Controller
     public function update(Request $request, $id){
         // Validar la solicitud
         $request->validate([
-            'usuario' => 'required|string|max:20',
             'nombre' => 'required|string|max:150',
-            'giro' => 'required|string|max:75',
             'clave_giro' => 'required|string|max:20',
-            'giro_especifico' => 'required|string|max:150',
+            'giro_especifico' => 'required|string|max:550',
             'nota' => 'nullable|string|max:250',
+            'sector' => 'nullable|int|max:250',
         ]);
 
         // Encontrar la empresa y actualizarla

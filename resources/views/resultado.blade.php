@@ -12,6 +12,7 @@
     <h1>
         ENCUESTA 2020
     </h1>
+    
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl" id="myTable2">
             <thead>
@@ -32,13 +33,13 @@
                     <td>{{  $e->nombre}}   {{  $e->paterno}}  {{  $e->materno }}  </td>
                     <td>{{$e->cuenta}}</td>
                     <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
-                    <td>{{$e->fec_capt}}</td>
+                    <td>{{$e->updated_at}}</td>
                     <td>{{$e->carrera}}</td>
                     <td>{{$e->plantel}}</td>
                     <td>@if($e->completed != 1) Inompleta @else Completa @endif</td>
                     <td>@if($e->completed != 1)  
-                        <a href="{{ route('edit_20',[ $e->registro,'SEARCH'])}}">
-                            <button class="boton-dorado">
+                        <a href="{{ route('llamar_20',$e->cuenta)}}">
+                            <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
                                 <i class="fas fa-edit  "></i> Completar
                             </button>
                         </a>@endif
@@ -51,8 +52,11 @@
 
     @else
         No hay encuestas 2020 para mostrar unu, 
-
-    @if($egresados->count() > 0) deseas hacer una nueva encuesta¿?
+    @endif
+    
+    @if($egresados->count() > 0) 
+    <h1>Egresados</h1>
+    <h3>¿Deseas hacer una nueva encuesta? </h3>
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl" id="myTable">
             <thead>
@@ -95,9 +99,12 @@
         </table>
     </div>
 
+    @else
+        No hay egresados que mostrar
+
     @endif
     
-    @endif
+    
 
     @if($encuestas14->count()>0)
     <h1>
@@ -121,7 +128,7 @@
                     <td>{{  $e->nombre}}  {{  $e->paterno}}  {{  $e->materno }}   </td>
                     <td>{{$e->cuenta}}</td>
                     <td> @if($e->aplica ){{$e->aplica}} @else INTERNET @endif </td>
-                    <td>{{$e->fec_capt}}</td>
+                    <td>{{$e->updated_at}}</td>
                     <td>{{$e->carrera}}</td>     
                     <td>{{$e->plantel}}</td> 
                 </tr> 

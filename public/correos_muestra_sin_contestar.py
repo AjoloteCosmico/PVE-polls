@@ -2,7 +2,7 @@ import sys
 import xlsxwriter
 import pandas as pd
 import sys
-import mysql.connector
+import psycopg2
 import os
 from dotenv import load_dotenv
 from datetime import date
@@ -18,12 +18,18 @@ DB_PORT = os.getenv('DB_PORT')
 DB_HOST=os.getenv('DB_HOST')
 
 # Conectar a DB
-cnx = mysql.connector.connect(user=DB_USERNAME,
-                              password=DB_PASSWORD,
-                              host=DB_HOST,
-                              port=DB_PORT,
-                              database=DB_DATABASE,
-                              use_pure=False)
+# Conectar a PostgreSQL
+try:
+    cnx = psycopg2.connect(
+        user=DB_USERNAME,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT,
+        database=DB_DATABASE
+    )
+    print("Conexión exitosa")
+except psycopg2.Error as e:
+    print("Ocurrió un error al conectar a la base de datos:", e)
 
 egresados=pd.read_sql("""select egresados.*, codigos.description from egresados inner join codigos on egresados.status=codigos.code    where muestra = 3 """,cnx)
 print('len de egresados',len(egresados))

@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 use App\Models\Egresado;
 use App\Models\Carrera;
 use App\Models\Correo;
+use App\Models\Telefono;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
 
 class CorreosController extends Controller
 {
-    public function create($cuenta,$carrera,$encuesta){
+    public function create($cuenta,$carrera,$encuesta,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
      
-        return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta'));
+        return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
-    public function store(Request $request ,$cuenta,$carrera,$encuesta){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         $Correo=new Correo();
         $Correo->cuenta=$cuenta;
@@ -26,21 +29,22 @@ class CorreosController extends Controller
         $Correo->enviado=0;
         $Correo->save();
         if($encuesta == '2020'){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta]);}
+            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$TelefonoEnLlamada]);}
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
         
     }
-    public function edit($id,$carrera,$encuesta){
+    public function edit($id,$carrera,$encuesta,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
      
-        return view('encuesta.seg20.editar_correo',compact('Egresado','Correo','Carrera','Plantel','encuesta'));
+        return view('encuesta.seg20.editar_correo',compact('Egresado','Correo','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
-    public function update(Request $request ,$id,$carrera,$encuesta){
+    public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
         
@@ -49,7 +53,7 @@ class CorreosController extends Controller
         $Correo->enviado=0;
         $Correo->save();
         if($encuesta == '2020'){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta]);}
+            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);}
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }

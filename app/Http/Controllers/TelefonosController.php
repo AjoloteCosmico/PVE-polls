@@ -9,12 +9,14 @@ use App\Models\Carrera;
 use App\Models\Telefono;
 class TelefonosController extends Controller
 {
-    public function create($cuenta,$carrera,$encuesta){
+    public function create($cuenta,$carrera,$encuesta,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         
-        return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta'));
+        return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta','TelefonoEnLlamada'));
     }
-    public function store(Request $request ,$cuenta,$carrera,$encuesta=0){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         $Correo=new Telefono();
         $Correo->cuenta=$cuenta;
@@ -23,17 +25,19 @@ class TelefonosController extends Controller
         $Correo->status=0;
         $Correo->save();
         if($encuesta == '2020'){
-        return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta]);}
+        return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id]);}
         else{
             return redirect()->route('edit_20',[$encuesta,'SEARCH']);
         }
      }
-    public function edit($id,$carrera,$encuesta=0){
+    public function edit($id,$carrera,$encuesta=0,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
-        return view('encuesta.seg20.editar_telefono',compact('Egresado','Telefono','encuesta'));
+        return view('encuesta.seg20.editar_telefono',compact('Egresado','Telefono','encuesta','TelefonoEnLlamada'));
     }
-    public function update(Request $request ,$id,$carrera,$encuesta){
+    public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
         
@@ -42,7 +46,7 @@ class TelefonosController extends Controller
         // $Telefono->status=0;
         $Telefono->save();
         if($encuesta == '2020'){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta]);}
+            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada]);}
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }

@@ -24,7 +24,7 @@
                 <td>{{$e->nombre}} {{$e->paterno}} {{$e->materno}}</td> 
                 <td>{{$e->cuenta}} </td>
                 <td>{{$e->name}}  </td>
-                <td>{{$e->fec_capt}} </td>
+                <td>{{$e->updated_at}} </td>
                 <td> {{$e->carrera}}</td>
                 <td> {{$e->plantel}}</td>
                 <td><a href="{{route('edit_20',[$e->registro,'SEARCH'])}}"> <button class="btn"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button></a>

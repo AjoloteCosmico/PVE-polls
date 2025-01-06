@@ -22,7 +22,8 @@ use App\Http\Controllers\{
     ReportController,
     FastPollController,
     ConfigController,
-    EmpresasController
+    EmpresasController,
+    PosgradoController
 };
 
 Route::get('/', function () {
@@ -69,7 +70,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/2020/F_update/{id}', 'updateF')->name('encuestas.real_update.F');
         Route::post('/encuestas/2020/G_update/{id}', 'updateG')->name('encuestas.real_update.G');
         Route::get('/encuestas/2020/terminar/{id}', 'terminar')->name('terminar');
-        Route::get('/actualizar/{cuenta}/{carrera}/{muestra}', 'act_data')->name('encuesta20.act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
+        Route::get('/actualizar/{cuenta}/{carrera}/{muestra}/{telefono_id?}', 'act_data')->name('encuesta20.act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
         Route::get('/comenzar_encuesta_2020/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2020');
         Route::get('/encuestas_2020/edit/{id}/{section}', 'edit')->name('edit_20');
         Route::post('/encuestas/real_update/{id}', 'update2')->name('encuestas.real_update');
@@ -78,10 +79,10 @@ Route::group(['middleware' => ['auth']], function(){
     
     /** Telefonos */
     Route::controller(TelefonosController::class)->group(function(){
-        Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}', 'create')->name('agregar_telefono');
-        Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}', 'edit')->name('editar_telefono');
-        Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}', 'store')->name('guardar_telefono');
-        Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}', 'update')->name('actualizar_telefono');
+        Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'create')->name('agregar_telefono');
+        Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_telefono');
+        Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_telefono');
+        Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'update')->name('actualizar_telefono');
     });
 
     /**Encuestas */ //Qué tipo de encuestas? 2014/2019?
@@ -104,10 +105,10 @@ Route::group(['middleware' => ['auth']], function(){
 
     /**Correos */
     Route::controller(CorreosController::class)->group(function(){
-        Route::get('/agregar_correo/{cuenta}/{carrera}/{encuesta?}', 'create')->name('agregar_correo');
-        Route::get('/editar_correo/{id}/{carrera}/{encuesta?}', 'edit')->name('editar_correo');
-        Route::post('/guardar_correo{cuenta}/{carrera}/{encuesta?}', 'store')->name('guardar_correo');
-        Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}',  'update')->name('actualizar_correo');
+        Route::get('/agregar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'create')->name('agregar_correo');
+        Route::get('/editar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_correo');
+        Route::post('/guardar_correo{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_correo');
+        Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
     });
     
@@ -134,7 +135,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/invitacion14/{registro}', 'invitacion')->name('invitacion14');
         Route::get('/invitacion19/{id}', 'invitacion19')->name('invitacion19');
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
-        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}', 'enviar_encuesta')->name('enviar_encuesta');
+        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}', 'enviar_encuesta')->name('enviar_encuesta');
     });
 
     /**Reportes */
@@ -166,4 +167,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/encuestas/2020/llamar/{id}', [LlamadasController::class, 'llamar_20'])->name('llamar_20');
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Rutas para la encuesta de posgrado
+    Route::controller(PosgradoController::class)->group(function(){
+       Route::get('/posgrado/render/{section}', 'show')->name('posgrado_vista');
+    });
+    
 });
