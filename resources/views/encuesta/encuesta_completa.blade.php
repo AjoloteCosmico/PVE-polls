@@ -638,7 +638,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
 <td>
 <h2 class="reactivo">74.- ¿Que actividades realiza? 
 Especifique:</h2>
-<textarea type="text" class="texto" id="ncr12_a"  rows="3"  name="ncr12_a" maxlength="110"  > {{$Encuesta->ncr12_a}} </textarea>
+<textarea type="text" class="texto" id="ncr12_a"  rows="3"  name="ncr12_a" maxlength="500"  > {{$Encuesta->ncr12_a}} </textarea>
     </td>
 <td>
 <h2 class="reactivo"> 75.- ¿Si su trabajo no está relacionado con su carrera
@@ -726,7 +726,7 @@ Especifique:</h2>
 <td>
 <h2 class="reactivo"> 81.- ¿Cuáles son sus ingresos mensuales promedio en su o sus trabajos?  </h2>
     
-    <INPUT type="text" class="texto"  id="ncr21_a" name="ncr21_a" size="10" maxlength="6" value="{{$Encuesta->ncr21_a}}"  onKeyPress="return acceptNum(event)" > 
+    <INPUT type="text" class="texto"  id="ncr21" name="ncr21" size="10" maxlength="6" value="{{$Encuesta->ncr21}}"  onKeyPress="return acceptNum(event)" > 
     (solo enteros, sin centavos, comas, ni puntos) 
         </td>
 <td>

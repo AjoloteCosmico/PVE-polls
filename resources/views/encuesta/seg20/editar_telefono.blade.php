@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="numero_telefonico">
+    Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
+  </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >
     <h1 class="text-white-50">Editar Telefono para {{$Egresado->nombre }} </h1>
@@ -8,7 +11,7 @@
     </div>
     <center >
     <br><br>
-        <form action="{{ route('actualizar_telefono',[$Telefono->id,$Egresado->carrera,$encuesta])}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('actualizar_telefono',[$Telefono->id,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
     <label for="exampleInputEmail1">Telefono</label>

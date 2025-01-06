@@ -8,7 +8,7 @@
     <center >
     <br><br>
        <h1> Encuesta guardada con exito </h1>
-<a href="{{route('encuestas.json',$Encuesta->cuenta.$Encuesta->cuenta)}}">
+<a href="{{route('encuestas.json',$Encuesta->cuenta)}}">
        <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
     <i class="fas fa-download fa-lg"></i> &nbsp; DESCARGAR JSON
   </button></a>
@@ -38,7 +38,7 @@
 <script>
     setTimeout(
   function() {
-    window.location.replace("{{route('encuestas.json',$Encuesta->cuenta.$Encuesta->cuenta)}}");
+    window.location.replace("{{route('encuestas.json',$Encuesta->cuenta)}}");
   }, 10);
   </script>
 @endpush

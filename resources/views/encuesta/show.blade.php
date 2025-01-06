@@ -669,7 +669,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="80"
 <TD>
 
 Especifique:</h2>
-<INPUT type="text" class="texto" id="ncr12_a" name="ncr12_a" value="{{$Encuesta->ncr12_a}}" size="110" maxlength="110"  >
+<INPUT type="text" class="texto" id="ncr12_a" name="ncr12_a" value="{{$Encuesta->ncr12_a}}" size="500" maxlength="500"  >
 
     </td>
 <td>

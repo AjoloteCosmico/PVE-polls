@@ -1,12 +1,12 @@
-import sys
 import xlsxwriter
 import pandas as pd
 import sys
-import mysql.connector
+import psycopg2
 import os
 from dotenv import load_dotenv
 from datetime import date
 
+from sqlalchemy import create_engine
 today = date.today()
 load_dotenv()
 
@@ -18,27 +18,70 @@ DB_PORT = os.getenv('DB_PORT')
 DB_HOST=os.getenv('DB_HOST')
 
 # Conectar a DB
-cnx = mysql.connector.connect(user=DB_USERNAME,
-                              password=DB_PASSWORD,
-                              host=DB_HOST,
-                              port=DB_PORT,
-                              database=DB_DATABASE,
-                              use_pure=False)
+# Conectar a PostgreSQL
+try:
+    cnx = psycopg2.connect(
+        user=DB_USERNAME,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT,
+        database=DB_DATABASE
+    )
+    print("Conexión exitosa")
+except psycopg2.Error as e:
+    print("Ocurrió un error al conectar a la base de datos:", e)
 
-encuestas_completas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        from ((respuestas20 
-                        inner join egresados on respuestas20.cuenta=egresados.cuenta)
-                        inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        where respuestas20.completed = 1 and egresados.anio_egreso=2020
-                        GROUP BY respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        ORDER BY respuestas20.registro DESC;""",cnx)
-encuestas_incompletas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        from ((respuestas20 
-                        inner join egresados on respuestas20.cuenta=egresados.cuenta)
-                        inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
-                        where respuestas20.completed =! 1 and egresados.anio_egreso=2020
-                        GROUP BY respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                        ORDER BY respuestas20.registro DESC;""",cnx)
+# Crear la URI de conexión
+database_uri = f"postgresql+psycopg2://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}"
+
+# Crear el motor de SQLAlchemy
+engine = create_engine(database_uri)
+
+df_completas="""SELECT 
+                                        respuestas20.aplica, 
+                                        egresados.cuenta, 
+                                        respuestas20.fec_capt, 
+                                        carreras.carrera, 
+                                        carreras.plantel
+                                    FROM 
+                                        respuestas20 
+                                    INNER JOIN 
+                                        egresados 
+                                        ON respuestas20.cuenta = egresados.cuenta
+                                    INNER JOIN 
+                                        carreras  
+                                        ON carreras.clave_carrera = egresados.carrera 
+                                        AND carreras.clave_plantel = egresados.plantel
+                                    WHERE 
+                                        respuestas20.completed = 1 
+                                        AND egresados.anio_egreso = 2020
+                                    ORDER BY 
+                                        respuestas20.registro DESC;
+                                    """
+encuestas_completas = pd.read_sql(df_completas, engine)
+df_incompletas="""SELECT 
+                                        respuestas20.aplica, 
+                                        egresados.cuenta, 
+                                        respuestas20.fec_capt, 
+                                        carreras.carrera, 
+                                        carreras.plantel
+                                    FROM 
+                                        respuestas20 
+                                    INNER JOIN 
+                                        egresados 
+                                        ON respuestas20.cuenta = egresados.cuenta
+                                    INNER JOIN 
+                                        carreras  
+                                        ON carreras.clave_carrera = egresados.carrera 
+                                        AND carreras.clave_plantel = egresados.plantel
+                                    WHERE 
+                                        respuestas20.completed != 1 
+                                        AND egresados.anio_egreso = 2020
+                                    ORDER BY 
+                                        respuestas20.registro DESC;"""
+encuestas_incompletas= pd.read_sql(df_incompletas, engine)
+print(encuestas_completas,encuestas_incompletas)
+egresados=pd.read_sql("select * from egresados",cnx)
 carreras=pd.read_sql("select * from carreras",cnx)
 def formatear_cuenta(columna):
         """ Formatea los números de cuenta para que tengan un formato consistente y comparable
@@ -135,7 +178,7 @@ date_content_bold = workbook.add_format({
     'num_format': 'dd/mm/yy'})
 worksheet = workbook.add_worksheet()
 worksheet.merge_range('C2:H3', 'PROGRAMA DE VINCULACION A EGRESADOS UNAM', negro_b)
-worksheet.merge_range('C4:H4', 'EGRESADOS CON ENCUESTAS INCONCLUSAS 2019', negro_b)
+worksheet.merge_range('C4:H4', 'EGRESADOS CON ENCUESTAS INCONCLUSAS 2020', negro_b)
 worksheet.insert_image("A1", "img/logoPVE.png",{"x_scale": 0.2, "y_scale": 0.2})
 worksheet.merge_range('G6:H6',today, date_content_bold)
 

@@ -179,12 +179,12 @@ class HomeController extends Controller
             ->get(); 
 
         $egresados=DB::table('egresados')
-            ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->leftJoin('carreras', function($join){
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
                 $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
             })
             ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel')
+            ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->get();
 
         $encuestas14=DB::table('respuestas14')
@@ -312,23 +312,24 @@ class HomeController extends Controller
         $data = $process->getOutput();
         
         $egresado = Egresado::where('cuenta', $request->cuenta)->first();
-        $egresado->status = 8; //8 es el status de correo enviado en tabla codigos.
-        $egresado->save();
+        //$egresado->status = 8; //8 es el status de correo enviado en tabla codigos.
+        //$egresado->save();
 
         return redirect()->route('encuesta20.act_data', [
             $request->cuenta, 
             $request->carrera_clave,
-            $request->anio
+            $request->anio,
+            $request->telefono
         ]);
     }
-    public function enviar_encuesta($id_correo, $id_egresado){
+    public function enviar_encuesta($id_correo, $id_egresado,$telefono){
         $Egresado=Egresado::find($id_egresado);   
         $Correo=Correo::find($id_correo);
         $Carrera = DB::table('carreras')
         ->where('clave_carrera', '=', $Egresado->carrera)
         ->where('clave_plantel', '=', $Egresado->plantel)
         ->first();  
-        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera'));
+        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera','telefono'));
     }
 }
 

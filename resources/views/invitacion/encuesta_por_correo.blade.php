@@ -41,7 +41,8 @@
         <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera->carrera}}">
         <input  type="text" name="carrera_clave" class="form-control" hidden value="{{$Egresado->carrera}}">
         <input  type="text" name="plantel" class="form-control" hidden value="{{$Carrera->plantel}}">
-        <input  type="number" name="anio" class="form-control" hidden value="{{$Egresado->anio_egreso}}">  
+        <input  type="number" name="anio" class="form-control" hidden value="{{$Egresado->anio_egreso}}">
+        <input  type="text" name="telefono" class="form-control" hidden value="{{$telefono}}">
         <br>
         <button type="submit" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
     </form>

@@ -393,6 +393,8 @@ function funcion_ndr2(){
     break;
     case '15': visibilizar(ndr2_a);[ndr3,ndr8,ndr4,ndr9,ndr5,ndr10,ndr6,ndr11,ndr7,ndr12,ndr12a,ndr12b,ndr12c,ndr13a].forEach(visibilizar);
     break;
+    case '2': visibilizar(ndr2_a);[ndr3,ndr8,ndr4,ndr9,ndr5,ndr10,ndr6,ndr11,ndr7,ndr12,ndr12a,ndr12b,ndr12c,ndr13a].forEach(visibilizar);
+    break;
     case '9': ocultar(ndr2_a);[ndr3,ndr8,ndr4,ndr9,ndr5,ndr10,ndr6,ndr11,ndr7,ndr12,ndr12a,ndr12b,ndr12c,ndr13a].forEach(ocultar);
     break;
     case '0': ocultar(ndr2_a);[ndr3,ndr8,ndr4,ndr9,ndr5,ndr10,ndr6,ndr11,ndr7,ndr12,ndr12a,ndr12b,ndr12c,ndr13a].forEach(ocultar);
