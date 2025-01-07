@@ -3,11 +3,11 @@
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div>
-    <h1 class="text-white-50">  Estas son tus muestras {{Auth::user()->name }} </h1>
-        <h1 class="text-white-50"> </h1>
+    <h1>  Estas son tus muestras {{Auth::user()->name }} </h1>
+        <h1> </h1>
     </div>
     <div class="padding-conteiner">
-        <h1 class="text-white-50"> ESTUDIO 2019</h1>
+        <h1> ESTUDIO 2019</h1>
 <br><br>
     <!-- aca van los cuadros -->
     <div  class="container">
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="padding-conteiner" >
-        <h1 class="text-white-50"> ACTUALIZACION 2014</h1>
+        <h1> ACTUALIZACION 2014</h1>
     </div>
 </div>
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >
-     <h1 class="text-white-50" style="color:white"> EDITAR Opcion </h1>
+     <h1 style="color:white"> EDITAR Opcion </h1>
     </div>
     <center >
     <br><br>

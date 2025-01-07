@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" style="padding:30px;">
-    <h1 class="text-white-50">Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>   
+    <h1>Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>   
     </div>
     <center >
     <br><br>
