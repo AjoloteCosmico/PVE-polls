@@ -6,7 +6,7 @@
   </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >
-    <h1 class="text-white-50">Editar Correo para {{$Egresado->nombre }} </h1>
+    <h1>Editar Correo para {{$Egresado->nombre }} </h1>
     <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
         <h1 style="color:white">{{$Egresado->cuenta}}   </h1>
         <h1 style="color:white">{{$Carrera}} {{$Plantel}}   </h1>

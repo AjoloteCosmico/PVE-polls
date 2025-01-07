@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div">
-        <h1 class="text-white-50">Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
-        <h1 class="text-white-50"> ¿Deseas buscar un numero de cuenta?</h1>
+        <h1>Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
+        <h1> ¿Deseas buscar un numero de cuenta?</h1>
     </div>
     <center >
     @if($encuestas20->count()>0)

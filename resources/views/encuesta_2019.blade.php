@@ -4,7 +4,7 @@
     <div class="container-fluid">
         
     <h1 class="text-black-50"></h1>
-        <h1 class="text-white-50">Estado del Estudio 2019</h1>
+        <h1>Estado del Estudio 2019</h1>
         <div class="col-6 col-sm-12 table-responsive">
                 <table class="table table-striped text-xl" id="myTable">
                     <thead>

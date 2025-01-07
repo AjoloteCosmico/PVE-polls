@@ -6,8 +6,8 @@
   </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >
-    <h1 class="text-white-50">Editar Telefono para {{$Egresado->nombre }} </h1>
-        <h1 class="text-white-50"></h1>
+    <h1>Editar Telefono para {{$Egresado->nombre }} </h1>
+        <h1></h1>
     </div>
     <center >
     <br><br>
