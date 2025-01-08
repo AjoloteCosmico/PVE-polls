@@ -60,8 +60,8 @@
                <td>{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
-                <p> {{$e->orden}}</p>
-                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="btn"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
+                <p hidden> {{$e->orden}}</p>
+                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
              
               </td>
             </tr>
