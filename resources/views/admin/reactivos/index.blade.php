@@ -11,8 +11,8 @@
                 </a>
                 @endif
             </div>
-<div class="table-div">
-        <table class="table text-xl tablex" id="myTable">
+<div class="tabla">
+        <table class="table" id="myTable">
           <thead>
             <tr>
             <th>Seccion </th>  
@@ -42,7 +42,7 @@
                 <td>{{$r->extra_label}} </td>
                
                 <td>@if($r->child==1) Si @else No @endif </td>
-                <td><a href="{{route('reactivos.edit',$r->id)}}"> <button class="btn" >Editar </button></a></td>
+                <td><a href="{{route('reactivos.edit',$r->id)}}"> <button class="boton-oscuro" >Editar </button></a></td>
            
               </tr>
             @endforeach

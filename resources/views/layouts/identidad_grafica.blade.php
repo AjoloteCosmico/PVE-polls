@@ -6,6 +6,7 @@
 
 body{
     display: block;
+    background-image: url('img/fondo-biblioteca.png')
 }
 
 /*estilos de texto*/

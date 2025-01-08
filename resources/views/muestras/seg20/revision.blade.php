@@ -27,7 +27,7 @@
                 <td>{{$e->updated_at}} </td>
                 <td> {{$e->carrera}}</td>
                 <td> {{$e->plantel}}</td>
-                <td><a href="{{route('edit_20',[$e->registro,'SEARCH'])}}"> <button class="btn"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button></a>
+                <td><a href="{{route('edit_20',[$e->registro,'SEARCH'])}}"> <button class="boton-oscuro"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button></a>
               </td>
             </tr>
             @endforeach

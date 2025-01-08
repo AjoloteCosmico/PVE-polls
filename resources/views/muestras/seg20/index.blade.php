@@ -12,6 +12,7 @@
             <th>Realizadas Internet</th>
             <th>Requeridas </th>
             <th>Porcentaje</th>
+            <th>Número de vuelta</th>
             <th> </th>
             <th> </th>
           </tr>
@@ -25,8 +26,9 @@
                 <td> {{$c->nencuestas_int}}</td>
                 <td> {{$c->requeridas_5}}</td>
                 <td> {{number_format((($c->nencuestas_tel+$c->nencuestas_int) *100)/$c->requeridas_5,2)}} %</td>
-                <td><a href="{{route('muestras20.show',[$c->c,$c->p])}}"> <button class="btn" >Ver Muestra </button></a></td>
-                <td><a href="{{route('muestras20.show',[0,$c->p])}}"> <button class="btn" >Ver Muestra Plantel </button></a></td>
+                <th>Porcentaje</th>
+                <td><a href="{{route('muestras20.show',[$c->c,$c->p])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                <td><a href="{{route('muestras20.show',[0,$c->p])}}"> <button class="boton-oscuro" >Ver Muestra Plantel </button></a></td>
            
               </tr>
             @endforeach

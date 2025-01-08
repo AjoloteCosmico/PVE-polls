@@ -2,11 +2,11 @@
 
 @section('content')
     <div class="container-fluid">
-        
-    <h1 class="text-black-50"></h1>
-        <h1>Estado del Estudio 2019</h1>
+        <div class="titulos">
+            <h1>Estado del Estudio 2019</h1>
+        </div>
         <div class="col-6 col-sm-12 table-responsive">
-                <table class="table table-striped text-xl" id="myTable">
+                <table class="table" id="myTable">
                     <thead>
                        
                         <tr class="text-center">
@@ -42,7 +42,7 @@
                          <td> {{$encuestas19->where('plantel','=',$c->clave_plantel)->where('carrera','=',$c->clave_carrera)->count()}}</td>
                          <td> {{$c->requeridas_5}}</td>
                          <td> {{$c->requeridas_5 - $encuestas19->where('plantel','=',$c->clave_plantel)->where('carrera','=',$c->clave_carrera)->count()}}</td>
-                         <td><a href="{{route('muestras.show',$c->id)}}" ><button class="btn"><i class="fas fa-eye"></i> Ver muestra</button></a></td>
+                         <td><a href="{{route('muestras.show',$c->id)}}" ><button class="boton-oscuro"><i class="fas fa-eye"></i> Ver muestra</button></a></td>
                         </tr>
                        
                         @endforeach
