@@ -2978,7 +2978,7 @@ c).- Motivo por el que no lo practico </h2>
 <option value=3 @if($Encuesta->ngr40_b==3) selected @endif >Falta de instalaciones</option>
 <option value=4 @if($Encuesta->ngr40_b==4) selected @endif >Falta de promoción</option>
 <option value=5 @if($Encuesta->ngr40_b==5) selected @endif >Ya contaba con el</option>
-<option value=5 >Otro</option>
+<option value=5 @if($Encuesta->ngr40_b==6) selected @endif>Otro</option>
 <option value=0 hidden > </option>
       </select>
 
