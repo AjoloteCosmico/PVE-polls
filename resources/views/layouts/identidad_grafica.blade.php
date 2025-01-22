@@ -182,7 +182,9 @@ div{
     display: flex;
     align-items: center;
 }
-
+.content-wrapper{
+    background-image: url('img/fondo-biblioteca.png')
+}
 .cuadro-azul{
     background-color: #002b7a;
     border-radius: 10px;
@@ -220,9 +222,10 @@ div{
 }
 
 .elementos-centrados{
-    display: grid;
+    display: block;
     place-items: center;
 }
+
 .degradado{
     background-image: linear-gradient(#b8b8b8 15%, #ffffff 70%, #b8b8b8 );
 }

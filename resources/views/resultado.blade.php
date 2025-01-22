@@ -39,7 +39,7 @@
                     <td>@if($e->completed != 1) Inompleta @else Completa @endif</td>
                     <td>@if($e->completed != 1)  
                         <a href="{{ route('llamar_20',$e->cuenta)}}">
-                            <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
+                            <button class="boton-oscuro">
                                 <i class="fas fa-edit  "></i> Completar
                             </button>
                         </a>@endif
@@ -80,14 +80,14 @@
                     <td>
                         @if($eg->muestra==3 && in_array( $eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], true))
                         <a href="{{route('llamar_20',$eg->cuenta)}}">
-                            <button class="btn">
+                            <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
                         </a>
                         @endif
                         @if($eg->anio_egreso==2019 | $eg->anio_egreso==2020)
                         <a href="{{route('invitacion19',$eg->id)}}">
-                            <button class="btn">
+                            <button class="boton-oscuro">
                                 <i class="fa fa-mail" aria-hidden="true"> </i> &nbsp; Enviar por correo
                             </button>
                         </a>
@@ -163,12 +163,12 @@
                     <td>{{$eg14->plantel}}</td> 
                     <td>
                         <a href="{{route('encuestas.show_14',$eg14->registro)}}">
-                            <button class="btn">Hacer encuesta </button>
+                            <button class="boton-oscuro">Hacer encuesta </button>
                         </a>
                     </td>
                     <td>
                         <a href="{{route('invitacion14',$eg14->registro)}}">
-                            <button class="btn">Enviar correo </button>
+                            <button class="boton-oscuro">Enviar correo </button>
                         </a>
                     </td>
                 </tr> 

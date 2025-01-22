@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+<div class="elementos-centrados">
     <div class="padding div">
     <h1>Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
         <h1> Deseas Enviar un aviso de privacidad?</h1>
