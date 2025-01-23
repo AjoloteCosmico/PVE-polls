@@ -2,124 +2,151 @@
 
 @section('content')
 
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
-    <table>
-        <tr>
-            <td >
-            <span class="badge badge-pill badge-primary" style="background-color: transparent" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}  </h1></span>
-            </td><td>
-            <h1 class="text-white-35" style="font-color: white">{{$Egresado->cuenta}}  </h1>
-            </td>
-        </tr>
-        <tr>
-            <td>   
-                <h1 class="text-white-35" style="font-color: white">{{$Carrera->carrera}}  </h1> 
-                <h1 class="text-white-35" style="font-color: white">{{$Carrera->plantel}}  </h1> 
-               
-                <h1 class="text-white-35" style="font-color: white">Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h1> 
-           
-            </td>
-            <td><a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}"><button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-table"></i> Ir a muestra Carrera </button></a>
-    </td>
-        </tr>
-        <tr> <td>  </td>
-     <td><a href="{{route('muestras20.show',[0,$Egresado->plantel])}}"><button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-table"></i> Ir a muestra Plantel </button></a></td></tr>
-     @if($Encuesta)
-     @if($Encuesta->completed==0)
-    <tr><td colspan="2"><a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}"> <button class="btn  btn-lg btn-block" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fas fa-arrow" aria-hidden="true"> </i> &nbsp; Continuar encuesta Inconclusa</button></a>
-             </td></tr>@endif @endif
-    </table>
-  
-        <h1 class="text-white-35" id="layer"> NUMEROS DE TELEFONO </h1>
- 
-   
-    </div>
-
-    <div class='col'>
-@foreach($Telefonos as $telefono)
-    <div class="container">
-
-    <button type="button" class="btn btn-info" id="{{'tel_button'.$telefono->id}}"data-toggle="collapse" style="background-color: {{$telefono->color_rgb}}"  data-target="{{'#demo'.$telefono->id}}">   <h1 class="text-white-35"> {{$telefono->telefono}}  </h1></button>
-    <div id="{{'demo'.$telefono->id}}" class="collapse" style="background-color: rgba(0,0,0,0.2)">
-    
-        
-    <br><h1 class="text-white-40" id="layer"> RECADOS ANTERIORES </h1><br>
-    @if($Recados->count()==0)
-    <p> Aún no hay recados para mostrar </p>
-    @else
-
-    <table class="table text-xl ">
-        <thead>
+<div class="container-fluid cuadro-azul">
+    <div>
+        <table class="cuadro-azul">
             <tr>
-                <th>Recado</th>
-                <th>tipo</th>
-                <th>Fecha</th>
-                <th></th>
+                <td>
+                    <h3>{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</h3>
+                </td>
+                <td>
+                    <h3>{{$Egresado->cuenta}}  </h3>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach($Recados as $r)
-                @if($r->tel_id == $telefono->id)
-                <tr style="background-color: {{$r->color_rgb}};">
-                    <td> {{$r->recado}} </td>
-                    <td> {{$r->description}} </td>
-                    <td> {{$r->fecha}} </td>
-                    <td> 
-                    <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
-                                    @csrf
-                                    <input name="_method" type="hidden" value="DELETE">
-
-                                    <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>BORRAR!</button>
-                                </form>  </td>
-                </tr>
-                @endif
-            @endforeach
-        </tbody>
-    </table>
-    @endif
-    <form action="/encuestas/2020/marcar/{{$telefono->id}}/{{$Egresado->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
-            @csrf
-        
-
-    <div class="form-group">
-        <label for="exampleInputEmail1">Deja un recado</label>
-        <div class="form-group">
-        <label for="exampleInputEmail1">Selecciona un código de color</label>
-        <select name="code" id="{{'code'.$telefono->id}}" class="select" style="color: #E0E0E0; background-color: black;" onchange="codigo({{$telefono->id}})">
-            <option value=""> </option>
-            @foreach($Codigos as $code)
-            <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
-            
-            @endforeach
-        
-        </select>
+            <tr>
+                <td>   
+                    <h3>{{$Carrera->carrera}}  </h3> 
+                    <h4>{{$Carrera->plantel}}  </h4> 
+                </td>
+                <td>
+                    <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
+                        <button type="button"  class="boton-oscuro">
+                            <i class="fas fa-table"></i> Ir a muestra Carrera 
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h5> 
+                </td>
+                <td>
+                    <a href="{{route('muestras20.show',[0,$Egresado->plantel])}}">
+                        <button type="button"  class="boton-oscuro">
+                            <i class="fas fa-table"></i> Ir a muestra Plantel 
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            @if($Encuesta)
+            @if($Encuesta->completed==0)
+            <tr>
+                <td colspan="2">
+                    <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
+                        <button class="boton-dorado" >
+                            Continuar encuesta Inconclusa
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            @endif
+            @endif
+        </table>   
     </div>
-        <input  style="width:70%" type="text" name="recado" class="form-control texto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
-    </div>
-    <br>
-    <div class='row'>
-        <div class='col'>
-        <button type="button" onclick='check_form({{$telefono->id}})' style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Marcar y guardar recado</button>
-        
+
+    <div>
+        <div class="elementos-centrados titulos">
+            <h3 class="text-white-35" id="layer"> NUMEROS DE TELEFONO </h3>
         </div>
-        <div class='col'>
-            <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020,$telefono->id])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(LLamando a este numero))</button></a>
-        </div>    
-    </div>
-    
-    </form></div>
-    </div>
-            <br>
-            
+        @foreach($Telefonos as $telefono)
+        <div class="elementos-centrados">
+            <button type="button" 
+                class="btn btn-info" 
+                id="{{'tel_button'.$telefono->id}}"
+                data-toggle="collapse" 
+                style="background-color: {{$telefono->color_rgb}}"  
+                data-target="{{'#demo'.$telefono->id}}">
+
+                <h3 class="text-white-35"> {{$telefono->telefono}}</h3>
+            </button>
+            <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados">
+                <br>
+                <h3 class="text-white-40" id="layer"> RECADOS ANTERIORES</h3>
+                <br>
+                @if($Recados->count()==0)
+                <p> Aún no hay recados para mostrar </p>
+                @else
+                <table class="table text-xl ">
+                    <thead>
+                        <tr>
+                            <th>Recado</th>
+                            <th>tipo</th>
+                            <th>Fecha</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($Recados as $r)
+                            @if($r->tel_id == $telefono->id)
+                            <tr style="background-color: {{$r->color_rgb}};">
+                                <td> {{$r->recado}} </td>
+                                <td> {{$r->description}} </td>
+                                <td> {{$r->fecha}} </td>
+                                <td> 
+                                <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
+                                                @csrf
+                                                <input name="_method" type="hidden" value="DELETE">
+
+                                                <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>BORRAR!</button>
+                                            </form>  </td>
+                            </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+                @endif
+                <form action="/encuestas/2020/marcar/{{$telefono->id}}/{{$Egresado->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
+                @csrf
+                    <div class="form-group titulos">
+                        <h3 for="exampleInputEmail1">Deja un recado</h3>
+                        <br>
+                        <div class="form-group">
+                            <h6 for="exampleInputEmail1">Selecciona un código de color</h6>
+                            <br>
+                            <select name="code" id="{{'code'.$telefono->id}}" class="select input"  onchange="codigo({{$telefono->id}})">
+                                <option value=""> </option>
+                                @foreach($Codigos as $code)
+                                <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
+                    </div>
+                    <br>
+                    <div class='tabla'>
+                        <button type="button" onclick='check_form({{$telefono->id}})'  class="boton-dorado">
+                            <i class="fas fa-paper-plane"></i> Marcar y guardar recado
+                        </button>
+                        <br>
+                        <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020,$telefono->id])}}">
+                            <button type="button" class="boton-dorado">
+                                <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
+                            </button>
+                        </a>
+                    </div> 
+                </form>
+            </div>
+        </div>
+        <br> 
         @endforeach
     </div>
     <div class='row'>
-       
         <div class='col'>
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  <i class="fas fa-arrow-left"></i> Regresar a al muestra</button></a>
+                <button type="button"  class="boton-oscuro">  <i class="fas fa-arrow-left">
+                    </i> Regresar a al muestra
+                </button>
+            </a>
         </div>
     </div>
 </div>

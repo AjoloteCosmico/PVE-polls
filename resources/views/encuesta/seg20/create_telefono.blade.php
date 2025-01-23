@@ -5,9 +5,9 @@
     Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
   </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
-    <h1 class="text-white-50">Agregar otro telefono para {{$Egresado->nombre }} </h1>
-    <h1 class="text-white-50"></h1>
+    <div class="padding div" >
+    <h1>Agregar otro telefono para {{$Egresado->nombre }} </h1>
+    <h1></h1>
     </div>
     <br><br>
     <center>

@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
-    <span class="badge badge-pill badge-primary" style="background-color: transparent" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}  </h1>
+    <div >
+    <span class="badge badge-pill badge-primary" id="pildora"><h1 class="text-back-50">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}  </h1>
     </span>
     <h1 class="text-white-40" id="info">{{$Egresado->carrera}} {{$Egresado->plantel}}  </h1>
         <h1 class="text-white-40" id="layer"> Dejar un recado </h1>
@@ -13,7 +13,7 @@
         @csrf
         <div class="form-group">
     <label for="exampleInputEmail1">Selecciona un código de color</label>
-    <select name="code" id="code" class="select" style="color: #f0f0f0" onchange="codigo()">
+    <select name="code" id="code" class="select"  onchange="codigo()">
         <option value=""> </option>
         <option style="background-color: #f54242" value="3" @if($Egresado->status == 3) selected @endif>Llamar en un horario específico </option>
         <option style="background-color: #9342f5" value="4" @if($Egresado->status == 4) selected @endif>Ya no quiere que le llamemos</option>
@@ -48,15 +48,15 @@
 
   <div class="form-group">
     <label for="exampleInputEmail1">Deja un recado</label>
-    <input  style="width:70%" type="text" name="recado" class="form-control texto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
+    <input  type="text" name="recado" class="form-control texto" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
   </div>
   <br>
   <div class='row'>
     <div class='col'>
-    <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Marcar y guardar recado</button>
+    <button type="submit"  class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Marcar y guardar recado</button>
     </div>
     <div class='col'>
-    <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-danger btn-lg">  <i class="fas fa-times"></i> Cancelar</button>
+    <button type="button" class="btn btn-danger btn-lg">  <i class="fas fa-times"></i> Cancelar</button>
     </div>
   </div>
   

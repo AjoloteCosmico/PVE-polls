@@ -4,6 +4,11 @@
     font-family: "Montserrat", sans-serif;
 }
 
+body{
+    display: block;
+    background-image: url('img/fondo-biblioteca.png')
+}
+
 /*estilos de texto*/
 
 /*titulo*/
@@ -69,7 +74,7 @@ th{
 td{
     border: 2px solid #000b1b;
     text-align: center;
-    background-color: white;
+    color: white;
     padding: 8px;
     font-weight: 600;
 }
@@ -177,7 +182,9 @@ div{
     display: flex;
     align-items: center;
 }
-
+.content-wrapper{
+    background-image: url('img/fondo-biblioteca.png')
+}
 .cuadro-azul{
     background-color: #002b7a;
     border-radius: 10px;
@@ -215,12 +222,14 @@ div{
 }
 
 .elementos-centrados{
-    display: grid;
+    display: block;
     place-items: center;
 }
+
 .degradado{
     background-image: linear-gradient(#b8b8b8 15%, #ffffff 70%, #b8b8b8 );
 }
+
 /*Form controls*/
 input{
     border-radius: 6px;
@@ -233,5 +242,13 @@ input{
     color: #000b1b;
     margin: 10px;
     background-color: white;
+}
+
+footer{
+    background:#343A40;
+    border-top: 1px solid #dee2e6;
+    color: #869099;
+    padding: 1rem;
+    margin-left: 250px;
 }
 </style>
