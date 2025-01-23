@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div class="padding div" style="padding:30px;">
-        <h1 class="text-white-50">ENVIAR ENCUESTA POR CORREO</h1>
-        <h1 class="text-white-50"> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</h1>
+    <div class="padding div" >
+        <h1>ENVIAR ENCUESTA POR CORREO</h1>
+        <h1> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</h1>
     </div>
-    <div style="display: flex; justify-content:space-between; ">
-        <table class="text-white-50" style="width: 45%; border: 5px solid; font-size: 40px;">
+    <div >
+        <table class="text-white-50" >
             <th class="text-white-50" colspan="2">Datos Personales</th>
             <tr>
                 <td>cuenta</td>
@@ -35,7 +35,7 @@
         @csrf
         <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
-        <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
+        <input   type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
         <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}">
         <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
         <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera->carrera}}">
@@ -44,13 +44,8 @@
         <input  type="number" name="anio" class="form-control" hidden value="{{$Egresado->anio_egreso}}">
         <input  type="text" name="telefono" class="form-control" hidden value="{{$telefono}}">
         <br>
-        <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
+        <button type="submit" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
     </form>
 </center>
-<style>
-    th, td {
-        border: 5px solid;
-        text-align: center;
-        }
-</style>
+
 @endsection

@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    <div style="padding:30px;">
-    <h1 class="text-white-50">  </h1>
-        <h1 class="text-white-50"> </h1>
+    <div>
+    <h1>  </h1>
+        <h1> </h1>
     </div>
     <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl " id="myTable">
@@ -25,7 +25,7 @@
                 <td>{{$e->cuenta}} </td>
                 <td>{{$e->telefono}} </td>
                 <td>{{$e->correo}} </td>
-                <td><a href="{{route('encuestas.show',$e->cuenta)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">Hacer encuesta </button></a></td>
+                <td><a href="{{route('encuestas.show',$e->cuenta)}}"> <button class="btn" >Hacer encuesta </button></a></td>
             </tr>
             @endforeach
           </tbody>

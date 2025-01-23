@@ -3,16 +3,16 @@
     <body class="hold-transition login-page" background="{{asset('img/Fondo2.jpg')}}">
         <div class="login-box">
             <div class="login-logo">
-                <a href="{{ url('/home') }}"><b style="color: white">Sistema de Encuestas <br> PVE UNAM</b>
+                <a href="{{ url('/home') }}"><b >Sistema de Encuestas <br> PVE UNAM</b>
                 <br>
                 <img src="{{asset('img/logoPVE.png')}}"
-                                    class="img-circle elevation-2" alt="User Image" style="width:30%;"></a>
+                                    class="img-circle elevation-2" alt="User Image" ></a>
             </div>
             <!-- /.login-logo -->
 
             <!-- /.login-box-body -->
             <div class="card">
-                <div class="card-body login-card-body" style="border-radius: 50px;">
+                <div class="card-body login-card-body">
                     <p class="login-box-msg">Sign in to start your session</p>
 
                     <form method="post" action="{{ url('/login') }}">
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-block" style="background-color:#63310e">Sign In</button>
+                                <button type="submit" class="btn btn-primary btn-block" >Sign In</button>
                             </div>
 
                         </div>

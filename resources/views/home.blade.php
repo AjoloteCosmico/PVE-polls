@@ -2,26 +2,28 @@
 
 @section('content')
     <div class="container-fluid">
-        <div style="padding:30px;">
-    <h1 class="text-white-50">Bienvenid@!!  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
+        <div >
+    <h1>¡Bienvenid@ {{Auth::user()->name }}!</h1>
     <div>-----------------------------------------
         <br><br><br> 
-    <a href="{{ route('report','reporte_individual')}}"  > <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
+    <a href="{{ route('report','reporte_individual')}}"  > <button class="boton-azul">
     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2019
     </button></a>
     
-    <a href="{{ route('report','reporte_individual_act2014')}}"  > <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
+    <a href="{{ route('report','reporte_individual_act2014')}}"  > <button class="boton-azul">
     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2014
     </button></a>
     
-    <a href="{{ route('report','correos_inconclusas')}}"  > <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white;">
+    <a href="{{ route('report','correos_inconclusas')}}"  > <button class="boton-azul">
     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos par encuestas inconclusas
     </button></a>
     </div>
 <br><br><br>
+<div class="aviso">
+    <h3><i class="fas fa-exclamation-triangle"></i>  AVISO!! : NUEVOS NUMEROS DE TELEFONO: </h3>
+</div>
 <div>
-    <h1 style="background-color:#E8A402"><i class="fas fa-exclamation-triangle"></i>  AVISO!! : NUEVOS NUMEROS DE TELEFONO: </h1>
-<table  class="table text-lg " id="myTable" style="table-layout:fixed;">
+<table  class="table text-lg " id="myTable" >
     <thead> 
         <th>cuenta</th>
         <th>egresado</th>
@@ -37,7 +39,7 @@
             <td>{{$e->nombre}} {{$e->paterno}} {{$e->materno}} </td>
             <td>{{$e->name_carrera}} </td>
             <td>{{$e->name_plantel}} </td>
-            <td><a href="{{route('llamar_20',$e->cuenta)}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
+            <td><a href="{{route('llamar_20',$e->cuenta)}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
              </td>
         </tr>
         @endforeach
