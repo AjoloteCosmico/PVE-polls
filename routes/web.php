@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/encuestas_2020/edit/{id}/{section}', 'edit')->name('edit_20');
         Route::post('/encuestas/real_update/{id}', 'update2')->name('encuestas.real_update');
         Route::get('/2020', 'encuesta_2020')->name('2020');
+        Route::get('/encuestas_2020/render/{id}/{section}', 'render')->name('render_20');
     });
     
     /** Telefonos */

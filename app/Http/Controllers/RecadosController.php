@@ -84,7 +84,6 @@ class RecadosController extends Controller
       $Recado->status=$request->code;
       $Recado->tel_id=$telefono->id;
       $Recado->cuenta=$Egresado->cuenta;
-      
       $Recado->user_id=Auth::user()->id;
       $Recado->fecha=now()->modify('-6 hours');
       $Recado->save();
