@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @php
-use \App\Http\Controllers\PosgradoController; 
+use \App\Http\Controllers\ComponentController; 
 @endphp
 <div> 
         <div class="titulos">
@@ -13,9 +13,12 @@ use \App\Http\Controllers\PosgradoController;
     <div class="posgrado_reactivos">
     
      @foreach($Reactivos as $reactivo)
+        @php
+            $opciones = \App\Models\Option::where('clave_reactivo', $reactivo->clave)->get();
+        @endphp
         <div class="react_container">
         <h3>{{$reactivo->orden}}.- {{$reactivo->description}}</h3>
-        {{PosgradoController::RenderReactive($reactivo->id)}}
+        {{ComponentController::RenderReactive($reactivo,$opciones)}}
         </div>
      @endforeach
     </div>
