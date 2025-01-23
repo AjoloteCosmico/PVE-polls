@@ -148,7 +148,7 @@
                <h2 class="reactivo"> 67a.-¿Tipo de autoempleo? </h2>
                <select class="select" id="ncr6a" name="ncr6t" >
                   <option selected="selected" value="">
-                     <option value=2 @if($Encuesta->ncr6==2) selected @endif>Propietario
+                     <option value=2 @if($Encuesta->ncr6==2) selected @endif>Propietario o Socio 
                   </option>
                   <option value=3 @if($Encuesta->ncr6==3) selected @endif>Profesional independiente</option>   
                   <option value=6 @if($Encuesta->ncr6==6) selected @endif>Trabajador independiente (no ejerce) </option>

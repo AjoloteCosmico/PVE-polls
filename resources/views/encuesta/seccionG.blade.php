@@ -848,7 +848,7 @@ a).-¿Con qué frecuencia asistió a eventos artísticos?</h2>
     </td>
 <td>
 <h2 class="reactivo">
-b).-Motivo por el que no asistió a eventos artísticos</h2>
+b).-Motivo por el que no asistió a eventos artísticos dentro de la UNAM</h2>
 <select class="select" id="ngr37m" name="ngr37m"  >
 <option selected="selected" value="">
 <option value=1 @if($Encuesta->ngr37m==1) selected @endif >Desinterés</option>
