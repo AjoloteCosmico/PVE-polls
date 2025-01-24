@@ -50,7 +50,6 @@
 <option value=16  @if($Encuesta->ndr2==16) selected @endif>Anuncio</option>
 <option value=17  @if($Encuesta->ndr2==17) selected @endif>Convocatoria o Examen de selecci&oacuten</option>
 <option value=18  @if($Encuesta->ndr2==18) selected @endif>Ya trabajaba ahí antes de la Lic.</option>
-
 <option value=15  @if($Encuesta->ndr2==15) selected @endif>Otra forma (especifíque)</option>
 <option value=0  hidden></option>   
 </select>
