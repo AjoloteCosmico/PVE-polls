@@ -97,7 +97,7 @@ Otra:<input type="text" class="texto"   id="nar11a" name="nar11a" size="20" maxl
         
 <h2 class="reactivo">4.-Ocupación de su esposo(a)</h2>
 
-<select class="select" id="nar14" name="nar14"  onchange="bloquear('nar14',[0,33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59],[nar14otra])" >
+<select class="select" id="nar14" name="nar14"  onchange="bloquear('nar14',[0,33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61],[nar14otra])" >
 <option value="" ></option>
 
 <option value=45 @if($Encuesta->nar14==45) selected @endif>Funcionarios Directores y Jefes   </option>
@@ -182,7 +182,7 @@ Otra:<input type="text" class="texto" id="nar12otra" name="nar12otra"  maxlength
 <td colspan="2">
 <h2 class="reactivo">6.- ¿Cúal era la ocupación de su madre? </h2>   
 
-<select class="select" id="nar15" name="nar15"  onchange="bloquear('nar15',[33,34,35,40,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59],[nar15otra])" >
+<select class="select" id="nar15" name="nar15"  onchange="bloquear('nar15',[33,34,35,40,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61],[nar15otra])" >
 <option value="" ></option>
 
 <option value=45 @if($Encuesta->nar15==45) selected @endif>Funcionarios Directores y Jefes   </option>
@@ -203,7 +203,7 @@ Otra:<input type="text" class="texto" id="nar12otra" name="nar12otra"  maxlength
    <option value=59 @if($Encuesta->nar15==59) selected @endif>Dueño o socio de un negocio  </option>
    <option value=60 @if($Encuesta->nar15==60) selected @endif>Dueño o socio de una empresa</option>
   
-   <option value=34 @if($Encuesta->nar15==34) selected @endif>Jubilado  </option>
+  <option value=34 @if($Encuesta->nar15==34) selected @endif>Jubilado  </option>
   <option value=35 @if($Encuesta->nar15==35) selected @endif>Finado  </option>
   <option value=36 @if($Encuesta->nar15==36) selected @endif>No trabaja  </option>
   <option value=37 @if($Encuesta->nar15==37) selected @endif>No lo sabe  </option>
@@ -265,7 +265,7 @@ Otra:<input type="text" class="texto" id="nar13otra" name="nar13otra" maxlength=
     <h2 class="reactivo">8.-¿Cúal era la ocupación de su padre? </h2> 
     
 
-    <select class="select" id="nar16" name="nar16"  onchange="bloquear('nar16',[33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59],[nar16otra])">
+    <select class="select" id="nar16" name="nar16"  onchange="bloquear('nar16',[33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61],[nar16otra])">
     <option value="" ></option>
    
    <option value=45 @if($Encuesta->nar16==45) selected @endif>Funcionarios Directores y Jefes   </option>
