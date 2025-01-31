@@ -1,19 +1,14 @@
 <x-laravel-ui-adminlte::adminlte-layout>
 @section('title', 'PVE Ingresar')
-    <body class="hold-transition login-page" background="{{asset('img/Fondo2.jpg')}}">
-        <div class="login-box">
+    <body class="hold-transition login-page" background="{{asset('img/fondo-biblioteca.png')}}">
+        <div class="elementos-centrados">
             <div class="login-logo">
-                <a href="{{ url('/home') }}"><b >Sistema de Encuestas <br> PVE UNAM</b>
-                <br>
-                <img src="{{asset('img/logoPVE.png')}}"
-                                    class="img-circle elevation-2" alt="User Image" ></a>
+                <img src="{{asset('img/logoPVE.png')}}" class="img-circle elevation-2" alt="User Image" style="height: 400px"></a>
             </div>
-            <!-- /.login-logo -->
 
-            <!-- /.login-box-body -->
             <div class="card">
                 <div class="card-body login-card-body">
-                    <p class="login-box-msg">Sign in to start your session</p>
+                    <p class="login-box-msg">Sistema de Encuestas <br> PVE UNAM</p>
 
                     <form method="post" action="{{ url('/login') }}">
                         @csrf
@@ -47,22 +42,22 @@
                             <div class="col-8">
                                 <div class="icheck-primary">
                                     <input type="checkbox" id="remember">
-                                    <label for="remember">Remember Me</label>
+                                    <label for="remember">Recordar</label>
                                 </div>
                             </div>
 
                             <div class="col-4">
-                                <button type="submit" class="btn btn-primary btn-block" >Sign In</button>
+                                <button type="submit" class="btn btn-primary btn-block" >Ingresar</button>
                             </div>
 
                         </div>
                     </form>
 
                     <p class="mb-1">
-                        <a href="{{ route('password.request') }}">I forgot my password</a>
+                        <a href="{{ route('password.request') }}">Olvidé mi contraseña</a>
                     </p>
                     <p class="mb-0">
-                        <a href="{{ route('register') }}" class="text-center">Register a new membership</a>
+                        <a href="{{ route('register') }}" class="text-center">Registrar un nuevo usuario</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->
