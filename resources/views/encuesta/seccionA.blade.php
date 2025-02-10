@@ -510,9 +510,11 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
    check_beca();
    escolaridad();
    escolaridadp();
-   bloquear('nar14',[0,33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58],[nar14otra]);
+   
+   bloquear('nar14',[0,33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61],[nar14otra]);
    bloquear('ner20',[1],[ner20a,ner20txt]);
-   bloquear('nar15',[33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58],[nar15otra])
+   bloquear('nar15',[33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61],[nar15otra])
+   bloquear('nar16',[33,34,35,36,37,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61],[nar16otra])
    var warning = false;
 </script>
 

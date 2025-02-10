@@ -319,7 +319,7 @@
                <h2 class="reactivo"> 82.- Desde que terminó sus estudios de licenciatura,
                   ¿ha dejado de trabajar? 
                </h2>
-               <select class="select" id="ncr22" name="ncr22"  onchange="bloquear('ncr22',[2],[ncr24,ncr24a,ncr24porque,ncr23]) ">
+               <select class="select" id="ncr22" name="ncr22"  onchange="bloquear('ncr22',[2],[ncr24,ncr24_a,ncr24porque,ncr23]) ">
                   <option value="" selected="selected"></option>
                   <option value=1 @if($Encuesta->ncr22==1) selected @endif>Sí</option>
                   <option value=2 @if($Encuesta->ncr22==2) selected @endif>No</option>
@@ -357,9 +357,9 @@
                </select>
             </td>
             <td>
-               <br>(Especifíque)
+               <br>(Especifíque) 
                Otra:
-               <input type="text" class="texto" id="ncr24a" name="ncr24a" value="{{$Encuesta->ncr24a}}" maxlength="55" > 
+               <input type="text" class="texto" id="ncr24_a" name="ncr24_a" value="{{$Encuesta->ncr24_a}}" maxlength="55" > 
             </td>
          </tr>
          <tr>
@@ -438,47 +438,47 @@
          reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
 
-         reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
+         reactivosPorAbrir=[ncr24,ncr24_a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '4':
          reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
 
-         reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];;
+         reactivosPorAbrir=[ncr24,ncr24_a,ncr24porque,ncr23];;
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '5':
          reactivosPorAbrir=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorAbrir.forEach(visibilizar);
-         reactivosPorCerrar=[ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr22,ncr24,ncr24a,ncr24porque,ncr23];
+         reactivosPorCerrar=[ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr22,ncr24,ncr24_a,ncr24porque,ncr23];
          reactivosPorCerrar.forEach(ocultar);
        break;
        case '6':
          reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22,ncr23];
          reactivosPorCerrar.forEach(ocultar);
          
-         reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
+         reactivosPorAbrir=[ncr24,ncr24_a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '7':
          reactivosPorAbrir=[giro_especifico,ncr2,ncr2a,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorAbrir.forEach(visibilizar);
-         reactivosPorCerrar=[ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr22,ncr24,ncr24a,ncr24porque,ncr23];
+         reactivosPorCerrar=[ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr22,ncr24,ncr24_a,ncr24porque,ncr23];
          reactivosPorCerrar.forEach(ocultar);
        break;
        case '8':
          reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
 
-         reactivosPorAbrir=[ncr24,ncr24a,ncr24porque,ncr23];
+         reactivosPorAbrir=[ncr24,ncr24_a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(visibilizar);
        break;
      }
    }
    function funcion_ncr24(){
      bloquear('ncr24',[1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,29],[ncr24porque]);
-     bloquear('ncr24',[1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,29],[ncr24a])
+     bloquear('ncr24',[1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,29],[ncr24_a])
    } 
    function autoempleo(){
      ncr6_val=document.getElementById('ncr6a2').value;
@@ -495,13 +495,13 @@
    function porque(){
      ncr24_val=document.getElementById('ncr24').value;
      console.log('func porque '+ncr24_val);
-     ocultar(ncr24a);
+     ocultar(ncr24_a);
      switch(ncr24_val){
-       case '12': ocultar(ncr24a);visibilizar(ncr24porque);
+       case '12': ocultar(ncr24_a);visibilizar(ncr24porque);
        break;
-       case '14': visibilizar(ncr24a);ocultar(ncr24porque);
+       case '14': visibilizar(ncr24_a);ocultar(ncr24porque);
        break;
-       default: ocultar(ncr24a);ocultar(ncr24porque);
+       default: ocultar(ncr24_a);ocultar(ncr24porque);
        break;
      }
    }
@@ -515,16 +515,16 @@
    autoempleo();
    bloquear('ncr8',[0,2],[ncr9]); 
    porque();
-   //bloquear('ncr22',[2,0],[ncr24,ncr24a,ncr24porque,ncr23])
+   //bloquear('ncr22',[2,0],[ncr24,ncr24_a,ncr24porque,ncr23])
    seccionc2();
    
    console.log('FIN DE FUNCION NCR1-------------------------');
    bloquear('ncr4',[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24],[ncr4a])
    bloquear('ncr2a',[0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],[ncr2ext])
    @if($Encuesta->ncr1==3 |$Encuesta->ncr1==4)
-   bloquear('ncr22',[2],[ncr24,ncr24a,ncr24porque,ncr23]);
+   bloquear('ncr22',[2],[ncr24,ncr24_a,ncr24porque,ncr23]);
    @else
-   bloquear('ncr22',[2,0],[ncr24,ncr24a,ncr24porque,ncr23]);
+   bloquear('ncr22',[2,0],[ncr24,ncr24_a,ncr24porque,ncr23]);
    
    @endif
    autoempleo();
