@@ -12,16 +12,19 @@ use \App\Http\Controllers\ComponentController;
 <form action="">
     <div class="posgrado_reactivos">
     
-     @foreach($Reactivos as $reactivo)
+     @foreach($Reactivos->sortBy('orden') as $reactivo)
         @php
-            $opciones = \App\Models\Option::where('clave_reactivo', $reactivo->clave)->get();
+            $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get();
         @endphp
-        <div class="react_container">
+        <div class="react_container" id="{{'container'.$reactivo->clave}}" >
         <h3>{{$reactivo->orden}}.- {{$reactivo->description}}</h3>
         {{ComponentController::RenderReactive($reactivo,$opciones)}}
         </div>
      @endforeach
     </div>
+    <div style="display:flex; flex-direction: row-reverse; padding:1.2vw"> <button   style="font-size:1.9vw; padding:1.4vw" type="button" class="boton-azul">
+<i class="fas fa-save fa-xl"></i>   Guardar
+ </button></div>
 </form>
 </div>
 @stop
@@ -96,7 +99,7 @@ table{
 th{
     border: 2px solid #000b1b;
     text-align: center;
-    background-color: #000b1b;
+    background-color:rgb(1, 42, 103);
     color: white;
 }
 td{
@@ -105,6 +108,22 @@ td{
     background-color: white;
     padding: 8px;
     font-weight: 600;
+}
+
+.table-personal{
+    th{
+    border: 2px solid #000b1b;
+    text-align: center;
+    background-color: #002b7a;
+    color: white;
+}
+td{
+    border: 2px solid #000b1b;
+    text-align: center;
+    background-color: white;
+    padding: 8px;
+    font-weight: 600;
+}
 }
 
 /*estilos de boton*/
@@ -172,10 +191,7 @@ td{
 .boton-muestras{
     background-color: #002b7a;
     color: white;
-    padding: 25px;
-    padding-left: 60px;
-    padding-right: 60px;
-    border-radius: 8px;
+    padding: 2.3vw;
     border: none;
 }
 .boton-muestras:hover{
@@ -352,4 +368,8 @@ div{
     margin: 10px;
 }
 </style>
+@endpush
+
+@push('js')
+@include('posgrado.scripts_bloquear')
 @endpush

@@ -1,14 +1,17 @@
 
   
-        <table class="table text-lg personal" >
+        <table class="table text-lg table-personal" >
          
          <tr>
            <th>Egresad@: </th>
            <td> SARA RUBÍ MARTINEZ MARTINEZ </td>
            <th>Numero C:</th><td> 314000000</td>
-           <th> Telefonos: <a href="{{route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn btn-mb2 boton-muestras" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo  </button></a></th>
+           <th> Telefonos:</th>
              @foreach($Telefonos as $t)
-             <td> <a class="contact_data"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a></td>
+             <td> <a class="contact_data"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>
+             @if($loop->last)
+             <a href="{{route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono  </button></a>
+            @endif</td>
              @endforeach
            <th>Plan de estudios:</th> <td> Ciencia e Ingenieria de Materiales</td>
          </tr>
@@ -23,17 +26,18 @@
            <a class="contact_data" onclick="correos({{$c->id}},'{{$c->correo}}')"> {{$c->correo}} </a> , &nbsp;
            @endforeach
            
-         <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn btn-mb2 boton-muestras" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td>
+         <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td>
          <th>Nivel Académico:</th> <td>Doctorado</td>
          </tr>
          <tr>
          <td  colspan="{{5 + $Telefonos->count()}}">
-         <div class="row">
-           <div class="col"><a class="btn boton-dorado" href="{{route('posgrado_vista','A')}}" id='Abtn'> Seccion 1</a></div>
-           <div class="col"><a class="btn boton-dorado"  href="{{route('posgrado_vista','B')}}" id='Ebtn'>Seccion 1</a></div>
-           <div class="col"><a class="btn boton-dorado"  href="{{route('posgrado_vista','C')}}"  id='Fbtn'>Seccion 3</a></div>
-           <div class="col"><a class="btn boton-dorado" href="{{route('posgrado_vista','D')}}"  id='Cbtn'>Seccion 4</a></div>
-         </div>
+          <div style="background-color:white; display:flex; justify-content: space-around">
+            <a class="btn boton-dorado" href="{{route('posgrado_vista','pA')}}" id='Abtn'> Seccion 1</a>
+            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pB')}}" id='Bbtn'>Seccion 2</a>
+            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pD')}}"  id='Dbtn'>Seccion 3</a>
+            <a class="btn boton-dorado" href="{{route('posgrado_vista','pC')}}"  id='Cbtn'>Seccion 4</a>
+            <a class="btn boton-dorado" href="{{route('posgrado_vista','pE')}}"  id='Ebtn'>Seccion 5</a>
+          </div>
        </td>
        <td colspan="2">
          @if($Encuesta->completed==1)
@@ -54,11 +58,12 @@
  <style>
    
    .customSwalBtn{
-   padding:0.5vmax;
+   padding:0.10vmax;
    margin:0.5vmax;
+   background-color: #002b7a;
    }
    .customSwalBtn:hover{
-     background-color: #002b7a;
+      background-color: #ba800d;
      color:#FFFFFF;
       transform: translateY(-4px);
    }
