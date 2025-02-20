@@ -141,8 +141,8 @@ Otra:<input type="text" class="texto" id="nar14otra" name="nar14otra" size="80" 
 <td colspan="2">
 <h2 class="reactivo"> 5.-¿Cúal era el nivel maximo de estudios de su madre?  </h2>
         
-       <select class="select" id="nar12" name="nar12"  onchange="escolaridad()" >
-       <option value=""></option>
+    <select class="select" id="nar12" name="nar12"  onchange="escolaridad()" >
+      <option value=""></option>
       <option value=1 @if($Encuesta->nar12==1) selected @endif >Sin instrucción</option>
       <option value=2 @if($Encuesta->nar12==2) selected @endif >Primaria</option;n>
       <option value=3 @if($Encuesta->nar12==3) selected @endif >Carrera técnica o comercial después de primaria</option>
@@ -154,7 +154,7 @@ Otra:<input type="text" class="texto" id="nar14otra" name="nar14otra" size="80" 
       <option value=9 @if($Encuesta->nar12==9) selected @endif >Carrera técnica o com. después de bachillerato</option>
       <option value=10 @if($Encuesta->nar12==10) selected @endif >Licenciatura</option>
       <option value=14 @if($Encuesta->nar12==14) selected @endif >Licenciatura Trunca</option>
-      
+
       <option value=11 @if($Encuesta->nar12==11) selected @endif >Posgrado</option>
       <option value=12 @if($Encuesta->nar12==12) selected @endif >Lo desconoce</option>
       <option value=13  @if($Encuesta->nar12==13) selected @endif >Otro (Especifíque)</option>
@@ -406,27 +406,28 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
  
  
  
-   <select class="select" id="nar4a" name="nar4a" >
- <option value="" selected></option>
- <option value=1 @if($Encuesta->nar4a==1) selected @endif>Muchisimo</option>
- <option value=2 @if($Encuesta->nar4a==2) selected @endif>Mucho</option>
- <option value=3 @if($Encuesta->nar4a==3) selected @endif>Regular</option>
- <option value=4 @if($Encuesta->nar4a==4) selected @endif>Poco</option>
- <option value=5 @if($Encuesta->nar4a==5) selected @endif>Nada</option>
- <option value=0  hidden></option>   
+<select class="select" id="nar4a" name="nar4a" >
+  <option value="" selected></option>
+  <option value=1 @if($Encuesta->nar4a==1) selected @endif>Muchisimo</option>
+  <option value=2 @if($Encuesta->nar4a==2) selected @endif>Mucho</option>
+  <option value=3 @if($Encuesta->nar4a==3) selected @endif>Regular</option>
+  <option value=4 @if($Encuesta->nar4a==4) selected @endif>Poco</option>
+  <option value=5 @if($Encuesta->nar4a==5) selected @endif>Nada</option>
+  <option value=0  hidden></option>   
 </select>
 </td>
 <td  colspan="2">
 <h2 class="reactivo">15).- ¿En qué medida la beca o becas que recibió contribuyeron a apoyar la conclusión de sus estudios? </h2>
  
- &nbsp;   <select class="select" id="nar5a" name="nar5a" >
- <option value=""></option>
- <option value=1 @if($Encuesta->nar5a==1) selected @endif>Muchisimo</option>
- <option value=2 @if($Encuesta->nar5a==2) selected @endif>Mucho</option>
- <option value=3 @if($Encuesta->nar5a==3) selected @endif>Regular</option>
- <option value=4 @if($Encuesta->nar5a==4) selected @endif>Poco</option>
- <option value=5 @if($Encuesta->nar5a==5) selected @endif>Nada</option>
- <option value=0  hidden></option>   
+ &nbsp;
+<select class="select" id="nar5a" name="nar5a" >
+  <option value=""></option>
+  <option value=1 @if($Encuesta->nar5a==1) selected @endif>Muchisimo</option>
+  <option value=2 @if($Encuesta->nar5a==2) selected @endif>Mucho</option>
+  <option value=3 @if($Encuesta->nar5a==3) selected @endif>Regular</option>
+  <option value=4 @if($Encuesta->nar5a==4) selected @endif>Poco</option>
+  <option value=5 @if($Encuesta->nar5a==5) selected @endif>Nada</option>
+  <option value=0  hidden></option>   
 </select> 
 </td>
 </tr>

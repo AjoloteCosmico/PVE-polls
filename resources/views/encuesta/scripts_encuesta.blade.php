@@ -50,6 +50,7 @@
       reactivosPorCerrar.forEach(visibilizar);
     }
   }
+
   function ocultar(item){
     console.log('Ocultar: '+item.id);
     document.getElementById(item.id).hidden="hidden";

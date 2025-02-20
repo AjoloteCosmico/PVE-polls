@@ -17,7 +17,7 @@ use \App\Http\Controllers\ComponentController;
             $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get();
         @endphp
         <div class="react_container" id="{{'container'.$reactivo->clave}}" >
-        <h3>{{$reactivo->orden}}.- {{$reactivo->description}}</h3>
+        <h3>{{$reactivo->orden}}.- {{$reactivo->description}} {{$reactivo->clave}}</h3>
         {{ComponentController::RenderReactive($reactivo,$opciones)}}
         </div>
      @endforeach

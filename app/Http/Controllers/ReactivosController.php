@@ -20,8 +20,7 @@ class ReactivosController extends Controller
    //  dd($Reactivo);
    $Opciones=Option::where('reactivo',$Reactivo->clave)->OrderBy('clave')->get();
    if($Reactivo->archtype){
-    $Opciones=Option::where('reactivo',$Reactivo->archtype)->OrderBy('clave')->get();
-   
+     $Opciones=Option::where('reactivo',$Reactivo->archtype)->OrderBy('clave')->get();  
    }
     return view('admin.reactivos.edit',compact('Reactivo','Opciones'));
   }
@@ -44,3 +43,4 @@ class ReactivosController extends Controller
         return redirect()->route('reactivos.index');
   }
 }
+

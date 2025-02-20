@@ -389,5 +389,16 @@
   @endif
   var warning = false;
 </script>
-
+@if($Encuesta->ner15ext)
+    <script>
+        console.log('change ner15ext');
+        document.getElementById('ner15ext').value='{{$Encuesta->ner15ext}}';
+    </script>
+@endif
+@if($Encuesta->ner18ext)
+    <script>
+        console.log('change ner18ext');
+        document.getElementById('ner18ext').value='{{$Encuesta->ner18ext}}';
+    </script>
+@endif
 @endpush
