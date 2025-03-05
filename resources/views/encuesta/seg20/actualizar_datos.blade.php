@@ -9,15 +9,24 @@
     <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
     <h1 style="color:white">{{$Egresado->cuenta}}   </h1>
     <h1 style="color:white">{{$Carrera}} {{$Plantel}}   </h1>
-    <h2 style="color:white"> Muestra: {{$muestra}} </h2> 
+    <h2 style="color:white"> Muestra: {{$Egresado->anio_egreso}} </h2> 
   </div>
   <div class="row">
     <div class="col">
-      <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">  
-          <i class="fas fa-table"></i></i> Ir a muestra carrera
-        </button>
-      </a>
+        @if($Egresado->muestra==3)
+        <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
+            <button type="button"  class="boton-oscuro">
+                <i class="fas fa-table"></i> Ir a muestra Carrera 
+            </button>
+        </a>
+        @endif
+        @if($Egresado->act_suvery==1)
+        <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
+            <button type="button"  class="boton-oscuro">
+                <i class="fas fa-table"></i> Ir a muestra Carrera 
+            </button>
+        </a>
+        @endif
     </div>
     <div class="col">
       <a href="{{route('llamar_20',[$Egresado->cuenta])}}">
@@ -27,11 +36,7 @@
       </a>
     </div>
     <div class="col"> 
-      <a href="{{route('muestras20.show',[0,$Egresado->plantel])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
-          <i class="fas fa-table"></i></i>Ir a muestra del plantel
-        </button>
-      </a>
+    
     </div>
   </div>
   <div class="col-6 col-lg-12 table-responsive">
@@ -98,20 +103,39 @@
               </button>
             </a>
           </td>
-          <td>
-            <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
-                <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$muestra}} POR CORREO
-              </button>
-            </a>
-          </td>
-          <td>
-            <a href="{{route('comenzar_encuesta_2020',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
-                <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
-              </button>
-            </a>
-          </td>
+          @if($Egresado->muestra==3)
+              <td>
+                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
+                  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
+                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$muestra}} POR CORREO
+                  </button>
+                </a>
+              </td>
+              <td>
+                <a href="{{route('comenzar_encuesta_2020',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
+                  <button class="boton-oscuro" > 
+                    <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
+                  </button>
+                </a>
+              </td>
+            @endif
+            @if($Egresado->act_suvery==1)
+            <td>
+                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
+                  <button class="boton-oscuro" > 
+                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$muestra}} POR CORREO
+                  </button>
+                </a>
+              </td>
+              <td>
+                <a href="{{route('comenzar_encuesta_2016',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
+                  <button class="boton-oscuro" > 
+                    <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
+                  </button>
+                </a>
+              </td>
+            @endif
+          
         </tr>
         @endforeach
       </tbody>

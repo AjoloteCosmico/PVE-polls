@@ -16,14 +16,21 @@ use App\Models\Recado;
 class LlamadasController extends Controller
 {
     public function llamar_20($id){
-        // $Egresado=Egresado::where('cuenta','=',$id)->where('muestra','=',3)->first();
+        $Encuesta='ENCUESTA DE SEGUIMIENTO 2020';
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('muestra','3')
         ->first();
+        //identificar si el egresado viene de la 2016
+        if(!$Egresado){
+        
+        $Encuesta='ENCUESTA DE ACTUALIZACION 2016'; 
+        $Egresado=Egresado::where('cuenta','=',$id)
+        ->where('act_suvery','1')
+        ->first();
+        }
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
         $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();
-        
 
         $Telefonos=DB::table('telefonos')->where('cuenta','=',$Egresado->cuenta)
         ->leftJoin('codigos','codigos.code','=','telefonos.status')

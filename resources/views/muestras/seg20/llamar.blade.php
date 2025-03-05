@@ -19,25 +19,40 @@
                     <h4>{{$Carrera->plantel}}  </h4> 
                 </td>
                 <td>
+                    @if($Egresado->muestra==3)
                     <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
                     </a>
+                    @endif
+                    @if($Egresado->act_suvery==1)
+                    <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
+                        <button type="button"  class="boton-oscuro">
+                            <i class="fas fa-table"></i> Ir a muestra Carrera 
+                        </button>
+                    </a>
+                    @endif
+
                 </td>
             </tr>
             <tr>
                 <td>
                     <h5>Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h5> 
                 </td>
+                
                 <td>
-                    <a href="{{route('muestras20.show',[0,$Egresado->plantel])}}">
-                        <button type="button"  class="boton-oscuro">
-                            <i class="fas fa-table"></i> Ir a muestra Plantel 
-                        </button>
-                    </a>
+                   
                 </td>
             </tr>
+            @if($Egresado->act_suvery==1)
+                @php  
+                   $fecha=new DateTime(substr($Egresado->actualized,0,10))
+                @endphp
+            <td>Fecha en que se encuestó al egresado:</td>    
+            <td> {{$fecha->format('j \d\e F \d\e Y')}}</td>
+
+            @endif
             @if($Encuesta)
             @if($Encuesta->completed==0)
             <tr>
@@ -59,6 +74,7 @@
             <h3 class="text-white-35" id="layer"> NUMEROS DE TELEFONO </h3>
         </div>
         @foreach($Telefonos as $telefono)
+        <center>
         <div class="elementos-centrados">
             <button type="button" 
                 class="btn btn-info" 
@@ -67,7 +83,7 @@
                 style="background-color: {{$telefono->color_rgb}}"  
                 data-target="{{'#demo'.$telefono->id}}">
 
-                <h3 class="text-white-35"> {{$telefono->telefono}}</h3>
+                <h3 class="text-white-40"> {{$telefono->telefono}}</h3>
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados">
                 <br>
@@ -93,12 +109,13 @@
                                 <td> {{$r->description}} </td>
                                 <td> {{$r->fecha}} </td>
                                 <td> 
-                                <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
+                                    <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
+                                        @csrf
+                                        <input name="_method" type="hidden" value="DELETE">
 
-                                                <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>BORRAR!</button>
-                                            </form>  </td>
+                                        <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>BORRAR!</button>
+                                    </form>  
+                                </td>
                             </tr>
                             @endif
                         @endforeach
@@ -116,7 +133,7 @@
                             <select name="code" id="{{'code'.$telefono->id}}" class="select input"  onchange="codigo({{$telefono->id}})">
                                 <option value=""> </option>
                                 @foreach($Codigos as $code)
-                                <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
+                                    <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -137,16 +154,26 @@
                 </form>
             </div>
         </div>
+        </center>
         <br> 
         @endforeach
     </div>
     <div class='row'>
         <div class='col'>
+            @if($Egresado->muestra==3)
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-                <button type="button"  class="boton-oscuro">  <i class="fas fa-arrow-left">
-                    </i> Regresar a al muestra
+                <button type="button"  class="boton-oscuro">
+                    <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>
             </a>
+            @endif
+            @if($Egresado->act_suvery==1)
+            <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
+                <button type="button"  class="boton-oscuro">
+                    <i class="fas fa-table"></i> Ir a muestra Carrera 
+                </button>
+            </a>
+            @endif
         </div>
     </div>
 </div>

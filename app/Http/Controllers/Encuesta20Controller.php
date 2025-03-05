@@ -203,7 +203,6 @@ class Encuesta20Controller extends Controller
         $Egresado = Egresado::where("cuenta", $encuesta->cuenta)
             ->where("carrera", $encuesta->nbr2)
             ->first();
-
         if (
             $encuesta->sec_a == 1 &&
             $encuesta->sec_a == 1 &&
@@ -222,6 +221,7 @@ class Encuesta20Controller extends Controller
         $encuesta->save();
         $Egresado->save();
     }
+    
     public function updateA(Request $request, $id)
     {
         $Encuesta = respuestas20::where("registro", $id)->first();

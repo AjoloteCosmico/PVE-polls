@@ -1,0 +1,1 @@
+<input type="text" placeholder="Escriba su respuesta" name="{{$Reactivo->clave}}"  id="{{$Reactivo->clave}}" value="{{$value}}" >
