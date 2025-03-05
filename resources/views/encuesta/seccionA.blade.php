@@ -38,13 +38,13 @@
 <td>  <h2 class="reactivo">1.- ¿Cuál es su estado civil?:</h2>
            
            <select class="select"  id="nar8" name="nar8" onchange="bloquear('nar8',[1],[nar11,nar14,nar14otra])" > 
-           <option value="" selected></option>
-           <option value=1  @if($Encuesta->nar8==1) selected @endif>Soltero(a)</option>
-           <option value=2 @if($Encuesta->nar8==2) selected @endif>Casado(a)</option>
-           <option value=3 @if($Encuesta->nar8==3) selected @endif>Divorciado(a)</option>
-           <option value=4 @if($Encuesta->nar8==4) selected @endif>Unión Libre</option>
-           <option value=5 @if($Encuesta->nar8==5) selected @endif>Viudo(a)</option>
-            </select></td>
+              <option value="" selected></option>
+              <option value=1  @if($Encuesta->nar8==1) selected @endif>Soltero(a)</option>
+              <option value=2 @if($Encuesta->nar8==2) selected @endif>Casado(a)</option>
+              <option value=3 @if($Encuesta->nar8==3) selected @endif>Divorciado(a)</option>
+              <option value=4 @if($Encuesta->nar8==4) selected @endif>Unión Libre</option>
+              <option value=5 @if($Encuesta->nar8==5) selected @endif>Viudo(a)</option>
+           </select></td>
 <td>
     <center> <h2 class="reactivo"> 2.- ¿Tiene hijos?   </h2>
          
@@ -52,7 +52,7 @@
          <option value="" selected></option>
         <option value='1' @if($Encuesta->nar9==1) selected @endif>Sí</option>
         <option value='2'@if($Encuesta->nar9==2) selected @endif>No</option> 
-</select> </td>
+        </select> </td>
 <td>
 <h2 class="reactivo">a).- ¿Cuántos?: </h2></div>
 <input class="texto" type="text" id="nar10" name="nar10" size="2" maxlength="2" value="{{$Encuesta->nar10}}" > 
@@ -284,15 +284,15 @@ Otra:<input type="text" class="texto" id="nar13otra" name="nar13otra" maxlength=
    <option value=58 @if($Encuesta->nar16==58) selected @endif>Otros profesores (Artísticos, deportes, etc.)  </option>
    <option value=33 @if($Encuesta->nar16==33) selected @endif>Labores del hogar </option>
    
-  <option value=59 @if($Encuesta->nar16==59) selected @endif>Dueño o socio de un negocio  </option>
-  <option value=60 @if($Encuesta->nar16==60) selected @endif>Dueño o socio de una empresa</option>
+   <option value=59 @if($Encuesta->nar16==59) selected @endif>Dueño o socio de un negocio  </option>
+   <option value=60 @if($Encuesta->nar16==60) selected @endif>Dueño o socio de una empresa</option>
   
-  <option value=34 @if($Encuesta->nar16==34) selected @endif>Jubilado  </option>
-  <option value=35 @if($Encuesta->nar16==35) selected @endif>Finado  </option>
-  <option value=36 @if($Encuesta->nar16==36) selected @endif>No trabaja  </option>
-  <option value=37 @if($Encuesta->nar16==37) selected @endif>No lo sabe  </option>
-  <option value=38 @if($Encuesta->nar16==38) selected @endif>Otra(Especifíque)</option>
-   <option value=0  hidden></option>  </select>
+   <option value=34 @if($Encuesta->nar16==34) selected @endif>Jubilado  </option>
+   <option value=35 @if($Encuesta->nar16==35) selected @endif>Finado  </option>
+   <option value=36 @if($Encuesta->nar16==36) selected @endif>No trabaja  </option>
+   <option value=37 @if($Encuesta->nar16==37) selected @endif>No lo sabe  </option>
+   <option value=38 @if($Encuesta->nar16==38) selected @endif>Otra(Especifíque)</option>
+    <option value=0  hidden></option>  </select>
     </td>
 <td colspan="2">
 (Especifíque)

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     MuestrasController,
     Encuesta20Controller,
+    Enc16ActController,
     CorreosController,
     TelefonosController,
     OpcionesController,
@@ -55,9 +56,23 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('muestras14/show/{carrera}/{plantel}','show_14')->name('muestras14.show');
         Route::get('muestras20/show/{carrera}/{plantel}','show_20')->name('muestras20.show');
         Route::get('muestras20/planteles/','plantel_index')->name('muestras20.plantel_index');
+        //encuesta de act 2016
+        Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
+        
+        Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
+        Route::get('muestras16/planteles/','plantel_index_16')->name('muestras16.plantel_index');
         Route::get('revision','revision')->name('revision');
     });
 
+   /**Actualización 2016:
+     * Estas rutas permiten actualizar los datos de las encuestas 
+     */
+    Route::controller(Enc16ActController::class)->group(function(){
+
+        Route::get('/comenzar_encuesta_2016/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2016');
+        Route::get('/encuestas_2016/edit/{id}/', 'edit')->name('edit_16');
+        Route::post('/encuestas/2016/update/{id}', 'update')->name('encuesta16.update');
+    });
     /**Actualización de encuestas:
      * Estas rutas permiten actualizar los datos de las encuestas 
      */

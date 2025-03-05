@@ -239,23 +239,22 @@
 </select>
 <h2 class="reactivo">29a.- Extranjero Especifique: </h2>
 
- <INPUT type="text" class="texto " id="ner15ext" name="ner15ext" value="{{$Encuesta->ner15text}}" style="width:60%"  maxlength="100"  >
-
+        <INPUT type="text" class="texto " id="ner15ext" name="ner15ext" value="{{$Encuesta->ner15text}}" style="width:60%"  maxlength="100"  >
     </td>
-
     <td>
-
     </td>
 </tr>
 <tr>
-<td>   <h2 class="reactivo">
-    30.-¿Subespecialización? (solo médicos)  </h2>
+<td>
+    <h2 class="reactivo">
+        30.-¿Subespecialización? (solo médicos)  
+    </h2>
     <select class="select" id="ner12a" name="ner12a" onchange="bloquear('ner12a',[2],[ner12b])" @if(($Egresado->carrera!=208) && ($Egresado->carrera !=202)) hidden value=0 @endif>
       <option value=0 >-</option>
       <option value=1  @if($Encuesta->ner12a==1) selected @endif>Sí</option>
       <option value=2  @if($Encuesta->ner12a==2) selected @endif>No</option>
       <option value=0  hidden></option>   
-</select></td>
+    </select></td>
 
     <td clospan="2">
     <h2 class="reactivo">  
@@ -371,6 +370,7 @@
             })
         }
     }
+
     console.log('bloquenado ando');
   bloquear('ner1',[2],[ner2,ner1a,ner3,ner4,ner5,ner6,ner7,ner7int,ner7_a]);
 
