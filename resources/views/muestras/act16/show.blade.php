@@ -52,7 +52,6 @@
                 <td>{{$e->nombre}} </td>
                 <td> {{$e->paterno}} </td>
                 <td> {{$e->materno}}</td>
-                
                 <td>{{$e->cuenta}} </td>
                 @if($carrera==0)
             <td> {{$e->name_carrera}} </td>
@@ -114,7 +113,6 @@
     sorting: [[6, 'asc'],[1, 'asc'],[2,'asc']],
     });
 </script>
-
 
 @if(session('encuesta') == 'ok')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
