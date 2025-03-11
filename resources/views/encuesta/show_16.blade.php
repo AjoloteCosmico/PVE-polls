@@ -3,6 +3,9 @@
 @php
 use \App\Http\Controllers\ComponentController; 
 @endphp
+{{-- {{session('logs')}} --}}
+<br>
+fata: {{session('falta')}}
 <div> 
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
@@ -12,7 +15,7 @@ use \App\Http\Controllers\ComponentController;
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
 @foreach($Secciones as $section)
-     <h1> Seccion {{$section['number']}} : {{$section['desc']}}</h1>
+     <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
      
     <br>
      <div class="posgrado_reactivos">
@@ -41,7 +44,7 @@ use \App\Http\Controllers\ComponentController;
      
      
     </div>
-    <div style="display:flex; flex-direction: row-reverse; padding:1.2vw"> <button   style="font-size:1.9vw; padding:1.4vw" type="submit" class="boton-azul">
+    <div style="display:flex; flex-direction: row-reverse; padding:1.2vw" class='fixed'> <button   style="font-size:1.9vw; padding:1.4vw" type="submit" class="boton-azul">
 <i class="fas fa-save fa-xl"></i>   Guardar
  </button></div>
 </form>
@@ -58,7 +61,18 @@ use \App\Http\Controllers\ComponentController;
     *{
     font-family: "Montserrat", sans-serif;
 }
-
+.fixed {
+    position:fixed;
+    bottom:0;
+    right:0;
+  width: 10.0vw;
+  height: 6.0vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 6px #000;
+  color: #fff;
+}
 /*estilos de texto*/
 
 /*titulo*/
@@ -234,7 +248,7 @@ input{
 select{
     border-radius: 6px;
     border: none;
-    width: 350px;
+    max-width: 8.5vw;
     padding: 10px;
     text-align: center;
     font-size: 16px;
@@ -303,7 +317,7 @@ div{
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 20px;
-    margin-top: px;
+    margin-top: 10px;
     margin-bottom: 30px;
 }
 
@@ -311,8 +325,8 @@ div{
     width:100%;
     display: flex;
     flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: flex-start;
+    align-content: stretch;
+    align-items: stretch;
     flex-direction: row;
     margin-top: 50px;
 }
@@ -399,4 +413,19 @@ div{
 
 @push('js')
 @include('posgrado.scripts_bloquear')
+
+@if(session('status')=='incompleta')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+  Swal.fire({
+  title: "Encuesta Incompleta",
+  text: "faltan  respuestas",
+  icon: "warning",
+});
+</script>
+<script>
+    console.log('falta {{session('falta')}}');
+    document.getElementById('{{session('falta')}}').style="border: 0.3vw  solid red";
+</script>
+@endif
 @endpush
