@@ -9,8 +9,8 @@
     <h1 class="text-white-25" >{{$Carrera->plantel}}  </h1> 
     </div>
       <div class='col'>
-          <a href="{{route('muestras20.index',$plantel)}}">
-            <button class="btn" ><i class="fas fa-arrow-left" ></i>Regresar</button>
+          <a href="{{route('muestras16.index',$plantel)}}">
+            <button class="boton oscuro" ><i class="fas fa-arrow-left" ></i>Regresar</button>
           </a>
       </div>
       <div class='col'>
@@ -61,8 +61,7 @@
                 <td> 
                 <p hidden> {{$e->orden}}</p>
                 <!-- generalizar el metodo de llamada :O -->
-                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
-             
+                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>             
               </td>
             </tr>
             @endforeach

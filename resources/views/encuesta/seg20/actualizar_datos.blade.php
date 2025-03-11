@@ -29,11 +29,13 @@
         @endif
     </div>
     <div class="col">
+    @if($Egresado->muestra==3)
       <a href="{{route('llamar_20',[$Egresado->cuenta])}}">
         <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
           <i class="fas fa-arrow-left"></i>Regresar
         </button>
       </a>
+    @endif
     </div>
     <div class="col"> 
     

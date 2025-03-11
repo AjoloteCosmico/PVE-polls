@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/comenzar_encuesta_2016/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2016');
         Route::get('/encuestas_2016/edit/{id}/', 'edit')->name('edit_16');
         Route::post('/encuestas/2016/update/{id}', 'update')->name('encuesta16.update');
+        Route::get('/encuestas/20216/guardar_inconclusa/{id}', 'guardar_incompleta')->name('incomplete');
     });
     /**Actualización de encuestas:
      * Estas rutas permiten actualizar los datos de las encuestas 
