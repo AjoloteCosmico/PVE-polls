@@ -73,7 +73,19 @@ array_bloqueos={
  @if($Encuesta->ner8==2)
  checkBloqueos('ner8');
  @endif
+ 
  @if($Encuesta->nar8==1)
  checkBloqueos('nar8');
+ @endif
+ 
+ @if($Encuesta->ner12==2)
+ checkBloqueos('ner12');
+ @endif
+ 
+ @if($Encuesta->ner1a==2)
+ checkBloqueos('ner1a');
+ @endif
+ @if($Encuesta->ner18==2)
+ checkBloqueos('ner18');
  @endif
 </script>
