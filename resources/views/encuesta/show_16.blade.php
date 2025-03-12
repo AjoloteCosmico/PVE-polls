@@ -6,7 +6,7 @@ use \App\Http\Controllers\ComponentController;
 {{-- {{session('logs')}} --}}
 <br>
 fata: {{session('falta')}}
-<div> 
+<div>
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
         </div>

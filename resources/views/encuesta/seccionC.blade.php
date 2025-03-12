@@ -550,4 +550,11 @@
    document.getElementById('ncr16').value={{$Encuesta->ncr16}};
 </script>
 @endif
+
+@if($Encuesta->ncr24_a)
+    <script>
+        console.log('change ncr24_a');
+        document.getElementById('ncr24_a').value='{{$Encuesta->ncr24_a}}';
+    </script>
+@endif
 @endpush
