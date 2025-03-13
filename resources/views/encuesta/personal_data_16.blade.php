@@ -5,8 +5,8 @@
          <tr>
            <th>Egresad@: </th>
            <td> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</td>
-           <th>Numero C:</th><td> {{$Egresado->cuenta}}</td>
-           <th> Telefonos:</th>
+           <th>Número C:</th><td> {{$Egresado->cuenta}}</td>
+           <th> Teléfonos:</th>
              @foreach($Telefonos as $t)
              <td> <a class="contact_data"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>
              @if($loop->last)
@@ -31,11 +31,11 @@
          <tr>
          <td  colspan="{{5 + $Telefonos->count()}}">
           <div style="background-color:white; display:flex; justify-content: space-around">
-            <a class="btn boton-dorado" href="{{route('posgrado_vista','pA')}}" id='Abtn'> Seccion 1</a>
-            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pB')}}" id='Bbtn'>Seccion 2</a>
-            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pD')}}"  id='Dbtn'>Seccion 3</a>
-            <a class="btn boton-dorado" href="{{route('posgrado_vista','pC')}}"  id='Cbtn'>Seccion 4</a>
-            <a class="btn boton-dorado" href="{{route('posgrado_vista','pE')}}"  id='Ebtn'>Seccion 5</a>
+            <a class="btn boton-dorado" href="{{route('posgrado_vista','pA')}}" id='Abtn'> Sección 1</a>
+            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pB')}}" id='Bbtn'>Sección 2</a>
+            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pD')}}"  id='Dbtn'>Sección 3</a>
+            <a class="btn boton-dorado" href="{{route('posgrado_vista','pC')}}"  id='Cbtn'>Sección 4</a>
+            <a class="btn boton-dorado" href="{{route('posgrado_vista','pE')}}"  id='Ebtn'>Sección 5</a>
           </div>
        </td>
        <td colspan="2">
