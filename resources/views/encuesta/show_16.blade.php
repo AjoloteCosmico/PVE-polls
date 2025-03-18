@@ -4,19 +4,18 @@
 use \App\Http\Controllers\ComponentController; 
 @endphp
 {{-- {{session('logs')}} --}}
-<br>
+
 {{--fata: {{session('falta')}} --}}
 <div>
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
         </div>
         
-    <div  id='datos'>  @include('encuesta.personal_data_16') </div>
+    <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
-     
     <br>
      <div class="posgrado_reactivos">
      @foreach($Reactivos->whereIn('section',[$section['letter'],'act'.$section['letter']])->sortBy('act_order') as $reactivo)
@@ -245,11 +244,23 @@ input{
     margin: 10px;
     background-color: white;
 }
-
+textarea{
+    border-radius: 6px;
+    border: none;
+    width: 350px;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #000b1b;
+    margin: 10px;
+    background-color: white;
+}
 select{
     border-radius: 6px;
     border: none;
     max-width: 8.5vw;
+    min-width: 7.5vw;
     padding: 10px;
     text-align: center;
     font-size: 16px;
@@ -345,6 +356,7 @@ div{
     border: 2px solid white;
     bold: bolder;
     border-radius:20px;
+    background-color:rgb(8, 16, 71);
 }
 .tabla{
     display: grid;
