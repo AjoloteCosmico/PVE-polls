@@ -28,20 +28,7 @@
          <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td>
          <th>Fecha en que se encuestó:</th> <td>{{$Egresado->actualized}}</td>
          </tr>
-         <tr>
-         <td  colspan="{{5 + $Telefonos->count()}}">
-          <div style="background-color:white; display:flex; justify-content: space-around">
-            <a class="btn boton-dorado" href="{{route('posgrado_vista','pA')}}" id='Abtn'> Sección 1</a>
-            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pB')}}" id='Bbtn'>Sección 2</a>
-            <a class="btn boton-dorado"  href="{{route('posgrado_vista','pD')}}"  id='Dbtn'>Sección 3</a>
-            <a class="btn boton-dorado" href="{{route('posgrado_vista','pC')}}"  id='Cbtn'>Sección 4</a>
-            <a class="btn boton-dorado" href="{{route('posgrado_vista','pE')}}"  id='Ebtn'>Sección 5</a>
-          </div>
-       </td>
-       <td colspan="2">
-         Salir
-       </td>
-         </tr>
+        
         </table>
  @push('css')
  <style>
