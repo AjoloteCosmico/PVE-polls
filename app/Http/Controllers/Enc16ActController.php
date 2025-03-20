@@ -89,7 +89,7 @@ class Enc16ActController extends Controller
         $Bloqueos=DB::table('bloqueos')->join('reactivos','reactivos.clave','bloqueos.clave_reactivo')
         ->where('reactivos.rules','act')
         ->whereIn('bloqueos.bloqueado',$Reactivos->pluck('clave')->toArray())
-        ->select('bloqueos.*')
+        ->select('bloqueos.*','reactivos.act_order')
         ->get();
 
         $Secciones=array(
@@ -112,6 +112,8 @@ class Enc16ActController extends Controller
                 'desc'=>'Habilidades',
                 'number'=>'6'),
         );
+        // dd($Bloqueos->sortByDesc('act_order')->unique('clave_reactivo')->pluck('clave_reactivo'));
+        // dd($Bloqueos->sortBy('act_order')->unique('clave_reactivo')->pluck('clave_reactivo'));
         return view('encuesta.show_16',compact('Encuesta','Egresado',
                                                 'Carrera','Plantel',
                                                 'Correos','Telefonos',
