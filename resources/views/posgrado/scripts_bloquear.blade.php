@@ -64,12 +64,15 @@ array_bloqueos={
 //bloquear los reactivos necesarios que estan ivolucrados 
  }
 
- reactivos_por_revisar=[@foreach($Bloqueos->unique('clave_reactivo')->pluck('clave_reactivo') as $r) '{{$r}}', @endforeach];
+ reactivos_por_revisar=[@foreach($Bloqueos->sortBy('act_order')->unique('clave_reactivo')->pluck('clave_reactivo') as $r) '{{$r}}', @endforeach];
  reactivos_por_revisar.forEach(reactivo => {
   checkBloqueos(reactivo);
 
  });
-
+ @if($Encuesta->nar10)
+ document.getElementById('nar10').value={{$Encuesta->nar10}};
+ 
+ @endif
  @if($Encuesta->ner8==2)
  checkBloqueos('ner8');
  @endif
@@ -88,4 +91,5 @@ array_bloqueos={
  @if($Encuesta->ner18==2)
  checkBloqueos('ner18');
  @endif
+
 </script>
