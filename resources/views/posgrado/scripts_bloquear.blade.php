@@ -69,10 +69,8 @@ array_bloqueos={
   checkBloqueos(reactivo);
 
  });
- @if($Encuesta->nar10)
- document.getElementById('nar10').value={{$Encuesta->nar10}};
  
- @endif
+
  @if($Encuesta->ner8==2)
  checkBloqueos('ner8');
  @endif
