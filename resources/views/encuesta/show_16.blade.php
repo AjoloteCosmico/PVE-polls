@@ -32,7 +32,7 @@ use \App\Http\Controllers\ComponentController;
         @else
             <div class="react_container" id="{{'container'.$reactivo->clave}}" >
             
-            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
+            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{--{{$reactivo->clave}}--}}</h3>
             @php $field_presenter=$reactivo->clave @endphp
             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
             </div>
