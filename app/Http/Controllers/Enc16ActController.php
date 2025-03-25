@@ -25,8 +25,11 @@ class Enc16ActController extends Controller
     public function comenzar($correo, $cuenta, $carrera)
     {
         $Correo = Correo::find($correo);
+<<<<<<< HEAD
         $Correo->status='pendiente16';
         $Correo->save();
+=======
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
         $Egresado = Egresado::where("cuenta", $cuenta)
             ->where("carrera", $carrera)
             ->first();
@@ -88,10 +91,17 @@ class Enc16ActController extends Controller
         $Correos = Correo::where("cuenta", $Egresado->cuenta)->get();
         
         $Reactivos=Reactivo::where('rules','act')->get();
+<<<<<<< HEAD
         $Bloqueos=DB::table('bloqueos')->join('reactivos','reactivos.clave','bloqueos.clave_reactivo')
         ->where('reactivos.rules','act')
         ->whereIn('bloqueos.bloqueado',$Reactivos->pluck('clave')->toArray())
         ->select('bloqueos.*','reactivos.act_order')
+=======
+        $Opciones=Option::where('clave','like','%p%r')->get();
+        $Bloqueos=DB::table('bloqueos')->join('reactivos','reactivos.clave','bloqueos.clave_reactivo')
+        ->where('reactivos.rules','act')
+        ->select('bloqueos.*')
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
         ->get();
 
         $Secciones=array(
@@ -114,12 +124,19 @@ class Enc16ActController extends Controller
                 'desc'=>'Habilidades',
                 'number'=>'6'),
         );
+<<<<<<< HEAD
         // dd($Bloqueos->sortByDesc('act_order')->unique('clave_reactivo')->pluck('clave_reactivo'));
         // dd($Bloqueos->sortBy('act_order')->unique('clave_reactivo')->pluck('clave_reactivo'));
         return view('encuesta.show_16',compact('Encuesta','Egresado',
                                                 'Carrera','Plantel',
                                                 'Correos','Telefonos',
                                                 'Reactivos','Bloqueos',
+=======
+        return view('encuesta.show_16',compact('Encuesta','Egresado',
+                                                'Carrera','Plantel',
+                                                'Correos','Telefonos',
+                                                'Reactivos','Opciones','Bloqueos',
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
                                                  'Secciones'));
     }
    

@@ -11,11 +11,19 @@ use \App\Http\Controllers\ComponentController;
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
         </div>
         
+<<<<<<< HEAD
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
+=======
+    <div  id='datos'>  @include('encuesta.personal_data_16') </div>
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
+<<<<<<< HEAD
+=======
+     
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
     <br>
      <div class="posgrado_reactivos">
      @foreach($Reactivos->whereIn('section',[$section['letter'],'act'.$section['letter']])->sortBy('act_order') as $reactivo)
@@ -24,6 +32,7 @@ use \App\Http\Controllers\ComponentController;
         @endphp
         @if($reactivo->type=='label')
         <br>
+<<<<<<< HEAD
             <div class="label_container" id="{{'container'.$reactivo->clave}}"  style="width:90%">
             
                 <h3>{{$reactivo->description}} </h3>
@@ -33,6 +42,14 @@ use \App\Http\Controllers\ComponentController;
             <div class="react_container" id="{{'container'.$reactivo->clave}}" >
             
             <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
+=======
+            <div class="label_container" id="{{'container'.$reactivo->clave}}"  >
+                <h3>{{$reactivo->description}} </h3>
+            </div>
+        @else
+            <div class="react_container" id="{{'container'.$reactivo->clave}}" >
+            <h3>{{$reactivo->act_order}}.- {{$reactivo->description}} {{$reactivo->clave}}</h3>
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
             @php $field_presenter=$reactivo->clave @endphp
             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
             </div>
@@ -246,6 +263,7 @@ input{
     margin: 10px;
     background-color: white;
 }
+<<<<<<< HEAD
 textarea{
     border-radius: 6px;
     border: none;
@@ -258,11 +276,17 @@ textarea{
     margin: 10px;
     background-color: white;
 }
+=======
+
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 select{
     border-radius: 6px;
     border: none;
     max-width: 8.5vw;
+<<<<<<< HEAD
     min-width: 7.5vw;
+=======
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
     padding: 10px;
     text-align: center;
     font-size: 16px;
@@ -358,7 +382,10 @@ div{
     border: 2px solid white;
     bold: bolder;
     border-radius:20px;
+<<<<<<< HEAD
     background-color:rgb(8, 16, 71);
+=======
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 }
 .tabla{
     display: grid;
@@ -429,7 +456,10 @@ div{
 @push('js')
 @include('posgrado.scripts_bloquear')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 @if(session('status')=='incompleta')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
@@ -442,7 +472,10 @@ div{
 <script>
     console.log('falta {{session('falta')}}');
     document.getElementById('{{session('falta')}}').style="border: 0.3vw  solid red";
+<<<<<<< HEAD
     document.getElementById('{{session('falta')}}').focus();
+=======
+>>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 </script>
 @endif
 @endpush
