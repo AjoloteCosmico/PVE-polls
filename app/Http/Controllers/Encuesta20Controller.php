@@ -191,7 +191,7 @@ class Encuesta20Controller extends Controller
     }
 
     function render($id,$section){
-          $Encuesta=respeustas20::find($id);
+          $Encuesta=respuestas20::find($id);
           $Reactivos=Reactivos::where('section',$section)->get();
           return view('encuesta.render20',compact('Reactivos'));
 

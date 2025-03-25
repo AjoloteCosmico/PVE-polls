@@ -61,7 +61,11 @@ Route::group(['middleware' => ['auth']], function(){
         
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
         Route::get('muestras16/planteles/','plantel_index_16')->name('muestras16.plantel_index');
-        Route::get('revision','revision')->name('revision');
+
+        Route::get('revisiones','revisiones_index')->name('revisiones.index');//prueba
+        Route::get('revision','revision')->name('muestras.seg20.revision');
+        //encuesta de act 16
+        Route::get('revision16','revision16')->name('muestras.act16.revision');
     });
 
    /**Actualización 2016:

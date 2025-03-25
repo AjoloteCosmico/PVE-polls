@@ -13,6 +13,7 @@ use App\Models\Egresado;
 use App\Models\respuestas2;
 
 use App\Models\respuestas20;
+use App\Models\respuestas16;
 use App\Models\respuestas14;
 
 use Illuminate\Support\Facades\Auth;
@@ -204,6 +205,13 @@ public function show_16($carrera,$plantel){
   return view('muestras.act16.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
 }
 
+
+public function revisiones_index(){
+  return view('muestras.revisiones.index');
+}
+
+
+
 public function revision(){
   $Encuestas=respuestas20::leftJoin('carreras', function($join)
   {
@@ -219,6 +227,26 @@ public function revision(){
     $Encuestas=$Encuestas->where('aplica',Auth::user()->clave);
   }
   return view('muestras.seg20.revision',compact('Encuestas'));
+}
+
+
+//Revisar encuenstas de act 2016
+
+public function revision16(){
+  $Encuestas=respuestas16::leftJoin('carreras', function($join)
+  {
+    $join->on('carreras.clave_carrera', '=', 'respuestas16.nbr2');
+    $join->on('carreras.clave_plantel', '=', 'respuestas16.nbr3');
+  })
+  ->leftjoin('users','users.clave','=','respuestas16.aplica')
+  ->select('respuestas16.*','carreras.carrera','carreras.plantel','users.name')
+  ->where('completed',1)
+  ->get();
+
+  if(Auth::user()->confidential<2){
+    $Encuestas=$Encuestas->where('aplica',Auth::user()->clave);
+  }
+  return view('muestras.act16.revision', compact('Encuestas'));
 }
 
 }
