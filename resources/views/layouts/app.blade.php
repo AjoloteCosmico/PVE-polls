@@ -38,11 +38,7 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-<<<<<<< HEAD
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars fa-lg" style="color:white"></i></a>
-=======
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

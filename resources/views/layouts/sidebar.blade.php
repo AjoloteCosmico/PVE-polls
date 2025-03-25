@@ -9,13 +9,9 @@
             </center>
         </div>
     </a>
-<<<<<<< HEAD
     
     <div class="sidebar">
         
-=======
-    <div class="sidebar">
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
         <nav class="mt-2">
             
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
