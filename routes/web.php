@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}', 'enviar_encuesta')->name('enviar_encuesta');
     });
-
+//comentario
     /**Reportes */
     Route::controller(ReportController::class)->group(function(){
         Route::get('/reporte/{report}', 'generate')->name('report');
