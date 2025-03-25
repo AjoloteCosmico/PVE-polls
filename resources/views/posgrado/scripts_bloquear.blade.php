@@ -12,10 +12,6 @@ array_bloqueos={
        },
        @endforeach
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 //funcion que revisa todos los bloqueos
  function checkBloqueos(reactive){
   console.log(reactive+'Ha cambiado');
@@ -23,7 +19,6 @@ array_bloqueos={
   selected_value=document.getElementById(reactive).value;
   console.log('valor del reactivo:'+String(selected_value));
 //   busca todos los bloquos con el reactivo que cambio involucrado 
-<<<<<<< HEAD
 //abrir los reactivos involucrados
  //ubvicar reactivos involucrados que se cerrarian con algun valor 
     //Asegurarse de que todo lo que deba estar abierto se abra
@@ -45,11 +40,6 @@ array_bloqueos={
     });
 // (como detonador del bloqueo segun su valor)
 //luego filtra por el valor actual del reactivo para saber si hay que ocultar alguna pregunta
-=======
-// (como detonador del bloqueo segun su valor)
-//luego filtra por el valor actual del reactivo para saber si hay que ocultar alguna pregunta
-// TODO: esto deberia ser un ciclo pues puede haber mas de un reactivo que se bloquee
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
   if(array_bloqueos[reactive][selected_value]){
     //si existe un bloqueo de este reactivo con este valor 
     const valoresUnicos = new Set(Object.values(array_bloqueos[reactive][selected_value]));
@@ -67,51 +57,22 @@ array_bloqueos={
     });
 
   }else{
-<<<<<<< HEAD
    console.log('nada por cerrar');
-=======
-    //ubvicar reactivos involucrados que se cerrarian con algun valor 
-    //Asegurarse de que todo lo que deba estar abierto se abra
-    console.log('volver a abrir los ractivos: ');
-    // Accede al diccionario 'pbr1'
-    // Extrae los valores y conviértelos en un Set para eliminar duplicados
-    const valoresUnicos = new Set(Object.values(array_bloqueos[reactive]['involucrados']));
-
-    // Itera sobre los reactivos involucrados, deben volver a abrirse
-    valoresUnicos.forEach(valor => {
-      console.log('desbloquear'+valor);
-        if(document.getElementById(valor).value==0){
-              document.getElementById(valor).value='';
-            }
-            // document.getElementById('container'+valor).style.display='block';
-            document.getElementById('container'+valor).style.backgroundColor ='transparent';
-            document.getElementById(valor).style.backgroundColor = "white";
-            document.getElementById(valor).disabled= false;
-    });
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
     
   }
 //bloquear los reactivos necesarios que estan ivolucrados 
  }
 
-<<<<<<< HEAD
  reactivos_por_revisar=[@foreach($Bloqueos->sortBy('act_order')->unique('clave_reactivo')->pluck('clave_reactivo') as $r) '{{$r}}', @endforeach];
-=======
- reactivos_por_revisar=[@foreach($Bloqueos->unique('clave_reactivo')->pluck('clave_reactivo') as $r) '{{$r}}', @endforeach];
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
  reactivos_por_revisar.forEach(reactivo => {
   checkBloqueos(reactivo);
 
  });
-<<<<<<< HEAD
  
-=======
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 
  @if($Encuesta->ner8==2)
  checkBloqueos('ner8');
  @endif
-<<<<<<< HEAD
  
  @if($Encuesta->nar8==1)
  checkBloqueos('nar8');
@@ -128,9 +89,4 @@ array_bloqueos={
  checkBloqueos('ner18');
  @endif
 
-=======
- @if($Encuesta->nar8==1)
- checkBloqueos('nar8');
- @endif
->>>>>>> 404e8c6f30ab8f2f64983058bcd403f89c362eb5
 </script>
