@@ -4,8 +4,8 @@
 use \App\Http\Controllers\ComponentController; 
 @endphp
 {{-- {{session('logs')}} --}}
-<br>
-fata: {{session('falta')}}
+
+
 <div> 
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
