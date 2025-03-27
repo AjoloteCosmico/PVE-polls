@@ -224,7 +224,7 @@ condiciones y t&eacute;rminos de este. <U></U></P>
         ]
     flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-    creds = flow.run_local_server(port=54849)
+    creds = flow.creds = flow.run_console()
     service = build('gmail', 'v1', credentials=creds)
 # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
@@ -248,7 +248,7 @@ condiciones y t&eacute;rminos de este. <U></U></P>
     #Send con el nuevbo metodo
     create_message = {'raw': base64.urlsafe_b64encode(msg.as_bytes()).decode()}
     message = (service.users().messages().send(userId="me", body=create_message).execute())
-    
+
 nombre=str(sys.argv[1])
 email=str(sys.argv[2])
 
