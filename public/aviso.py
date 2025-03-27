@@ -3,7 +3,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import sys
-
+import base64
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from requests import HTTPError
 import os
 def AvisoPrivacidad(nombre,you):
     me = "vinculacionexalumnos@exalumno.unam.mx"
@@ -215,7 +218,14 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 </div>
 </div></body></html>
 """
-
+#usar las credenciales de OAuth2 de gugul
+    SCOPES = [
+            "https://www.googleapis.com/auth/gmail.send"
+        ]
+    flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+    creds = flow.run_local_server(port=54849)
+    service = build('gmail', 'v1', credentials=creds)
 # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
@@ -226,15 +236,19 @@ condiciones y t&eacute;rminos de este. <U></U></P>
     msg.attach(part1)
     msg.attach(part2)
 # Send the message via local SMTP server.
-    mail = smtplib.SMTP('smtp.gmail.com', 587)
+    # mail = smtplib.SMTP('smtp.gmail.com', 587)
 
-    mail.ehlo()
+    # mail.ehlo()
 
-    mail.starttls()
+    # mail.starttls()
 
-    mail.login('vinculacionexalumnos@exalumno.unam.mx', 'programa')
-    mail.sendmail(me, you, msg.as_string())
-    mail.quit()
+    # mail.login('vinculacionexalumnos@exalumno.unam.mx', 'programa')
+    # mail.sendmail(me, you, msg.as_string())
+    # mail.quit()
+    #Send con el nuevbo metodo
+    create_message = {'raw': base64.urlsafe_b64encode(msg.as_bytes()).decode()}
+    message = (service.users().messages().send(userId="me", body=create_message).execute())
+    
 nombre=str(sys.argv[1])
 email=str(sys.argv[2])
 

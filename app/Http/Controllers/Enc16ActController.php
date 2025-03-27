@@ -89,7 +89,6 @@ class Enc16ActController extends Controller
         
         $Reactivos=Reactivo::where('rules','act')->get();
         $Opciones=Option::where('clave','like','%p%r')->get();
-        
         $Bloqueos=DB::table('bloqueos')->join('reactivos','reactivos.clave','bloqueos.clave_reactivo')
         ->where('reactivos.rules','act')
         ->whereIn('bloqueos.bloqueado',$Reactivos->pluck('clave')->toArray())

@@ -31,7 +31,7 @@ use \App\Http\Controllers\ComponentController;
             <br>
         @else
             <div class="react_container" id="{{'container'.$reactivo->clave}}" >
-            
+                
             <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
             @php $field_presenter=$reactivo->clave @endphp
             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
@@ -40,11 +40,9 @@ use \App\Http\Controllers\ComponentController;
      @endforeach
      </div>
     @endforeach
-    <div class="posgrado_reactivos">
-   
 
-     
-     
+    <div class="posgrado_reactivos">
+
     </div>
     <div style="display:flex; flex-direction: row-reverse; padding:1.2vw" class='fixed'> <button   style="font-size:1.9vw; padding:1.4vw" type="submit" class="boton-azul">
 <i class="fas fa-save fa-xl"></i>   Guardar
