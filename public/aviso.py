@@ -36,8 +36,9 @@ a img {    width:95%;    height:auto;    margin:0;    }
 </style></head>
 <body>
 <div style="min-width:450px;max-width:1200px;"><div align="center" style="background:#F9F9F9">
-<img src="http://www.pve.unam.mx/imagenes/futuroUNAM.jpg" width="100" height="39" vspace="10" align="left">
-<img src="http://www.pve.unam.mx/imagenes/pve.jpg" height="60" align="right"> &nbsp;<img src="http://www.pve.unam.mx/imagenes/unam.jpg" width="79" height="80" align="texttop">
+<img src="http://www.pveaju.unam.mx/imagenes/futuroUNAM.jpg" width="100" height="39" vspace="10" align="left">
+<img src="http://www.pveaju.unam.mx/imagenes/pve.jpg" height="60" align="right"> &nbsp;
+<img src="http://www.pveaju.unam.mx/imagenes/unam.jpg" width="79" height="80" align="texttop">
 </div>
 <p>&nbsp;</p>
 <h2 align="center" style="font-size:1.5em;font-weight:bold;color:#006 !important;">PROGRAMA DE VINCULACI&Oacute;N CON LOS EGRESADOS Y ACADEMICOS JUBILADOS</h2><p>&nbsp;</p>
