@@ -25,8 +25,8 @@ class Enc16ActController extends Controller
     public function comenzar($correo, $cuenta, $carrera)
     {
         $Correo = Correo::find($correo);
-        $Correo->status='pendiente16';
-        $Correo->save();
+        // $Correo->status='pendiente16';
+        // $Correo->save();
         $Egresado = Egresado::where("cuenta", $cuenta)
             ->where("carrera", $carrera)
             ->first();
