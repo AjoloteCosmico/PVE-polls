@@ -30,25 +30,25 @@ class Enc16ActController extends Controller
         $Egresado = Egresado::where("cuenta", $cuenta)
             ->where("carrera", $carrera)
             ->first();
-        // if ($Correo->enviado == 0) {
-        //     $caminoalpoder = public_path();
-        //     $process = new Process([
-        //         env("PY_COMAND"),
-        //         $caminoalpoder . "/aviso.py",
-        //         $Egresado->nombre,
-        //         $Correo->correo,
-        //     ]);
-        //     $process->run();
-        //     if (!$process->isSuccessful()) {
-        //         throw new ProcessFailedException($process);
-        //         $Correo->enviado = 2;
-        //         $Correo->save();
-        //     } else {
-        //         $Correo->enviado = 1;
-        //         $Correo->save();
-        //     }
-        //     $data = $process->getOutput();
-        // }
+        if ($Correo->enviado == 0) {
+            $caminoalpoder = public_path();
+            $process = new Process([
+                env("PY_COMAND"),
+                $caminoalpoder . "/aviso.py",
+                $Egresado->nombre,
+                $Correo->correo,
+            ]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                $Correo->enviado = 2;
+                $Correo->save();
+            } else {
+                $Correo->enviado = 1;
+                $Correo->save();
+            }
+            $data = $process->getOutput();
+        }
 
         $Encuesta = respuestas16::where("cuenta", "=", $cuenta)
             ->where("nbr2", "=", $carrera)
