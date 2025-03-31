@@ -242,7 +242,7 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 
     mail.starttls()
 
-    mail.login('vinculacionexalumnos@exalumno.unam.mx', 'programa')
+    mail.login('vinculacionexalumnos@exalumno.unam.mx', 'mfdd bsjr yiku wahf')
     mail.sendmail(me, you, msg.as_string())
     mail.quit()
     # Send con el nuevbo metodo
