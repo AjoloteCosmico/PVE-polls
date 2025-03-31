@@ -226,15 +226,15 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 #                 'credentials.json', SCOPES)
 #     creds = flow.creds = flow.run_console()
 #     service = build('gmail', 'v1', credentials=creds)
-# # Record the MIME types of both parts - text/plain and text/html.
-#     part1 = MIMEText(text, 'plain')
-#     part2 = MIMEText(html, 'html')
+# Record the MIME types of both parts - text/plain and text/html.
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
 
 # Attach parts into message container.
 # According to RFC 2046, the last part of a multipart message, in this case
 # the HTML message, is best and preferred.
-    # msg.attach(part1)
-    # msg.attach(part2)
+    msg.attach(part1)
+    msg.attach(part2)
 # Send the message via local SMTP server.
     mail = smtplib.SMTP('smtp.gmail.com', 587)
 
