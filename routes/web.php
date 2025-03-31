@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');
         Route::get('/2019', 'encuesta_2019')->name('2019');
-        Route::get('/stats', 'stats')->name('stats');
+    
         Route::get('/links', 'links')->name('links');
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');

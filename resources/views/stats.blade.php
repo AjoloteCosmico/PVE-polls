@@ -53,14 +53,22 @@
         </div>
         <div class="col">
             <div class="cuadro-amarillo">
-                <h3> Total encuestas 2014:  {{$total14}} </h3>
-                <h3> por internet: {{$Internet14}} </h3>
+                <h3> Total encuestas 2016:   </h3>
+                <h3> por internet: {{$Internet16}} </h3>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col cuadro-amarillo">
             {!! $aplica_chart->container() !!}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5 cuadro-amarillo">
+            {!! $chart->container() !!}
+        </div>
+        <div class="col-md-5 cuadro-amarillo">
+            {!! $chart16->container() !!}
         </div>
     </div>
 </div>
@@ -85,6 +93,8 @@
 <script src="{{ $chart->cdn() }}"></script>
 {!! $chart->script() !!}
 
+<script src="{{ $chart16->cdn() }}"></script>
+{!! $chart16->script() !!}
 
 <script src="{{ $aplica_chart->cdn() }}"></script>
   
