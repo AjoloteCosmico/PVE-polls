@@ -4,8 +4,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import sys
 import base64
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from googleapiclient.discovery import build
 from requests import HTTPError
 import os
 def AvisoPrivacidad(nombre,you):
