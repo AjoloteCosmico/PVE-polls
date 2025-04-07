@@ -38,10 +38,19 @@
     @endif
     </div>
     <div class="col"> 
-    
     </div>
   </div>
-  <div class="col-6 col-lg-12 table-responsive">
+  <div class="col-6 col-lg-12 table-responsive">  
+  
+  @if($Egresado->status==10||$Egresado->status==8)
+    
+          <a href="{{route('completar_encuesta',$Egresado->id)}}">
+              <button type="button"  class="boton-dorado">
+                  <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
+              </button>
+          </a>
+      
+    @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
       <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $muestra, $TelefonoEnLlamada->id])}}">
@@ -51,6 +60,7 @@
       </a>
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
+      
       <thead>
         <tr>
           <th>Num. cuenta</th>
@@ -64,7 +74,7 @@
         @foreach($Telefonos as $t)
         <tr>
             <td>{{$t->cuenta}} </td>
-            <td style="width:40%; word-wrap: break-word">{{$t->telefono}} </td>
+            <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
             <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>

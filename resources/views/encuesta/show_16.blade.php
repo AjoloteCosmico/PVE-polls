@@ -11,12 +11,11 @@ use \App\Http\Controllers\ComponentController;
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
         </div>
         
-    <div  id='datos'>  @include('encuesta.personal_data_16') </div>
+    <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
-     
     <br>
      <div class="posgrado_reactivos">
      @foreach($Reactivos->whereIn('section',[$section['letter'],'act'.$section['letter']])->sortBy('act_order') as $reactivo)
@@ -25,12 +24,15 @@ use \App\Http\Controllers\ComponentController;
         @endphp
         @if($reactivo->type=='label')
         <br>
-            <div class="label_container" id="{{'container'.$reactivo->clave}}"  >
+            <div class="label_container" id="{{'container'.$reactivo->clave}}"  style="width:90%">
+            
                 <h3>{{$reactivo->description}} </h3>
             </div>
+            <br>
         @else
             <div class="react_container" id="{{'container'.$reactivo->clave}}" >
-            <h3>{{$reactivo->act_order}}.- {{$reactivo->description}} {{$reactivo->clave}}</h3>
+                
+            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
             @php $field_presenter=$reactivo->clave @endphp
             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
             </div>
@@ -38,11 +40,9 @@ use \App\Http\Controllers\ComponentController;
      @endforeach
      </div>
     @endforeach
-    <div class="posgrado_reactivos">
-   
 
-     
-     
+    <div class="posgrado_reactivos">
+
     </div>
     <div style="display:flex; flex-direction: row-reverse; padding:1.2vw" class='fixed'> <button   style="font-size:1.9vw; padding:1.4vw" type="submit" class="boton-azul">
 <i class="fas fa-save fa-xl"></i>   Guardar
@@ -244,11 +244,23 @@ input{
     margin: 10px;
     background-color: white;
 }
-
+textarea{
+    border-radius: 6px;
+    border: none;
+    width: 350px;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #000b1b;
+    margin: 10px;
+    background-color: white;
+}
 select{
     border-radius: 6px;
     border: none;
     max-width: 8.5vw;
+    min-width: 7.5vw;
     padding: 10px;
     text-align: center;
     font-size: 16px;
@@ -344,6 +356,7 @@ div{
     border: 2px solid white;
     bold: bolder;
     border-radius:20px;
+    background-color:rgb(8, 16, 71);
 }
 .tabla{
     display: grid;
@@ -426,6 +439,7 @@ div{
 <script>
     console.log('falta {{session('falta')}}');
     document.getElementById('{{session('falta')}}').style="border: 0.3vw  solid red";
+    document.getElementById('{{session('falta')}}').focus();
 </script>
 @endif
 @endpush

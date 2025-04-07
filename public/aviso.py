@@ -3,7 +3,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import sys
-
+import base64
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from googleapiclient.discovery import build
+from requests import HTTPError
 import os
 def AvisoPrivacidad(nombre,you):
     me = "vinculacionexalumnos@exalumno.unam.mx"
@@ -33,8 +36,9 @@ a img {    width:95%;    height:auto;    margin:0;    }
 </style></head>
 <body>
 <div style="min-width:450px;max-width:1200px;"><div align="center" style="background:#F9F9F9">
-<img src="http://www.pve.unam.mx/imagenes/futuroUNAM.jpg" width="100" height="39" vspace="10" align="left">
-<img src="http://www.pve.unam.mx/imagenes/pve.jpg" height="60" align="right"> &nbsp;<img src="http://www.pve.unam.mx/imagenes/unam.jpg" width="79" height="80" align="texttop">
+<img src="http://www.pveaju.unam.mx/imagenes/futuroUNAM.jpg" width="100" height="39" vspace="10" align="left">
+<img src="http://www.pveaju.unam.mx/imagenes/pve.jpg" height="60" align="right"> &nbsp;
+<img src="http://www.pveaju.unam.mx/imagenes/unam.jpg" width="79" height="80" align="texttop">
 </div>
 <p>&nbsp;</p>
 <h2 align="center" style="font-size:1.5em;font-weight:bold;color:#006 !important;">PROGRAMA DE VINCULACI&Oacute;N CON LOS EGRESADOS Y ACADEMICOS JUBILADOS</h2><p>&nbsp;</p>
@@ -215,7 +219,14 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 </div>
 </div></body></html>
 """
-
+#usar las credenciales de OAuth2 de gugul
+#     SCOPES = [
+#             "https://www.googleapis.com/auth/gmail.send"
+#         ]
+#     flow = InstalledAppFlow.from_client_secrets_file(
+#                 'credentials.json', SCOPES)
+#     creds = flow.creds = flow.run_console()
+#     service = build('gmail', 'v1', credentials=creds)
 # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
@@ -232,9 +243,13 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 
     mail.starttls()
 
-    mail.login('vinculacionexalumnos@exalumno.unam.mx', 'programa')
+    mail.login('vinculacionexalumnos@exalumno.unam.mx', 'mfdd bsjr yiku wahf')
     mail.sendmail(me, you, msg.as_string())
     mail.quit()
+    # Send con el nuevbo metodo
+    # create_message = {'raw': base64.urlsafe_b64encode(msg.as_bytes()).decode()}
+    # message = (service.users().messages().send(userId="me", body=create_message).execute())
+
 nombre=str(sys.argv[1])
 email=str(sys.argv[2])
 

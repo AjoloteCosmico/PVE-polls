@@ -31,7 +31,7 @@ try:
 except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
-encuestas=pd.read_sql("""select respuestas2.aplica, egresados.cuenta, respuestas2.fec_capt, carreras.carrera, carreras.plantel
+encuestas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas2.fec_capt, carreras.carrera, carreras.plantel
                         from ((respuestas2 
                         inner join egresados on respuestas2.cuenta=egresados.cuenta)
                         inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)

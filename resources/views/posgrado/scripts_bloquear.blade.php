@@ -19,27 +19,8 @@ array_bloqueos={
   selected_value=document.getElementById(reactive).value;
   console.log('valor del reactivo:'+String(selected_value));
 //   busca todos los bloquos con el reactivo que cambio involucrado 
-// (como detonador del bloqueo segun su valor)
-//luego filtra por el valor actual del reactivo para saber si hay que ocultar alguna pregunta
-// TODO: esto deberia ser un ciclo pues puede haber mas de un reactivo que se bloquee
-  if(array_bloqueos[reactive][selected_value]){
-    //si existe un bloqueo de este reactivo con este valor 
-    const valoresUnicos = new Set(Object.values(array_bloqueos[reactive][selected_value]));
-    console.log(valoresUnicos)
-    console.log('se bloquea: '+array_bloqueos[reactive][selected_value]);
-    valoresUnicos.forEach(valor => {
-      //valor sera 0.
-      document.getElementById(valor).value=0;
-      //ocultar la cajita
-      console.log('ocultar caja con id '+'container'+array_bloqueos[reactive][selected_value])
-      // document.getElementById('container'+valor).style.display='none';
-      document.getElementById('container'+valor).style.backgroundColor = "#252E56";
-      document.getElementById(valor).style.backgroundColor = "gray";
-      document.getElementById(valor).disabled= true;
-    });
-
-  }else{
-    //ubvicar reactivos involucrados que se cerrarian con algun valor 
+//abrir los reactivos involucrados
+ //ubvicar reactivos involucrados que se cerrarian con algun valor 
     //Asegurarse de que todo lo que deba estar abierto se abra
     console.log('volver a abrir los ractivos: ');
     // Accede al diccionario 'pbr1'
@@ -57,21 +38,55 @@ array_bloqueos={
             document.getElementById(valor).style.backgroundColor = "white";
             document.getElementById(valor).disabled= false;
     });
+// (como detonador del bloqueo segun su valor)
+//luego filtra por el valor actual del reactivo para saber si hay que ocultar alguna pregunta
+  if(array_bloqueos[reactive][selected_value]){
+    //si existe un bloqueo de este reactivo con este valor 
+    const valoresUnicos = new Set(Object.values(array_bloqueos[reactive][selected_value]));
+    console.log(valoresUnicos)
+    console.log('se bloquea: '+array_bloqueos[reactive][selected_value]);
+    valoresUnicos.forEach(valor => {
+      //valor sera 0.
+      document.getElementById(valor).value=0;
+      //ocultar la cajita
+      console.log('ocultar caja con id '+'container'+array_bloqueos[reactive][selected_value])
+      // document.getElementById('container'+valor).style.display='none';
+      document.getElementById('container'+valor).style.backgroundColor = "#252E56";
+      document.getElementById(valor).style.backgroundColor = "gray";
+      document.getElementById(valor).disabled= true;
+    });
+
+  }else{
+   console.log('nada por cerrar');
     
   }
 //bloquear los reactivos necesarios que estan ivolucrados 
  }
 
- reactivos_por_revisar=[@foreach($Bloqueos->unique('clave_reactivo')->pluck('clave_reactivo') as $r) '{{$r}}', @endforeach];
+ reactivos_por_revisar=[@foreach($Bloqueos->sortBy('act_order')->unique('clave_reactivo')->pluck('clave_reactivo') as $r) '{{$r}}', @endforeach];
  reactivos_por_revisar.forEach(reactivo => {
   checkBloqueos(reactivo);
 
  });
+ 
 
  @if($Encuesta->ner8==2)
  checkBloqueos('ner8');
  @endif
+ 
  @if($Encuesta->nar8==1)
  checkBloqueos('nar8');
  @endif
+ 
+ @if($Encuesta->ner12==2)
+ checkBloqueos('ner12');
+ @endif
+ 
+ @if($Encuesta->ner1a==2)
+ checkBloqueos('ner1a');
+ @endif
+ @if($Encuesta->ner18==2)
+ checkBloqueos('ner18');
+ @endif
+
 </script>

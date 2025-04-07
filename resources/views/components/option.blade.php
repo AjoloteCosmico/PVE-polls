@@ -3,6 +3,6 @@
     <option value="">seleccione </option>
     @foreach($Opciones as $opcion)
         
-        <option value="{{$opcion->clave}}" @if($value==$opcion->clave) selected @endif > {{$opcion->clave}} {{$opcion->descripcion}}</option>
+        <option value="{{$opcion->clave}}" @if($value==$opcion->clave) selected @endif > {{--{{$opcion->clave}} --}} {{$opcion->descripcion}}</option>
     @endforeach
 </select>

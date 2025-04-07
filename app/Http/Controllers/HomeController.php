@@ -190,7 +190,7 @@ class HomeController extends Controller
         $Egresado=Egresado::find($id);   
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
-        
+         
         return view('invitacion19',compact('Egresado','Carrera','Plantel'));
     }
 
@@ -209,7 +209,6 @@ class HomeController extends Controller
             ->select('respuestas20.*', 'egresados.anio_egreso', 'carreras.carrera', 'carreras.plantel')
             ->where('respuestas20.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')
             ->get();
-
         $encuestas19=DB::table('respuestas2')
             ->join('egresados','egresados.cuenta','=','respuestas2.cuenta')
             ->select('respuestas2.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')

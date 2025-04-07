@@ -66,6 +66,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('revision','revision')->name('muestras.seg20.revision');
         //encuesta de act 16
         Route::get('revision16','revision16')->name('muestras.act16.revision');
+
+        //completar encuesta
+        Route::get('completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta');
+
     });
 
    /**Actualización 2016:
@@ -74,7 +78,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::controller(Enc16ActController::class)->group(function(){
 
         Route::get('/comenzar_encuesta_2016/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2016');
-        Route::get('/encuestas_2016/edit/{id}/', 'edit')->name('edit_16');
+        Route::get('/encuestas_2016/edit/{id}', 'edit')->name('edit_16');
         Route::post('/encuestas/2016/update/{id}', 'update')->name('encuesta16.update');
         Route::get('/encuestas/20216/guardar_inconclusa/{id}', 'guardar_incompleta')->name('incomplete');
     });
@@ -158,7 +162,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}', 'enviar_encuesta')->name('enviar_encuesta');
     });
-
+//comentario
     /**Reportes */
     Route::controller(ReportController::class)->group(function(){
         Route::get('/reporte/{report}', 'generate')->name('report');
