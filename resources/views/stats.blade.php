@@ -6,14 +6,14 @@
         <h1>Bienvenid@!!  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
         <div>-----------------------------------------
             <br><br><br> 
-            <a href="{{ route('report','reporte_individual')}}">
+            <a href="{{ route('report','reporte_individual20')}}">
                 <button class="boton-azul">
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2019
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2020
                 </button>
             </a>
-            <a href="{{ route('report','reporte_individual_act2014')}}">
+            <a href="{{ route('report','reporte_individual_act2016')}}">
                 <button class="boton-azul">
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2014
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2016
                 </button></a>
             <a href="{{ route('report','correos_inconclusas')}}">
                 <button class="boton-azul" >

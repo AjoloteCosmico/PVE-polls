@@ -9,12 +9,13 @@ from datetime import date
 
 today = date.today()
 load_dotenv()
-#configurar la conexion a la base de datos
+#Configurar la conexcion a la base de datos
 DB_USERNAME = os.getenv('DB_USERNAME')
 DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
 DB_HOST=os.getenv('DB_HOST')
+
 
 # Conectar a DB
 # Conectar a PostgreSQL
@@ -30,16 +31,17 @@ try:
 except psycopg2.Error as e:
     print("Ocurrio un error al conectar a la base de datos", e)
     
-encuestas=pd.read_sql("""select respuestas20.aplica, egresados.cuenta, respuestas20.fec_capt, carreras.carrera, carreras.plantel
-                         from((respuestas20
-                         inner join egresados on respuestas20.cuenta=egresados.cuenta)
+
+encuestas=pd.read_sql("""select respuestas16.aplica, egresados.cuenta, respuestas16.fec_capt, carreras.carrera, carreras.plantel
+                         from((respuestas16
+                         inner join egresados on respuestas16.cuenta=egresados.cuenta)
                          inner join carreras  on carreras.clave_carrera=egresados.carrera and carreras.clave_plantel=egresados.plantel)
                          
-                         where (respuestas20.completed=1) and egresados.muestra=3""",cnx)
+                         where (respuestas16.completed=1) and egresados.act_suvery=1""",cnx)
 
 
 ClavesNombres = {'17':'Erendira', '12':'Monica', '15':'César', '20':'María', '21':'Ivonne', '8':'Elia', '7':'otra monica','6':'Silvia','9':'Veronica',
-                 '14':'Alberto','18':'Daniela','19':'Elvira','13':'Carolina','22':'Elizabeth','23':'Sandra','24':'Miguel','25':'Amanda', '111':'Internet','104':'Internet','105':'Internet','20':'Internet'}  
+                 '14':'Alberto','18':'Daniela','19':'Elvira','13':'Carolina','22':'Elizabeth','23':'Sandra','24':'Miguel','25':'Amanda', '111':'Internet','104':'Internet','105':'Internet','20':'Internet'}
 
 def mapeo(x):
     if(x==None):
@@ -49,8 +51,7 @@ def mapeo(x):
             return ClavesNombres[x]
         except:
             return 'Encuestador Desconocido'
-
-
+        
 encuestas['aplica'] = encuestas['aplica'].map(lambda x:mapeo(x))
 
 print(encuestas['fec_capt'])
@@ -61,8 +62,7 @@ print(encuestas['aplica'].unique())
 encuestas['fec_capt'] = encuestas['fec_capt'].astype(str).str.slice(0, 19)
 
 
-
-writer = pd.ExcelWriter('storage/reporte_individual20.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/reporte_individual_act2016.xlsx', engine='xlsxwriter')
 
 workbook = writer.book
 a_color='#173d83'
@@ -111,7 +111,7 @@ date_content_bold = workbook.add_format({
 
 worksheet =workbook.add_worksheet()
 worksheet.merge_range('C2:H3', 'PROGRAMA DE VINCULACION A EGRESADOS UNAM', negro_b)
-worksheet.merge_range('C4:H4', 'CONSECUTIVO ENCUESTAS 2020', negro_b)
+worksheet.merge_range('C4:H4', 'CONSECUTIVO ENCUESTAS ACTUALIZACION 2016', negro_b)
 worksheet.insert_image("A1", "img/logoPVE.png",{"x_scale": 0.2, "y_scale": 0.2})
 worksheet.merge_range('G6:H6',today, date_content_bold)
 worksheet.write('B8','Numero de cuenta',header_format)
