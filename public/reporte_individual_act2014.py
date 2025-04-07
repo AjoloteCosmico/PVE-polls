@@ -31,7 +31,7 @@ try:
 except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
-encuestas=pd.read_sql("""select * from respuestas14 where respuestas14.ngr13 is not null and plantel != 'Escuela de la vida'""",cnx)
+encuestas=pd.read_sql("""select * from respuestas16 where completed='1' '""",cnx)
 
 ClavesNombres = {'17': 'Erendira', '12':'Mónica', '15':'César', '20':'María', '21':'Ivonne',
                              '14':'Alberto','18':'Daniela','19':'Elvira','13':'Carolina','22':'Elizabeth','0':'INTERNET'}

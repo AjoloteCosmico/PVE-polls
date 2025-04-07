@@ -249,6 +249,26 @@ public function revision16(){
   return view('muestras.act16.revision', compact('Encuestas'));
 }
 
+public function completar_encuesta($id){
+  $Egresado=Egresado::find($id);
+  if($Egresado->act_suvery==1){
+    $Encuesta=respuestas16::where('cuenta',$Egresado->cuenta)->first();
+    if($Encuesta){
+      return redirect()->route('edit_16',$Encuesta->registro);
+    }else{
+      return redirect()->back();
+    }
+  }
+  if($Egresado->muestra==3){
+    $Encuesta=respuestas20::where('cuenta',$Egresado->cuenta)->first();
+    if($Encuesta){
+      return redirect()->route('edit_20',[$Encuesta->registro,'SEARCH']);
+    }else{
+      return redirect()->back();
+    }
+  }
+}
+
 }
 
 
