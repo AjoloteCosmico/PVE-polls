@@ -11,7 +11,7 @@
         <!-- primera fila  -->
 <tr>
 <td colspan="2">
-<h2 class="reactivo">85.- ¿Comó fue su transición de la universidad al mercado laboral, en terminos de encontrar un trabajo relacionado con su campo profesional?    </h2>
+<h2 class="reactivo">85.- ¿Cómo fue su transición de la universidad al mercado laboral, en términos de encontrar un trabajo relacionado con su campo profesional?    </h2>
 
  
 <select class="select" id="ndr1" name="ndr1" onchange="bloquear('ndr1',[6,7],[ndr2,ndr2_a,ndr3,ndr8,ndr4,ndr9,ndr5,ndr10,ndr6,ndr11,ndr7,ndr12,ndr12a,ndr12b,ndr12c,ndr13a,ndr14,ndr15,ndr16,ndr17 @if($Encuesta->ncr1<=2) ,ndr18,ndr19 @endif])" >
@@ -109,8 +109,6 @@
  </td>
 <td>
 <h2 class="reactivo">  90.- Recomendaciones</h2>
-
-
 	<select class="select" id="ndr9" name="ndr9" >
         <option selected="selected" value="">
         <option value=1  @if($Encuesta->ndr9==1) selected @endif>Muy importante</option>
@@ -120,24 +118,23 @@
         <option value=5  @if($Encuesta->ndr9==5) selected @endif>Nada importante </option> 
         <option value=0  hidden></option>   
 </select>
-
       </td>
 </tr>
 
 <tr>
-<td>
-<h2 class="reactivo"> 91.- Sus conocimientos sobre computación   </h2>
-	<select class="select" id="ndr5" name="ndr5" >
-        <option selected="selected" value="">
-        <option value=1  @if($Encuesta->ndr5==1) selected @endif>Muy importante</option>
-        <option value=2  @if($Encuesta->ndr5==2) selected @endif>Importante</option> 
-        <option value=3  @if($Encuesta->ndr5==3) selected @endif>Medianamente importante</option> 
-        <option value=4  @if($Encuesta->ndr5==4) selected @endif>Poco importante</option> 
-        <option value=5  @if($Encuesta->ndr5==5) selected @endif>Nada importante </option> 
-        <option value=0  hidden></option>   
-</select>
+        <td>
+                <h2 class="reactivo"> 91.- Sus conocimientos sobre computación   </h2>
+                        <select class="select" id="ndr5" name="ndr5" >
+                        <option selected="selected" value="">
+                        <option value=1  @if($Encuesta->ndr5==1) selected @endif>Muy importante</option>
+                        <option value=2  @if($Encuesta->ndr5==2) selected @endif>Importante</option> 
+                        <option value=3  @if($Encuesta->ndr5==3) selected @endif>Medianamente importante</option> 
+                        <option value=4  @if($Encuesta->ndr5==4) selected @endif>Poco importante</option> 
+                        <option value=5  @if($Encuesta->ndr5==5) selected @endif>Nada importante </option> 
+                        <option value=0  hidden></option>   
+                </select>
 
-</td>
+        </td>
 <td>
 <h2 class="reactivo">92.- Su género (sexo)  </h2>
 	<select class="select" id="ndr10" name="ndr10" >
@@ -175,8 +172,7 @@
         <option value=4  @if($Encuesta->ndr11==4) selected @endif>Poco importante</option> 
         <option value=5  @if($Encuesta->ndr11==5) selected @endif>Nada importante </option> 
         <option value=0  hidden></option>   
-</select>
-
+   </select>
             </td>
 </tr>
 
@@ -306,31 +302,29 @@
      <td colspan="2">
 <h2 class="reactivo"> 101 b).- ¿Cuántos trabajos NO relacionados con su carrera ha tenido desde que egresó de la licenciatura? </h2>
 <select class="select" id="ndr17a" name="ndr17a" >
-<option selected="selected" value="">
+   <option selected="selected" value="">
    <option value=1  @if($Encuesta->ndr17a==1) selected @endif>Uno</option>
    <option value=2  @if($Encuesta->ndr17a==2) selected @endif>Dos </option>
    <option value=3  @if($Encuesta->ndr17a==3) selected @endif>De tres a seis</option>
- <option value=4  @if($Encuesta->ndr17a==4) selected @endif>Más de seis</option>
- <option value=5  @if($Encuesta->ndr17a==5) selected @endif>Ninguno</option>
- <option value=0  hidden></option>   
+   <option value=4  @if($Encuesta->ndr17a==4) selected @endif>Más de seis</option>
+   <option value=5  @if($Encuesta->ndr17a==5) selected @endif>Ninguno</option>
+   <option value=0  hidden></option>   
 </select>
 
      </td>
 
 </tr>
 <tr><td colspan="4">
-<h2 class="reactivo largo">Desde su inserción al campo laboral a la fecha, considera que su situación con respecto al:</h2>
+       <h2 class="reactivo largo">Si comparara su situación actual, desde su inserción al campo laboral; considera que mejoró, con respecto a el:</h2>
+</td> </tr>
+<tr><td>
 
-     </td></tr>
-<tr>
-
-<td>
-<h2 class="reactivo">102).- Puesto que ocupa    </h2>
+        <h2 class="reactivo">102).- Puesto que ocupa    </h2>
 <select class="select" id="ndr18" name="ndr18">
         <option selected="selected" value="">
-<option value=1  @if($Encuesta->ndr18==1) selected @endif>Mejoró</option>
+<option value=1  @if($Encuesta->ndr18==1) selected @endif>Si</option>
 <option value=2  @if($Encuesta->ndr18==2) selected @endif>Es la misma</option>
-<option value=3  @if($Encuesta->ndr18==3) selected @endif>Empeoró</option>
+<option value=3  @if($Encuesta->ndr18==3) selected @endif>No</option>
 <option value=0  hidden></option>   
 </select>
 
@@ -339,9 +333,9 @@
 <h2 class="reactivo">103).- Salario    </h2> 
 <select class="select" id="ndr19" name="ndr19" >
         <option selected="selected" value="">
-<option value=1  @if($Encuesta->ndr19==1) selected @endif>Mejoró</option>
+<option value=1  @if($Encuesta->ndr19==1) selected @endif>Si</option>
 <option value=2  @if($Encuesta->ndr19==2) selected @endif>Es la misma</option>
-<option value=3  @if($Encuesta->ndr19==3) selected @endif>Empeoró</option>
+<option value=3  @if($Encuesta->ndr19==3) selected @endif>No</option>
 <option value=0  hidden></option>   
 </select>
 </td> <td></td> <td></td>

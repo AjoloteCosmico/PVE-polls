@@ -285,7 +285,7 @@ g).-Hoja de cálculo</h2>
  </td>
 <td colspan="3">
 <h2 class="reactivo"> 
-110.- ¿Cuál es el nivel de dominio del idioma Inglés que tiene sobre las siguientes habilidades?  
+110.- ¿Cuál es el nivel de dominio del idioma inglés que tiene sobre las siguientes habilidades?  
 </td>
 </tr><tr>
 <td>

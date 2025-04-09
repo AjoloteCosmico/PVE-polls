@@ -62,7 +62,7 @@
 <!-- segunda fila  -->
 <tr>
 <td colspan="2">
-    <h2 class="reactivo"> 3.- ¿Cuál es el último grado de estudios de su pareja?</h2>
+    <h2 class="reactivo"> 3.- ¿Cuál es el nivel de estudios de su pareja?</h2>
  
  <select class="select" id="nar11" name="nar11"   onchange="bloquear('nar11',[1,2,3,4,5,6,7,8,9,10,11,12,14],[nar11a])"  >
 <option value=""></option>
@@ -77,7 +77,6 @@
  <option value=9 @if($Encuesta->nar11==9) selected @endif >Carrera técnica o com. después de bachillerato</option>
  <option value=10 @if($Encuesta->nar11==10) selected @endif >Licenciatura</option>
  <option value=14 @if($Encuesta->nar11==14) selected @endif >Licenciatura Trunca</option>
-      
  <option value=11 @if($Encuesta->nar11==11) selected @endif >Posgrado</option>
  <option value=12 @if($Encuesta->nar11==12) selected @endif >Lo desconoce</option>
  <option value=13  @if($Encuesta->nar11==13) selected @endif >Otro (Especifíque)</option>

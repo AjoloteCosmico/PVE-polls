@@ -15,7 +15,6 @@
              @endforeach
            <th>Encuesta:</th> <td>Actualización gen 2016 </td>
          </tr>
-
          <tr>
          <th>Carrera:</th><td > {{$Carrera}}  </td> 
          <th>Plantel:</th><td colspan="2"> {{$Plantel}}</td> 
@@ -24,9 +23,8 @@
            @foreach($Correos as $c)
            <a class="contact_data" onclick="correos({{$c->id}},'{{$c->correo}}')"> {{$c->correo}} </a> , &nbsp;
            @endforeach
-           
          <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td>
-         <th>Fecha en que se encuestó:</th> <td>{{$Egresado->actualized}}</td>
+          <th>Fecha en que se encuestó:</th> <td>{{$Egresado->actualized}}</td>
          </tr>
         
         </table>

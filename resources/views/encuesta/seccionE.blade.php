@@ -43,7 +43,7 @@
 </td>
 <td>
 <h2 class="reactivo">  
-    a).-¿Para su actualización ha requerido el idioma Inglés o algún otro idioma?</h2>
+    a).-¿Para su actualización ha requerido el idioma inglés o algún otro idioma?</h2>
          <select class="select" id="ner1a" name="ner1a"  > 
         <option  value="" selected></option>
        <option value=1  @if($Encuesta->ner1a==1) selected @endif>Sí</option>
@@ -146,7 +146,7 @@
 </td>
 <td colspan="2">
 <h2 class="reactivo">  
-    25a)-¿En qué medida estan relacionados  los estudios de posgrado con su carrera profesional?</h2>
+    25a)-¿En qué medida están relacionados  los estudios de posgrado con su carrera profesional?</h2>
     <select class="select" id="ner9" name="ner9" >
        <option selected="selected" value="">
        <option value=1  @if($Encuesta->ner9==1) selected @endif>Muy relacionados</option>

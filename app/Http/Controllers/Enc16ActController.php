@@ -66,9 +66,9 @@ class Enc16ActController extends Controller
             $Encuesta->completed = 0;
             $Encuesta->save();
         }
-        
         return redirect()->route('edit_16',$Encuesta->registro);
     }
+
     public function edit($id){
         $Encuesta=respuestas16::find($id);
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
