@@ -94,7 +94,7 @@
                 <b>Version</b> 3.1.0
             </div>
             <strong>Copyright &copy; 2024-2025 <a href="https://www.pveaju.unam.mx/">PVEAJU-UNAM</a>.</strong> All rights
-            reserved.
+            reserved. Version 1.1.1 april 2025
         </footer>
     </div>
     @stack('js')
