@@ -210,7 +210,7 @@ class Enc16ActController extends Controller
             $Egresado->status=10;
             $Egresado->save();
             if($request->btn_pressed == "inconclusa"){
-                return redirect()->route('llamar',['2016',$Egresado->id]);
+                return redirect()->route('llamar',['2016',$Egresado->cuenta]);
             }
             return back();
         }
