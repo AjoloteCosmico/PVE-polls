@@ -109,7 +109,6 @@
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            
             <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
