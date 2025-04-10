@@ -10,7 +10,6 @@ use \App\Http\Controllers\ComponentController;
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
         </div>
-        
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
@@ -18,7 +17,7 @@ use \App\Http\Controllers\ComponentController;
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
     <br>
      <div class="posgrado_reactivos">
-     @foreach($Reactivos->whereIn('section',[$section['letter'],'act'.$section['letter']])->sortBy('act_order') as $reactivo)
+     @foreach($Reactivos->whereIn('section',[$section['letter'],'act'.$section['letter'],'tact'.$section['letter']])->sortBy('act_order') as $reactivo)
         @php
             $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get();
         @endphp
@@ -32,7 +31,7 @@ use \App\Http\Controllers\ComponentController;
         @else
             <div class="react_container" id="{{'container'.$reactivo->clave}}" >
                 
-            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
+            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{--{{$reactivo->clave}}--}}</h3>
             @php $field_presenter=$reactivo->clave @endphp
             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
             </div>

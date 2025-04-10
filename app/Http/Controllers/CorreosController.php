@@ -33,8 +33,8 @@ class CorreosController extends Controller
             else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
-        
     }
+
     public function edit($id,$carrera,$encuesta,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Correo=Correo::find($id);

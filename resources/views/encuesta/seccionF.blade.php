@@ -30,7 +30,7 @@
       </td>
 <td>
 <h2 class="reactivo">
-36. ¿Cuál  fue la razón más importante que lo/la llevo a elegir su carrera?</h2>
+36. ¿Cuál fue la razón más importante por la que usted eligió su carrera?</h2>
 <select class="select" id="nfr1"  name="nfr1"  onchange="bloquear('nfr1',[1,2,3,4,5,6,7,8,9,10,12],[nfr1a_label,nfr1a])">
 <option value=" " selected="selected"></option>
 <option value=1 @if($Encuesta->nfr1==1) selected @endif>El prestigio de la profesión</option>
@@ -65,8 +65,7 @@
   <tr>
 <td>
 <h2 class="reactivo">
-38.- Tomando en cuenta su experiencia al finalizar la licenciatura
-¿volvería   a elegir la misma ?</h2>
+38.- Tomando en cuenta sus experiencias posteriores a la conclusión de la licenciatura ¿volvería a elegir la misma?</h2>
 <select class="select" id="nfr3" name="nfr3"  onchange="bloquear('nfr3',[1],[nfr4])" >
 <option selected="selected" value="">
   <option value=1 @if($Encuesta->nfr3==1) selected @endif>Sí (pase a la 40)</option>
@@ -135,7 +134,7 @@
 <tr>
 <td>
 <h2 class="reactivo">
-42).-¿En qué porcentaje los programas de las asignaturas que curs&oacute estaban actualizados?</h2>
+42).-¿En qué porcentaje el programa de las asignaturas que cursó estaba actualizado?</h2>
 <select class="select" id="Pregunta 88"  name="nfr7" >
 <option value="" selected="selected"></option>
   <option value=1 @if($Encuesta->nfr7==1) selected @endif>100%</option>
@@ -205,7 +204,7 @@
       </td>
 <td>
 <h2 class="reactivo"> 
-47.- ¿Con qué calidad se impartía la enseñanza?</h2>
+47.- En su opinión, en términos generales ¿Con qué calidad se impartía la enseñanza?</h2>
 <select class="select" id="Pregunta 93" name="nfr12" >
 <option selected="selected" value="">
  <option value=1 @if($Encuesta->nfr12==1) selected @endif>Excelente</option>
@@ -250,8 +249,7 @@
      </td>
 <td>
 <h2 class="reactivo">
-50.- ¿Durante sus estudios profesionales recibió o percibió algún tipo de 
-discriminación?
+50.- ¿Durante sus estudios profesionales recibió o percibió que otro estudiante recibiera algún tipo de discriminación?
 </h2>
 <select class="select" id="nfr23a" name="nfr23a"   onchange="bloquear('nfr23a',[2],[nfr23,nfr24])">
 <option selected="selected" value="">
@@ -332,7 +330,7 @@ discriminación?
 <tr>
 <td>
 <h2 class="reactivo">
-56.- ¿Actualmente cuál es el motivo más importante por el que no se ha titulado? </h2>
+56.- ¿Cuál es el motivo más importante por el que no se ha titulado? </h2>
      <select class="select" id="nfr29"  name="nfr29"  onchange="bloquear('nfr29',[1,2,3,4,5,6,7,8,10,11,12,13,14,15,16],[nfr29a])">
 <option value="" selected="selected"></option>
    <option value=1 @if($Encuesta->nfr29==1) selected @endif>Trámites  engorrosos y difíciles</option>
@@ -381,8 +379,7 @@ discriminación?
 <tr>
   <td colspan="2">
   <h2 class="reactivo">
-58.- ¿En  qué  grado  estaban  relacionadas  con  su carrera las actividades que llevó a cabo durante el 
-servicio social? </h2>
+58.- ¿En qué grado estaban relacionadas con su carrera las actividades que realizó durante el servicio social? </h2>
 <select class="select" id="nfr31" name="nfr31" >
      <option selected="selected" value="">
  <option value=1 @if($Encuesta->nfr31==1) selected @endif>Muy relacionadas</option>
