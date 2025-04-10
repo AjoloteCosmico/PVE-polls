@@ -108,13 +108,24 @@
           <td>{{$c->cuenta}} </td>
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
+          @if($Egresado->act_suvery==1)
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}"> 
+            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2016,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
             </a> 
           </td>
+          @endif
+          @if($Egresado->muestra==3)
+          <td>
+            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2020,$TelefonoEnLlamada->id])}}"> 
+              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+                <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
+              </button>
+            </a>
+          </td>
+          @endif
           @if($Egresado->muestra==3)
               <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->

@@ -22,7 +22,6 @@ class LlamadasController extends Controller
         ->first();
         //identificar si el egresado viene de la 2016
         if(!$Egresado){
-        
         $Encuesta='ENCUESTA DE ACTUALIZACION 2016'; 
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('act_suvery','1')

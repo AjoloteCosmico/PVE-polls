@@ -44,7 +44,8 @@ class CorreosController extends Controller
      
         return view('encuesta.seg20.editar_correo',compact('Egresado','Correo','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
-    
+
+
     public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
@@ -53,11 +54,20 @@ class CorreosController extends Controller
         $Correo->status=$request->status;
         $Correo->enviado=0;
         $Correo->save();
-        if($encuesta == '2020'){
-                 return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);}
-            else{
+        if($Egresado->act_suvery==1){
+            if($encuesta == '2016'){
+                return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_16',[$encuesta]);
+            }
+        }
+        if($Egresado->muestra==3){
+            if($encuesta == '2020'){
+                return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
+        }
    }
 
     public function direct_send($id){
