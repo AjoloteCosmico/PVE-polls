@@ -25,9 +25,9 @@
          <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td>
           <th>Fecha en que se encuestó:</th> <td>{{substr($Egresado->actualized,0,10)}}
             @if($Encuesta->completed==1)
-            <button> Terminar Encuesta</button>
+            <button onclick="send_form('terminar')"> Terminar Encuesta</button>
             @else
-            <button> Guardar como inconclusa</button>            
+            <button onclick="send_form('inconclusa')"> Guardar como inconclusa</button>            
             @endif
             
           </td>
