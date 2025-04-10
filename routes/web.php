@@ -94,7 +94,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/2020/F_update/{id}', 'updateF')->name('encuestas.real_update.F');
         Route::post('/encuestas/2020/G_update/{id}', 'updateG')->name('encuestas.real_update.G');
         Route::get('/encuestas/2020/terminar/{id}', 'terminar')->name('terminar');
-        Route::get('/actualizar/{cuenta}/{carrera}/{muestra}/{telefono_id?}', 'act_data')->name('encuesta20.act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
         Route::get('/comenzar_encuesta_2020/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2020');
         Route::get('/encuestas_2020/edit/{id}/{section}', 'edit')->name('edit_20');
         Route::post('/encuestas/real_update/{id}', 'update2')->name('encuestas.real_update');
@@ -190,6 +189,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
     Route::get('/encuestas/llamar/{gen}/{id}', [LlamadasController::class, 'llamar'])->name('llamar');
+    Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Rutas para la encuesta de posgrado

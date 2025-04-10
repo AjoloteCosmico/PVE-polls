@@ -19,14 +19,14 @@
                     <h4>{{$Carrera->plantel}}  </h4> 
                 </td>
                 <td>
-                    @if($Egresado->muestra==3)
+                    @if($gen==2020)
                     <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
                     </a>
                     @endif
-                    @if($Egresado->act_suvery==1)
+                    @if($gen==2016)
                     <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
@@ -45,7 +45,7 @@
                    
                 </td>
             </tr>
-            @if($Egresado->act_suvery==1)
+            @if($gen==2016)
                 @php  
                    $fecha=new DateTime(substr($Egresado->actualized,0,10))
                 @endphp
@@ -145,7 +145,7 @@
                             <i class="fas fa-paper-plane"></i> Marcar y guardar recado
                         </button>
                         <br>
-                        <a href="{{route('encuesta20.act_data',[ $Egresado->cuenta, $Egresado->carrera, 2020,$telefono->id])}}">
+                        <a href="{{route('act_data',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
@@ -160,14 +160,14 @@
     </div>
     <div class='row'>
         <div class='col'>
-            @if($Egresado->muestra==3)
+            @if($gen==2020)
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
                 <button type="button"  class="boton-oscuro">
                     <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>
             </a>
             @endif
-            @if($Egresado->act_suvery==1)
+            @if($gen==2016)
             <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                 <button type="button"  class="boton-oscuro">
                     <i class="fas fa-table"></i> Ir a muestra Carrera 

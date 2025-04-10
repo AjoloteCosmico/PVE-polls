@@ -61,7 +61,7 @@
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
                 <p hidden> {{$e->orden}}</p>
-                <a href="{{route('llamar_20',$e->cuenta)}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
+                <a href="{{route('llamar',[2020,$e->cuenta])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
              
               </td>
             </tr>

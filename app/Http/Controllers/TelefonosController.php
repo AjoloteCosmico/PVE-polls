@@ -15,6 +15,7 @@ class TelefonosController extends Controller
         
         return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta','TelefonoEnLlamada'));
     }
+    
     public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();

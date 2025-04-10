@@ -13,14 +13,14 @@
   </div>
   <div class="row">
     <div class="col">
-        @if($Egresado->muestra==3)
+        @if($gen==2020)
         <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
             <button type="button"  class="boton-oscuro">
                 <i class="fas fa-table"></i> Ir a muestra Carrera 
             </button>
         </a>
         @endif
-        @if($Egresado->act_suvery==1)
+        @if($gen==2016)
         <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
             <button type="button"  class="boton-oscuro">
                 <i class="fas fa-table"></i> Ir a muestra Carrera 
@@ -29,8 +29,8 @@
         @endif
     </div>
     <div class="col">
-    @if($Egresado->muestra==3)
-      <a href="{{route('llamar_20',[$Egresado->cuenta])}}">
+    @if($gen==2020)
+      <a href="{{route('llamar',[2020, $Egresado->cuenta])}}">
         <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
           <i class="fas fa-arrow-left"></i>Regresar
         </button>
@@ -53,7 +53,7 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $muestra, $TelefonoEnLlamada->id])}}">
+      <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id])}}">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
@@ -77,7 +77,7 @@
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
+            <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
           </td>
         </tr>
         @endforeach
@@ -86,7 +86,7 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$muestra,$TelefonoEnLlamada->id])}}">
+        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}">
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
@@ -108,7 +108,7 @@
           <td>{{$c->cuenta}} </td>
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
-          @if($Egresado->act_suvery==1)
+          @if($gen==2016)
           <td>
             <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2016,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
@@ -117,7 +117,7 @@
             </a> 
           </td>
           @endif
-          @if($Egresado->muestra==3)
+          @if($gen==2020)
           <td>
             <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2020,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
@@ -126,11 +126,11 @@
             </a>
           </td>
           @endif
-          @if($Egresado->muestra==3)
+          @if($gen==2020)
               <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$muestra}} POR CORREO
+                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
                   </button>
                 </a>
               </td>
@@ -142,11 +142,11 @@
                 </a>
               </td>
             @endif
-            @if($Egresado->act_suvery==1)
+            @if($gen==2016)
             <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="boton-oscuro" > 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$muestra}} POR CORREO
+                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
                   </button>
                 </a>
               </td>
