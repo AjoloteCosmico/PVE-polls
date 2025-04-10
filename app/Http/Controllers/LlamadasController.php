@@ -15,8 +15,8 @@ use DB;
 use App\Models\Recado;
 class LlamadasController extends Controller
 {
-    public function llamar_20($id){
-        $Encuesta='ENCUESTA DE SEGUIMIENTO 2020';
+    public function llamar($gen,$id){
+        $Encuesta='ENCUESTA DE SEGUIMIENTO'.$gen;
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('muestra','3')
         ->first();

@@ -13,6 +13,8 @@ use \App\Http\Controllers\ComponentController;
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
+
+    <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
     <br>
@@ -424,6 +426,15 @@ div{
 @endpush
 
 @push('js')
+
+<script>
+function send_form(value){
+    document.getElementById('btn-pressed').value=value;
+    document.getElementById('forma_sagrada').submit();
+}
+
+</script>
+
 @include('posgrado.scripts_bloquear')
 
 @if(session('status')=='incompleta')

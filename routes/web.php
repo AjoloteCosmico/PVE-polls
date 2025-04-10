@@ -189,7 +189,7 @@ Route::group(['middleware' => ['auth']], function(){
     /** Reactivos, Opciones y Llamadas */
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
-    Route::get('/encuestas/2020/llamar/{id}', [LlamadasController::class, 'llamar_20'])->name('llamar_20');
+    Route::get('/encuestas/llamar/{gen}/{id}', [LlamadasController::class, 'llamar'])->name('llamar');
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Rutas para la encuesta de posgrado
