@@ -53,7 +53,7 @@
         </div>
         <div class="col">
             <div class="cuadro-amarillo">
-                <h3> Total encuestas 2016:   </h3>
+                <h3> Total encuestas 2016:   {{$total16}} </h3>
                 <h3> por internet: {{$Internet16}} </h3>
             </div>
         </div>

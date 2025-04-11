@@ -42,10 +42,9 @@ class HomeController extends Controller
     {
         //2020
         $encuestas20=DB::table('respuestas20')
-        ->join('egresados','egresados.cuenta','=','respuestas20.cuenta')
-        ->select('respuestas20.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
-        ->where('egresados.anio_egreso','=',2020)
-        ->whereNotNull('respuestas20.utiliza')
+        ->select('respuestas20.*')
+        ->where('completed','=',1)
+        ->whereNull('aplica2')
         ->get();
         $carreras=DB::table('muestras')
         ->leftJoin('carreras', function($join)
@@ -53,19 +52,12 @@ class HomeController extends Controller
                              $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
                              $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
                          })
+        ->where('estudio_id','3')
         ->get();
-
-
-        $requeridas=0;
-        foreach($carreras as $c){
-            $faltan=($c->requeridas_5 -$encuestas20->where('carrera','=',$c->clave_carrera)->where('plantel','=',$c->clave_plantel)->count());
-            if($faltan>0){
-                $requeridas=$requeridas+$faltan;
-            }
-        }
-        $requeridas=$carreras->sum('requeridas_5')-$encuestas20->count();
-        $internet=$encuestas20->whereNull('aplica')->count();
-        $telefonicas=$encuestas20->whereNotNull('aplica')->count();
+        
+        $requeridas=$carreras->sum('requeridas_10')-$encuestas20->count();
+        $internet=$encuestas20->whereIn('aplica',['111','104','20'])->count();
+        $telefonicas=$encuestas20->count()-$internet;
         
         //grafica1 encuestas telefono vs internet de 2020
         $chart = LarapexChart::setTitle('Encuestas realizadas 2020')
@@ -76,43 +68,23 @@ class HomeController extends Controller
         
         //2016
         $encuestas16=DB::table('respuestas16')
-        ->join('egresados','egresados.cuenta','=','respuestas16.cuenta')
-        ->select('respuestas16.*','egresados.anio_egreso','egresados.carrera','egresados.plantel')
-        ->where('egresados.anio_egreso','=',2016)
+        ->select('respuestas16.*')
         ->where('respuestas16.completed', '=',1)
         ->get();
-        $carreras=DB::table('muestras')
-        ->leftJoin('carreras', function($join)
-                         {
-                             $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
-                             $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
-                         })
-        ->get();
         
-
-        $requeridas16=0;
-        foreach($carreras as $c){
-            $faltan=($c->requeridas_5 -$encuestas16->where('carrera','=',$c->clave_carrera)->where('plantel','=',$c->clave_plantel)->count());
-            if($faltan>0){
-                $requeridas16=$requeridas16+$faltan;
-            }
-        }
-        $requeridas16=$carreras->sum('requeridas_5')-$encuestas16->count();
-        $internet16=$encuestas16->whereNull('aplica')->count();
-        $telefonicas16=$encuestas16->whereNotNull('aplica')->count();
-        
+        $requeridas16=Egresado::where('act_suvery','1')->count() - $encuestas16->count();
+        $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
+        $telefonicas16= $encuestas16->count() -$Internet16;
+        // dd($Internet16);
         //grafica1.2 encuestas telefono vs internet de 2016
         $chart16 = LarapexChart::setTitle('Encuestas realizadas 2016')
         ->setColors(['#D1690E', '#D1330E','#D19914'])
             ->setLabels(['Realizadas por Internet','Realizadas Telefonica', 'Por hacer'])
-            ->setDataset([$internet16,$telefonicas16, $requeridas16]);
-        
+            ->setDataset([$Internet16,$telefonicas16, $requeridas16]);
 
         $encuestas16=respuestas16::all();
-        
         $encuestas20=respuestas20::where('completed','=',1)->get();
-        #Grafica de encuestadores
-       
+        #Grafica de encuestadores       
         $ere20=$encuestas20->where('aplica', '=' ,'17')->count();
         $eli20=$encuestas20->where('aplica', '=' ,'22')->count();
         $sandy20=$encuestas20->where('aplica', '=' ,'23')->count();
@@ -136,14 +108,13 @@ class HomeController extends Controller
          ->setXAxis(['Erendira', 'Elizabeth', 'Sandra','Amanda','Miguel']);
     
         $total20=$encuestas20->count();
-        $total16=respuestas16::whereNotNull('aplica')->count();
+        $total16=$encuestas16->count();
         $Internet=respuestas20::where('completed','=',1)
         ->where('aplica','=',111)->get()->count();
-        $Internet16=respuestas16::where('aplica',0)->count();
         return view('stats',compact('encuestas20','carreras',
         'chart','chart16','aplica_chart','total20','total16','Internet',
          'Internet16'));
-    }
+        }
 
 
     public function links()

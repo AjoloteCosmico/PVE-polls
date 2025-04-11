@@ -25,10 +25,20 @@ class TelefonosController extends Controller
         $Correo->descripcion=$request->description;
         $Correo->status=0;
         $Correo->save();
-        if($encuesta == '2020'){
-        return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id]);}
-        else{
-            return redirect()->route('edit_20',[$encuesta,'SEARCH']);
+        if($Egresado->act_suvery==1){
+            if($encuesta == '2016'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_16',[$encuesta]);
+            }
+        }
+        
+        if($Egresado->muestra==3){
+            if($encuesta == '2020'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_20',[$encuesta,'SEARCH']);
+            }
         }
      }
     public function edit($id,$carrera,$encuesta=0,$telefono_id){
@@ -46,10 +56,20 @@ class TelefonosController extends Controller
         $Telefono->descripcion=$request->description;
         // $Telefono->status=0;
         $Telefono->save();
-        if($encuesta == '2020'){
-            return redirect()->route('encuesta20.act_data',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada]);}
-            else{
+        if($Egresado->act_suvery==1){
+            if($encuesta == '2016'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_16',[$encuesta]);
+            }
+        }
+        
+        if($Egresado->muestra==3){
+            if($encuesta == '2020'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
+        }
         }
 }
