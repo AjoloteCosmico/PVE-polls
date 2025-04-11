@@ -115,8 +115,13 @@ class RecadosController extends Controller
       //verificar si todos los telefonos no existen (egresado ilocalizable)
       $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
       
-      
-      return redirect()->route('llamar_20',$Egresado->cuenta);
+      if($Egresado->act_suvery==1){
+        $gen=2016;
+      }
+      if($Egresado->muestra==3){
+        $gen=2020;
+      }
+      return redirect()->route('llamar',[$gen,$Egresado->cuenta]);
       }
 
       public function destroy($id){
