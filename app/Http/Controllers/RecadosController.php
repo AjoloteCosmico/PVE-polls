@@ -104,14 +104,11 @@ class RecadosController extends Controller
                 $Egresado->status=$request->code; 
                 $Egresado->save(); 
               }
-       
            }else{
-            
             $Egresado->status=$request->code; 
             $Egresado->save(); 
            }
     }
-      
       //verificar si todos los telefonos no existen (egresado ilocalizable)
       $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
       

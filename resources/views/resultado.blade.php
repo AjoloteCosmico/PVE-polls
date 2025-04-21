@@ -38,7 +38,7 @@
                     <td>{{$e->plantel}}</td>
                     <td>@if($e->completed != 1) Inompleta @else Completa @endif</td>
                     <td>@if($e->completed != 1)  
-                        <a href="{{ route('llamar_20',$e->cuenta)}}">
+                        <a href="{{ route('llamar',['2020',$e->cuenta])}}">
                             <button class="boton-oscuro">
                                 <i class="fas fa-edit  "></i> Completar
                             </button>
@@ -79,7 +79,7 @@
                     <td>{{$eg->nombre_plantel}}</td> 
                     <td>
                         @if($eg->muestra==3 && in_array( $eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], true))
-                        <a href="{{route('llamar_20',$eg->cuenta)}}">
+                        <a href="{{route('llamar',['2020',$e->cuenta])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>

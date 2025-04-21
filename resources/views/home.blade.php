@@ -39,7 +39,7 @@
             <td>{{$e->nombre}} {{$e->paterno}} {{$e->materno}} </td>
             <td>{{$e->name_carrera}} </td>
             <td>{{$e->name_plantel}} </td>
-            <td><a href="{{route('llamar_20',$e->cuenta)}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
+            <td><a href="{{route('llamar',['2020',$e->cuenta])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
              </td>
         </tr>
         @endforeach
