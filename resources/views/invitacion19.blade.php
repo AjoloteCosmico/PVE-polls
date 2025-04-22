@@ -12,15 +12,15 @@
         </tr>
         <tr>
             <th>cuenta</th>
-            <td>{{$Egresado->cuenta}}</td>
+            <td style="color =rgb(0, 0, 0);">{{$Egresado->cuenta}}</td>
         </tr>
         <tr>
             <th>Carrera</th>
-            <td>{{$Carrera}} </td>
+            <td style="color =rgb(0, 0, 0);">{{$Carrera}} </td>
         </tr>
         <tr>
             <th>Plantel</th>
-            <td>{{$Plantel}}</td>
+            <td style="color =rgb(0,0,0);">{{$Plantel}}</td>
         </tr>
     </table>
     <center >
