@@ -35,7 +35,7 @@
                     <td style="background-color: {{$eg->color_codigo}};">{{$eg->estado}}</td>
                     <td>
                         @if($eg->muestra==3 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
-                        <a href="{{route('llamar',['2020',$eg->cuenta])}}">
+                        <a href="{{route('llamar',['2020',$eg->cuenta,$eg->carrera])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
@@ -47,7 +47,7 @@
                         </a>
                         @endif
                         @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
-                        <a href="{{route('llamar',['2016',$eg->cuenta])}}">
+                        <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>

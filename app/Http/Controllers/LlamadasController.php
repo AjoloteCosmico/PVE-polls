@@ -16,18 +16,21 @@ use App\Models\Recado;
 use Session;
 class LlamadasController extends Controller
 {
-    public function llamar($gen,$id){
-        $Encuesta='ENCUESTA DE SEGUIMIENTO'.$gen;
-        $Egresado=Egresado::where('cuenta','=',$id)
-        ->where('muestra','3')
-        ->first();
-        //identificar si el egresado viene de la 2016
-        if(!$Egresado){
-        $Encuesta='ENCUESTA DE ACTUALIZACION 2016'; 
-        $Egresado=Egresado::where('cuenta','=',$id)
-        ->where('act_suvery','1')
-        ->first();
+    public function llamar($gen,$id,$carrera){
+        
+        if($gen=='2020'){
+            $Encuesta='ENCUESTA DE SEGUIMIENTO 2020';
+       
+        }else{
+            
+            $Encuesta='ENCUESTA DE ACTUALIZACION 2016';
         }
+
+        $Egresado=Egresado::where('cuenta','=',$id)
+        ->where('carrera',$carrera)
+        ->first();
+
+
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
         $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();

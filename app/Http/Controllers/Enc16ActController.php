@@ -166,7 +166,6 @@ class Enc16ActController extends Controller
         
         Session::put('status','completa');
         return true;
-
     }
 
     public function update(Request $request,$id){
@@ -210,13 +209,11 @@ class Enc16ActController extends Controller
             $Egresado->status=10;
             $Egresado->save();
             if($request->btn_pressed == "inconclusa"){
-                return redirect()->route('llamar',['2016',$Egresado->cuenta]);
+                return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
             }
             return back();
         }
-
     }
-
 
     public function  guardar_incompleta($id){
         $Encuesta = respuestas16::find($id);

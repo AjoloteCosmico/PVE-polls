@@ -52,7 +52,6 @@
                 <td>{{$e->nombre}} </td>
                 <td> {{$e->paterno}} </td>
                 <td> {{$e->materno}}</td>
-                
                 <td>{{$e->cuenta}} </td>
                 @if($carrera==0)
             <td> {{$e->name_carrera}} </td>
@@ -61,8 +60,7 @@
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
                 <p hidden> {{$e->orden}}</p>
-                <a href="{{route('llamar',[2020,$e->cuenta])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>
-             
+                <a href="{{route('llamar',[2020,$e->cuenta,$e->carrera])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a> 
               </td>
             </tr>
             @endforeach

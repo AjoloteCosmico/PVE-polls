@@ -30,7 +30,7 @@
     </div>
     <div class="col">
     @if($gen==2020)
-      <a href="{{route('llamar',[2020, $Egresado->cuenta])}}">
+      <a href="{{route('llamar',[2020, $Egresado->cuenta,$Egresado->carrera])}}">
         <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
           <i class="fas fa-arrow-left"></i>Regresar
         </button>

@@ -188,7 +188,7 @@ Route::group(['middleware' => ['auth']], function(){
     /** Reactivos, Opciones y Llamadas */
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
-    Route::get('/encuestas/llamar/{gen}/{id}', [LlamadasController::class, 'llamar'])->name('llamar');
+    Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
