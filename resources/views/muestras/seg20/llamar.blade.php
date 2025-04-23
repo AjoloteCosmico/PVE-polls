@@ -188,8 +188,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
+
 function change_color(color,tel_id){
-    document.getElementById('pildora').style.backgroundColor=color;
+    console.log('tel_id:', tel_id)
+    //document.getElementById('pildora').style.backgroundColor=color;
     document.getElementById('code'+tel_id).style.backgroundColor=color;
     document.getElementById('tel_button'+tel_id).style.backgroundColor=color;
     document.getElementById('pildora').style.color='white';
@@ -251,7 +253,7 @@ function codigo(tel_id){
         }else{
             swal({
               title: `Por favor selecciona un Código`,
-              text: "no detectamos que hallas seleccionado un codigo, si lo hicisté por favo selecciona otro y vuelve a seleccionar el mismo",
+              text: "no detectamos que hallas seleccionado un codigo, si lo hicisté por favor selecciona otro y vuelve a seleccionar el mismo",
               icon: "warning",
               buttons: false,
           })

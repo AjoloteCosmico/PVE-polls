@@ -40,21 +40,11 @@
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
                         </a>
-                        <a href="{{route('invitacion19',$eg->id)}}">
-                            <button class="boton-oscuro">
-                                <i class="fa fa-mail" aria-hidden="true"> </i> &nbsp; Enviar por correo
-                            </button>
-                        </a>
                         @endif
                         @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
                         <a href="{{route('llamar',['2016',$eg->cuenta])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
-                            </button>
-                        </a>
-                        <a href="{{route('invitacion19',$eg->id)}}">
-                            <button class="boton-oscuro">
-                                <i class="fa fa-mail" aria-hidden="true"> </i> &nbsp; Enviar por correo
                             </button>
                         </a>
                         @endif
