@@ -16,11 +16,11 @@
     <form action="{{ route('actualizar_correo',[$Correo->id,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="exampleInputEmail1">Correo</label>
+            <label style="color: white;" for="exampleInputEmail1">Correo</label>
             <input  style="width:50%" type="email" class="form-control" value="{{$Correo->correo}}" name="correo" aria-describedby="emailHelp" >
         </div>
         <div class="form-group"> 
-            <label for="exampleInputEmail1">Status</label>
+            <label style="color: white;" for="exampleInputEmail1">Status</label>
             <select style="width:50%" class="form-control" name="status" aria-describedby="emailHelp" placeholder="Enter email">
                 <option value="13" @if($Correo->status == '13') selected @endif> En Uso</option>   
                 <option value="14" @if($Correo->status == '14') selected @endif> Sin usar</option>   
