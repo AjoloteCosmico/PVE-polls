@@ -31,7 +31,8 @@ try:
 except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
-egresados=pd.read_sql("""select egresados.* from  egresados inner join respuestas20 on egresados.cuenta=respuestas20.cuenta where muestra = 3 and status <=2 and status >0 and completed=1""",cnx)
+egresados=pd.read_sql("""select egresados.* from  egresados 
+                      inner join respuestas20 on egresados.cuenta=respuestas20.cuenta where muestra = 3 and( status ='2' or status='1') and completed=1""",cnx)
 print('len de egresados',len(egresados))
 correos=pd.read_sql('select * from correos',cnx)
 writer = pd.ExcelWriter('storage/correos_contestadas.xlsx', engine='xlsxwriter')
@@ -103,7 +104,7 @@ for i in range(0,len(egresados)):
     worksheet.write('D'+str(i+9),egresados['materno'].values[i],blue_content)
     worksheet.write('E'+str(i+9),egresados['cuenta'].values[i],blue_content)
     worksheet.write('F'+str(i+9),str(egresados['updated_at'].values[i])[0:10],blue_content)
-    if(egresados['status'].values[i]==1):
+    if(egresados['status'].values[i]=='1'):
         aplica='TELEFONICA'
     else:
         aplica='INTERNET'
@@ -112,8 +113,6 @@ for i in range(0,len(egresados)):
     for j in range(len(correos_eg)):
         worksheet.write(i+8,7+j,correos_eg['correo'].values[j],blue_content)
     
-   
-
 
 worksheet.set_column('B:D',17)
 worksheet.set_column('E:E',20)

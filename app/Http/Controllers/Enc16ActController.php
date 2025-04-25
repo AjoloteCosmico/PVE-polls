@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Egresado;
+use App\Models\Empresas;
 use App\Models\Carrera;
 use App\Models\Correo;
 use App\Models\Telefono;
@@ -130,7 +131,7 @@ class Enc16ActController extends Controller
          ->where('reactivos.rules','act')
         ->select('bloqueos.*')
         ->get();
-        foreach($Reactivos->sortBy('act_order')->where('type','!=','label') as $reactivo){
+        foreach($Reactivos->sortBy('act_order')->where('type','!=','label')->where('clave','!=','giro_especifico') as $reactivo){
             $bloqueado=false;
             $field_presenter=$reactivo->clave;
             $logs=$logs."Checando el reactivo".$field_presenter." 
@@ -169,16 +170,7 @@ class Enc16ActController extends Controller
     }
 
     public function update(Request $request,$id){
-        // if($request->ncr19==null){
-        //     dd('ncr19 es null');
-        // }
-        // dd($request);
-        //for unuque  (clve,blokeado) in bloqueos:
-            //
-        $rules=[
-            "nar8"=>"required",
-            "nar9"=>"required",
-        ];
+        // TODO: agregar giro especifico
         $Encuesta = respuestas16::find($id);
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
             ->where("carrera", $Encuesta->nbr2)
@@ -186,7 +178,7 @@ class Enc16ActController extends Controller
         $Encuesta->aplica = Auth::user()->clave;
         $Encuesta->fec_capt = now()->modify("-6 hours");
         // $request->validate($rules);
-        $Encuesta->update($request->except(["_token", "_method"]));
+        $Encuesta->update($request->except(["_token", "_method","giro_especifico"]));
         // 
         if( $this->validar($Encuesta)){
             $Encuesta->completed=1;
@@ -194,6 +186,19 @@ class Enc16ActController extends Controller
             $Encuesta->save();
             $Egresado->status=1;
             $Egresado->save();
+            //guardar los datos de la empresa si es necesario
+            $Empresa=Empresas::where('nombre',$Encuesta->ncr2)->first();
+            if(!$Empresa){
+                $Empresa=new Empresas();
+                $Empresa->nombre=$Encuesta->ncr2;
+                $Empresa->sector=$Encuesta->ncr3;
+                $Empresa->clave_giro=$Encuesta->ncr4;
+                $Empresa->giro_especifico=$request->giro_especifico;
+                $Empresa->usuario= Auth::user()->clave;
+                $Empresa->save();
+            }
+
+
             //generar .json
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
@@ -222,7 +227,6 @@ class Enc16ActController extends Controller
             ->first();
         $Egresado->status=10;
         $Egresado->save();
-
            return view('encuesta.act16.inicio');
     }
 }

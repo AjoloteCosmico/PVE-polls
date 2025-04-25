@@ -8,6 +8,19 @@ use DB;
 
 class EmpresasController extends Controller
 {
+    public function search(Request $request)
+    {
+        $term = $request->query('q'); // Obtener el término de búsqueda
+
+        $resultados = Empresas::where(DB::raw('lower(nombre)'), 'like', '%' . strtolower($term) . '%')
+            // where('nombre', 'LIKE', "%$term%")
+            ->take(10)
+            ->get();
+
+        return response()->json($resultados);
+    }
+
+
     public function index(Request $request){
         $empresas = DB::table('empresas')
         ->select()

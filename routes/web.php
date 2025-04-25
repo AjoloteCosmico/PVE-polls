@@ -169,7 +169,8 @@ Route::group(['middleware' => ['auth']], function(){
     });
 
     Route::resource('empresas', EmpresasController::class);
-
+    Route::get('/search_empresa', [EmpresasController::class, 'search'])->name('search_empresa'); //Deberiamos separar esta ruta de la clase de Encuestas20
+    
     //Rutas para encuesta fast
     Route::controller(FastPollController::class)->group(function(){
         Route::get('/fast_show/{registro}/{reactivo}/{type}','show')->name('fast.show');

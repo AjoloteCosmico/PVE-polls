@@ -26,16 +26,15 @@ use \App\Http\Controllers\ComponentController;
         @if($reactivo->type=='label')
         <br>
             <div class="label_container" id="{{'container'.$reactivo->clave}}"  style="width:90%">
-            
                 <h3>{{$reactivo->description}} </h3>
             </div>
             <br>
         @else
-            <div class="react_container" id="{{'container'.$reactivo->clave}}" >
-                
-            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{--{{$reactivo->clave}}--}}</h3>
+            <div class="react_container" id="{{'container'.$reactivo->clave}}" >    
+            <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
             @php $field_presenter=$reactivo->clave @endphp
             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
+                @if($reactivo->clave=='ncr2') <div class="resultados-div" id="resultados"></div> @endif
             </div>
         @endif
      @endforeach
@@ -270,6 +269,7 @@ select{
     margin: 10px;
     background-color: white;
 }
+
 .select-selected:after {
    color: black;
 }
@@ -281,6 +281,15 @@ option{
 /*estilo de contenedores*/
 div{
     background-color: #050a30;
+}
+.resultados-div{
+    padding: 5px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    margin: 5px;
+    background-color: white !important;
 }
 .titulos{
     padding-top: 50px;
@@ -422,6 +431,14 @@ div{
     background-color: #e45b0c;
     margin: 10px;
 }
+@keyframes fadeIn {
+  0% { background-color: rgba(255, 255, 0, 0.5); }
+  100% { background-color: transparent; }
+}
+
+.highlight {
+  animation: fadeIn 1.5s ease-in;
+}
 </style>
 @endpush
 
@@ -452,4 +469,57 @@ function send_form(value){
     document.getElementById('{{session('falta')}}').focus();
 </script>
 @endif
+
+<script>
+    function setValueWithEffect(element, value) {
+  // Quitar la clase si ya existe
+  element.classList.remove('highlight');
+  
+  // Forzar reinicio de la animación (truco de reflow)
+  void element.offsetWidth;
+  
+  // Asignar el nuevo valor
+  element.value = value;
+  
+  // Aplicar el efecto
+  element.classList.add('highlight');
+}
+ const searchBox = document.getElementById('ncr2');
+const resultadosDiv = document.getElementById('resultados');
+
+searchBox.addEventListener('input', function(e) {
+    const searchTerm = e.target.value;
+    
+    if (searchTerm.length < 2) {
+        resultadosDiv.innerHTML = '';
+        return;
+    }
+
+    // Enviar solicitud AJAX
+    fetch(`/search_empresa?q=${encodeURIComponent(searchTerm)}`)
+        .then(response => response.json())
+        .then(data => {
+            resultadosDiv.innerHTML = '';
+            data.forEach(item => {
+                resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${item.nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+function rellenar_empresa(nombre,sector,giro,giro_esp){
+
+    // document.getElementById('ncr2').value=nombre;
+    // document.getElementById('ncr3').value=sector;
+    // document.getElementById('ncr4').value=giro;
+    // document.getElementById('giro_especifico').value=giro_esp;
+
+    setValueWithEffect(document.getElementById('ncr2'), nombre);
+    setValueWithEffect(document.getElementById('ncr3'), sector);
+    setValueWithEffect(document.getElementById('ncr4'), giro);
+    setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
+    console.log('se ha seleccionado una empresa',sector,giro);
+    resultadosDiv.innerHTML = '';
+}
+</script>
 @endpush
