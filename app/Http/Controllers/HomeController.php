@@ -20,6 +20,8 @@ use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
+
+
 class HomeController extends Controller
 {
     
@@ -216,39 +218,64 @@ class HomeController extends Controller
     }
     
     public function enviar_invitacion(Request $request){
-        if($request->anio==2014){
-            $link="https://www.pveaju.unam.mx/encuesta/01/act_14/tel_act1_6.php";
-        }else{
-            $link="https://encuestas.pveaju.unam.mx/encuesta_generacion/2020";
+
+        $links = [
+            2016 => "https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2016",
+            2020 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2020",
+        ];
+        
+
+        // Determinar el script Python que se utilizará
+
+        $scripts = [
+            2016 => 'invitacion16.py',
+            2020 => 'invitacion20.py',
+        ];
+        
+        $anio = $request->anio;
+
+        // Validar que el año tenga script y link definido
+        if (!isset($scripts[$anio]) || !isset($links[$anio])) {
+            return response()->json(['error' => 'Año no válido para la invitación.'], 400);
         }
-        
-        $caminoalpoder=public_path();
-        
+
+
+        $scriptPath = public_path($scripts[$anio]);
+        $link = $links[$anio];
+        $python = env('PY_COMAND');
+
         $process = new Process([
-            env('PY_COMAND'),$caminoalpoder.'/invitacion14.py',
+            $python,
+            $scriptPath,
             $request->nombre,
             $request->correo,
             $request->cuenta,
             $request->carrera,
             $request->plantel,
-            $link]);
+            $link
+
+        ]);
+
         $process->run();
-        if (!$process->isSuccessful()) {
+
+        if(!$process->isSuccessful()){
             throw new ProcessFailedException($process);
         }
-        $data = $process->getOutput();
-        
-        $egresado = Egresado::where('cuenta', $request->cuenta)->first();
-        //$egresado->status = 8; //8 es el status de correo enviado en tabla codigos.
-        //$egresado->save();
 
-        return redirect()->route('encuesta20.act_data', [
-            $request->cuenta, 
+        $output = $process->getOutput();
+
+        $egresado = Egresado::where('cuenta', $request->cuenta)->first();
+
+        return redirect()->route('act_data', [
+            $request->cuenta,
             $request->carrera_clave,
             $request->anio,
             $request->telefono
         ]);
+
     }
+
+
     public function enviar_encuesta($id_correo, $id_egresado,$telefono){
         $Egresado=Egresado::find($id_egresado);   
         $Correo=Correo::find($id_correo);

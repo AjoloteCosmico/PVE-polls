@@ -8,20 +8,20 @@
     </div>
     <div >
         <table class="text-white-50" >
-            <th class="text-white-50" colspan="2">Datos Personales</th>
-            <tr>
-                <td>cuenta</td>
+            <th style="color: white;"  colspan="2">Datos Personales</th>
+            <tr style="background-color: rgb(0, 43, 122);">
+                <td>Cuenta</td>
                 <td>{{$Egresado->cuenta}}</td>
             </tr>
-            <tr>
+            <tr style="background-color: rgb(0, 43, 122);">
                 <td>Carrera</td>
                 <td>{{$Carrera->carrera}} </td>
             </tr>
-            <tr>
+            <tr style="background-color: rgb(0, 43, 122);">
                 <td>Plantel</td>
                 <td>{{$Carrera->plantel}}</td>
             </tr>
-            <tr>
+            <tr style="background-color: rgb(0, 43, 122);">
                 <td>Encuesta</td>
                 <td>{{$Egresado->anio_egreso}}</td>
             </tr>
@@ -34,8 +34,8 @@
     <form action="{{route('enviar_invitacion')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input   type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
+        <label style="color: rgb(231, 231, 231);" for="exampleInputEmail1">Email address</label>
+        <input  style="background-color: rgb(22, 24, 112), color: rgb(171, 171, 196);" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
         <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}">
         <input  type="text" name="cuenta" class="form-control" hidden value="{{$Egresado->cuenta}}">
         <input  type="text" name="carrera" class="form-control" hidden value="{{$Carrera->carrera}}">
