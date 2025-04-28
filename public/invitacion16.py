@@ -60,6 +60,8 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
     </html>
     """
     
+    #Usee table en los enlaces para asegurar que se vean bien en todos los clientes de correo
+    
     msg.attach(MIMEText(html, 'html'))
     
     # Adjuntar la imagen principal

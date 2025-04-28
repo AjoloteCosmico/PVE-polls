@@ -26,16 +26,37 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
         <img src="cid:header_img" alt="Cabecera PVE" style="width: 100%; display: block; margin: 0; padding: 0; border: 0;">
         
         
-        <h2 style="color:black;">Hola {nombre},</h2>
-        <p style="color:black;">Te invitamos a responder la Encuesta de Egresados 2020 de la UNAM.</p>
-        <p style="color:black;"><strong>Número de cuenta:</strong> {cuenta}</p>
-        <p style="color:black;"><strong>Facultad:</strong> {plantel}</p>
-        <p style="color:black;"><strong>Carrera:</strong> {carrera}</p>
-        <p>
-            <a href="{link}" target="_blank" style="background-color:  #002B7A; color: white; padding: 15px 22px; text-decoration: none; border-radius: 5px;">Ir a la encuesta</a>
-        </p>
+        <h2 style="margin-top: 20px; font-size: 20px; color:#015190; text-align: left;">Estimado Egresado</h2>
+        <p style="font-size: 18px; color:#015190;">{nombre}</p>
+        <p style="font-size: 16px; color:#015190; text-align: left;"><strong>Número de cuenta:</strong> {cuenta}</p>
+        <p style="font-size: 16px; color:#015190; text-align: left;"><strong>Facultad:</strong> {plantel}</p>
+        <p style="font-size: 16px; color:#015190; text-align: left;"><strong>Carrera:</strong> {carrera}</p><br>
         <br>
-        <img src="cid:imagen_encuesta" alt="Encuesta UNAM" style="max-width: 100%; height: auto;">
+        <img src="cid:imagen_encuesta" alt="Encuesta UNAM" style="max-width: 100%; height: auto;"><br>
+        
+         <p>
+            <a href="{link}" target="_blank" style="background-color:#BA800D; color:white; padding: 15px 22px; text-decoration: none; border-radius: 5px;">Ir a la encuesta</a>
+        </p>
+        
+        <!-- Enlaces (versión compatible con correos) -->
+        <table style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
+        <tr>
+            <td style="text-align: left;">
+                <a href="http://www.pveaju.unam.mx/avisodeprivacidad" target="_blank" style="font-size: 14px; color: #015190; text-decoration: underline;">
+                    Aviso de Privacidad
+                </a>
+            </td>
+            <td style="text-align: right;">
+                <a href="https://www.pveaju.unam.mx/" target="_blank" style="font-size: 14px; color: #015190; text-decoration: underline;">
+                    Sitio Oficial PVEAJU
+                </a>
+            </td>
+        </tr>
+        </table>
+        
+         <!-- FOOTER -->
+        <br><br>
+        <img src="cid:footer_img" alt="Pie de seguimiento" style="width: 100%; display: block; margin: 0; padding: 0; border: 0;">
     </body>
     </html>
     """
@@ -43,10 +64,10 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
     msg.attach(MIMEText(html, 'html'))
     
     # Adjuntar la imagen principal
-    with open('img/correo/invitacion/Encuesta2020.jpg', 'rb') as img_file:
+    with open('img/correo/invitacion/Encuesta2020.png', 'rb') as img_file:
         imagen = MIMEImage(img_file.read())
         imagen.add_header('Content-ID', '<imagen_encuesta>')
-        imagen.add_header('Content-Disposition', 'inline', filename='Encuesta2020.jpg')
+        imagen.add_header('Content-Disposition', 'inline', filename='Encuesta2020.png')
         msg.attach(imagen)
         
     # Adjuntar la imagen de cabecera
@@ -55,6 +76,13 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
         header_img.add_header('Content-ID', '<header_img>')
         header_img.add_header('Content-Disposition', 'inline', filename='Cabecera_Seguimiento.png')
         msg.attach(header_img)
+    
+    # Adjuntar la imagen de pie de página
+    with open('img/correo/invitacion/Pie_seguimiento.png', 'rb') as img_file:
+        footer_img = MIMEImage(img_file.read())
+        footer_img.add_header('Content-ID', '<footer_img>')
+        footer_img.add_header('Content-Disposition', 'inline', filename='Pie_seguimiento.png')
+        msg.attach(footer_img)
         
     # Configuración del servidor SMTP
     servidor = smtplib.SMTP('smtp.gmail.com', 587)
