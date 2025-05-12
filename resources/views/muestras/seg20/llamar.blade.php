@@ -57,11 +57,7 @@
             @if($Encuesta->completed==0)
             <tr>
                 <td colspan="2">
-                    <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
-                        <button class="boton-dorado" >
-                            Continuar encuesta Inconclusa
-                        </button>
-                    </a>
+                 Hay una encuesta inconclusa  
                 </td>
             </tr>
             @endif
@@ -150,6 +146,22 @@
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
                         </a>
+                        <br>
+                        <!-- TODO: hacer una ruta llamada completar encuesta -->
+                        @if($gen==2020)
+                        <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
+                        <button class="boton-dorado" type="button" >
+                            Continuar encuesta Inconclusa
+                        </button>
+                    </a>
+                    @endif
+                    @if($gen==2016)
+                    <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
+                        <button class="boton-dorado" type="button" >
+                            Continuar encuesta Inconclusa
+                        </button>
+                    </a>
+                    @endif
                     </div> 
                 </form>
             </div>
@@ -194,13 +206,12 @@ function change_color(color,tel_id){
     //document.getElementById('pildora').style.backgroundColor=color;
     document.getElementById('code'+tel_id).style.backgroundColor=color;
     document.getElementById('tel_button'+tel_id).style.backgroundColor=color;
-    document.getElementById('pildora').style.color='white';
     document.getElementById('layer').style.color=color;
     // document.getElementById('info').style.color=color;
 }
 function codigo(tel_id){
     id_codigo='code'+(tel_id);
-    console.log(id_codigo)
+    console.log(id_codigo);
     valor=document.getElementById(id_codigo).value;
     console.log(valor,tel_id);
     switch (valor) {

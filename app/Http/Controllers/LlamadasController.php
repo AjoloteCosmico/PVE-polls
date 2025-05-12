@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 use App\Models\respuestas20;
 use App\Models\respuestas3;
-use App\Models\respuestas14;
+use App\Models\respuestas16;
 use App\Models\Correo;
 use App\Models\Egresado;
 use App\Models\Carrera;
@@ -18,13 +18,7 @@ class LlamadasController extends Controller
 {
     public function llamar($gen,$id,$carrera){
         
-        if($gen=='2020'){
-            $Encuesta='ENCUESTA DE SEGUIMIENTO 2020';
-       
-        }else{
-            
-            $Encuesta='ENCUESTA DE ACTUALIZACION 2016';
-        }
+        
 
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
@@ -33,7 +27,13 @@ class LlamadasController extends Controller
 
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
-        $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();
+        if($gen=='2020'){
+            $Encuesta='ENCUESTA DE SEGUIMIENTO 2020';
+            $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();
+        }else{
+            $Encuesta='ENCUESTA DE ACTUALIZACION 2016';
+            $Encuesta=respuestas16::where('cuenta','=',$Egresado->cuenta)->first();
+        }
 
         $Telefonos=DB::table('telefonos')->where('cuenta','=',$Egresado->cuenta)
         ->leftJoin('codigos','codigos.code','=','telefonos.status')

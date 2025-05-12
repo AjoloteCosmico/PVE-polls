@@ -197,8 +197,6 @@ class Enc16ActController extends Controller
                 $Empresa->usuario= Auth::user()->clave;
                 $Empresa->save();
             }
-
-
             //generar .json
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
@@ -210,7 +208,7 @@ class Enc16ActController extends Controller
         }else{ 
             if($Encuesta->completed!=1){
                 $Encuesta->save();
-            }
+              }
             $Egresado->status=10;
             $Egresado->save();
             if($request->btn_pressed == "inconclusa"){
