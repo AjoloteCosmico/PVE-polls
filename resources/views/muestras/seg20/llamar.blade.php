@@ -148,6 +148,7 @@
                         </a>
                         <br>
                         <!-- TODO: hacer una ruta llamada completar encuesta -->
+                    @if($Encuesta)
                         @if($gen==2020)
                         <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
                         <button class="boton-dorado" type="button" >
@@ -162,6 +163,7 @@
                         </button>
                     </a>
                     @endif
+                @endif
                     </div> 
                 </form>
             </div>
@@ -172,6 +174,7 @@
     </div>
     <div class='row'>
         <div class='col'>
+
             @if($gen==2020)
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
                 <button type="button"  class="boton-oscuro">
