@@ -331,7 +331,7 @@
 <td>
 <h2 class="reactivo">
 56.- ¿Cuál es el motivo más importante por el que no se ha titulado? </h2>
-     <select class="select" id="nfr29"  name="nfr29"  onchange="bloquear('nfr29',[1,2,3,4,5,6,7,8,10,11,12,13,14,15,16],[nfr29a])">
+     <select class="select" id="nfr29"  name="nfr29"  onchange="bloquear('nfr29',[1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21],[nfr29a])">
 <option value="" selected="selected"></option>
    <option value=1 @if($Encuesta->nfr29==1) selected @endif>Trámites  engorrosos y difíciles</option>
   <option value=2 @if($Encuesta->nfr29==2) selected @endif>No he tenido tiempo por estar trabajando</option>
@@ -347,6 +347,11 @@
   <option value=14 @if($Encuesta->nfr29==14) selected @endif>No ha realizado el servicio social</option>
   <option value=15 @if($Encuesta->nfr29==15) selected @endif>Cursando el diplomado o alguna otra modalidad de titulación</option>
   <option value=16 @if($Encuesta->nfr29==16) selected @endif>Motivos de salud</option>
+  <option value=17 @if($Encuesta->nfr29==17) selected @endif>Cambio de residencia</option>
+  <option value=18 @if($Encuesta->nfr29==18) selected @endif>Errores en los trámites</option>
+  <option value=19 @if($Encuesta->nfr29==19) selected @endif>Desconozco las opciones de titulación</option>
+  <option value=20 @if($Encuesta->nfr29==20) selected @endif>Pocas opciones de titulación</option>
+  <option value=21 @if($Encuesta->nfr29==21) selected @endif>Problemas administrativos  </option>
   <option value=8 @if($Encuesta->nfr29==8) selected @endif>No deseo contestar</option>
   <option value=9 @if($Encuesta->nfr29==9) selected @endif>Otra (especifíque)</option>
   <option value=0 ></option>
@@ -468,7 +473,7 @@ bloquear('nfr6',[1],[nfr6_a])
 bloquear('nfr11',[2],[nfr11a]);
 bloquear('nfr23a',[2],[nfr23,nfr24]); 
 bloquear('nfr0',[2],[nfr1,nfr1a_label,nfr1a]);
-bloquear('nfr29',[0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16],[nfr29a]);
+bloquear('nfr29',[0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20.21],[nfr29a]);
 bloquear('nfr30',[2],[nfr31,nfr32]);
 bloquear('nfr1',[1,2,3,4,5,6,7,8,9,10,12,0],[nfr1a_label,nfr1a]);
 var warning = false;
