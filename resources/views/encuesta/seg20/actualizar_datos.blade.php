@@ -36,6 +36,13 @@
         </button>
       </a>
     @endif
+    @if($gen==2016)
+      <a href="{{route('llamar',[2016, $Egresado->cuenta,$Egresado->carrera])}}">
+        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
+          <i class="fas fa-arrow-left"></i>Regresar
+        </button>
+      </a>
+    @endif
     </div>
     <div class="col"> 
     </div>
