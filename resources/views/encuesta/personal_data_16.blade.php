@@ -13,21 +13,23 @@
                <a href="{{route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono  </button></a>
             @endif</td>
              @endforeach
-           <th>Encuesta:</th> <td>Actualización gen 2016 </td>
+           <th>Sistema: @if($Egresado->sistema=='E' ) ESCOLARIZADO @elseif($Egresado->sistema=='A') ABIERTO @else A DISTANCIA @endif </th> 
+           <th>@if($Egresado->titulado==1)  EN TRAMITES @elseif($Egresado->titulado==2) TITULADO @else SIN TITULO @endif  <br> segun la encuesta anterior</th>
          </tr>
          <tr>
+          
          <th>Carrera:</th><td > {{$Carrera}}  </td> 
          <th>Plantel:</th><td colspan="2"> {{$Plantel}}</td> 
          <td colspan="{{$Telefonos->count()}}" >
            @foreach($Correos as $c)
-           <a class="contact_data" onclick="correos({{$c->id}},'{{$c->correo}}')"> {{$c->correo}} </a> , &nbsp;
+            <a class="contact_data" onclick="correos({{$c->id}},'{{$c->correo}}')"> {{$c->correo}} </a> , &nbsp;
            @endforeach
          <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td>
           <th>Fecha en que se encuestó:</th> <td>{{substr($Egresado->actualized,0,10)}}
             @if($Encuesta->completed==1)
-            <button onclick="send_form('terminar')"> Terminar Encuesta</button>
+              <button onclick="send_form('terminar')"> Terminar Encuesta</button>
             @else
-            <button onclick="send_form('inconclusa')"> Guardar como inconclusa</button>            
+              <button onclick="send_form('inconclusa')"> Guardar como inconclusa</button>            
             @endif
             
           </td>

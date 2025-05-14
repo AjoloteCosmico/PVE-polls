@@ -55,8 +55,7 @@
         </div>
         </center> <br>
         <center> <div class="form-group" id="fecha-group" style="display:none;">
-       
-          
+               
           <input type="date"  class="fecha" name="fec_capt" id="fec_capt"  value="2023-01-01" style="width : 30%;"/> 
           </div></center>
           
@@ -425,7 +424,7 @@ Especifique:</h2>
 
 <h2 class="reactivo"> 23.- ¿Cómo considera qué lo preparó el estudio de la carrera para el desempeño de su trabajo actual? </h2>
     
-    <select class="select" id="ncr16" name="ncr16"   > 
+    <select class="select" id="ncr16" name="ncr16" > 
            <option selected="selected" value="">
           <option value=1 @if($Encuesta->NCR16==1) selected @endif>Muy Bien</option>
           <option value=2 @if($Encuesta->NCR16==2) selected @endif>Bien</option>
@@ -587,22 +586,21 @@ Especifique:</h2>
 
  <h2 class="reactivo">61).- Puesto que ocupa    </h2>
 <select class="select" id="ndr18" name="ndr18">
-        <option selected="selected" value="">
-<option value=1  @if($Encuesta->NDR18==1) selected @endif>Mejoró</option>
-<option value=2  @if($Encuesta->NDR18==2) selected @endif>Es la misma</option>
-<option value=3  @if($Encuesta->NDR18==3) selected @endif>Empeoró</option>
-<option value=0  hidden></option>   
+    <option selected="selected" value="">
+    <option value=1  @if($Encuesta->NDR18==1) selected @endif>Mejoró</option>
+    <option value=2  @if($Encuesta->NDR18==2) selected @endif>Es la misma</option>
+    <option value=3  @if($Encuesta->NDR18==3) selected @endif>Empeoró</option>
+    <option value=0  hidden></option>   
 </select>
 
     <h2 class="reactivo">62).- Salario    </h2> 
 <select class="select" id="ndr19" name="ndr19" >
-        <option selected="selected" value="">
-<option value=1  @if($Encuesta->NDR19==1) selected @endif>Mejoró</option>
-<option value=2  @if($Encuesta->NDR19==2) selected @endif>Es la misma</option>
-<option value=3  @if($Encuesta->NDR19==3) selected @endif>Empeoró</option>
-<option value=0  hidden></option>   
+    <option selected="selected" value="">
+    <option value=1  @if($Encuesta->NDR19==1) selected @endif>Mejoró</option>
+    <option value=2  @if($Encuesta->NDR19==2) selected @endif>Es la misma</option>
+    <option value=3  @if($Encuesta->NDR19==3) selected @endif>Empeoró</option>
+    <option value=0  hidden></option>   
 </select>
-
       </div>
 
       <div class='col' id='E' style='text-align: center;'>
@@ -612,11 +610,11 @@ Especifique:</h2>
     63.- ¿Desde que egresó de la licenciatura ha realizado actividades formales de actualización en su campo profesional?
     (cursos, diplomados,seminarios, etc.)</h2>
          <select class="select" id="ner1" name="ner1"  onchange="bloquear('ner1',[2],[ner2,ner3,ner4,ner5,ner6,ner7,ner7int,ner7a])" > 
-        <option  value="" selected></option>
-       <option value=1  @if($Encuesta->NER1==1) selected @endif>Sí</option>
-       <option value=2  @if($Encuesta->NER1==2) selected @endif>No (pase a la 72)</option>
-       <option value=0  hidden></option>   
-</select>
+            <option  value="" selected></option>
+            <option value=1  @if($Encuesta->NER1==1) selected @endif>Sí</option>
+            <option value=2  @if($Encuesta->NER1==2) selected @endif>No (pase a la 72)</option>
+            <option value=0  hidden></option>   
+        </select>
 
          <h2 class="reactivo">  
     64.- ¿Cada cuando lo realiza?-----------</h2>
@@ -663,22 +661,21 @@ Especifique:</h2>
        <h2 class="reactivo">  
     68.-En la empresa o institución en la que trabaja</h2>
     <select class="select" id="ner6" name="ner6" >
-    <option value="" selected="selected"></option>
-    <option value=1  @if($Encuesta->ner6==1) selected @endif>Sí</option>
-    <option value=2  @if($Encuesta->ner6==2) selected @endif>No</option>
-    <option value=0  hidden></option>   
-</select>
+      <option value="" selected="selected"></option>
+      <option value=1  @if($Encuesta->ner6==1) selected @endif>Sí</option>
+      <option value=2  @if($Encuesta->ner6==2) selected @endif>No</option>
+      <option value=0  hidden></option>   
+    </select>
 
     <h2 class="reactivo">  
     69.-En una asociación</h2>
     <select class="select" id="ner7" name="ner7" >
-    <option value="" selected="selected"></option>
-    <option value=1  @if($Encuesta->ner7==1) selected @endif>Sí</option>
-    <option value=2  @if($Encuesta->ner7==2) selected @endif>No</option>
-    <option value=0  hidden></option>  
-    <option value=0  hidden></option>   
-</select>
-   
+      <option value="" selected="selected"></option>
+      <option value=1  @if($Encuesta->ner7==1) selected @endif>Sí</option>
+      <option value=2  @if($Encuesta->ner7==2) selected @endif>No</option>
+      <option value=0  hidden></option>  
+      <option value=0  hidden></option>   
+    </select>
     <h2 class="reactivo">  
     70.-En Internet</h2>
     <select class="select" id="ner7int" name="ner7int" >
