@@ -32,7 +32,7 @@
                     <td> {{$eg->anio_egreso}} </td>
                     <td>{{$eg->nombre_carrera}}</td>     
                     <td>{{$eg->nombre_plantel}}</td>
-                    <td style="background-color: {{$eg->color_codigo}};">{{$eg->estado}}</td>
+                    <td style="background-color: {{$eg->color_codigo}};">{{$eg->estado}}<br>
                     <td>
                         @if($eg->muestra==3 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
                         <a href="{{route('llamar',['2020',$eg->cuenta,$eg->carrera])}}">
@@ -41,12 +41,20 @@
                             </button>
                         </a>
                         @endif
+                        @if($eg->muestra==3 && in_array($eg->status,[1,2,10], false))
+                            <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
+                            <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
+                        @endif
                         @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
                         <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
                         </a>
+                        @endif
+                        @if($eg->act_suvery==1 && in_array($eg->status,[1,2,10], false))
+                            <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
+                            <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
                         @endif
                     </td>
                 </tr>

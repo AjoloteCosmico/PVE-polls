@@ -160,7 +160,20 @@ class HomeController extends Controller
             ->leftJoin('codigos', function($join){
                 $join->on('codigos.code', '=', 'egresados.status');
             })
-            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo')
+            //nuevo leftjoin
+            ->leftJoin('respuestas16', function($join){
+                $join->on('respuestas16.cuenta', '=', 'egresados.cuenta');
+            })
+            ->leftJoin('users as u16', function($join){
+                $join->on('u16.clave', '=', 'respuestas16.aplica');
+            })
+            ->leftJoin('respuestas20', function($join){
+                $join->on('respuestas20.cuenta', '=', 'egresados.cuenta');
+            })
+            ->leftJoin('users as u20', function($join){
+                $join->on('u20.clave', '=', 'respuestas20.aplica');
+            })
+            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.fec_capt as fecha_16', 'respuestas20.fec_capt as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20')
             ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')   
             ->get();
                   
@@ -188,8 +201,21 @@ class HomeController extends Controller
             ->leftJoin('codigos', function($join){
                 $join->on('codigos.code', '=', 'egresados.status');
             })
+            //nuevo leftjoin
+            ->leftJoin('respuestas16', function($join){
+                $join->on('respuestas16.cuenta', '=', 'egresados.cuenta');
+            })
+            ->leftJoin('users as u16', function($join){
+                $join->on('u16.clave', '=', 'respuestas16.aplica');
+            })
+            ->leftJoin('respuestas20', function($join){
+                $join->on('respuestas20.cuenta', '=', 'egresados.cuenta');
+            })
+            ->leftJoin('users as u20', function($join){
+                $join->on('u20.clave', '=', 'respuestas20.aplica');
+            })
             
-            ->select('egresados.*', 'carreras.carrera as nombre_carrera', 'carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo')
+            ->select('egresados.*', 'carreras.carrera as nombre_carrera', 'carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.fec_capt as fecha_16', 'respuestas20.fec_capt as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20')
             ->where(function($query) use ($partes_nombre) {
                 foreach ($partes_nombre as $parte) {
                     $query->where(function($subQuery) use ($parte) {
