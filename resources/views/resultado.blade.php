@@ -34,27 +34,55 @@
                     <td>{{$eg->nombre_plantel}}</td>
                     <td style="background-color: {{$eg->color_codigo}};">{{$eg->estado}}<br>
                     <td>
-                        @if($eg->muestra==3 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
+                        <!-- 2020 -->
+                        <!-- Checamos el estado del egresado y si esta en la muestra correspondiente del 2020 -->
+                        @if($eg->muestra==3 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
                         <a href="{{route('llamar',['2020',$eg->cuenta,$eg->carrera])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
                         </a>
+                        <br>
+                            <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
+                            <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
+                            <br>
+                            <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
+                            @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
+                                <small><strong>Encuesta Inconclusa</strong></small>
+                                <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
+                                <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
+                            @endif
                         @endif
-                        @if($eg->muestra==3 && in_array($eg->status,[1,2,10], false))
+                        <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
+                        @if($eg->muestra==3 && in_array($eg->status,[1,2], false))
                             <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
                             <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
                         @endif
-                        @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,6,11,12], false))
+
+                        <!-- 2016 -->
+
+                        <!--  Checamos el estado del egresado y si esta en la muestra correspondiente del 2016 -->
+                        @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
                         <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
                         </a>
+                        <br>
+                            <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
+                            <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
+                             <br>
+                             <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
+                            @if($eg->r16_nbr2 != null && $eg->r16_completed != 1)
+                                <small><strong>Encuesta Inconclusa</strong></small>
+                                <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
+                                <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
+                            @endif
                         @endif
-                        @if($eg->act_suvery==1 && in_array($eg->status,[1,2,10], false))
-                            <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
-                            <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
+                        <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
+                        @if($eg->act_suvery==1 && in_array($eg->status,[1,2], false))
+                            <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
+                            <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
                         @endif
                     </td>
                 </tr>
