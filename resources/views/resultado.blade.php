@@ -49,8 +49,7 @@
                             <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
                             @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
                                 <small><strong>Encuesta Inconclusa</strong></small>
-                                <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
-                                <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
+                                
                             @endif
                         @endif
                         <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
@@ -75,8 +74,7 @@
                              <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
                             @if($eg->r16_nbr2 != null && $eg->r16_completed != 1)
                                 <small><strong>Encuesta Inconclusa</strong></small>
-                                <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
-                                <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
+                               
                             @endif
                         @endif
                         <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
