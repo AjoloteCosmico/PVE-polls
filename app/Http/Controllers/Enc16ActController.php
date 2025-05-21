@@ -168,7 +168,7 @@ class Enc16ActController extends Controller
         Session::put('status','completa');
         return true;
     }
-
+//rebase
     public function update(Request $request,$id){
         // TODO: agregar giro especifico
         $Encuesta = respuestas16::find($id);
