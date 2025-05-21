@@ -54,7 +54,7 @@
                         @endif
                         <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                         @if($eg->muestra==3 && in_array($eg->status,[1,2], false))
-                            <small><strong>Fecha:</strong> {{ $eg->fecha_20 ?? 'N/A' }}</small><br>
+                            <small><strong>Fecha:</strong> {{ $eg->fechaFinal_20 ?? 'N/A' }}</small><br>
                             <small><strong>Aplicador:</strong> {{ $eg->aplicador20 ?? 'N/A' }}</small>
                         @endif
 
@@ -79,7 +79,7 @@
                         @endif
                         <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                         @if($eg->act_suvery==1 && in_array($eg->status,[1,2], false))
-                            <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
+                            <small><strong>Fecha:</strong> {{ $eg->fechaFinal_16 ?? 'N/A' }}</small><br>
                             <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
                         @endif
                     </td>
