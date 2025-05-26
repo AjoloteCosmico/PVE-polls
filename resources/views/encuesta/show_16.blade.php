@@ -521,5 +521,24 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
     console.log('se ha seleccionado una empresa',sector,giro);
     resultadosDiv.innerHTML = '';
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const ner1 = document.getElementById('ner1');
+
+    if (ner1) {
+        ner1.addEventListener('change', function () {
+            if (this.value === '1') { // Si el usuario elige "Sí"
+                const reactivosObjetivo = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
+
+                reactivosObjetivo.forEach(id => {
+                    const select = document.getElementById(id);
+                    if (select && !select.value) {
+                        select.value = '2'; // Forzar "No"
+                    }
+                });
+            }
+        });
+    }
+});
 </script>
 @endpush

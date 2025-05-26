@@ -65,9 +65,8 @@
     <h2 class="reactivo">  
     18.- En la UNAM</h2>
     <select class="select" id="ner3"  name="ner3" >
-    <option value="" selected="selected"></option>
+        <option value=2 @if($Encuesta->ner3 == 2 || is_null($Encuesta->ner3)) selected @endif>No</option>
         <option value=1  @if($Encuesta->ner3==1) selected @endif>Sí</option>
-       <option value=2  @if($Encuesta->ner3==2) selected @endif>No</option>
        <option value=0  hidden></option>   
 </select>
     </td>
