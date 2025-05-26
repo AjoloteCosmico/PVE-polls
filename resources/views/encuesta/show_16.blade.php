@@ -471,6 +471,9 @@ function send_form(value){
 @endif
 
 <script>
+
+
+
     function setValueWithEffect(element, value) {
   // Quitar la clase si ya existe
   element.classList.remove('highlight');
