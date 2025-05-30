@@ -262,7 +262,9 @@ class HomeController extends Controller
 
         // Validar que el año tenga script y link definido
         if (!isset($scripts[$anio]) || !isset($links[$anio])) {
-            return response()->json(['error' => 'Año no válido para la invitación.'], 400);
+            return redirect()->back()->with('swal_warning', true);
+            //return response()->json(['error' => 'Año no válido para la invitación.'], 400);
+          
         }
 
 

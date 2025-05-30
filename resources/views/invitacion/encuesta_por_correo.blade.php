@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+<div class="container-fluid">
     <div class="padding div" >
         <h1>ENVIAR ENCUESTA POR CORREO</h1>
         <h1> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</h1>
@@ -33,7 +33,7 @@
     <br><br>
     <form action="{{route('enviar_invitacion')}}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group">
+        <div class="form-group" style="color:rgb(22, 24, 112);">
         <label style="color: rgb(231, 231, 231);" for="exampleInputEmail1">Email address</label>
         <input  style="background-color: rgb(22, 24, 112), color: rgb(171, 171, 196);" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
         <input  type="text" name="nombre" class="form-control" hidden value="{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}">
@@ -47,5 +47,21 @@
         <button type="submit" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
     </form>
 </center>
+
+@if(session('swal_warning'))
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Año no valido para enviar la invitación",
+            customClass: {
+                popup: 'mi-popup',
+                title: 'mi-titulo',
+                confirmButton: 'mi-boton'
+            }
+        });
+    </script>
+@endif
+
 
 @endsection

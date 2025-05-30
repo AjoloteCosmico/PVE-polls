@@ -6,7 +6,9 @@
 
 body{
     display: block;
-    background-image: url('img/fondo-biblioteca.png')
+    /*background-image: url('img/fondo-biblioteca.png')*/
+    background-color: #050a30;
+    
 }
 
 /*estilos de texto*/
@@ -183,7 +185,8 @@ div{
     align-items: center;
 }
 .content-wrapper{
-    background-image: url('img/fondo-biblioteca.png')
+    /*background-image: url('img/fondo-biblioteca.png')*/
+    background-color: #050a30;
 }
 .cuadro-azul{
     background-color: #002b7a;
@@ -251,4 +254,19 @@ footer{
     padding: 1rem;
     margin-left: 250px;
 }
+/* Estilos de botones de formulario */
+.mi-popup {
+    background-color: #050a30;
+    color: #fff;
+}
+.mi-titulo {
+    color: #ba800d;
+}
+.mi-boton {
+    background-color: #f44336;
+    color: #fff;
+}
+
+
+
 </style>
