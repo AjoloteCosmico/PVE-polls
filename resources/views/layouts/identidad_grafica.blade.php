@@ -47,7 +47,7 @@ h6{
 a{
     font-weight: 700;
     font-size: 12pt;
-    color: #00183f;
+    color: white;
     text-align: none;
 }
 
