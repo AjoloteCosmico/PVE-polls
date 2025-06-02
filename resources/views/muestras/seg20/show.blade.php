@@ -10,7 +10,7 @@
     </div>
       <div class='col'>
           <a href="{{route('muestras20.index',$plantel)}}">
-            <button class="btn" ><i class="fas fa-arrow-left" ></i>Regresar</button>
+            <button type="button" style="background-color: #ba800d; border-color: #ba800d; color: white;" class="btn btn-success btn-lg" ><i class="fas fa-arrow-left" ></i>Regresar</button>
           </a>
       </div>
       <div class='col'>

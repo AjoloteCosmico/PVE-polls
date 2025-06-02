@@ -31,14 +31,14 @@
     <div class="col">
     @if($gen==2020)
       <a href="{{route('llamar',[2020, $Egresado->cuenta,$Egresado->carrera])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
+        <button type="button" style="background-color: #ba800d; border-color: #ba800d; color: white;" class="btn btn-success btn-lg">
           <i class="fas fa-arrow-left"></i>Regresar
         </button>
       </a>
     @endif
     @if($gen==2016)
       <a href="{{route('llamar',[2016, $Egresado->cuenta,$Egresado->carrera])}}">
-        <button type="button" style="color:rgb({{Auth::user()->color}})" class="btn btn-success btn-lg">
+        <button type="button" style="background-color: #ba800d; border-color: #ba800d; color: white;" class="btn btn-success btn-lg">
           <i class="fas fa-arrow-left"></i>Regresar
         </button>
       </a>
