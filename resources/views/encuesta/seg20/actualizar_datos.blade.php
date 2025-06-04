@@ -31,16 +31,16 @@
     <div class="col">
     @if($gen==2020)
       <a href="{{route('llamar',[2020, $Egresado->cuenta,$Egresado->carrera])}}">
-        <button type="button" style="background-color: #ba800d; border-color: #ba800d; color: white;" class="btn btn-success btn-lg">
-          <i class="fas fa-arrow-left"></i>Regresar
-        </button>
+        <button class="boton-volver">
+            <i class="fa-sharp fa-solid fa-rotate-left"></i>
+          </button>
       </a>
     @endif
     @if($gen==2016)
       <a href="{{route('llamar',[2016, $Egresado->cuenta,$Egresado->carrera])}}">
-        <button type="button" style="background-color: #ba800d; border-color: #ba800d; color: white;" class="btn btn-success btn-lg">
-          <i class="fas fa-arrow-left"></i>Regresar
-        </button>
+        <button class="boton-volver">
+            <i class="fa-sharp fa-solid fa-rotate-left"></i>
+          </button>
       </a>
     @endif
     </div>
@@ -49,7 +49,7 @@
   </div>
   <div class="col-6 col-lg-12 table-responsive">  
   
-  @if($Egresado->status==10||$Egresado->status==8)
+  @if($Egresado->status==8)
     
           <a href="{{route('completar_encuesta',$Egresado->id)}}">
               <button type="button"  class="boton-dorado">

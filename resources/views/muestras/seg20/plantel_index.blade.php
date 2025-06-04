@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+<div class="container-fluid">
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl " id="myTable">
           <thead>
@@ -22,6 +22,11 @@
             @endforeach
           </tbody>
         </table>
+        <a href="{{route('muestras.index')}}">
+          <button class="boton-volver">
+            <i class="fa-sharp fa-solid fa-rotate-left"></i>
+          </button>
+        </a>
     </div>
     <center >
    

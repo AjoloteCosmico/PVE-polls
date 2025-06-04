@@ -33,6 +33,11 @@
             @endforeach
           </tbody>
         </table>
+        <a href="{{route('muestras16.plantel_index')}}">
+          <button class="boton-volver">
+            <i class="fa-sharp fa-solid fa-rotate-left"></i>
+          </button>
+        </a>
     </div>
     <center >
    

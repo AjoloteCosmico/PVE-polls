@@ -48,7 +48,7 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ route('revisiones.index') }}" class="nav-link {{ Request::is('muestras') ? 'active' : '' }}">
+    <a href="{{ route('revisiones.index') }}" class="nav-link {{ Request::is('revisiones.index') ? 'active' : '' }}">
     <i class="nav-icon fas fa-eye"></i>
         <p>Revisar mis encuestas</p>
     </a>

@@ -81,6 +81,57 @@ td{
     font-weight: 600;
 }
 
+/*prueba de next y previous*/
+
+.paginate_button.previous {
+  background-color: #000b1b;
+  color: white !important;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 2px;
+  font-weight: bold;
+}
+
+/* Botón "Next" */
+.paginate_button.next {
+  background-color: #000b1b;
+  color: white !important;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 2px;
+  font-weight: bold;
+}
+/* Hover efecto */
+.paginate_button.previous:hover,
+.paginate_button.next:hover {
+  background-color: #002b7a;
+  cursor: pointer;
+}
+
+/*estilos de botones de navegacion*/
+.boton-volver {
+  background-color: #ba800d;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin-bottom: 15px;
+}
+
+.boton-volver:hover {
+  background-color: #002b7a;
+}
+
+
+
+
+
+
+
 /*estilos de boton*/
 .boton-oscuro{
     background-color: #000b1b;
