@@ -1,32 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+<div class="container-fluid">
     <div class="padding div" >
-     <h1 style="color:white"> EDITAR PREGUNTA {{$Reactivo->clave}}</h1>
+     <h1 style="color:white"> EDITAR PREGUNTA: <br><br> {{$Reactivo->clave}}</h1>
     </div>
     <center >
     <br><br>
         <form action="{{ route('reactivos.update_re',$Reactivo->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label for="exampleInputEmail1">Seccion</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Seccion</label>
             <input  style="width:50%" type="text" class="form-control myinput" name="section" value= "{{$Reactivo->section}}">
        </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Orden</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Orden</label>
             <input  style="width:50%" type="number" step="0.001" class="form-control myinput" name="orden" value= "{{$Reactivo->orden}}">
        </div>
        <div class="form-group">
-            <label for="exampleInputEmail1">Clave</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Clave</label>
             <input  style="width:50%" type="text" class="form-control myinput" name="clave" value= "{{$Reactivo->clave}}" disabled>
        </div>
        <div class="form-group">
-            <label for="exampleInputEmail1">Redaccion de la pregunta</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Redaccion de la pregunta</label>
             <input  style="width:50%" type="text" class="form-control myinput" name="description" value= "{{$Reactivo->description}}">
        </div>
        <div class="form-group">
-            <label for="exampleInputEmail1">Tipo</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Tipo</label><br>
         <select name="type" class="selecter" >
 
         <option value="option" @if($Reactivo->type=='option') selected @endif>opcion </option>
@@ -37,7 +37,7 @@
         </select>  
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Sub-tipo (si tiene opciones que se repiten)</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Sub-tipo (si tiene opciones que se repiten)</label><br>
         <select name="archtype" class="selecter" >
         <option value=""></option>
         <option value="binaria" @if($Reactivo->archtype=='binaria') selected @endif>binaria</option>
@@ -48,7 +48,7 @@
         </select>  
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Hijo (se ve un poco mas pequeña indicando que es una pregunta secundaria)</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Hijo (se ve un poco mas pequeña indicando que es una pregunta secundaria)</label><br>
         <select name="child" class="selecter" >
 
         <option value="0" @if($Reactivo->type=='0') selected @endif>No </option>
@@ -57,11 +57,11 @@
         </select>  
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Leyenda (aparece debajo y mas pequeña)</label>
+            <label for="exampleInputEmail1" class="label-cuenta">Leyenda (aparece debajo y mas pequeña)</label>
             <input  style="width:50%" type="text" class="form-control myinput" name="extra_label" value= "{{$Reactivo->extra_label}}">
        </div>
   <br>
-  <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
+  <button type="submit" class="btn btn-primary btn-lg boton-buscar">  <i class="fas fa-paper-plane"></i> Enviar</button>
  
   </form>
 @if($Opciones->count()>0)

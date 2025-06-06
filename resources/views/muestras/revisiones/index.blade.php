@@ -11,10 +11,12 @@
   <a href="{{route('muestras.seg20.revision')}}">
   <button class='boton-muestras' >
       <br><br>ENCUESTA DE SEGUIMIENTO 2020 <br><br><br>
+      <img src="{{ asset('img/encuesta.png') }}" alt="encuesta" class="icono-boton">
   </button></a>
   <a href="{{route('muestras.act16.revision')}}">
     <button class='boton-muestras' >
       <br><br>ENCUESTA DE ACTUALIZACION 2016 <br><br><br>
+      <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
     </button>
   </a>
   </div>

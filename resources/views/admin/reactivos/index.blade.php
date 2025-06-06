@@ -6,7 +6,7 @@
             
                 @if(Auth::user()->confidential>=2)
                 <a href="{{ route('reactivos.create')}}">
-                  <button style="background-color:{{Auth::user()->color}} ; color:white; font-size:2.0vw; border-radius: 1.1vw">
+                  <button style="background-color: #ba800d ; color:white; font-size:1.1vw; border-radius: 3.1vw">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo</button>
                 </a>
                 @endif
@@ -56,7 +56,7 @@
     </div>
 @endsection
 
-@push('css')
+@section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 <!--
 <style>
@@ -94,7 +94,7 @@
     @endif
 </style>
 -->
-@endpush
+@stop
 
 @push('js')
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
