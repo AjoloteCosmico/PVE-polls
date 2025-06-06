@@ -124,8 +124,6 @@ class HomeController extends Controller
         return view('links');
     } 
 
-
-
     public function aviso(){
       
         return view('aviso');
@@ -146,7 +144,6 @@ class HomeController extends Controller
 
     public function buscar(){
         return view('buscar');
-    
     }
     
     public function resultado(Request $request){
@@ -154,8 +151,7 @@ class HomeController extends Controller
         $egresados=DB::table('egresados')
             ->leftJoin('carreras', function($join){
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
-                $join->on('carreras.clave_plantel', '=', 'egresados.plantel');
-                                         
+                $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                            
             })
             ->leftJoin('codigos', function($join){
                 $join->on('codigos.code', '=', 'egresados.status');

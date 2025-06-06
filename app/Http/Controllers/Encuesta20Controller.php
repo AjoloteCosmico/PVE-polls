@@ -19,8 +19,6 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Encuesta20Controller extends Controller
 {
-    
-
     public function comenzar($correo, $cuenta, $carrera)
     {
         $Correo = Correo::find($correo);
@@ -434,7 +432,6 @@ class Encuesta20Controller extends Controller
             "ncr24porque" => "required",
             "ncr23" => "required",
         ];
-        
         $validated = $request->validate($rules);
         $Encuesta->sec_c = 1;
         $Encuesta->save();
@@ -481,6 +478,7 @@ class Encuesta20Controller extends Controller
         return redirect()->route("edit_20", [$Encuesta->registro, "G"]);
     }
     //guardar ultima seccion (G)
+    
     public function updateG(Request $request, $id)
     {
         $Encuesta = respuestas20::where("registro", $id)->first();

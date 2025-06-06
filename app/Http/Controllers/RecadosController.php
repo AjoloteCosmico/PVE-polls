@@ -37,7 +37,6 @@ class RecadosController extends Controller
     foreach($Recados as $r){
         $color='';
         switch ($r->status) {
-          
           case 3:
               $color="rgba(245, 66, 66, 0.45)";
               break;
@@ -53,6 +52,7 @@ class RecadosController extends Controller
       }
       $r->color=$color;
     }
+    
     return view('muestras.act14.recados',compact('Egresado','Recados'));
 
 

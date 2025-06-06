@@ -1,7 +1,6 @@
 <x-laravel-ui-adminlte::adminlte-layout>
 <head>
-    <link rel="shortcut icon" type="image/png" href="{{ asset('img/logoPVE.png') }}">
-    
+    <link rel="shortcut icon" type="image/png" href="{{ asset('img/logoPVE.png') }}"> 
     <script src="//code.jquery.com/jquery-1.12.3.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
@@ -15,11 +14,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.0/css/responsive.bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-   
-
+    
     @stack('css')
     @include('layouts.identidad_grafica')
-        
     <script>
         var elem = document.documentElement;
         function openFullScreen() {
@@ -33,7 +30,7 @@
         }
     </script>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed"  >
+<body class="hold-transition sidebar-mini layout-fixed" >
     <div class="wrapper">
         <!-- Main Header -->
         <nav class="main-header navbar navbar-expand" >

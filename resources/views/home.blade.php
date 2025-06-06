@@ -30,7 +30,6 @@
         <th>carrera</th>
         <th>plantel</th>
         <th></th>
-
     </thead>
     <tbody>
         @foreach($nuevos_datos as $e)

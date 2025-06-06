@@ -56,7 +56,6 @@
                   <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
               </button>
           </a>
-      
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
