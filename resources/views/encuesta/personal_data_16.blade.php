@@ -8,7 +8,7 @@
            <th>Número C:</th><td> {{$Egresado->cuenta}}</td>
            <th> Teléfonos:</th>
              @foreach($Telefonos as $t)
-               <td> <a class="contact_data"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>
+               <td> <a class="contact_data" style="color: #002b7a;"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>
              @if($loop->last)
                <a href="{{route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-azul" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono  </button></a>
             @endif</td>

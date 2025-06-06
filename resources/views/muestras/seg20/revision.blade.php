@@ -2,11 +2,10 @@
 
 @section('content')
 
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
-    
+<div class="container-fluid">  
     <div class="col-6 col-lg-12 table-responsive table-div">
       
-        <table class="table text-xl muestra " id="myTable">
+        <table class="table text-xl" id="myTable">
           <thead>
             <tr>
             <th>Nombre</th>
@@ -37,10 +36,9 @@
 </div>
 @stop
 
-@push('css')
+@section('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
-@endpush
+@stop
 
 @push('js')
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>

@@ -16,7 +16,7 @@
 @endif
 @if(Auth::user()->confidential>=1)
 <li class="nav-item">
-    <a href="{{ route('reactivos.index') }}" class="nav-link {{ Request::is('reactivos.index') ? 'active' : '' }}">
+    <a href="{{ route('reactivos.index') }}" class="nav-link {{ Request::is('reactivos') ? 'active' : '' }}">
         <i class="nav-icon fas fa-question"></i>
         <p>Reactivos</p>
     </a>
@@ -28,15 +28,9 @@
         <p>Links</p>
     </a>
 </li>
-<li class="nav-item">
-    <a href="{{ route('2019') }}" class="nav-link {{ Request::is('2019') ? 'active' : '' }}">
-    <i class="nav-icon fas fa-paper-plane"></i>
-        <p>2019 progreso </p>
-    </a>
-</li>
 
 <li class="nav-item">
-    <a href="{{ route('recados.index') }}" class="nav-link {{ Request::is('recados.index') ? 'active' : '' }}">
+    <a href="{{ route('recados.index') }}" class="nav-link {{ Request::is('recados') ? 'active' : '' }}">
     <i class="fas fa-poll"></i>
         <p>Recados Lista</p>
     </a>
@@ -48,7 +42,7 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ route('revisiones.index') }}" class="nav-link {{ Request::is('revisiones.index') ? 'active' : '' }}">
+    <a href="{{ route('revisiones.index') }}" class="nav-link {{ Request::is('revisiones') ? 'active' : '' }}">
     <i class="nav-icon fas fa-eye"></i>
         <p>Revisar mis encuestas</p>
     </a>

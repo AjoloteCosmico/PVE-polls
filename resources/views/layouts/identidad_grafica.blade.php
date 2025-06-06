@@ -18,6 +18,7 @@ h1{
     font-weight: bolder;
     font-size: 30px;
     color: white;
+    text-align: center;
 }
 
 /*subtitulo azul*/
@@ -81,6 +82,31 @@ td{
     font-weight: 600;
 }
 
+/*cuadro de búsqueda*/
+
+.dataTables_filter input {
+    width: 1vw;
+	max-height:2vw;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
+    text-indent: 10px;
+    color: #002b7a;
+    font-size: 1.3vw;
+	margin-left: 10px;
+  }
+   
+.dataTables_filter {
+    align-items: center;
+    size: 40px;
+	color: white;
+  
+  }
+
+#myTable_info {
+  color: white;
+}
+
 /*prueba de next y previous*/
 
 .paginate_button.previous {
@@ -108,6 +134,7 @@ td{
   cursor: pointer;
 }
 
+
 /*estilos de botones de navegacion*/
 .boton-volver {
   background-color: #ba800d;
@@ -125,6 +152,48 @@ td{
 .boton-volver:hover {
   background-color: #002b7a;
 }
+
+div.dataTables_length select {
+  color: #002b7a; 
+    background-color: white; 
+    font-weight: 600;
+}
+
+div.dataTables_length label {
+  color: white; 
+}
+
+
+
+/*estilos de letras en buscar*/
+.label-cuenta {
+  color: white;
+  font-size: 2rem; 
+}
+
+.label-nombrecompleto {
+  color: white;
+  font-size: 2rem;  
+}
+
+.label-correo {
+  color: white;
+  font-size: 2rem;  
+}
+
+
+/*boton de buscar*/
+
+.boton-buscar {
+  background-color: #ba800d;  /* Fondo azul oscuro */
+  color: white;               /* Color del texto */
+  border: none;
+}
+
+.boton-buscar:hover {
+  background-color: #002b7a;  /* Color al pasar el mouse */
+}
+
 
 
 
@@ -184,9 +253,11 @@ td{
 .boton-azul{
     background-color: #002b7a;
     color: white;
-    padding: 6px;
+    padding: 20px 50px;
+    justify-content: center;
     border-radius: 8px;
     border: none;
+
 }
 .boton-azul:hover{
     background-color: #ba800d;
@@ -202,6 +273,12 @@ td{
 }
 .boton-muestras:hover{
     background-color: #ba800d;
+}
+
+.boton-muestras img.icono-boton {
+  width: 90px;       /* ajusta al tamaño que desees */
+  height: auto;
+  margin-bottom: auto;
 }
     
 /*estilo de contenedores*/
@@ -292,16 +369,18 @@ input{
     padding: 10px;
     text-align: center;
     font-size: 16px;
-    font-weight: 800;
-    color: #000b1b;
+    font-weight: 200;
+    color: #002b7a;
     margin: 10px;
     background-color: white;
+    display: block;
+    margin: auto;
 }
 
 footer{
-    background:#343A40;
-    border-top: 1px solid #dee2e6;
-    color: #869099;
+    background:#002b7a;
+    border-top: 1px solid #ba800d;
+    color: white;
     padding: 1rem;
     margin-left: 250px;
 }

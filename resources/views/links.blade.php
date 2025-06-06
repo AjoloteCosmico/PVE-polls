@@ -35,6 +35,12 @@
         </div>
         <div class="row link-card cuadro-amarillo"> 
             <div class="col cuadro-amarillo">
+                <h3>Encuesta por Internet de actualización 2016</h3><br>
+                <a href="https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2016"> https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2016</a>
+            </div>
+        </div>
+        <div class="row link-card cuadro-amarillo"> 
+            <div class="col cuadro-amarillo">
                 <h3>Encuesta por Internet Todas la carreras y generaciones</h3><br>
                 <a href="https://encuestas.pveaju.unam.mx/encuesta_generacion/general">https://encuestas.pveaju.unam.mx/encuesta_generacion/general</a>
             </div>

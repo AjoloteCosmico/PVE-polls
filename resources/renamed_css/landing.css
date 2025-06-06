@@ -548,7 +548,7 @@ td.badgePDF:hover {
     border-radius: 5px;
     box-shadow: 0 0 3px #ccc, 0 10px 15px #ebebeb inset;
     text-indent: 10px;
-    color: gray;
+    color: rgb(3, 3, 3);
     font-size: 1.3vw;
 	margin-left: 10px;
   }
@@ -564,7 +564,7 @@ td.badgePDF:hover {
 #table_length {
 	display: block;
 	float: right;
-	color: gray;
+	color: #002b7a;
 }
 
 /*botones de paginación*/
