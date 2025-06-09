@@ -114,6 +114,9 @@
                <br>
                <h2 class="reactivo"> Giro específico </h2>
                <textarea  class="texto" id="giro_especifico" name="giro_especifico" cols="30" maxlength="550" value=0 >@if($Empresa!=null){{$Empresa->giro_especifico}}@endif</textarea>
+               <h2 class="reactivo"> Notas de la empresa </h2>
+               <textarea  class="texto" id="nota_empresa" name="nota_empresa" cols="30" maxlength="100" value=0 >@if($Empresa!=null){{$Empresa->nota}}@endif</textarea>
+               
             </td>
             <td>
                <h2 class="reactivo">65a).- Otra:</h2>

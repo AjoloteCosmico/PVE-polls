@@ -192,6 +192,7 @@ class Enc16ActController extends Controller
                 $Empresa=new Empresas();
                 $Empresa->nombre=$Encuesta->ncr2;
                 $Empresa->sector=$Encuesta->ncr3;
+                $Empresa->registro=$Encuesta->registro;
                 $Empresa->clave_giro=$Encuesta->ncr4;
                 $Empresa->giro_especifico=$request->giro_especifico;
                 $Empresa->usuario= Auth::user()->clave;

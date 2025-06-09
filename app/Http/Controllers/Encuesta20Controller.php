@@ -384,6 +384,7 @@ class Encuesta20Controller extends Controller
         $empresaData['clave_giro']=$request->ncr4;
         $empresaData['giro_especifico'] = $request->giro_especifico;
         $empresaData['sector'] = $request->ncr3;
+        $empresaData['nota'] = $request->nota_empresa;
         if( $existe_empresa  == null){
             $empresaData['usuario'] = Auth::user()->clave;
             $empresaData['registro'] = $Encuesta->registro;
