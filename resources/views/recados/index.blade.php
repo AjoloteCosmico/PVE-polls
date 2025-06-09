@@ -46,7 +46,7 @@
                             @csrf
                             <input name="_method" type="hidden" value="DELETE">
 
-                            <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>BORRAR!</button>
+                            <button type="submit" class="btn btn-danger btn-lg" data-toggle="tooltip" title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
                         </form>  </td>
             
         </tr>

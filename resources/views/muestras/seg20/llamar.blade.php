@@ -109,7 +109,7 @@
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
 
-                                        <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>BORRAR!</button>
+                                        <button type="submit" class="btn btn-danger btn-lg" data-toggle="tooltip" title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
                                     </form>  
                                 </td>
                             </tr>
@@ -140,13 +140,15 @@
                         <button type="button" onclick='check_form({{$telefono->id}})'  class="boton-dorado">
                             <i class="fas fa-paper-plane"></i> Marcar y guardar recado
                         </button>
-                        <br>
+
+                        <br><br><br>
+
                         <a href="{{route('act_data',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
                         </a>
-                        <br>
+                        <br><br><br>
                         <!-- TODO: hacer una ruta llamada completar encuesta -->
                     @if($Encuesta)
                         @if($gen==2020)
@@ -229,6 +231,10 @@ function codigo(tel_id){
 
 }
 </script>
+
+
+
+
 <script>
 
   console.log('script jalando ¿?');

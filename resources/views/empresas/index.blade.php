@@ -11,7 +11,7 @@
     @endif
 
     <!-- Botón para agregar una nueva empresa -->
-    <a href="{{ route('empresas.create') }}" class="btn btn-primary mb-3">Agregar Nueva Empresa</a>
+    <a href="{{ route('empresas.create') }}" class="btn btn-primary boton-buscar">Agregar Nueva Empresa</a>
 
     <!-- Tabla de Empresas -->
     <table class="table table-bordered dataTable" id="myTable">
@@ -86,7 +86,7 @@
                         <form action="{{ route('empresas.destroy', $empresa->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta empresa?');">Eliminar</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta empresa?');"> <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
                         </form>
                     @endif
                     </td>

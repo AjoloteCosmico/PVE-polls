@@ -4,7 +4,7 @@
 @section('content')
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div">
-        <h1>Bienvenido {{Auth::user()->name }}</h1>
+        <h1>Bienvenid@ {{Auth::user()->name }}</h1>
         <h1> Links </h1>
     </div>
     <center >
