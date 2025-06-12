@@ -44,7 +44,7 @@ use \App\Http\Controllers\ComponentController;
     <div class="posgrado_reactivos">
 
     </div>
-    <div style="display:flex; flex-direction: row-reverse; padding:1.2vw" class='fixed'> <button   style="font-size:1.9vw; padding:1.4vw" type="submit" class="boton-azul">
+    <div style="display:flex; flex-direction: row-reverse; padding:1.2vw" class='fixed'> <button   style="font-size:1.9vw; padding:1.4vw" type="button" onclick="send_form('guardar')" class="boton-azul">
 <i class="fas fa-save fa-xl"></i>   Guardar
  </button></div>
 </form>
