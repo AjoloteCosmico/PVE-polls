@@ -40,6 +40,7 @@ class LlamadasController extends Controller
         ->select('telefonos.*','codigos.color_rgb','codigos.description')
         ->get();
         $Recados=DB::table('recados')->where('cuenta','=',$Egresado->cuenta)
+        ->orderBy('fecha','asc')
         ->leftJoin('codigos','codigos.code','=','recados.status')
         ->select('recados.*','codigos.color_rgb','codigos.description')
         ->get();
