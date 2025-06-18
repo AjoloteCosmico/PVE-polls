@@ -341,16 +341,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
 </tr>
 
 <!-- seccion b segunda fila -->
-<td>
-<h2 class="reactivo">11).-¿Bajo qué sistema de enseñanza realizó sus estudios de licenciatura? </h2>
- 
- <select class="select" id="nar1" name="nar1" >
- <option value="" ></option>
- <option value=1  @if($Encuesta->nar1==1) selected @endif >Abierto</option>
- <option value=2 @if($Encuesta->nar1==2) selected @endif >A distancia</option>
- <option value=3 @if($Encuesta->nar1==3) selected @endif >Presencial</option>
- </select>  
-</td>
+
 
 <td>
 <h2 class="reactivo">12).-¿Durante sus estudios de bachillerato tuvo alguna beca?    </h2>

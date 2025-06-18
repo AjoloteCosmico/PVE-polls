@@ -194,6 +194,16 @@ div.dataTables_length label {
   background-color: #002b7a;  /* Color al pasar el mouse */
 }
 
+/*alternativa para borrar*/
+
+.boton-borrar {
+  background-color: #002b7a; 
+  color: white;               
+  border: none;
+}
+.boton-borrar:hover {
+  background-color: #ba800d;  
+}
 
 
 
@@ -301,7 +311,8 @@ div{
     margin: auto;
     width: 80%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 1rem;
 }
 .aviso{
     background-color: #ba800d;

@@ -176,8 +176,14 @@ class Enc16ActController extends Controller
         $Encuesta->aplica = Auth::user()->clave;
         $Encuesta->fec_capt = now()->modify("-6 hours");
         // $request->validate($rules);
-        $Encuesta->update($request->except(["_token", "_method","giro_especifico"]));
+        $Encuesta->update($request->except(["_token", "_method","giro_especifico", "btn_pressed"]));
         // 
+        if ($request->btn_pressed === 'guardar') {
+            if($Encuesta->completed != 1){
+                $Encuesta->save();
+        }
+        return back()->with('status', 'guardado');
+    }
         if( $this->validar($Encuesta)){
             $Encuesta->completed=1;
             $Encuesta->nbr7=2016;

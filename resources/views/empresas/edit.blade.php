@@ -3,18 +3,20 @@
 @section('content')
 <div class="container">
     <h1>Editar Empresa</h1>
+    <br><br>
+
 
     <form action="{{ route('empresas.update', $empresa->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ $empresa->nombre }}" required>
+            <label for="nombre" class="label-cuenta">Nombre:</label>
+            <input type="text" class="form-control myinput" id="nombre" name="nombre" value="{{ $empresa->nombre }}" required>
         </div>
 
         <div class="form-group">
-            <label for="clave_giro">Giro:</label>
+            <label for="clave_giro" class="label-cuenta">Giro:</label>
             <select id="clave_giro" name="clave_giro">
                 <option value=1 @if($empresa->clave_giro==1) selected @endif> Agricultura, ganadería, aprovechamiento forestal, caza y pesca</option>
                 <option value=19 @if($empresa->clave_giro==19) selected @endif>Asociaciones y agrupaciones</option>
@@ -45,12 +47,12 @@
         </div>
 
         <div class="form-group">
-            <label for="giro_especifico">Giro Específico:</label>
+            <label for="giro_especifico" class="label-cuenta">Giro Específico:</label>
             <input type="text" class="form-control" id="giro_especifico" name="giro_especifico" value="{{ $empresa->giro_especifico }}" required>
         </div>
 
         <div class="form-group">
-            <label for="sector">Sector:</label>
+            <label for="sector" class="label-cuenta">Sector:</label>
             <select id="sector" name="sector">
                 <option value=1 @if($empresa->sector==1) selected @endif>Público</option>
                 <option value=2 @if($empresa->sector==2) selected @endif>Privado</option>
@@ -59,12 +61,12 @@
         </div>
 
         <div class="form-group">
-            <label for="nota">Nota:</label>
+            <label for="nota" class="label-cuenta">Nota:</label>
             <textarea class="form-control" id="nota" name="nota">{{ $empresa->nota }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Actualizar</button>
-        <input type="button" class="btn btn-primary" value="Cancelar" onclick="history.back()"/>
+        <button type="submit" class="btn btn-primary boton-buscar">Actualizar</button>
+        <input type="button" class="btn btn-primary boton-buscar" value="Cancelar" onclick="history.back()"/>
     </form>
 </div>
 @endsection
