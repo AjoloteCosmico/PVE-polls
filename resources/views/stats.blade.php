@@ -14,10 +14,11 @@
             <a href="{{ route('report','reporte_individual_act2016')}}">
                 <button class="boton-azul">
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2016
-                </button></a>
+                </button>
+            </a>
             <a href="{{ route('report','correos_inconclusas')}}">
                 <button class="boton-azul" >
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos par encuestas inconclusas
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas inconclusas
                 </button>
             </a>
             <a href="{{ route('report','correos_muestra_sin_contestar')}}">
@@ -27,8 +28,14 @@
             </a>
             <a href="{{ route('report','correos_contestadas')}}">
                 <button class="boton-azul" >
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos par encuestas completas
-                </button></a>
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2020
+                </button>
+            </a>
+            <a href="{{ route('report','correos_contestadas_2016')}}">
+                <button class="boton-azul" >
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2016
+                </button>
+            </a>
             <a href="{{ route('report','base20')}}">
                 <button class="boton-azul" >
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; ENCUESTAS 2020 BASE (al dia de hoy)
