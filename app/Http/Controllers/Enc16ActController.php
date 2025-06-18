@@ -42,7 +42,6 @@ class Enc16ActController extends Controller
             $process->run();
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
-                $Correo->enviado = 2;
                 $Correo->save();
             } else {
                 $Correo->enviado = 1;
@@ -69,6 +68,8 @@ class Enc16ActController extends Controller
         }
         return redirect()->route('edit_16',$Encuesta->registro);
     }
+
+
 
     public function edit($id){
         $Encuesta=respuestas16::find($id);
