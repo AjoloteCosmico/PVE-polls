@@ -57,6 +57,7 @@ class RecadosController extends Controller
 
 
     }
+    
     public function marcar_14(Request $request,$id){
         $Egresado=respuestas14::find($id);
         $Recado= new Recado();
@@ -66,12 +67,10 @@ class RecadosController extends Controller
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->save();
 
-
         $Egresado->status=$request->code;
         $Egresado->recado=$request->recado;
         $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get()->count();
         $Egresado->save();
-
        
         return redirect()->route('muestras14.show',[$Egresado->carrera,$Egresado->plantel]);
         }

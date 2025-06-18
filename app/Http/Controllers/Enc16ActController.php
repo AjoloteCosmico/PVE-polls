@@ -87,7 +87,6 @@ class Enc16ActController extends Controller
         )->first()->plantel;
         $Telefonos = Telefono::where("cuenta", $Egresado->cuenta)->get();
         $Correos = Correo::where("cuenta", $Egresado->cuenta)->get();
-        
         $Reactivos=Reactivo::where('rules','act')->get();
         $Opciones=Option::where('clave','like','%p%r')->get();
         $Bloqueos=DB::table('bloqueos')->join('reactivos','reactivos.clave','bloqueos.clave_reactivo')
@@ -95,7 +94,6 @@ class Enc16ActController extends Controller
         ->whereIn('bloqueos.bloqueado',$Reactivos->pluck('clave')->toArray())
         ->select('bloqueos.*','reactivos.act_order')
         ->get();
-
         $Secciones=array(
             array('letter'=>'A',
                   'desc'=>'Datos socioeconómicos',
@@ -201,7 +199,6 @@ class Enc16ActController extends Controller
             //generar .json
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
-
             File::put($fileStorePath, json_encode($Encuesta));
 
             return view("encuesta.saved", compact("Encuesta"));

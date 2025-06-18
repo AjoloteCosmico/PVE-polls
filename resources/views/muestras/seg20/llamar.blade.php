@@ -172,9 +172,9 @@
         <br> 
         @endforeach
     </div>
+    
     <div class='row'>
         <div class='col'>
-
             @if($gen==2020)
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
                 <button type="button"  class="boton-oscuro">
@@ -272,8 +272,6 @@ function codigo(tel_id){
               buttons: false,
           })
         }
-        // 
-
     }
 </script>
 @endpush

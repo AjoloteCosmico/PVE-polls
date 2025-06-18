@@ -134,9 +134,16 @@ public function index_20($id){
     $c->nencuestas_int = $queryBase
     ->where('status', 2)
     ->count();
+     if($id==0){
+      $c->pob=Egresado::where('anio_egreso', '2020')
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->count();
+     }
+      
   }
   // $carreras=collect($carreras);
-  return view('muestras.seg20.index',compact('carreras'));
+  return view('muestras.seg20.index',compact('carreras','id'));
 }
 public function show_14($carrera,$plantel){
   $muestra=respuestas14::where('carrera','=',$carrera)->where('plantel','=',$plantel)->get();

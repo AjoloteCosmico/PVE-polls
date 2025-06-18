@@ -472,8 +472,6 @@ function send_form(value){
 
 <script>
 
-
-
     function setValueWithEffect(element, value) {
   // Quitar la clase si ya existe
   element.classList.remove('highlight');
@@ -525,7 +523,6 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
     console.log('se ha seleccionado una empresa',sector,giro);
     resultadosDiv.innerHTML = '';
 }
-
 
 
 document.addEventListener('DOMContentLoaded', function () {

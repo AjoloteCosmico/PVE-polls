@@ -8,6 +8,9 @@
             <tr>
             <th>Carrera</th>
             <th>Plantel</th>
+            @if($id==0)
+            <th>Poblacion</th>
+            @endif
             <th>Realizadas Telefonica</th>
             <th>Realizadas Internet</th>
             <th>Requeridas </th>
@@ -22,6 +25,9 @@
             <tr style="background-color:rgba({{255*(1-($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas_5)}},{{255*(($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas_5)}},0,0.4)">
                 <td>{{$c->carrera}} </td>
                 <td>{{$c->plantel}} </td>
+                @if($id==0)
+                 <td>{{$c->pob}}</td> 
+                @endif
                 <td> {{$c->nencuestas_tel}}</td>
                 <td> {{$c->nencuestas_int}}</td>
                 <td> {{$c->requeridas_5}}</td>
