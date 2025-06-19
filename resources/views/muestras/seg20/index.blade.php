@@ -35,7 +35,6 @@
                 <th> - </th>
                 <td><a href="{{route('muestras20.show',[$c->c,$c->p])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
                 <td></td>
-           
               </tr>
             @endforeach
           </tbody>

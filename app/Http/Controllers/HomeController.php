@@ -28,7 +28,7 @@ class HomeController extends Controller
     
     public function index()
     {
-        $nuevos_datos=DB::table('egresados')->where('muestra','=','3')->where('actualized','=','2024-02-16')
+        $nuevos_datos=DB::table('egresados')->where('muestra','=','3')->where('actualized','=','2025-06-19')
         ->leftJoin('codigos','codigos.code','=','egresados.status')
         ->leftJoin('carreras', function($join)
   {
