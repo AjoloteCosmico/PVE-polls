@@ -572,85 +572,85 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        if (ner1) ner1.addEventListener('change', actualizarBloqueoReactivos);
+        // if (ner1) ner1.addEventListener('change', actualizarBloqueoReactivos);
 
-        // --- nfr29 → nfr29a ---
-        const nfr29 = document.getElementById('nfr29');
-        const nfr29a = document.getElementById('nfr29a');
+        // // --- nfr29 → nfr29a ---
+        // const nfr29 = document.getElementById('nfr29');
+        // const nfr29a = document.getElementById('nfr29a');
 
-        function actualizarFrr29a() {
-            if (nfr29 && nfr29a) {
-                nfr29a.disabled = (nfr29.value !== '99');
-            }
-        }
+        // function actualizarFrr29a() {
+        //     if (nfr29 && nfr29a) {
+        //         nfr29a.disabled = (nfr29.value !== '99');
+        //     }
+        // }
 
-        if (nfr29) nfr29.addEventListener('change', actualizarFrr29a);
-
-
-
-
-        // --- ner18 → ner18ext ---
-        const ner18 = document.getElementById('ner18');
-        const ner18ext = document.getElementById('ner18ext');
-
-        function actualizarNer18ext() {
-            if (ner18 && ner18ext) {
-                ner18ext.disabled = (ner18.value !== '10');
-            }
-        }
-
-        if (ner18) ner18.addEventListener('change', actualizarNer18ext);
+        // if (nfr29) nfr29.addEventListener('change', actualizarFrr29a);
 
 
 
 
+        // // --- ner18 → ner18ext ---
+        // const ner18 = document.getElementById('ner18');
+        // const ner18ext = document.getElementById('ner18ext');
+
+        // function actualizarNer18ext() {
+        //     if (ner18 && ner18ext) {
+        //         ner18ext.disabled = (ner18.value !== '10');
+        //     }
+        // }
+
+        // if (ner18) ner18.addEventListener('change', actualizarNer18ext);
 
 
-        // --- ncr24 → ncr24_a ---
-        const ncr24 = document.getElementById('ncr24');
-        const ncr24_a = document.getElementById('ncr24_a');
-
-        function actualizarNer24a() {
-            if (ncr24 && ncr24_a) {
-                ncr24_a.disabled = (ncr24.value !== '7');
-            }
-        }
-
-        if (ncr24) ncr24.addEventListener('change', actualizarNer24a);
 
 
 
-        // --- ner12 → ner12b ---
-        const ner12 = document.getElementById('ner12');
-        const ner12b = document.getElementById('ner12b');
-        function actualizarNer12b() {
-            if (ner12 && ner12b) {
-                ner12b.disabled = (ner12.value !== '1');
-            }
-        }
 
-        if (ner12) ner12.addEventListener('change', actualizarNer12b);
+        // // --- ncr24 → ncr24_a ---
+        // const ncr24 = document.getElementById('ncr24');
+        // const ncr24_a = document.getElementById('ncr24_a');
 
+        // function actualizarNer24a() {
+        //     if (ncr24 && ncr24_a) {
+        //         ncr24_a.disabled = (ncr24.value !== '7');
+        //     }
+        // }
 
-        // --- ner12 → ner12ext ---
-        const ner12ext = document.getElementById('ner12ext');
-        function actualizarNer12ext() {
-            if (ner12 && ner12ext) {
-                ner12ext.disabled = (ner12.value !== '2');
-            }
-        }
-        if (ner12) ner12.addEventListener('change', actualizarNer12ext);
+        // if (ncr24) ncr24.addEventListener('change', actualizarNer24a);
 
 
-        // --- ner15 → ner15ext ---
-        const ner15 = document.getElementById('ner15');
-        const ner15ext = document.getElementById('ner15ext');
-        function actualizarNer15ext() {
-            if (ner15 && ner15ext) {
-                ner15ext.disabled = (ner15.value !== '2');
-            }
-        }
-        if (ner15) ner15.addEventListener('change', actualizarNer15ext);
+
+        // // --- ner12 → ner12b ---
+        // const ner12 = document.getElementById('ner12');
+        // const ner12b = document.getElementById('ner12b');
+        // function actualizarNer12b() {
+        //     if (ner12 && ner12b) {
+        //         ner12b.disabled = (ner12.value !== '1');
+        //     }
+        // }
+
+        // if (ner12) ner12.addEventListener('change', actualizarNer12b);
+
+
+        // // --- ner12 → ner12ext ---
+        // const ner12ext = document.getElementById('ner12ext');
+        // function actualizarNer12ext() {
+        //     if (ner12 && ner12ext) {
+        //         ner12ext.disabled = (ner12.value !== '2');
+        //     }
+        // }
+        // if (ner12) ner12.addEventListener('change', actualizarNer12ext);
+
+
+        // // --- ner15 → ner15ext ---
+        // const ner15 = document.getElementById('ner15');
+        // const ner15ext = document.getElementById('ner15ext');
+        // function actualizarNer15ext() {
+        //     if (ner15 && ner15ext) {
+        //         ner15ext.disabled = (ner15.value !== '2');
+        //     }
+        // }
+        // if (ner15) ner15.addEventListener('change', actualizarNer15ext);
 
 
         // --- EJECUCIÓN ORDENADA AL CARGAR LA PÁGINA ---
