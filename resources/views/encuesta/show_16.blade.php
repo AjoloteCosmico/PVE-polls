@@ -555,22 +555,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const ner1 = document.getElementById('ner1');
         const reactivosObjetivo = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
 
-        function actualizarBloqueoReactivos() {
-            if (ner1 && ner1.value === '1') {
-                reactivosObjetivo.forEach(id => {
-                    const select = document.getElementById(id);
-                    if (select) {
-                        if (!select.value) select.value = '2';
-                        select.disabled = true;
-                    }
-                });
-            } else {
-                reactivosObjetivo.forEach(id => {
-                    const select = document.getElementById(id);
-                    if (select) select.disabled = false;
-                });
-            }
-        }
+        // function actualizarBloqueoReactivos() {
+        //     if (ner1 && ner1.value === '1') {
+        //         reactivosObjetivo.forEach(id => {
+        //             const select = document.getElementById(id);
+        //             if (select) {
+        //                 if (!select.value) select.value = '2';
+        //                 select.disabled = true;
+        //             }
+        //         });
+        //     } else {
+        //         reactivosObjetivo.forEach(id => {
+        //             const select = document.getElementById(id);
+        //             if (select) select.disabled = false;
+        //         });
+        //     }
+        // }
 
         // if (ner1) ner1.addEventListener('change', actualizarBloqueoReactivos);
 
@@ -654,13 +654,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         // --- EJECUCIÓN ORDENADA AL CARGAR LA PÁGINA ---
-        actualizarBloqueoReactivos(); 
-        actualizarFrr29a();           
-        actualizarNer18ext();         
-        actualizarNer24a();      
-        actualizarNer12b();
-        actualizarNer12ext();
-        actualizarNer15ext();
+        // actualizarBloqueoReactivos(); 
+        // actualizarFrr29a();           
+        // actualizarNer18ext();         
+        // actualizarNer24a();      
+        // actualizarNer12b();
+        // actualizarNer12ext();
+        // actualizarNer15ext();
       
 
         
