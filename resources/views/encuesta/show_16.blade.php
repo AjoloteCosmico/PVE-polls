@@ -454,7 +454,6 @@ function send_form(value){
     document.getElementById('btn-pressed').value=value;
     document.getElementById('forma_sagrada').submit();
 }
-
 </script>
 
 @include('posgrado.scripts_bloquear')
@@ -532,8 +531,6 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
     resultadosDiv.innerHTML = '';
 }
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const ner1 = document.getElementById('ner1');
 
@@ -608,8 +605,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // }
 
         // if (ner18) ner18.addEventListener('change', actualizarNer18ext);
-
-
 
 
 
