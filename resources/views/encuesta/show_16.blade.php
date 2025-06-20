@@ -530,7 +530,7 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
 }
 
 
-/*
+
 document.addEventListener('DOMContentLoaded', function () {
     const ner1 = document.getElementById('ner1');
 
@@ -549,10 +549,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-*/
+
+
+
+
+/*
 document.addEventListener('DOMContentLoaded', function () {
         // --- ner1 bloquea muchos campos ---
         const ner1 = document.getElementById('ner1');
+
         const reactivosObjetivo = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
 
         function actualizarBloqueoReactivos() {
@@ -679,5 +684,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error al buscar empresa al cargar:', error));
         }
     });
+*/
 </script>
 @endpush
