@@ -238,7 +238,6 @@ class Encuesta20Controller extends Controller
             "ner20" => "required",
             "ner20txt" => "required",
             "ner20a" => "required",
-            "nar1" => "required",
             "nar2a" => "required",
             "nar4a" => "required",
             "nar5a" => "required",
