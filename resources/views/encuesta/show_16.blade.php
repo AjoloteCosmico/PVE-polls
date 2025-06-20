@@ -477,7 +477,8 @@ function send_form(value){
 
 <script>
 
-    function setValueWithEffect(element, value) {
+function setValueWithEffect(element, value) {
+    console.log('setting value');
   // Quitar la clase si ya existe
   element.classList.remove('highlight');
   
@@ -507,7 +508,9 @@ searchBox.addEventListener('input', function(e) {
         .then(data => {
             resultadosDiv.innerHTML = '';
             data.forEach(item => {
-                resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${item.nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
+                
+                const nombre = item.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
             });
         })
         .catch(error => console.error('Error:', error));
