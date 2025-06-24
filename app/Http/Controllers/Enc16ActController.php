@@ -209,7 +209,6 @@ class Enc16ActController extends Controller
                 $Empresa->giro_especifico=$request->giro_especifico;
                 $Empresa->usuario= Auth::user()->clave;
                 $Empresa->save();
-
             }
             //generar .json
             $fileName = $Encuesta->cuenta . ".json";

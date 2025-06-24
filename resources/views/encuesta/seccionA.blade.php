@@ -339,10 +339,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
   </select>
 </td>
 </tr>
-
 <!-- seccion b segunda fila -->
-
-
 <td>
 <h2 class="reactivo">12).-¿Durante sus estudios de bachillerato tuvo alguna beca?    </h2>
   
@@ -365,7 +362,6 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
   </select>
 
 
-  
 </td>
 <td>
 
@@ -393,9 +389,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
 <tr>
 <td  colspan="2">
 <h2 class="reactivo">14).- ¿En qué medida la beca o becas que recibió contribuyeron a apoyar su desempeño académico? </h2>
- 
- 
- 
+  
 <select class="select" id="nar4a" name="nar4a" >
   <option value="" selected></option>
   <option value=1 @if($Encuesta->nar4a==1) selected @endif>Muchisimo</option>
@@ -405,6 +399,7 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
   <option value=5 @if($Encuesta->nar4a==5) selected @endif>Nada</option>
   <option value=0  hidden></option>   
 </select>
+
 </td>
 <td  colspan="2">
 <h2 class="reactivo">15).- ¿En qué medida la beca o becas que recibió contribuyeron a apoyar la conclusión de sus estudios? </h2>
@@ -429,7 +424,6 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
 </div>
 
 @endsection
-
 
 @push('js')
 <script>
@@ -479,10 +473,10 @@ Otra:<input  type="text" class="texto" ID="nar16otra" name="nar16otra" size="30"
   }
   function check_beca(){
     bloquear('binbeca',[2],[becasdiv]);
-  console.log('executing function beca');
-  nar2a=document.getElementById("nar2a").value;
-  nar3a=document.getElementById("binbeca").value;
-  console.log(nar3a);
+    console.log('executing function beca');
+    nar2a=document.getElementById("nar2a").value;
+    nar3a=document.getElementById("binbeca").value;
+    console.log(nar3a);
   if(nar2a==1 && nar3a==2){
    console.log('hay que cerrar la beca xd');
    ocultar(document.getElementById("nar4a"));
