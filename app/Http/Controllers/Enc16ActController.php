@@ -160,9 +160,16 @@ class Enc16ActController extends Controller
                             Session::put('logs',$logs);
                             Session::put('falta',$field_presenter);
                             Session::put('status','incompleta');
+
+                            $Encuesta->completed=0;
+                            $Encuesta->save();
+
                             return false;} 
                 }
         }
+
+        $Encuesta->completed=1;
+        $Encuesta->save();
         
         Session::put('status','completa');
         return true;
@@ -178,8 +185,10 @@ class Enc16ActController extends Controller
         $Encuesta->fec_capt = now()->modify("-6 hours");
         // $request->validate($rules);
         $Encuesta->update($request->except(["_token", "_method","giro_especifico", "btn_pressed"]));
+        
         // 
         if ($request->btn_pressed === 'guardar') {
+            $this->validar($Encuesta);
             if($Encuesta->completed != 1){
                 $Encuesta->save();
         }
@@ -223,13 +232,4 @@ class Enc16ActController extends Controller
         }
     }
 
-    public function  guardar_incompleta($id){
-        $Encuesta = respuestas16::find($id);
-        $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
-            ->where("carrera", $Encuesta->nbr2)
-            ->first();
-        $Egresado->status=10;
-        $Egresado->save();
-           return view('encuesta.act16.inicio');
-    }
 }

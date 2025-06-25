@@ -12,6 +12,7 @@ array_bloqueos={
        },
        @endforeach
 }
+
 //funcion que revisa todos los bloqueos
  function checkBloqueos(reactive){
   console.log(reactive+'Ha cambiado');
