@@ -532,6 +532,7 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    
     const ner1 = document.getElementById('ner1');
 
     if (ner1) {
@@ -548,140 +549,158 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+
+
+
+    //mODIFICACIONES DE PRUEBA
+
+    const ner1Element = document.getElementById('ner1'); // Cambié la variable para no confundir con la de arriba
+
+    const reactivosBloqueoNer1 = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
+
+    function actualizarBloqueoReactivos() {
+        if (ner1Element && ner1Element.value === '2') {
+            console.log('ner1 es 2. Bloqueando campos...'); // Si ner1 es 'Sí' (o el valor que signifique bloqueo)
+            reactivosBloqueoNer1.forEach(id => {
+                const select = document.getElementById(id);
+                if (select) {
+                    if (!select.value) select.value = '1'; // Si no tiene valor, forzar "No" (o el valor predeterminado)
+                    select.disabled = true;
+                }
+            });
+        } else {
+            reactivosBloqueoNer1.forEach(id => {
+                const select = document.getElementById(id);
+                if (select) select.disabled = false;
+            });
+        }
+    }
+
+    if (ner1Element) ner1Element.addEventListener('change', actualizarBloqueoReactivos);
+
+
+    // --- nfr29 → nfr29a ---
+    const nfr27 = document.getElementById('nfr27');
+    const nfr29 = document.getElementById('nfr29');
+    const nfr29a = document.getElementById('nfr29a');
+
+    function actualizarFrr29a() {
+        if (nfr29 && nfr29a) {
+            nfr29a.disabled = (nfr29.value !== '99'); // '99' es el valor que habilita nfr29a, si no es '99' se deshabilita
+            if (nfr29a.disabled) { // Si se deshabilita, también borra el valor para evitar datos inconsistentes
+                nfr29a.value = '';
+            }
+        }
+    }
+
+    if (nfr29) nfr29.addEventListener('change', actualizarFrr29a);
+
+
+    // --- ner18 → ner18ext ---
+    const ner18 = document.getElementById('ner18');
+    const ner18ext = document.getElementById('ner18ext');
+
+    function actualizarNer18ext() {
+        if (ner18 && ner18ext) {
+            ner18ext.disabled = (ner18.value !== '10');
+            if (ner18ext.disabled) {
+                ner18ext.value = '';
+            }
+        }
+    }
+
+    if (ner18) ner18.addEventListener('change', actualizarNer18ext);
+
+
+    // --- ncr24 → ncr24_a ---
+    const ncr24 = document.getElementById('ncr24');
+    const ncr24_a = document.getElementById('ncr24_a');
+
+    function actualizarNer24a() {
+        if (ncr24 && ncr24_a) {
+            ncr24_a.disabled = (ncr24.value !== '7');
+            if (ncr24_a.disabled) {
+                ncr24_a.value = '';
+            }
+        }
+    }
+
+    if (ncr24) ncr24.addEventListener('change', actualizarNer24a);
+
+
+    // --- ner12 → ner12b ---
+    const ner12 = document.getElementById('ner12');
+    const ner12b = document.getElementById('ner12b');
+    function actualizarNer12b() {
+        if (ner12 && ner12b) {
+            ner12b.disabled = (ner12.value !== '1');
+            if (ner12b.disabled) {
+                ner12b.value = '';
+            }
+        }
+    }
+
+    if (ner12) ner12.addEventListener('change', actualizarNer12b);
+
+
+    // --- ner12 → ner12ext ---
+    const ner12ext = document.getElementById('ner12ext');
+    function actualizarNer12ext() {
+        if (ner12 && ner12ext) {
+            ner12ext.disabled = (ner12.value !== '2');
+            if (ner12ext.disabled) {
+                ner12ext.value = '';
+            }
+        }
+    }
+    if (ner12) ner12.addEventListener('change', actualizarNer12ext);
+
+
+    // --- ner15 → ner15ext ---
+    const ner15 = document.getElementById('ner15');
+    const ner15ext = document.getElementById('ner15ext');
+    function actualizarNer15ext() {
+        if (ner15 && ner15ext) {
+            ner15ext.disabled = (ner15.value !== '2');
+            if (ner15ext.disabled) {
+                ner15ext.value = '';
+            }
+        }
+    }
+    if (ner15) ner15.addEventListener('change', actualizarNer15ext);
+
+
+    // --- EJECUCIÓN ORDENADA AL CARGAR LA PÁGINA ---
+    // Llamar a las funciones de actualización al cargar la página para aplicar los estados iniciales
+    actualizarBloqueoReactivos();
+    actualizarFrr29a();
+    actualizarNer18ext();
+    actualizarNer24a();
+    actualizarNer12b();
+    actualizarNer12ext();
+    actualizarNer15ext();
+
+    // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
+    const ncr2 = document.getElementById('ncr2');
+    if (ncr2 && ncr2.value.trim().length >= 2) {
+        fetch(`/search_empresa?q=${encodeURIComponent(ncr2.value.trim())}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const item = data[0]; // asumimos el primer match
+                rellenar_empresa(item.nombre, item.sector, item.clave_giro, item.giro_especifico);
+            }
+        })
+        .catch(error => console.error('Error al buscar empresa al cargar:', error));
+    }
+
+
+
+
+
 });
 
 
-
-
-/*
-document.addEventListener('DOMContentLoaded', function () {
-        // --- ner1 bloquea muchos campos ---
-        const ner1 = document.getElementById('ner1');
-
-        const reactivosObjetivo = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
-
-        // function actualizarBloqueoReactivos() {
-        //     if (ner1 && ner1.value === '1') {
-        //         reactivosObjetivo.forEach(id => {
-        //             const select = document.getElementById(id);
-        //             if (select) {
-        //                 if (!select.value) select.value = '2';
-        //                 select.disabled = true;
-        //             }
-        //         });
-        //     } else {
-        //         reactivosObjetivo.forEach(id => {
-        //             const select = document.getElementById(id);
-        //             if (select) select.disabled = false;
-        //         });
-        //     }
-        // }
-
-        // if (ner1) ner1.addEventListener('change', actualizarBloqueoReactivos);
-
-        // // --- nfr29 → nfr29a ---
-        // const nfr29 = document.getElementById('nfr29');
-        // const nfr29a = document.getElementById('nfr29a');
-
-        // function actualizarFrr29a() {
-        //     if (nfr29 && nfr29a) {
-        //         nfr29a.disabled = (nfr29.value !== '99');
-        //     }
-        // }
-
-        // if (nfr29) nfr29.addEventListener('change', actualizarFrr29a);
-
-
-
-
-        // // --- ner18 → ner18ext ---
-        // const ner18 = document.getElementById('ner18');
-        // const ner18ext = document.getElementById('ner18ext');
-
-        // function actualizarNer18ext() {
-        //     if (ner18 && ner18ext) {
-        //         ner18ext.disabled = (ner18.value !== '10');
-        //     }
-        // }
-
-        // if (ner18) ner18.addEventListener('change', actualizarNer18ext);
-
-
-
-
-        // // --- ncr24 → ncr24_a ---
-        // const ncr24 = document.getElementById('ncr24');
-        // const ncr24_a = document.getElementById('ncr24_a');
-
-        // function actualizarNer24a() {
-        //     if (ncr24 && ncr24_a) {
-        //         ncr24_a.disabled = (ncr24.value !== '7');
-        //     }
-        // }
-
-        // if (ncr24) ncr24.addEventListener('change', actualizarNer24a);
-
-
-
-        // // --- ner12 → ner12b ---
-        // const ner12 = document.getElementById('ner12');
-        // const ner12b = document.getElementById('ner12b');
-        // function actualizarNer12b() {
-        //     if (ner12 && ner12b) {
-        //         ner12b.disabled = (ner12.value !== '1');
-        //     }
-        // }
-
-        // if (ner12) ner12.addEventListener('change', actualizarNer12b);
-
-
-        // // --- ner12 → ner12ext ---
-        // const ner12ext = document.getElementById('ner12ext');
-        // function actualizarNer12ext() {
-        //     if (ner12 && ner12ext) {
-        //         ner12ext.disabled = (ner12.value !== '2');
-        //     }
-        // }
-        // if (ner12) ner12.addEventListener('change', actualizarNer12ext);
-
-
-        // // --- ner15 → ner15ext ---
-        // const ner15 = document.getElementById('ner15');
-        // const ner15ext = document.getElementById('ner15ext');
-        // function actualizarNer15ext() {
-        //     if (ner15 && ner15ext) {
-        //         ner15ext.disabled = (ner15.value !== '2');
-        //     }
-        // }
-        // if (ner15) ner15.addEventListener('change', actualizarNer15ext);
-
-
-        // --- EJECUCIÓN ORDENADA AL CARGAR LA PÁGINA ---
-        // actualizarBloqueoReactivos(); 
-        // actualizarFrr29a();           
-        // actualizarNer18ext();         
-        // actualizarNer24a();      
-        // actualizarNer12b();
-        // actualizarNer12ext();
-        // actualizarNer15ext();
-      
-
-        
-         // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
-
-         const ncr2 = document.getElementById('ncr2');
-         if (ncr2 && ncr2.value.trim().length >= 2) {
-            fetch(`/search_empresa?q=${encodeURIComponent(ncr2.value.trim())}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const item = data[0]; // asumimos el primer match
-                    rellenar_empresa(item.nombre, item.sector, item.clave_giro, item.giro_especifico);
-                }
-            })
-            .catch(error => console.error('Error al buscar empresa al cargar:', error));
-        }
-    });
-*/
 </script>
 @endpush
