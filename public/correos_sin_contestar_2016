@@ -12,11 +12,17 @@ today = date.today()
 load_dotenv()
 
 #configurar la conexion a la base de datos
-DB_USERNAME = os.getenv('DB_USERNAME')
-DB_DATABASE = os.getenv('DB_DATABASE')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-DB_PORT = os.getenv('DB_PORT')
-DB_HOST=os.getenv('DB_HOST')
+#DB_USERNAME = os.getenv('DB_USERNAME')
+#DB_DATABASE = os.getenv('DB_DATABASE')
+#DB_PASSWORD = os.getenv('DB_PASSWORD')
+#DB_PORT = os.getenv('DB_PORT')
+#DB_HOST=os.getenv('DB_HOST')
+
+DB_USERNAME = 'djacome'
+DB_DATABASE = 'encuesta'
+DB_PASSWORD = 'V+hD2%jd27YN'
+DB_PORT = '5432'
+DB_HOST= '192.168.0.221'
 
 # Conectar a DB
 # Conectar a PostgreSQL
@@ -91,7 +97,7 @@ date_content_bold = workbook.add_format({
     'num_format': 'dd/mm/yy'})
 worksheet = workbook.add_worksheet()
 worksheet.merge_range('C2:H3', 'PROGRAMA DE VINCULACION A EGRESADOS UNAM', negro_b)
-worksheet.merge_range('C4:H4', 'EGRESADOS QUE COMPLETARON LA ENCUESTA DE ACTUALIZACION 2016', negro_b)
+worksheet.merge_range('C4:H4', 'EGRESADOS QUE NO SE LOCALIZARON PARA LA ENCUESTA DE ACTUALIZACION 2016', negro_b)
 worksheet.insert_image("A1", "img/logoPVE.png",{"x_scale": 0.2, "y_scale": 0.2})
 worksheet.merge_range('G6:H6',today, date_content_bold)
 
@@ -101,12 +107,10 @@ worksheet.write('D8','Materno',header_format)
 worksheet.write('E8','Numero de cuenta',header_format)
 worksheet.write('F8','Plantel',header_format)
 worksheet.write('G8','Carrera',header_format)
-worksheet.write('H8','Fecha en que realizó',header_format)
-worksheet.write('I8','mode de aplicacion',header_format)
-worksheet.write('J8','Correo 1',header_format)
-worksheet.write('K8','Correo 2',header_format)
-worksheet.write('L8','Correo 3',header_format)
-worksheet.write('M8','Correo 4',header_format)
+worksheet.write('H8','Correo 1',header_format)
+worksheet.write('I8','Correo 2',header_format)
+worksheet.write('J8','Correo 3',header_format)
+worksheet.write('K8','Correo 4',header_format)
 
 for i in range(0,len(egresados)):
     correos_eg=correos.loc[correos['cuenta']==egresados['cuenta'].values[i]]
@@ -118,19 +122,12 @@ for i in range(0,len(egresados)):
     worksheet.write('F'+str(i+9),carreras.loc[carreras['clave_carrera']==egresados['carrera'].values[i],'carrera'].values[0],blue_content)
     worksheet.write('G'+str(i+9),carreras.loc[carreras['clave_plantel']==egresados['plantel'].values[i],'plantel'].values[0],blue_content)
     
-    worksheet.write('H'+str(i+9),str(egresados['updated_at'].values[i])[0:10],blue_content)
-    if(egresados['status'].values[i]=='1'):
-        aplica='TELEFONICA'
-    else:
-        aplica='INTERNET'
-    worksheet.write('I'+str(i+9),aplica,blue_content)
-    
     for j in range(len(correos_eg)):
-        worksheet.write(i+8,9+j,correos_eg['correo'].values[j],blue_content)
+        worksheet.write(i+8,7+j,correos_eg['correo'].values[j],blue_content)
     
 worksheet.set_column('B:D',17)
 worksheet.set_column('E:E',20)
-worksheet.set_column('F:M',28)
+worksheet.set_column('F:K',28)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
