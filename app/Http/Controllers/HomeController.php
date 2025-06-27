@@ -39,8 +39,7 @@ class HomeController extends Controller
         ->get();
 
         return view('home',compact('nuevos_datos'));
-    }
-
+    } 
     public function stats()
     {
         //2020

@@ -97,7 +97,6 @@
     <option value=1 @if($Encuesta->nfr5==1) selected @endif>Sí (pasa a la 87)</option>
     <option value=2 @if($Encuesta->nfr5==2) selected @endif>No</option>
    </select> 
-   
        </td>
 <td>
 <h2 class="reactivo"><br> <br>

@@ -170,6 +170,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('empresas', EmpresasController::class);
     Route::get('/search_empresa', [EmpresasController::class, 'search'])->name('search_empresa'); //Deberiamos separar esta ruta de la clase de Encuestas20
+    Route::post('/modal_store_empresa', [EmpresasController::class, 'modal_store'])->name('empresas.modal_store'); //Deberiamos separar esta ruta de la clase de Encuestas20
     
     //Rutas para encuesta fast
     Route::controller(FastPollController::class)->group(function(){

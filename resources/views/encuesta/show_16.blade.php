@@ -5,7 +5,7 @@ use \App\Http\Controllers\ComponentController;
 @endphp
 {{-- {{session('logs')}} --}}
 
-
+@include('empresas.modal_create')
 <div> 
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>
@@ -13,7 +13,6 @@ use \App\Http\Controllers\ComponentController;
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
-
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
@@ -23,7 +22,7 @@ use \App\Http\Controllers\ComponentController;
         @php
             $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get();
         @endphp
-        @if($reactivo->type=='label')
+        @if($reactivo->type=='label')r
         <br>
             <div class="label_container" id="{{'container'.$reactivo->clave}}"  style="width:90%">
                 <h3>{{$reactivo->description}} </h3>
@@ -33,8 +32,22 @@ use \App\Http\Controllers\ComponentController;
             <div class="react_container" id="{{'container'.$reactivo->clave}}" >    
             <h3>{{$reactivo->act_order}}.- @if($reactivo->act_description) {{$reactivo->act_description}} @else {{$reactivo->description}} @endif {{$reactivo->clave}}</h3>
             @php $field_presenter=$reactivo->clave @endphp
-            {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
-                @if($reactivo->clave=='ncr2') <div class="resultados-div" id="resultados"></div> @endif
+              @if($reactivo->clave=='ncr2') 
+                    <div class="row" style="display:flex; justify-content:flex-start;"> 
+                        <div class="col col-lg-10">
+                            {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
+                        </div>
+                        <div class="col col-lg-2"> <button class="btn boton-dorado w-10" data-toggle="modal"  onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva  </button>
+                        </div>
+                        <div class="col">
+
+                        </div>
+                    </div>
+                   <div class="resultados-div" id="resultados"></div>
+                @else 
+                    {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
+              
+                @endif
             </div>
         @endif
      @endforeach
@@ -49,9 +62,12 @@ use \App\Http\Controllers\ComponentController;
  </button></div>
 </form>
 </div>
+
 @stop
 
 @push('css')
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -436,6 +452,7 @@ div{
     background-color: #e45b0c;
     margin: 10px;
 }
+
 @keyframes fadeIn {
   0% { background-color: rgba(255, 255, 0, 0.5); }
   100% { background-color: transparent; }
@@ -445,10 +462,12 @@ div{
   animation: fadeIn 1.5s ease-in;
 }
 </style>
+
 @endpush
 
 @push('js')
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 function send_form(value){
     document.getElementById('btn-pressed').value=value;
@@ -524,11 +543,20 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
 
     setValueWithEffect(document.getElementById('ncr2'), nombre);
     setValueWithEffect(document.getElementById('ncr3'), sector);
-
     setValueWithEffect(document.getElementById('ncr4'), giro);
     setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
     console.log('se ha seleccionado una empresa',sector,giro);
     resultadosDiv.innerHTML = '';
+}
+
+function update_empresa_form(){
+    nombre=document.getElementById('ncr2').value;
+    sector=document.getElementById('ncr3').value;
+    rama=document.getElementById('ncr4').value;
+
+    document.getElementById('nombre_empresa').value=nombre;
+    document.getElementById('rama').value=rama;
+    document.getElementById('sector').value=sector;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -595,8 +623,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (nfr29) nfr29.addEventListener('change', actualizarFrr29a);
-
-
     // --- ner18 → ner18ext ---
     const ner18 = document.getElementById('ner18');
     const ner18ext = document.getElementById('ner18ext');
@@ -611,7 +637,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (ner18) ner18.addEventListener('change', actualizarNer18ext);
-
 
     // --- ncr24 → ncr24_a ---
     const ncr24 = document.getElementById('ncr24');
@@ -628,7 +653,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (ncr24) ncr24.addEventListener('change', actualizarNer24a);
 
-
     // --- ner12 → ner12b ---
     const ner12 = document.getElementById('ner12');
     const ner12b = document.getElementById('ner12b');
@@ -642,8 +666,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (ner12) ner12.addEventListener('change', actualizarNer12b);
-
-
     // --- ner12 → ner12ext ---
     const ner12ext = document.getElementById('ner12ext');
     function actualizarNer12ext() {
@@ -655,7 +677,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     if (ner12) ner12.addEventListener('change', actualizarNer12ext);
-
 
     // --- ner15 → ner15ext ---
     const ner15 = document.getElementById('ner15');
@@ -695,12 +716,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error al buscar empresa al cargar:', error));
     }
 
-
-
-
-
-});
-
-
+    });
 </script>
 @endpush

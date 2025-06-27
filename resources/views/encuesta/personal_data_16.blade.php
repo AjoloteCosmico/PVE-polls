@@ -8,17 +8,18 @@
            <th>Número C:</th>
            <td> {{$Egresado->cuenta}}</td>
            <th> Teléfonos:  <br><br> <a href="{{route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-dorado" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono  </button></a></th>
-             @foreach($Telefonos as $t)
-               <td> <a class="contact_data" style="color: #002b7a;"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>
-             @if($loop->last)
-            @endif</td>
+           <td>  
+           @foreach($Telefonos as $t)
+               <a class="contact_data" style="color: #002b7a;"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>, &nbsp;
+            
              @endforeach
+            </td>
            <th>Sistema: @if($Egresado->sistema=='E' ) ESCOLARIZADO @elseif($Egresado->sistema=='A') ABIERTO @else A DISTANCIA @endif </th> 
            <th>@if($Egresado->titulado==1)  EN TRAMITES @elseif($Egresado->titulado==2) TITULADO @else SIN TITULO @endif  <br> segun la encuesta anterior</th>
          </tr>
          <tr>
           
-         <th>Carrera:</th><td  > {{$Carrera}}  </td> 
+         <th>Carrera:</th><td> {{$Carrera}}  </td> 
          <th>Plantel:</th><td> {{$Plantel}}</td> 
          
           <th>Correos: <br><br> <a  href="{{route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-dorado" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo  </button></a></td> </th>
