@@ -24,7 +24,8 @@ use App\Http\Controllers\{
     FastPollController,
     ConfigController,
     EmpresasController,
-    PosgradoController
+    PosgradoController,
+    UserController
 };
 
 Route::get('/', function () {
@@ -193,10 +194,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/users/give/{id}/{permission}', 'give_permission')->name('users.give');
+        Route::get('/users/revoke/{id}/{permission}', 'revoke_permission')->name('users.revoke');
+    });
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Rutas para la encuesta de posgrado
     Route::controller(PosgradoController::class)->group(function(){
        Route::get('/posgrado/render/{section}', 'show')->name('posgrado_vista');
     });
     
+
 });

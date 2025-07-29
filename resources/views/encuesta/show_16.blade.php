@@ -37,16 +37,17 @@ use \App\Http\Controllers\ComponentController;
                         <div class="col col-lg-10">
                             {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
                         </div>
-                        <div class="col col-lg-2"> <button class="btn boton-dorado w-10" data-toggle="modal"  onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva  </button>
-                        </div>
+                            @can('crear_empresa_encuesta')
+                            <div class="col col-lg-2"> 
+                                <button class="btn boton-dorado w-10" data-toggle="modal"  onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva  </button>
+                            </div>
+                            @endcan
                         <div class="col">
-
                         </div>
                     </div>
                    <div class="resultados-div" id="resultados"></div>
                 @else 
                     {{ComponentController::RenderReactive($reactivo,$opciones,$Encuesta->$field_presenter)}}
-              
                 @endif
             </div>
         @endif
