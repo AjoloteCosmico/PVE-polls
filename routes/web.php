@@ -70,6 +70,9 @@ Route::group(['middleware' => ['auth']], function(){
         //completar encuesta
         Route::get('completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta');
 
+        //encuesta de posgrado
+        Route::get('muestras_posgrado/programas/','programas_index')->name('posgrado.programas_index');
+
     });
 
    /**Actualización 2016:

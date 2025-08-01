@@ -10,11 +10,13 @@ use App\Models\Muestra;
 use App\Models\Carrera;
 use DB;
 use App\Models\Egresado;
+use App\Models\EgresadoPos;
 use App\Models\respuestas2;
 
 use App\Models\respuestas20;
 use App\Models\respuestas16;
 use App\Models\respuestas14;
+use App\Models\respuestasPosgrado;
 
 use Illuminate\Support\Facades\Auth;
 class MuestrasController extends Controller
@@ -55,7 +57,13 @@ public function plantel_index_16(){
       ->distinct()->get();
   // dd($planteles);
   return view('muestras.act16.plantel_index',compact('Planteles'));
-  }
+}
+
+//public function plantel_index(){
+  //$Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
+  //return view('muestras.seg20.plantel_index',compact('Planteles'));
+//}
+
   
 public function index_16($id){
   $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
@@ -275,6 +283,19 @@ public function completar_encuesta($id){
     }
   }
 }
+
+//funcion para posgrado
+public function programas_index(){
+  $Programas=EgresadoPos::distinct()->get(['programa']);
+   return view('muestras.posgrado.programas_index',compact('Programas'));
+}
+
+//funcion para posgrado
+public function programas_index(){
+  $Programas=EgresadoPos::distinct()->get(['programa']);
+   return view('muestras.posgrado.programas_index',compact('Programas'));
+}
+
 
 }
 
