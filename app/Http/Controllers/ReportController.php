@@ -20,7 +20,7 @@ class ReportController extends Controller
        {
            $caminoalpoder=public_path();
            $process = new Process(['python3', $report.'.py'],$caminoalpoder);
-           ini_set('max_execution_time', '300');  
+           ini_set('max_execution_time', '900');  
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);

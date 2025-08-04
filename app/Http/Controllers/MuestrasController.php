@@ -10,7 +10,7 @@ use App\Models\Muestra;
 use App\Models\Carrera;
 use DB;
 use App\Models\Egresado;
-use App\Models\EgresadoPos;
+use App\Models\EgresadoPosgrado;
 use App\Models\respuestas2;
 
 use App\Models\respuestas20;
@@ -286,15 +286,10 @@ public function completar_encuesta($id){
 
 //funcion para posgrado
 public function programas_index(){
-  $Programas=EgresadoPos::distinct()->get(['programa']);
+  $Programas=EgresadoPosgrado::distinct()->get(['programa']);
    return view('muestras.posgrado.programas_index',compact('Programas'));
 }
 
-//funcion para posgrado
-public function programas_index(){
-  $Programas=EgresadoPos::distinct()->get(['programa']);
-   return view('muestras.posgrado.programas_index',compact('Programas'));
-}
 
 
 }

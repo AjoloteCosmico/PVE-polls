@@ -72,6 +72,8 @@ Route::group(['middleware' => ['auth']], function(){
 
         //encuesta de posgrado
         Route::get('muestras_posgrado/programas/','programas_index')->name('posgrado.programas_index');
+        Route::get('muestras_posgrado/index/{id}','index_posgrado')->name('muestrasposgrado.index');
+
 
     });
 

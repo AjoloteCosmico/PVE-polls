@@ -13,7 +13,7 @@
           </tr>
           </thead>
           <tbody>
-            @foreach($Programa as $pr)
+            @foreach($Programas as $pr)
             <tr >
                 <td>{{$pr->programa}} </td>
               
