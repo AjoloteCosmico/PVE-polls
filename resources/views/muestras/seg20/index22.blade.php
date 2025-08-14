@@ -1,39 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid" >
+<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl tabla_muestra" id="myTable">
           <thead>
             <tr>
             <th>Carrera</th>
             <th>Plantel</th>
+            @if($id==0)
+            <th>Poblacion</th>
+            @endif
             <th>Realizadas Telefonica</th>
             <th>Realizadas Internet</th>
             <th>Requeridas </th>
             <th>Porcentaje</th>
             <th>Número de vuelta</th>
             <th> </th>
+            <th> </th>
           </tr>
           </thead>
           <tbody>
             @foreach($carreras as $c)
-            <tr style="background-color:rgba({{255*(1-($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas)}},{{255*(($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas)}},0,0.4)">
-                <td> {{$c->carrera}} </td>
-                <td> {{$c->plantel}} </td>
-                <td> {{$c->nencuestas_tel}} </td>
-                <td> {{$c->nencuestas_int}} </td>
-                <td> {{$c->requeridas}} </td>
-                <td> {{number_format((($c->nencuestas_tel+$c->nencuestas_int) *100)/$c->requeridas,2)}} %</td>
+            <tr style="background-color:rgba({{255*(1-($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas_5)}},{{255*(($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas_5)}},0,0.4)">
+                <td>{{$c->carrera}} </td>
+                <td>{{$c->plantel}} </td>
+                @if($id==0)
+                 <td>{{$c->pob}}</td> 
+                @endif
+                <td> {{$c->nencuestas_tel}}</td>
+                <td> {{$c->nencuestas_int}}</td>
+                <td> {{$c->requeridas_5}}</td>
+                <td> {{number_format((($c->nencuestas_tel+$c->nencuestas_int) *100)/$c->requeridas_5,2)}} %</td>
                 <th> - </th>
-                generalizar
-                <td><a href="{{route('muestras16.show',[$c->c,$c->p])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
-                
+                <td><a href="{{route('muestras22.show22',[$c->c,$c->p])}}" > <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                <td></td>
               </tr>
             @endforeach
           </tbody>
         </table>
-        <a href="{{route('muestras.plantel_index', ['gen' => 16]) }}">
+        <a href="{{route('muestras.plantel_index', ['gen' => 22]) }}">
           <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>
@@ -41,7 +47,6 @@
     </div>
     <center >
    
-
    </center>
     </div>
 @endsection
@@ -73,6 +78,4 @@
         
 });
  </script>
-
-
 @endpush

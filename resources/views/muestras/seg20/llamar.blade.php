@@ -33,6 +33,13 @@
                         </button>
                     </a>
                     @endif
+                    @if($gen==2022)
+                    <a href="{{route('muestras22.show22',[$Egresado->carrera,$Egresado->plantel])}}">
+                        <button type="button"  class="boton-oscuro">
+                            <i class="fas fa-table"></i> Ir a muestra Carrera 
+                        </button>
+                    </a>
+                    @endif
 
                 </td>
             </tr>
@@ -153,19 +160,26 @@
                     @if($Encuesta)
                         @if($gen==2020)
                         <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
-                        <button class="boton-dorado" type="button" >
-                            Continuar encuesta Inconclusa
-                        </button>
-                    </a>
+                            <button class="boton-dorado" type="button" >
+                                Continuar encuesta Inconclusa
+                            </button>
+                        </a>
+                        @endif
+                        @if($gen==2022)
+                        <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
+                            <button class="boton-dorado" type="button" >
+                                Continuar encuesta Inconclusa
+                            </button>
+                        </a>
+                        @endif
+                        @if($gen==2016)
+                        <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
+                            <button class="boton-dorado" type="button" >
+                                Continuar encuesta Inconclusa
+                            </button>
+                        </a>
+                        @endif
                     @endif
-                    @if($gen==2016)
-                    <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
-                        <button class="boton-dorado" type="button" >
-                            Continuar encuesta Inconclusa
-                        </button>
-                    </a>
-                    @endif
-                @endif
                     </div> 
                 </form>
             </div>
@@ -183,6 +197,13 @@
                     <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>
             </a>
+            @endif
+            @if($gen==2022)
+                    <a href="{{route('muestras22.show22',[$Egresado->carrera,$Egresado->plantel])}}">
+                        <button type="button"  class="boton-oscuro">
+                            <i class="fas fa-table"></i> Ir a muestra Carrera 
+                        </button>
+                    </a>
             @endif
             @if($gen==2016)
             <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
