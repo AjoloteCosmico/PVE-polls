@@ -3,18 +3,20 @@
     <form id="formEmpresa" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"  style="color:white;">Nueva Empresa</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
+         <button type="button" class="close btn btn-danger" style="background-color:red;" data-dismiss="modal" aria-label="Close">
+          <i class="fa fa-times fa-xl" aria-hidden="true"></i>
+         </button>
       </div>
       <div class="modal-body">
         @csrf
-        
         <div class="mb-3">
           <label style="color:white;">Nombre</label>
-          <input type="text" name="nombre" id="nombre_empresa" class="form-control" style=" font-size: 150%;">
+          <input type="text" name="nombre" id="nombre_empresa" class="form-control modal-input" style=" font-size: 120%;">
         </div>
         <div class="mb-3">
           <label style="color:white;">Sector</label>
-          <select name="sector" id="sector"  class="form-control" style=" font-size: 150%;" >
+          <select name="sector" id="sector"  class="form-control modal-input" style=" font-size: 120%;" >
                 <option value="">seleccione </option>
                 <option value="1"  >   Pública</option>
                 <option value="2"  >   Privada</option>
@@ -24,7 +26,7 @@
         
         <div class="mb-3">
           <label style="color:white;">Rama</label>
-          <select name="rama" id="rama"  class="form-control" style=" font-size: 150%;">
+          <select name="rama" id="rama"  class="form-control modal-input" style=" font-size: 120%;">
                 <option value="">seleccione </option>
                 <option value="1"  > 1  Agricultura, ganadería, aprovechamiento forestal, caza y pesca</option>                    
                 <option value="2"  > 2  Minería</option>                    
@@ -55,11 +57,11 @@
         </div>
         <div class="mb-3">
           <label style="color:white;">Giro Específico</label>
-          <input type="text" name="giro_especifico" class="form-control" style=" font-size: 150%;">
+          <input type="text" name="giro_especifico" id="giro_modal" class="form-control modal-input" style=" font-size: 120%;">
         </div>
         <div class="mb-3">
           <label style="color:white;">Nota</label>
-          <textarea name="nota" class="form-control" style=" font-size: 150%;"></textarea>
+          <textarea name="nota" class="form-control modal-input" style=" font-size: 120%;"></textarea>
         </div>
          <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -91,15 +93,24 @@ $(document).ready(function() {
                     showConfirmButton: false,
                     timer: 1500
                     });
+                setValueWithEffect(document.getElementById('ncr2'), response.data.nombre);
+                setValueWithEffect(document.getElementById('ncr3'), response.data.sector);
+                setValueWithEffect(document.getElementById('ncr4'), response.data.clave_giro);
+                setValueWithEffect(document.getElementById('giro_especifico'), response.giro_esp);
+                setValueWithEffect(document.getElementById('nota_empresa'), response.notas);
+
+                @if($Egresado->anio_egreso==2020)
+                bloquear('ncr4',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25],[ncr4a]);
+                @endif
                 // Aquí puedes actualizar la lista si la tienes en pantalla
             },
+            
             error: function(xhr) {
                 let errors = xhr.responseJSON.errors;
                 let msg = '';
                 for (let campo in errors) {
                     msg += errors[campo][0] + '\n';
                 }
-               
                 alert(msg);
             }
         });

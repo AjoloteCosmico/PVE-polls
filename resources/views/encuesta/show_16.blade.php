@@ -494,8 +494,8 @@ function send_form(value){
 </script>
 @endif
 
-<script>
 
+<script>
 function setValueWithEffect(element, value) {
     console.log('setting value');
   // Quitar la clase si ya existe
@@ -554,10 +554,11 @@ function update_empresa_form(){
     nombre=document.getElementById('ncr2').value;
     sector=document.getElementById('ncr3').value;
     rama=document.getElementById('ncr4').value;
-
+    giro=document.getElementById('giro_especifico').value;
     document.getElementById('nombre_empresa').value=nombre;
     document.getElementById('rama').value=rama;
     document.getElementById('sector').value=sector;
+    document.getElementById('giro_modal').value=giro;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -636,6 +637,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+
 
     if (ner18) ner18.addEventListener('change', actualizarNer18ext);
 

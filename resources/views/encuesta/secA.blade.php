@@ -13,19 +13,18 @@
         </center> <br>
         <center> <div class="form-group" id="fecha-group" style="display:none;">
        
-          
           <input type="date"  class="fecha" name="fec_capt" id="fec_capt"  value="{{now()->modify('-6 hours')->format('Y-m-d')}}" /> 
           </div></td>
 <td>  <h2 class="reactivo">1.- Estado civil:</h2>
            
            <select class="select"  id="nar8" name="nar8" onchange="bloquear('nar8',[1],[nar11,nar14,nar14otra])" > 
-           <option value="" selected></option>
-           <option value=1  @if($Encuesta->nar8==1) selected @endif>Soltero(a)</option>
-           <option value=2 @if($Encuesta->nar8==2) selected @endif>Casado(a)</option>
-           <option value=3 @if($Encuesta->nar8==3) selected @endif>Divorciado(a)</option>
-           <option value=4 @if($Encuesta->nar8==4) selected @endif>Unión Libre</option>
-           <option value=5 @if($Encuesta->nar8==5) selected @endif>Viudo(a)</option>
-            </select></td>
+            <option value="" selected></option>
+            <option value=1  @if($Encuesta->nar8==1) selected @endif>Soltero(a)</option>
+            <option value=2 @if($Encuesta->nar8==2) selected @endif>Casado(a)</option>
+            <option value=3 @if($Encuesta->nar8==3) selected @endif>Divorciado(a)</option>
+            <option value=4 @if($Encuesta->nar8==4) selected @endif>Unión Libre</option>
+            <option value=5 @if($Encuesta->nar8==5) selected @endif>Viudo(a)</option>
+           </select></td>
 <td>
     <center> <h2 class="reactivo"> 2.- ¿Tiene hijos?   </h2>
          
