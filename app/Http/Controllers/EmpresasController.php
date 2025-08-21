@@ -67,7 +67,7 @@ class EmpresasController extends Controller
             'nota' => 'nullable|string|max:250',
         ]);
         $Empresa=new Empresas();
-        $Empresa->usuario=Auth::user()->id;
+        $Empresa->usuario=Auth::user()->clave;
         $Empresa->nombre=$request->nombre;
         $Empresa->sector=$request->sector;
         $Empresa->clave_giro=$request->rama;

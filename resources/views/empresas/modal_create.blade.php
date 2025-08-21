@@ -93,11 +93,11 @@ $(document).ready(function() {
                     showConfirmButton: false,
                     timer: 1500
                     });
-                setValueWithEffect(document.getElementById('ncr2'), response.data.nombre);
-                setValueWithEffect(document.getElementById('ncr3'), response.data.sector);
-                setValueWithEffect(document.getElementById('ncr4'), response.data.clave_giro);
-                setValueWithEffect(document.getElementById('giro_especifico'), response.giro_esp);
-                setValueWithEffect(document.getElementById('nota_empresa'), response.notas);
+                // setValueWithEffect(document.getElementById('ncr2'), response.data.nombre);
+                // setValueWithEffect(document.getElementById('ncr3'), response.data.sector);
+                // setValueWithEffect(document.getElementById('ncr4'), response.data.clave_giro);
+                // setValueWithEffect(document.getElementById('giro_especifico'), response.giro_esp);
+                // setValueWithEffect(document.getElementById('nota_empresa'), response.notas);
 
                 @if($Egresado->anio_egreso==2020)
                 bloquear('ncr4',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25],[ncr4a]);
