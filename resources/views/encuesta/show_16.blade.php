@@ -582,41 +582,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    //mODIFICACIONES DE PRUEBA
+@if($Encuesta->ncr24!=14)
+    checkBloqueos('ncr24');
+@endif
+@if($Encuesta->ncr22==2)
+    checkBloqueos('ncr22');
+@endif
+checkBloqueos('nfr27');
 
-    const ner1Element = document.getElementById('ner1'); // Cambié la variable para no confundir con la de arriba
-
-    const reactivosBloqueoNer1 = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
-
-    function actualizarBloqueoReactivos() {
-        if (ner1Element && ner1Element.value === '2') {
-            console.log('ner1 es 2. Bloqueando campos...'); // Si ner1 es 'Sí' (o el valor que signifique bloqueo)
-            reactivosBloqueoNer1.forEach(id => {
-                const select = document.getElementById(id);
-                if (select) {
-                    if (!select.value) select.value = '1'; // Si no tiene valor, forzar "No" (o el valor predeterminado)
-                    select.disabled = true;
-                }
-            });
-        } else {
-            reactivosBloqueoNer1.forEach(id => {
-                const select = document.getElementById(id);
-                if (select) select.disabled = false;
-            });
-        }
-    }
- @if($Encuesta->ncr24!=14)
-          checkBloqueos('ncr24');
-        @endif
- @if($Encuesta->ncr22==2)
-          checkBloqueos('ncr22');
-        @endif
-    
-
-          checkBloqueos('nfr27');
-
-    
- 
     // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
     const ncr2 = document.getElementById('ncr2');
     if (ncr2 && ncr2.value.trim().length >= 2) {
