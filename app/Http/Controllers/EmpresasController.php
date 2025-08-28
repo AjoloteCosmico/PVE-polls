@@ -99,7 +99,7 @@ class EmpresasController extends Controller
         // Encontrar la empresa y actualizarla
         $empresa = Empresas::findOrFail($id);
         $empresa->update($request->all());
-        $empresa->usuario=Auth::user()->clave();
+        $empresa->usuario=Auth::user()->clave;
         $empresa->save();
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa actualizada exitosamente.');
