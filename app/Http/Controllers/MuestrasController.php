@@ -10,11 +10,13 @@ use App\Models\Muestra;
 use App\Models\Carrera;
 use DB;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\respuestas2;
 
 use App\Models\respuestas20;
 use App\Models\respuestas16;
 use App\Models\respuestas14;
+use App\Models\respuestasPosgrado;
 
 use Illuminate\Support\Facades\Auth;
 class MuestrasController extends Controller
@@ -39,14 +41,6 @@ class MuestrasController extends Controller
     return view('muestras.show',compact('Egresados','Muestra'));
 }
 
-
-public function index_14(){
-
-$carreras=respuestas14::select('carrera','plantel')->distinct()->get();
-
-return view('muestras.act14.index',compact('carreras'));
-}
-
 public function plantel_index_16(){
 
   $Planteles=Egresado::where('act_suvery','1')
@@ -55,7 +49,146 @@ public function plantel_index_16(){
       ->distinct()->get();
   // dd($planteles);
   return view('muestras.act16.plantel_index',compact('Planteles'));
+}
+
+//public function plantel_index(){
+  //$Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
+  //return view('muestras.seg20.plantel_index',compact('Planteles'));
+//}
+
+public function index_general($gen,$id){
+
+  //CHECA GENERACION 2016
+  if ($gen==16){
+    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+  })
+  ->where('carreras.clave_plantel',$id)
+  ->select('carreras.carrera','carreras.plantel','egresados.plantel as p','egresados.carrera as c')
+  ->distinct()
+  ->get();
+  if($id==0){
+    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+  })
+  ->select('carreras.carrera','carreras.plantel')
+  ->distinct()
+  ->get();
   }
+
+  foreach($carreras as $c){
+    // Partes comunes de la consulta base
+    $queryBase = Egresado::where('act_suvery', 1)
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->get();
+
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->where('status', 1)
+    ->count();
+
+    // Encuestas por internet
+    $c->nencuestas_int = $queryBase
+    ->where('status', 2)
+    ->count();
+
+    // Encuestas requeridas
+    $c->requeridas = $queryBase
+    ->count();
+  }
+  return view('muestras.act16.index',compact('carreras','gen'));
+  
+  //CHECA GENERACION 2020
+  } else if ($gen==20){
+    $carreras=Muestra::where('estudio_id','=','3')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
+      $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
+  })
+  ->where('carreras.clave_plantel',$id)
+  ->select('carreras.carrera','carreras.plantel','muestras.carrera_id as c','muestras.plantel_id as p','carreras.clave_carrera','carreras.clave_plantel','muestras.requeridas_5')->get();
+  
+  if($id==0){
+    $carreras=Muestra::where('estudio_id','=','3')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
+      $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
+  })
+    ->select('carreras.carrera','carreras.plantel','muestras.carrera_id as c','muestras.plantel_id as p','carreras.clave_carrera','carreras.clave_plantel','muestras.requeridas_5')->get();
+  }
+  foreach($carreras as $c){
+    // Partes comunes de la consulta base
+    $queryBase = Egresado::where('muestra', 3)
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->get();
+
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->where('status', 1)
+    ->count();
+
+    // Encuestas por internet
+    $c->nencuestas_int = $queryBase
+    ->where('status', 2)
+    ->count();
+     if($id==0){
+      $c->pob=Egresado::where('anio_egreso', '2020')
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->count();
+     }
+      
+  }
+  return view('muestras.seg20.index',compact('carreras','id','gen'));
+    
+
+  //CHECA GENERACION 2022
+  }else if ($gen==22){
+    $carreras=Muestra::where('estudio_id','=','5')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
+      $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
+  })
+  ->where('carreras.clave_plantel',$id)
+  ->select('carreras.carrera','carreras.plantel','muestras.carrera_id as c','muestras.plantel_id as p','carreras.clave_carrera','carreras.clave_plantel','muestras.requeridas_5')->get();
+  
+  if($id==0){
+    $carreras=Muestra::where('estudio_id','=','5')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
+      $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
+  })
+    ->select('carreras.carrera','carreras.plantel','muestras.carrera_id as c','muestras.plantel_id as p','carreras.clave_carrera','carreras.clave_plantel','muestras.requeridas_5')->get();
+  }
+  foreach($carreras as $c){
+    // Partes comunes de la consulta base
+    $queryBase = Egresado::where('muestra', 5)
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->get();
+
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->where('status', 1)
+    ->count();
+
+    // Encuestas por internet
+    $c->nencuestas_int = $queryBase
+    ->where('status', 2)
+    ->count();
+     if($id==0){
+      $c->pob=Egresado::where('anio_egreso', '2022')
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->count();
+     }
+      
+  }
+  return view('muestras.seg20.index22',compact('carreras','id','gen'));
+  }
+
+}
+
   
 public function index_16($id){
   $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
@@ -144,43 +277,65 @@ public function index_20($id){
   // $carreras=collect($carreras);
   return view('muestras.seg20.index',compact('carreras','id'));
 }
-public function show_14($carrera,$plantel){
-  $muestra=respuestas14::where('carrera','=',$carrera)->where('plantel','=',$plantel)->get();
-  foreach($muestra as $m){
-    $color='';
-    switch ($m->status) {
-      case 1:
-        $color="rgba(92, 191, 98,0.45)";
-        break;
-      case 2:
-        $color="rgba(44, 92, 40,0.45)";
-        break;
-      case 3:
-          $color="rgba(245, 66, 66, 0.45)";
-          break;
-      case 4:
-        $color="rgba(147, 66, 245,0.45)";
-          break;
-      case 5:
-        $color="rgba(64, 64, 64,0.7)";
-          break;
-      case 6:
-        $color="rgba(59, 173, 196,0.45)";
-          break;
-      case 7:
-        $color="rgba(219, 133, 96,0.45)";
-          break;
+
+
+//Metodo momentaneo para index de 2022
+public function index_22($id){
+  $carreras=Muestra::where('estudio_id','=','5')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
+      $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
+  })
+  ->where('carreras.clave_plantel',$id)
+  ->select('carreras.carrera','carreras.plantel','muestras.carrera_id as c','muestras.plantel_id as p','carreras.clave_carrera','carreras.clave_plantel','muestras.requeridas_5')->get();
+  
+  if($id==0){
+    $carreras=Muestra::where('estudio_id','=','5')->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
+      $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
+  })
+    ->select('carreras.carrera','carreras.plantel','muestras.carrera_id as c','muestras.plantel_id as p','carreras.clave_carrera','carreras.clave_plantel','muestras.requeridas_5')->get();
   }
-  $m->color=$color;
-}
-  $muestra=collect($muestra);
-  return view('muestras.act14.show',compact('muestra'));
+  foreach($carreras as $c){
+    // Partes comunes de la consulta base
+    $queryBase = Egresado::where('muestra', 5)
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->get();
+
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->where('status', 1)
+    ->count();
+
+    // Encuestas por internet
+    $c->nencuestas_int = $queryBase
+    ->where('status', 2)
+    ->count();
+     if($id==0){
+      $c->pob=Egresado::where('anio_egreso', '2022')
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->count();
+     }
+      
+  }
+  return view('muestras.seg20.index22',compact('carreras','id'));
 }
 
-public function plantel_index(){
+public function plantel_index($gen){
   $Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
-  // dd($Planteles);
-  return view('muestras.seg20.plantel_index',compact('Planteles'));
+   if ($gen==20){
+    return view('muestras.plantel_index',compact('Planteles', 'gen'));
+   } else if ($gen==16){
+    $Planteles=Egresado::where('act_suvery','1')
+      ->join('carreras','egresados.plantel','carreras.clave_plantel')
+      ->select('carreras.plantel','carreras.clave_plantel',)
+      ->distinct()->get();
+    return view('muestras.plantel_index',compact('Planteles', 'gen'));
+  } else if ($gen==22){
+    return view('muestras.plantel_index',compact('Planteles', 'gen'));
+   }
+  
 }
 
 
@@ -210,6 +365,42 @@ public function show_16($carrera,$plantel){
   
   return view('muestras.act16.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
 }
+
+
+
+public function show_22($carrera,$plantel){
+
+  $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
+  $muestra=DB::table('egresados')->where('muestra','=','5')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
+    ->leftJoin('codigos','codigos.code','=','egresados.status')
+    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+    ->get();
+
+  $Codigos=DB::table('codigos')->where('internet','=',0)
+  ->orderBy('color')->get();
+  
+  return view('muestras.seg20.show22',compact('muestra','Carrera','Codigos','carrera','plantel'));
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 public function revisiones_index(){
@@ -275,6 +466,55 @@ public function completar_encuesta($id){
   }
 }
 
+//funciones para posgrado
+public function programas_index(){
+  $Programas=EgresadoPosgrado::distinct()->get(['programa']);
+   return view('muestras.posgrado.programas_index',compact('Programas'));
 }
 
+public function index_posgrado($programa){
+  $planes = EgresadoPosgrado::where('programa', $programa)
+    ->select('plan')
+    ->distinct()
+    ->get();
 
+
+  
+  foreach ($planes as $p) {
+    $queryBase = EgresadoPosgrado::where('programa', $programa)
+      ->where('plan', $p->plan);
+
+    // Encuestas por teléfono
+    $p->nencuestas_tel = $queryBase->where('status', 1)->count();
+
+    // Encuestas por internet
+    $p->nencuestas_int = $queryBase->where('status', 2)->count();
+
+    // Encuestas requeridas
+    $p->requeridas = $queryBase->count();
+  }
+
+  return view('muestras.posgrado.index', compact('planes', 'programa'));
+
+
+
+}
+
+public function show_posgrado($programa, $plan){
+  
+  $muestra = DB::table('egresados_posgrado')
+    ->where('programa', '=', $programa)
+    ->where('plan', '=', $plan)
+    ->leftJoin('codigos', 'codigos.code', '=', 'egresados_posgrado.status')
+    ->select('egresados_posgrado.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden')
+    ->get();
+
+  $Codigos = DB::table('codigos')
+    ->where('internet', '=', 0)
+    ->orderBy('color')
+    ->get();
+  
+  return view('muestras.posgrado.show', compact('muestra', 'programa', 'plan', 'Codigos'));
+}
+
+}

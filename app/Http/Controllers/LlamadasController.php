@@ -27,8 +27,8 @@ class LlamadasController extends Controller
 
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
-        if($gen=='2020'){
-            $Encuesta='ENCUESTA DE SEGUIMIENTO 2020';
+        if($gen=='2020' || $gen == '2022'){
+            $Encuesta= ($gen == '2020') ? 'ENCUESTA DE SEGUIMIENTO 2020' : 'ENCUESTA DE SEGUIMIENTO 2022';;
             $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();
         }else{
             $Encuesta='ENCUESTA DE ACTUALIZACION 2016';

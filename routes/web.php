@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     MuestrasController,
     Encuesta20Controller,
     Enc16ActController,
+    Encuesta22Controller,
     CorreosController,
     TelefonosController,
     OpcionesController,
@@ -52,16 +53,22 @@ Route::group(['middleware' => ['auth']], function(){
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
     Route::controller(MuestrasController::class)->group(function(){
-        Route::get('muestras14/index','index_14')->name('muestras14.index');
+        
         Route::get('muestras20/index/{id}','index_20')->name('muestras20.index');
-        Route::get('muestras14/show/{carrera}/{plantel}','show_14')->name('muestras14.show');
+        Route::get('muestras22/index/{id}','index_22')->name('muestras22.index');
+      
         Route::get('muestras20/show/{carrera}/{plantel}','show_20')->name('muestras20.show');
-        Route::get('muestras20/planteles/','plantel_index')->name('muestras20.plantel_index');
+        Route::get('muestras22/show/{carrera}/{plantel}','show_22')->name('muestras22.show22');//SHOW DEL 22
+
+
+        Route::get('muestras{gen}/index/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
+        Route::get('muestras{gen}/planteles/','plantel_index')->name('muestras.plantel_index');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
+        //Route::get('muestras{gen}/indexgeneral/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
+        
         //encuesta de act 2016
         Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
         
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
-        Route::get('muestras16/planteles/','plantel_index_16')->name('muestras16.plantel_index');
 
         Route::get('revisiones','revisiones_index')->name('revisiones.index');//prueba
         Route::get('revision','revision')->name('muestras.seg20.revision');
@@ -70,6 +77,16 @@ Route::group(['middleware' => ['auth']], function(){
 
         //completar encuesta
         Route::get('completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta');
+
+        //encuesta de posgrado
+        Route::get('muestras_posgrado/programas/','programas_index')->name('posgrado.programas_index');
+        Route::get('muestras_posgrado/index/{programa}','index_posgrado')->name('muestrasposgrado.index');
+        Route::get('muestras_posgrado/show/{programa}/{plan}','show_posgrado')->name('muestrasposgrado.show');
+
+        //encuetsa de seguimiento 2022
+        Route::get('muestras22/planteles/','plantel_index')->name('muestras22.plantel_index');
+        //Route::get('muestras22/index/{id}','index_20')->name('muestras22.index');
+
 
     });
 
@@ -100,6 +117,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/real_update/{id}', 'update2')->name('encuestas.real_update');
         Route::get('/2020', 'encuesta_2020')->name('2020');
         Route::get('/encuestas_2020/render/{id}/{section}', 'render')->name('render_20');
+    });
+
+
+    //Rutas para el controlador de la encuesta 22
+    Route::controller(Encuesta22Controller::class)->group(function(){
+        Route::get('/comenzar_encuesta_2022/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2022');
+        Route::get('/encuestas_22/edit/{id}/{section}', 'edit_22')->name('edit_22');
+        Route::post('/encuestas/2022/update/{id}/{section}', 'update')->name('encuesta22.update');
+
     });
     
     /** Telefonos */

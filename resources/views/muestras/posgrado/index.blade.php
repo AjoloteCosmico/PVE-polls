@@ -6,8 +6,7 @@
         <table class="table text-xl tabla_muestra" id="myTable">
           <thead>
             <tr>
-            <th>Carrera</th>
-            <th>Plantel</th>
+            <th>Plan</th>
             <th>Realizadas Telefonica</th>
             <th>Realizadas Internet</th>
             <th>Requeridas </th>
@@ -17,23 +16,22 @@
           </tr>
           </thead>
           <tbody>
-            @foreach($carreras as $c)
-            <tr style="background-color:rgba({{255*(1-($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas)}},{{255*(($c->nencuestas_tel+$c->nencuestas_int)/$c->requeridas)}},0,0.4)">
-                <td> {{$c->carrera}} </td>
-                <td> {{$c->plantel}} </td>
-                <td> {{$c->nencuestas_tel}} </td>
-                <td> {{$c->nencuestas_int}} </td>
-                <td> {{$c->requeridas}} </td>
-                <td> {{number_format((($c->nencuestas_tel+$c->nencuestas_int) *100)/$c->requeridas,2)}} %</td>
+            @foreach($planes as $p)
+            <tr style="background-color: rgba({{ 255 * (1 - (($p->requeridas > 0) ? ($p->nencuestas_tel + $p->nencuestas_int) / $p->requeridas : 0)) }},{{ 255 * (($p->requeridas > 0) ? ($p->nencuestas_tel + $p->nencuestas_int) / $p->requeridas : 0) }},0,0.4)">
+                <td> {{$p->plan}} </td>
+                <td> {{$p->nencuestas_tel}} </td>
+                <td> {{$p->nencuestas_int}} </td>
+                <td> {{$p->requeridas}} </td>
+                <td> {{ $p->requeridas > 0 ? number_format((($p->nencuestas_tel + $p->nencuestas_int) * 100) / $p->requeridas, 2) : '0.00' }} %</td>
                 <th> - </th>
-                generalizar
-                <td><a href="{{route('muestras16.show',[$c->c,$c->p])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                
+                <td><a href="{{ route('muestrasposgrado.show', [$programa, $p->plan]) }}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
                 
               </tr>
             @endforeach
           </tbody>
         </table>
-        <a href="{{route('muestras.plantel_index', ['gen' => 16]) }}">
+        <a href="{{route('posgrado.programas_index')}}">
           <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>

@@ -1,27 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+<div class="container-fluid" >
+    <h1>ENCUESTA DE POSGRADO</h1>
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl " id="myTable">
           <thead>
             <tr>
-            <th>Carrera</th>
-            <th>Plantel</th>
+            <th>Programa</th>
+            
             <th> </th>
           </tr>
           </thead>
           <tbody>
-            @foreach($carreras as $c)
-            <tr>
-                <td>{{$c->carrera}} </td>
-                <td>{{$c->plantel}} </td>
+            @foreach($Programas as $pr)
+            <tr >
+                <td>{{$pr->programa}} </td>
+              
+                <td><a href="{{route('muestrasposgrado.index', $pr->programa)}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
                
-                <td><a href="{{route('muestras14.show',[$c->carrera,$c->plantel])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
-            </tr>
+              </tr>
             @endforeach
           </tbody>
         </table>
+        <a href="{{route('muestras.index')}}">
+          <button class="boton-volver">
+            <i class="fa-sharp fa-solid fa-rotate-left"></i>
+          </button>
+        </a>
     </div>
     <center >
    

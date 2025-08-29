@@ -14,6 +14,7 @@ use \App\Http\Controllers\ComponentController;
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
+    <br><br>
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
     <br>
@@ -53,7 +54,7 @@ use \App\Http\Controllers\ComponentController;
         @endif
      @endforeach
      </div>
-    @endforeach
+     @endforeach
 
     <div class="posgrado_reactivos">
 

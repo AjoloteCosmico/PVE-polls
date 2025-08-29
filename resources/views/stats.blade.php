@@ -18,12 +18,17 @@
             </a>
             <a href="{{ route('report','correos_inconclusas')}}">
                 <button class="boton-azul" >
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas inconclusas
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos de encuestas inconclusas 2020
+                </button>
+            </a>
+            <a href="{{ route('report','correos_sin_contestar_2016')}}">
+                <button class="boton-azul" >
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos de encuestas inconclusas 2016
                 </button>
             </a>
             <a href="{{ route('report','correos_muestra_sin_contestar')}}">
                 <button class="boton-azul" >
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos muestra sin contestar
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos egresados sin contestar 2020
                 </button>
             </a>
             <a href="{{ route('report','correos_contestadas')}}">

@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="container-fluid">
+  @if($gen == 20)
+    <h1>ENCUESTA DE SEGUIMIENTO 2020</h1>
+  @elseif($gen == 22)
+    <h1>ENCUESTA DE SEGUIMIENTO 2022</h1>
+  @elseif($gen == 16)
+    <h1>ENCUESTA DE ACTUALIZACIÓN GENERACIÓN 2016</h1>
+  @endif
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl " id="myTable">
           <thead>
@@ -16,7 +23,21 @@
             <tr >
                 <td>{{$p->plantel}} </td>
               
-                <td><a href="{{route('muestras20.index',$p->clave_plantel)}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                <td>
+                  @if($gen==20)
+                    <a href="{{route('muestras.index_general', ['gen' => 20, $p->clave_plantel])}}">
+                      <button class="boton-oscuro">Ver Muestra</button>
+                    </a>
+                  @elseif($gen==22)
+                    <a href="{{route('muestras.index_general', ['gen' => 22, $p->clave_plantel])}}">
+                      <button class="boton-oscuro">Ver Muestra</button>
+                    </a>
+                  @elseif($gen==16)
+                    <a href="{{route('muestras.index_general', ['gen' => 16, $p->clave_plantel])}}">
+                      <button class="boton-oscuro">Ver Muestra</button>
+                    </a>
+                  @endif
+                </td>
                
               </tr>
             @endforeach

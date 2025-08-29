@@ -117,6 +117,9 @@ class RecadosController extends Controller
       if($Egresado->muestra==3){
         $gen=2020;
       }
+      if($Egresado->muestra==5){
+        $gen=2022;
+      }
       return redirect()->route('llamar',[$gen,$Egresado->cuenta,$Egresado->carrera]);
       }
 
