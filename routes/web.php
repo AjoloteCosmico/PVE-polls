@@ -121,6 +121,9 @@ Route::group(['middleware' => ['auth']], function(){
 
     //Rutas para el controlador de la encuesta 22
     Route::controller(Encuesta22Controller::class)->group(function(){
+        Route::get('/comenzar_encuesta_2022/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2022');
+        Route::get('/encuestas_22/edit/{id}/{section}', 'edit_22')->name('edit_22');
+        Route::post('/encuestas/2022/update/{id}/{section}', 'update')->name('encuesta22.update');
 
     });
     

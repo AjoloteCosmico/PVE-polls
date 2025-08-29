@@ -17,6 +17,7 @@ class ComponentController extends Controller
 
         return view('components.text',compact('width'));
     }
+    
     public static function RenderReactive($Reactivo,$Opciones,$value){
         // $Reactivo=reactivos_posgrado::find($id);
         // $Opciones=opciones_posgrado::where('reactivo',$Reactivo->clave)->get();

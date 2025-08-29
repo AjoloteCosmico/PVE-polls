@@ -14,6 +14,7 @@ use \App\Http\Controllers\ComponentController;
     <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
+    <br><br>
 @foreach($Secciones as $section)
      <h1> Sección {{$section['number']}} : {{$section['desc']}}</h1>
     <br>
@@ -52,7 +53,7 @@ use \App\Http\Controllers\ComponentController;
         @endif
      @endforeach
      </div>
-    @endforeach
+     @endforeach
 
     <div class="posgrado_reactivos">
 
@@ -679,17 +680,17 @@ document.addEventListener('DOMContentLoaded', function () {
     if (ner12) ner12.addEventListener('change', actualizarNer12ext);
 
     // --- ner15 → ner15ext ---
-    const ner15 = document.getElementById('ner15');
-    const ner15ext = document.getElementById('ner15ext');
-    function actualizarNer15ext() {
-        if (ner15 && ner15ext) {
-            ner15ext.disabled = (ner15.value !== '2');
-            if (ner15ext.disabled) {
+   // const ner15 = document.getElementById('ner15');
+    //const ner15ext = document.getElementById('ner15ext');
+    //function actualizarNer15ext() {
+      //  if (ner15 && ner15ext) {
+        //    ner15ext.disabled = (ner15.value !== '2');
+          //  if (ner15ext.disabled) {
                 ner15ext.value = '';
-            }
-        }
-    }
-    if (ner15) ner15.addEventListener('change', actualizarNer15ext);
+           // }
+       // }
+   // }
+    //if (ner15) ner15.addEventListener('change', actualizarNer15ext);
 
 
     // --- EJECUCIÓN ORDENADA AL CARGAR LA PÁGINA ---
@@ -700,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function () {
     actualizarNer24a();
     actualizarNer12b();
     actualizarNer12ext();
-    actualizarNer15ext();
+    //actualizarNer15ext();
 
     // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
     const ncr2 = document.getElementById('ncr2');

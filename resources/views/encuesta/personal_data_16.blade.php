@@ -39,6 +39,7 @@
         
         </table>
  @push('css')
+ 
  <style>
    
    .customSwalBtn{

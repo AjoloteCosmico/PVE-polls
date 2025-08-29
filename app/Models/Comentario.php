@@ -10,4 +10,10 @@ class Comentario extends Model
     use HasFactory;
     protected $table = 'comentario';
     protected $primaryKey = 'registro';
+
+     protected $fillable = [
+        'comentario',
+        'cuenta',
+        // Si hay otras columnas que deseas actualizar de forma masiva, agrégalas aquí.
+    ];
 }

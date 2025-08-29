@@ -20,12 +20,15 @@
       <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
     </button>
   </a>
+
+  {{--
   <a href="{{route('posgrado.programas_index')}}">
     <button class='boton-muestras' >
       <br><br>ENCUESTA DE POSGRADO <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="actuaizacion" class="icono-boton">
     </button>
   </a>
+  --}}
   <a href="{{route('muestras.plantel_index', ['gen' => 22]) }}">
   <button class='boton-muestras' >
       <br><br>ENCUESTA DE SEGUIMIENTO 2022 <br><br><br>

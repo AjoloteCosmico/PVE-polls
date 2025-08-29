@@ -92,6 +92,7 @@
                 <br>
                 <h3 class="text-white-40" id="layer"> RECADOS ANTERIORES</h3>
                 <br>
+                dd.{{ $Recados }}]
                 @if($Recados->count()==0)
                 <p> Aún no hay recados para mostrar </p>
                 @else
@@ -166,7 +167,7 @@
                         </a>
                         @endif
                         @if($gen==2022)
-                        <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
+                        <a href="{{route('edit_22',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
                             </button>
