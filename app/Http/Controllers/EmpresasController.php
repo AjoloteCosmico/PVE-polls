@@ -50,13 +50,13 @@ class EmpresasController extends Controller
             'giro_especifico' => 'required|string|max:150',
             'nota' => 'nullable|string|max:250',
         ]);
-
         // Crear una nueva empresa
         Empresas::create($request->all());
 
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa creada exitosamente.');
     }
+
     public function modal_store(Request $request){
         // Validar la solicitud
         $request->validate([
@@ -67,7 +67,7 @@ class EmpresasController extends Controller
             'nota' => 'nullable|string|max:250',
         ]);
         $Empresa=new Empresas();
-        $Empresa->usuario=Auth::user()->id;
+        $Empresa->usuario=Auth::user()->clave;
         $Empresa->nombre=$request->nombre;
         $Empresa->sector=$request->sector;
         $Empresa->clave_giro=$request->rama;
@@ -76,9 +76,7 @@ class EmpresasController extends Controller
         $Empresa->save();
     
         // Crear una nueva empresa
-       
-
-        return response()->json(['message' => 'Empresa creada', 'data' => $Empresa], 201);
+        return response()->json(['message' => 'Empresa creada', 'data' => $Empresa,'notas'=>$request->nota,'giro_esp'=>$request->giro_especifico], 201);
      }
 
     // Mostrar el formulario para editar una empresa existente
@@ -101,7 +99,7 @@ class EmpresasController extends Controller
         // Encontrar la empresa y actualizarla
         $empresa = Empresas::findOrFail($id);
         $empresa->update($request->all());
-        $empresa->usuario=Auth::user()->id;
+        $empresa->usuario=Auth::user()->clave;
         $empresa->save();
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa actualizada exitosamente.');

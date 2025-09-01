@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empresas', function (Blueprint $table) {
-            $table->id();
-            $table->string('usuario');
-            $table->string('nombre');
-            $table->string('giro');
-            $table->string('clave_giro');
-            $table->string('giro_especifico');
-            $table->string('nota');
-        });
+        // Schema::create('empresas', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('usuario');
+        //     $table->string('nombre');
+        //     $table->string('giro');
+        //     $table->string('clave_giro');
+        //     $table->string('giro_especifico');
+        //     $table->string('nota');
+        // });
     }
 
     /**

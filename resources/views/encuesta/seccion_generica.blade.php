@@ -46,12 +46,14 @@ use \App\Http\Controllers\ComponentController;
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
                         @php $field_presenter = $reactivo->clave @endphp
 
-                        {{-- Lógica especial para el reactivo de opciones múltiples 'nar3a' --}}
+                        {{-- Lógica especial para el reactivo de opciones múltiples 'nar3a' 
                         @if($reactivo->clave == 'nar3a')
                             @include('components.multiple_option', ['reactivo' => $reactivo, 'Encuesta' => $Encuesta])
                         @elseif($reactivo->clave == 'nfr23')
                             @include('components.multiple_option', ['reactivo' => $reactivo, 'Encuesta' => $Encuesta])
-                        @elseif($reactivo->clave == 'ncr2')
+                        @elseif($reactivo->clave == 'ncr2') --}}
+
+                       @if($reactivo->clave == 'ncr2')
                             <div class="row" style="display:flex; justify-content:flex-start;">
                                 <div class="col col-lg-10">
                                     {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
@@ -251,6 +253,17 @@ use \App\Http\Controllers\ComponentController;
     }
     .boton-azul:hover { 
         background-color: #ba800d; 
+    }
+     .boton-verde { 
+        background-color: #3eb03e; 
+        color: white; 
+        padding: 6px; 
+        border-radius: 8px; 
+        border: none; 
+        font-size:0.8vw;
+    }
+    .boton-verde:hover { 
+        background-color: #1d521dff; 
     }
     .boton-muestras { 
         background-color: #002b7a; 

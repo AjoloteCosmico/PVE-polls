@@ -11,11 +11,11 @@ array_bloqueos={
        'involucrados': [@foreach($ThisBloqueos->unique('bloqueado')->pluck('bloqueado') as $bloqueado) '{{$bloqueado}}', @endforeach ]
        },
        @endforeach
-}
+      };
 
 //funcion que revisa todos los bloqueos
  function checkBloqueos(reactive){
-  console.log(reactive+'Ha cambiado');
+  console.log('---CHANGE: '+reactive+' Ha cambiado');
   //get current value
   selected_value=document.getElementById(reactive).value;
   console.log('valor del reactivo:'+String(selected_value));
@@ -30,7 +30,8 @@ array_bloqueos={
 
     // Itera sobre los reactivos involucrados, deben volver a abrirse
     valoresUnicos.forEach(valor => {
-      console.log('desbloquear'+valor);
+      console.log('desbloquear '+valor);
+      
         if(document.getElementById(valor).value==0){
               document.getElementById(valor).value='';
             }
@@ -38,6 +39,8 @@ array_bloqueos={
             document.getElementById('container'+valor).style.backgroundColor ='transparent';
             document.getElementById(valor).style.backgroundColor = "white";
             document.getElementById(valor).disabled= false;
+            console.log('desbloqueo realized-----')
+            
     });
 // (como detonador del bloqueo segun su valor)
 //luego filtra por el valor actual del reactivo para saber si hay que ocultar alguna pregunta
@@ -48,11 +51,13 @@ array_bloqueos={
     console.log('se bloquea: '+array_bloqueos[reactive][selected_value]);
     valoresUnicos.forEach(valor => {
       //valor sera 0.
+      console.log('ciclo '+ valor);
       document.getElementById(valor).value=0;
       //ocultar la cajita
       console.log('ocultar caja con id '+'container'+array_bloqueos[reactive][selected_value])
       // document.getElementById('container'+valor).style.display='none';
       document.getElementById('container'+valor).style.backgroundColor = "#252E56";
+      console.log('input con id ' +valor)
       document.getElementById(valor).style.backgroundColor = "gray";
       document.getElementById(valor).disabled= true;
     });

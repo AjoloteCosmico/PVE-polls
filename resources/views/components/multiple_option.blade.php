@@ -1,5 +1,4 @@
-
-<div class="container" style="width: 15vmax; color:white">
+{{--<div class="container" style="width: 15vmax; color:white">
     <!-- Renderiza el componente de nar3a solo si hay opciones disponibles -->
     @if($Becas_options->count() > 0)
     <div>
@@ -57,4 +56,13 @@
         
     </div>
     @endif
-</div>
+</div> --}} 
+
+<select name="{{$Reactivo->clave}}" id="{{$Reactivo->clave}}" style="color:black" onChange="checkBloqueos('{{$Reactivo->clave}}')">
+    <option value="">seleccione </option>
+    @foreach($Opciones as $opcion)
+        
+        <option value="{{$opcion->clave}}" @if($value==$opcion->clave) selected @endif > {{$opcion->clave}}  {{$opcion->descripcion}}</option>
+    @endforeach
+</select>  
+

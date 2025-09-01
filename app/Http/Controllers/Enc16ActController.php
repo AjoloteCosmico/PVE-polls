@@ -129,7 +129,7 @@ class Enc16ActController extends Controller
          ->where('reactivos.rules','act')
         ->select('bloqueos.*')
         ->get();
-        foreach($Reactivos->sortBy('act_order')->where('type','!=','label')->where('clave','!=','giro_especifico') as $reactivo){
+        foreach($Reactivos->sortBy('act_order')->where('type','!=','label')->where('clave','!=','giro_especifico')->where('clave','!=','nota_empresa') as $reactivo){
             $bloqueado=false;
             $field_presenter=$reactivo->clave;
             $logs=$logs."Checando el reactivo".$field_presenter." 
@@ -186,7 +186,7 @@ class Enc16ActController extends Controller
         $Encuesta->aplica = Auth::user()->clave;
         $Encuesta->fec_capt = now()->modify("-6 hours");
         // $request->validate($rules);
-        $Encuesta->update($request->except(["_token", "_method","giro_especifico", "btn_pressed"]));
+        $Encuesta->update($request->except(["_token", "_method","giro_especifico","nota_empresa", "btn_pressed"]));
         
         // 
         if ($request->btn_pressed === 'guardar') {
@@ -203,24 +203,24 @@ class Enc16ActController extends Controller
             $Egresado->status=1;
             $Egresado->save();
             //guardar los datos de la empresa si es necesario
-            $Empresa=Empresas::where('nombre',$Encuesta->ncr2)->first();
-            if(!$Empresa){
-                $Empresa=new Empresas();
-                $Empresa->nombre=$Encuesta->ncr2;
-                $Empresa->sector=$Encuesta->ncr3;
-                $Empresa->registro=$Encuesta->registro;
-                $Empresa->clave_giro=$Encuesta->ncr4;
-                $Empresa->giro_especifico=$request->giro_especifico;
-                $Empresa->usuario= Auth::user()->clave;
-                $Empresa->save();
-            }else{
-                $Empresa->sector=$Encuesta->ncr3;
-                $Empresa->registro=$Encuesta->registro;
-                $Empresa->clave_giro=$Encuesta->ncr4;
-                $Empresa->giro_especifico=$request->giro_especifico;
-                $Empresa->usuario= Auth::user()->clave;
-                $Empresa->save();
-            }
+            // $Empresa=Empresas::where('nombre',$Encuesta->ncr2)->first();
+            // if(!$Empresa){
+            //     $Empresa=new Empresas();
+            //     $Empresa->nombre=$Encuesta->ncr2;
+            //     $Empresa->sector=$Encuesta->ncr3;
+            //     $Empresa->registro=$Encuesta->registro;
+            //     $Empresa->clave_giro=$Encuesta->ncr4;
+            //     $Empresa->giro_especifico=$request->giro_especifico;
+            //     $Empresa->usuario= Auth::user()->clave;
+            //     $Empresa->save();
+            // }else{
+            //     $Empresa->sector=$Encuesta->ncr3;
+            //     $Empresa->registro=$Encuesta->registro;
+            //     $Empresa->clave_giro=$Encuesta->ncr4;
+            //     $Empresa->giro_especifico=$request->giro_especifico;
+            //     $Empresa->usuario= Auth::user()->clave;
+            //     $Empresa->save();
+            // }
             //generar .json
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);

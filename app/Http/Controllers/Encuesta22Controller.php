@@ -185,7 +185,8 @@ class Encuesta22Controller extends Controller
         }
 
         // 3. Lógica para manejar el botón "Guardar Sección" y "Guardar como inconclusa"
-        $Encuesta->update($request->except(["_token", "_method", "btn_pressed", "nar3a", "nfr23", "comentario"]));
+        // $Encuesta->update($request->except(["_token", "_method", "btn_pressed", "nar3a", "nfr23", "comentario"]));
+        $Encuesta->update($request->except(["_token", "_method", "btn_pressed", "comentario"]));
 
       
         
@@ -322,5 +323,28 @@ class Encuesta22Controller extends Controller
     }
 
 
+ public function respaldar($registro)
+    {
+        $Encuesta = respuestas20::where("registro", $registro)->first();
+        $Encuesta_respaldo = $Encuesta->replicate();
+        $Encuesta_respaldo->setTable("respuestas20_resp");
+        $Encuesta_respaldo->save();
+    }
+
+    public function terminar($id)
+    {
+        $Encuesta = respuestas20::where("registro", $id)->first();
+        $this->respaldar($Encuesta->registro);
+        if ($Encuesta->completed == 1) {
+            $fileName = $Encuesta->cuenta . ".json";
+            $fileStorePath = public_path("storage/json/" . $fileName);
+
+            File::put($fileStorePath, json_encode($Encuesta));
+
+            return view("encuesta.saved", compact("Encuesta"));
+        } else {
+            return redirect()->route("muestras22.index", $Encuesta->nbr3);
+        }
+    }
     
 }

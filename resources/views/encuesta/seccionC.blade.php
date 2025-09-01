@@ -1,5 +1,7 @@
 @extends('layouts.blank_app')
 @section('content')
+
+@include('empresas.modal_create')
 <h1 > COMPLETAR ENCUESTA </h1>
 <div  id='datos'>  @include('encuesta.personal_data') </div>
 <div style="padding:1.2vw;">
@@ -24,7 +26,13 @@
             </td>
             <td colspan="2">
                <h2 class="reactivo"> 62.- Nombre de la empresa o institución donde trabaja </h2>
+                     @can('crear_empresa_encuesta')
+                            <div class="col col-lg-2"> 
+                                <button class="btn boton-dorado w-10" data-toggle="modal"  onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva  </button>
+                            </div>
+                     @endcan
                <textarea class="texto" id="ncr2" name="ncr2" cols="30" rows="2" maxlength="220"> {{$Encuesta->ncr2}}</textarea>
+           <div class="resultados-div" id="resultados"></div>
             </td>
             <td>
                <h2 class="reactivo"> 63.-¿Cuál es el estado dónde usted se encuentra laborando? </h2>
@@ -112,6 +120,12 @@
                   <option value=0  hidden></option>
                </select>
                <br>
+            
+               <h2 class="reactivo">65a).- Otra:</h2>
+               <input  class="texto" id="ncr4a" name="ncr4a"  maxlength="65" value=0 > 
+   
+            </td>
+            <td>
                <h2 class="reactivo"> Giro específico </h2>
                <textarea  class="texto" id="giro_especifico" name="giro_especifico" cols="30" maxlength="550" value=0 >@if($Empresa!=null){{$Empresa->giro_especifico}}@endif</textarea>
                <h2 class="reactivo"> Notas de la empresa </h2>
@@ -119,12 +133,8 @@
                
             </td>
             <td>
-               <h2 class="reactivo">65a).- Otra:</h2>
-               <input  class="texto" id="ncr4a" name="ncr4a"  maxlength="65" value=0 > 
-            </td>
-            <td>
                <h2 class="reactivo"> 66.-Aproximadamente, ¿cuántas personas laboran en la empresa?  </h2>
-               <select class="select" id="ncr5" name="ncr5"  >
+               <select class="select" id="ncr5" name="ncr5" >
                   <option selected="selected" value="">
                      <option value=1 @if($Encuesta->ncr5==1) selected @endif> Hasta 15 empleados
                   </option>
@@ -402,6 +412,58 @@
    </form>
 </div>
 @endsection
+
+@push('css')
+<style>
+   .resultados-div{
+    padding: 5px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    margin: 5px;
+    background-color: black !important;
+}
+
+.boton-dorado{
+    background-color: #ba800d;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 6px;
+}
+
+.boton-dorado:hover{
+    background-color: #002b7a;
+}
+
+.modal-input{
+     border-radius: 6px;
+    border: none;
+    max-width: 18.5vw;
+    min-width: 7.5vw;
+    min-height: 2.5vw;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: black;
+    margin: 10px;
+    background-color: white;
+}
+
+.modal-body{
+   background-color:rgb(13, 14, 15) !important;
+}
+.modal-header{
+   background-color:rgb(13, 14, 15) !important;
+}
+</style>
+@endpush
+
+
 @push('js')
 <script>
    unhide('C');
@@ -439,14 +501,12 @@
        case '3':
          reactivosPorCerrar=[giro_especifico,ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
-
          reactivosPorAbrir=[ncr24,ncr24_a,ncr24porque,ncr23];
          reactivosPorAbrir.forEach(visibilizar);
        break;
        case '4':
          reactivosPorCerrar=[giro_especifico, ncr2,ncr2a,ncr2ext,ncr3,ncr4,ncr5,ncr4a,ncr6a,ncr6otra,ncr6a2,ncr7a,ncr7b,ncr8,ncr9,ncr10,ncr11,ncr12_a,ncr15,ncr16,ncr17,ncr18,ncr19,ncr20,ncr21,ncr22];
          reactivosPorCerrar.forEach(ocultar);
-
          reactivosPorAbrir=[ncr24,ncr24_a,ncr24porque,ncr23];;
          reactivosPorAbrir.forEach(visibilizar);
        break;
@@ -513,9 +573,9 @@
      bloquear('ncr11',[3,0],[ncr16]);
    }
    // inicializar 
-   bloquear('ncr4',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24],[ncr4a])
+   bloquear('ncr4',[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24],[ncr4a]);
    autoempleo();
-   bloquear('ncr8',[0,2],[ncr9]); 
+   bloquear('ncr8',[0,2],[ncr9]);
    porque();
    //bloquear('ncr22',[2,0],[ncr24,ncr24_a,ncr24porque,ncr23])
    seccionc2();
@@ -523,11 +583,10 @@
    console.log('FIN DE FUNCION NCR1-------------------------');
    bloquear('ncr4',[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24],[ncr4a])
    bloquear('ncr2a',[0,1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33],[ncr2ext])
-   @if($Encuesta->ncr1==3 |$Encuesta->ncr1==4)
+   @if($Encuesta->ncr1==3 |$Encuesta->ncr1==4|$Encuesta->ncr1==6|$Encuesta->ncr1==8)
    bloquear('ncr22',[2],[ncr24,ncr24_a,ncr24porque,ncr23]);
    @else
    bloquear('ncr22',[2,0],[ncr24,ncr24_a,ncr24porque,ncr23]);
-   
    @endif
    autoempleo();
    func_ncr11();
@@ -536,16 +595,14 @@
    @endif
    bloquear('ncr8',[2,0],[ncr9])
    porque();
-   var warning = false;
-
-
+   var warning = false; 
 </script>
+
 <script>
     @foreach ($errors->all() as $error)
                    document.getElementsByName( "{{str_replace(' ', '_',str_replace('The ','',str_replace(' field is required.', '', $error))) }}")[0].style="border: 0.3vw  solid red";
                    console.log( "{{str_replace(' ', '_',str_replace('The ','',str_replace(' field is required.', '', $error))) }}");
      @endforeach
-   
 </script>
 @if(in_array($Encuesta->ncr1,array(5,7)))
 <script>
@@ -559,4 +616,85 @@
         document.getElementById('ncr24_a').value='{{$Encuesta->ncr24_a}}';
     </script>
 @endif
+
+<script>
+   
+function setValueWithEffect(element, value) {
+    console.log('setting value');
+  // Quitar la clase si ya existe
+  element.classList.remove('highlight');
+  
+  // Forzar reinicio de la animación (truco de reflow)
+  void element.offsetWidth;
+  
+  // Asignar el nuevo valor
+  element.value = value;
+  
+  // Aplicar el efecto
+  element.classList.add('highlight');
+}
+ const searchBox = document.getElementById('ncr2');
+const resultadosDiv = document.getElementById('resultados');
+
+searchBox.addEventListener('input', function(e) {
+    const searchTerm = e.target.value;
+    
+    if (searchTerm.length < 2) {
+        resultadosDiv.innerHTML = '';
+        return;
+    }
+
+    // Enviar solicitud AJAX
+    fetch(`/search_empresa?q=${encodeURIComponent(searchTerm)}`)
+        .then(response => response.json())
+        .then(data => {
+            resultadosDiv.innerHTML = '';
+            data.forEach(item => {
+                const nombre = item.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+function rellenar_empresa(nombre,sector,giro,giro_esp){
+    // document.getElementById('ncr2').value=nombre;
+    // document.getElementById('ncr3').value=sector;
+    // document.getElementById('ncr4').value=giro;
+    // document.getElementById('giro_especifico').value=giro_esp;
+    setValueWithEffect(document.getElementById('ncr2'), nombre);
+    setValueWithEffect(document.getElementById('ncr3'), sector);
+    setValueWithEffect(document.getElementById('ncr4'), giro);
+    setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
+    console.log('se ha seleccionado una empresa',sector,giro);
+    resultadosDiv.innerHTML = '';
+}
+
+function update_empresa_form(){
+    nombre=document.getElementById('ncr2').value;
+    sector=document.getElementById('ncr3').value;
+    rama=document.getElementById('ncr4').value;
+    giro=document.getElementById('giro_especifico').value;
+    
+    document.getElementById('nombre_empresa').value=nombre;
+    document.getElementById('rama').value=rama;
+    document.getElementById('sector').value=sector;
+    document.getElementById('giro_modal').value=giro;
+}
+//Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
+    const ncr2 = document.getElementById('ncr2');
+    if (ncr2 && ncr2.value.trim().length >= 2) {
+        fetch(`/search_empresa?q=${encodeURIComponent(ncr2.value.trim())}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const item = data[0]; // asumimos el primer match
+                rellenar_empresa(item.nombre, item.sector, item.clave_giro, item.giro_especifico);
+            }
+        })
+        .catch(error => console.error('Error al buscar empresa al cargar:', error));
+    }
+
+
+</script>
 @endpush

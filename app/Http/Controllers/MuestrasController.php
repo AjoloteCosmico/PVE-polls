@@ -230,7 +230,6 @@ public function index_16($id){
     $c->requeridas = $queryBase
     ->count();
   }
-  
   // dd($carreras);
   // $carreras=collect($carreras);
   return view('muestras.act16.index',compact('carreras'));
