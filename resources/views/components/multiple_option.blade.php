@@ -1,3 +1,4 @@
+
 <div class="container" style="width: 15vmax; color:white">
     <!-- Renderiza el componente de nar3a solo si hay opciones disponibles -->
     @if($Becas_options->count() > 0)
@@ -12,7 +13,7 @@
                            class="nar3aopcion"
                            name="nar3a[]"
                            value="{{ $o->clave }}"
-                           onclick="handleExclusiveOption('nar3a', this)"
+                           onclick="checkBloqueos('nar3a')"
                            @if($Becas->where('clave_opcion', $o->clave)->count() > 0) checked @endif
                            data-tippy-size="jumbo"
                            data-tippy-content="{{$o->help_info}}" />
@@ -41,7 +42,7 @@
                            class="nfr23opcion"
                            name="nfr23[]"
                            value="{{ $o->clave }}"
-                           onclick="handleExclusiveOption('nfr23', this)"
+                           onclick="checkBloqueos('nfr23')"
                            @if($nfr23_answers->where('clave_opcion', $o->clave)->count() > 0) checked @endif
                            data-tippy-size="jumbo"
                            data-tippy-content="{{$o->help_info}}" />

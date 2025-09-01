@@ -568,8 +568,8 @@ use \App\Http\Controllers\ComponentController;
         }
         document.getElementById('containernar4a').classList.add('bloqueado-inactivo');
         document.getElementById('containernar5a').classList.add('bloqueado-inactivo');
-        document.querySelector('input[name="nar4a"]').value = 5;
-        document.querySelector('input[name="nar5a"]').value = 5;
+        document.querySelector('input[name="nar4a"]').value = 0;
+        document.querySelector('input[name="nar5a"]').value = 0;
     } else if (exclusiveCheckbox) {
         // Si cualquier otra opción se selecciona o la exclusiva se desmarca,
         // habilitar todas las opciones.

@@ -187,43 +187,7 @@ class Encuesta22Controller extends Controller
         // 3. Lógica para manejar el botón "Guardar Sección" y "Guardar como inconclusa"
         $Encuesta->update($request->except(["_token", "_method", "btn_pressed", "nar3a", "nfr23", "comentario"]));
 
-        // 4. Lógica centralizada para manejar opciones múltiples
-        $multipleOptionFields = [
-            'nar3a',
-            'nfr23'
-        ];
-        
-        foreach ($multipleOptionFields as $reactivo) {
-            $reactivoModel = Reactivo::where('clave', $reactivo)->first();
-
-            // Solo procesa los reactivos que están en la sección actual
-            if ($reactivoModel && $reactivoModel->section === $section) {
-                // Elimina las respuestas anteriores
-                DB::table("multiple_option_answers")
-                    ->where("encuesta_id", $Encuesta->registro)
-                    ->where("reactivo", $reactivo)
-                    ->delete();
-
-                $selectedOptions = $request->input($reactivo, []);
-                
-                // Si la pregunta es "nar3a", verifica la dependencia con "binbeca"
-                if ($reactivo === 'nar3a') {
-                    $binbecaValue = $request->input('binbeca');
-                    if ($binbecaValue != 1) {
-                        $selectedOptions = []; // Si la respuesta a 'binbeca' no es 'Sí', no se guardan opciones para 'nar3a'.
-                    }
-                }
-
-                // Inserta las nuevas opciones seleccionadas
-                foreach ($selectedOptions as $claveOpcion) {
-                    DB::table("multiple_option_answers")->insert([
-                        "encuesta_id" => $Encuesta->registro,
-                        "clave_opcion" => $claveOpcion,
-                        "reactivo" => $reactivo,
-                    ]);
-                }
-            }
-        }
+      
         
         // Lógica específica para guardar el comentario de la sección G
         if ($section === 'G') {
@@ -331,6 +295,30 @@ class Encuesta22Controller extends Controller
             return $secciones[$current_index + 1];
         }
         return $current_section;
+    }
+
+    public function respaldar($registro)
+    {
+        $Encuesta = respuestas20::where("registro", $registro)->first();
+        $Encuesta_respaldo = $Encuesta->replicate();
+        $Encuesta_respaldo->setTable("respuestas20_resp");
+        $Encuesta_respaldo->save();
+    }
+
+    public function terminar($id)
+    {
+        $Encuesta = respuestas20::where("registro", $id)->first();
+        $this->respaldar($Encuesta->registro);
+        if ($Encuesta->completed == 1) {
+            $fileName = $Encuesta->cuenta . ".json";
+            $fileStorePath = public_path("storage/json/" . $fileName);
+
+            File::put($fileStorePath, json_encode($Encuesta));
+
+            return view("encuesta.saved", compact("Encuesta"));
+        } else {
+            return redirect()->route("muestras22.index", $Encuesta->nbr3);
+        }
     }
 
 
