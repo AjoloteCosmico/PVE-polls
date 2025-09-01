@@ -125,6 +125,9 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/comenzar_encuesta_2022/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2022');
         Route::get('/encuestas_22/edit/{id}/{section}', 'edit_22')->name('edit_22');
         Route::post('/encuestas/2022/update/{id}/{section}', 'update')->name('encuesta22.update');
+        Route::get('/encuestas/2022/terminar/{id}', 'terminar')->name('terminar');
+
+
 
     });
     

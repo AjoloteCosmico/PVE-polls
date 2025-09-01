@@ -7,7 +7,7 @@
         <td> {{ $Egresado->cuenta }}</td>
 
         <th>Teléfonos: <br><br> <a href="{{ route('agregar_telefono', [$Egresado->cuenta, $Egresado->carrera, $Encuesta->registro, Session::get('telefono_encuesta')]) }}"> <button class="btn boton-dorado"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button></a></th>
-        <td>
+        <td style="width:25vw">
             @foreach($Telefonos as $t)
                 <a class="contact_data" style="color: #002b7a;" href="{{ route('editar_telefono', [$t->id, $Egresado->carrera, $Encuesta->registro, Session::get('telefono_encuesta')]) }}">{{ $t->telefono }} </a>, &nbsp;
             @endforeach
@@ -40,32 +40,75 @@
     <tr>
         <th colspan="8">
             <div class="row justify-content-center" style="margin-top: 10px; margin-bottom: 10px;">
-                <div class="col">
-                    <a class="btn boton-dorado" id="btn-A" href="{{route('edit_22',[$Encuesta->registro,'A'])}}">Sección A</a>
+                
+                            <div class="col">
+                  @if($Encuesta->sec_a==1)
+                         <a class="btn boton-verde" id="btn-A" href="{{route('edit_22',[$Encuesta->registro,'A'])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección A </a>
+               
+                    @else
+                         <a class="btn boton-dorado" id="btn-A" href="{{route('edit_22',[$Encuesta->registro,'A'])}}">Sección A</a>
+               
+                    @endif
                 </div>
-                <div class="col">
-                    <a class="btn boton-dorado" id="btn-E" href="{{route('edit_22',[$Encuesta->registro,'E'])}}">Sección E</a>
+               <div class="col">
+                  @if($Encuesta->sec_e==1)
+                         <a class="btn boton-verde" id="btn-E" href="{{route('edit_22',[$Encuesta->registro,'E'])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección E </a>
+               
+                    @else
+                         <a class="btn boton-dorado" id="btn-E" href="{{route('edit_22',[$Encuesta->registro,'E'])}}">Sección E</a>
+               
+                    @endif
                 </div>
-                <div class="col">
-                    <a class="btn boton-dorado" id="btn-F" href="{{route('edit_22',[$Encuesta->registro,'F'])}}">Sección F</a>
+               <div class="col">
+                  @if($Encuesta->sec_f==1)
+                         <a class="btn boton-verde" id="btn-F" href="{{route('edit_22',[$Encuesta->registro,'F'])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección F </a>
+               
+                    @else
+                         <a class="btn boton-dorado" id="btn-F" href="{{route('edit_22',[$Encuesta->registro,'F'])}}">Sección F</a>
+               
+                    @endif
                 </div>
-                <div class="col">
-                    <a class="btn boton-dorado" id="btn-C" href="{{route('edit_22',[$Encuesta->registro,'C'])}}">Sección C</a>
+               <div class="col">
+                  @if($Encuesta->sec_c==1)
+                         <a class="btn boton-verde" id="btn-C" href="{{route('edit_22',[$Encuesta->registro,'C'])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección C </a>
+               
+                    @else
+                         <a class="btn boton-dorado" id="btn-C" href="{{route('edit_22',[$Encuesta->registro,'C'])}}">Sección C</a>
+               
+                    @endif
                 </div>
-                <div class="col">
-                    <a class="btn boton-dorado" id="btn-D" href="{{route('edit_22',[$Encuesta->registro,'D'])}}">Sección D</a>
+               <div class="col">
+                  @if($Encuesta->sec_d==1)
+                         <a class="btn boton-verde" id="btn-D" href="{{route('edit_22',[$Encuesta->registro,'D'])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
+               
+                    @else
+                         <a class="btn boton-dorado" id="btn-D" href="{{route('edit_22',[$Encuesta->registro,'D'])}}">Sección D</a>
+               
+                    @endif
                 </div>
-                <div class="col">
-                    <a class="btn boton-dorado" id="btn-G" href="{{route('edit_22',[$Encuesta->registro,'G'])}}">Sección G</a>
+               <div class="col">
+                  @if($Encuesta->sec_g==1)
+                         <a class="btn boton-verde" id="btn-G" href="{{route('edit_22',[$Encuesta->registro,'G'])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección G </a>
+               
+                    @else
+                         <a class="btn boton-dorado" id="btn-G" href="{{route('edit_22',[$Encuesta->registro,'G'])}}">Sección G</a>
+               
+                    @endif
                 </div>
+
                 {{-- Nuevo div para el botón de acción --}}
+                
                 <div class="col">
                     @if($Encuesta->completed == 1)
+                    <a href="{{route('terminar',$Encuesta->registro)}}">
                     <button class="btn boton-dorado" onclick="send_form('terminar')">Terminar Encuesta</button>
                     @else
+                    <a href="{{route('terminar',$Encuesta->registro)}}">
                     <button class="btn boton-dorado" onclick="send_form('inconclusa')">Guardar como inconclusa</button>
                     @endif
                 </div>
+
+
             </div>
         </th>
     </tr>
