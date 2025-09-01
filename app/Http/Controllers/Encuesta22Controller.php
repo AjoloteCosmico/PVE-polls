@@ -252,7 +252,7 @@ class Encuesta22Controller extends Controller
         }
     }
 
-     // Método para validar que la sección actual esté completa (adaptado de tu código)
+     // Método para validar que la sección actual esté completa
     public function validar_seccion($Encuesta, $section)
     {
         $Reactivos = Reactivo::where('section', $section)->get();
@@ -320,8 +320,6 @@ class Encuesta22Controller extends Controller
             return redirect()->route("muestras22.index", $Encuesta->nbr3);
         }
     }
-
-
 
 
     
