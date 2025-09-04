@@ -28,6 +28,9 @@ array_bloqueos={
     // Extrae los valores y conviértelos en un Set para eliminar duplicados
     const valoresUnicos = new Set(Object.values(array_bloqueos[reactive]['involucrados']));
 
+    const main_element = document.getElementById(reactive);
+    const reactivo_type = main_element ? main_element.dataset.type : null;
+
     // Itera sobre los reactivos involucrados, deben volver a abrirse
     valoresUnicos.forEach(valor => {
       console.log('desbloquear '+valor);

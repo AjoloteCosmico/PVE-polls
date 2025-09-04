@@ -31,9 +31,6 @@ use \App\Http\Controllers\ComponentController;
         <div class="posgrado_reactivos">
             {{-- Renderizado dinámico de los reactivos de la sección actual --}}
             @foreach($Reactivos as $reactivo)
-                @php
-                    $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get();
-                @endphp
 
                 @if($reactivo->type == 'label')
                     <br>
@@ -42,20 +39,32 @@ use \App\Http\Controllers\ComponentController;
                     </div>
                     <br>
                 @else
+                
                     <div class="react_container" id="{{'container'.$reactivo->clave}}">
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
                         @php $field_presenter = $reactivo->clave @endphp
 
-                        {{-- Lógica especial para el reactivo de opciones múltiples 'nar3a' 
-                        @if($reactivo->clave == 'nar3a')
-                            @include('components.multiple_option', ['reactivo' => $reactivo, 'Encuesta' => $Encuesta])
-                        @elseif($reactivo->clave == 'nfr23')
-                            @include('components.multiple_option', ['reactivo' => $reactivo, 'Encuesta' => $Encuesta])
-                        @elseif($reactivo->clave == 'ncr2') --}}
+                        @if($reactivo->type === 'multiple_option')
+                            {{-- Filtrar las opciones y respuestas para esta pregunta --}}
+                            @php
+                                $opciones_reactivo = $multiple_options->where('reactivo', $reactivo->clave);
+                                $respuestas_reactivo = $multiple_option_answers->where('reactivo', $reactivo->clave)->pluck('clave_opcion')->toArray();
 
-                       @if($reactivo->clave == 'ncr2')
+                                
+                            @endphp
+
+                            {{-- Llama al componente y le pasa los datos necesarios --}}
+                            @include('components.multiple_option', [
+                                'Reactivo' => $reactivo,
+                                'Opciones' => $opciones_reactivo,
+                                'respuestas_anteriores' => $respuestas_reactivo
+                            ])
+
+                        @elseif($reactivo->clave == 'ncr2')
                             <div class="row" style="display:flex; justify-content:flex-start;">
                                 <div class="col col-lg-10">
+                                    {{-- Consulta para este reactivo específico --}}
+                                    @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
                                     {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
                                 </div>
                                 <div class="col col-lg-2">
@@ -65,9 +74,11 @@ use \App\Http\Controllers\ComponentController;
                             </div>
                             <div class="resultados-div" id="resultados"></div>
                         @else
+                            {{-- Consulta para otros reactivos --}}
+                            @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
                             {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
                         @endif
-                        
+
                     </div>
                 @endif
             @endforeach
@@ -77,7 +88,7 @@ use \App\Http\Controllers\ComponentController;
         @if($section === 'G')
             <div class="form-group" style="padding:1.2vw;">
                 <label for="comentario" style="color:white; font-size:1.5vw;">Comentario:</label>
-                <textarea name="comentario" id="comentario" rows="4" style="width:100%;" >{{ $Comentario }}</textarea>
+                <textarea name="comentario" id="comentario" rows="4" style="width:100%;">{{ $Comentario }}</textarea>
             </div>
         @endif
 

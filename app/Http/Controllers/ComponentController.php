@@ -29,4 +29,20 @@ class ComponentController extends Controller
         }
         return view('components.'.$Reactivo->type,compact('Reactivo','Opciones','value'));
     }
+
+    public static function RenderMultiple($reactivo_id, $all_options, $user_answers)
+    {
+        $Reactivo = Reactivo::find($reactivo_id);
+
+        // Filtramos las opciones y respuestas relevantes para este reactivo.
+        $Opciones = $all_options->where('reactivo', $Reactivo->clave);
+        $answers = $user_answers->where('reactivo', $Reactivo->clave)->pluck('clave_opcion')->toArray();
+        
+        // La lógica de bloqueos no debería estar aquí para ser más eficiente.
+        // Se maneja mejor en el controlador principal y se pasa a la vista.
+        
+        return view('components.multiple_option', compact('Reactivo', 'Opciones', 'answers'));
+    }
 }
+
+
