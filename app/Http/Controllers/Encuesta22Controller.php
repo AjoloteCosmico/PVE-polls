@@ -53,7 +53,8 @@ class Encuesta22Controller extends Controller
             }
             $data = $process->getOutput();
         }
-        
+       
+        //  dd('hasta aki');
         $Encuesta = respuestas20::where("cuenta", "=", $cuenta)
             ->where("nbr2", "=", $carrera)
             ->first();
@@ -191,7 +192,7 @@ class Encuesta22Controller extends Controller
                 return str_contains($key, $clave . 'opcion');
             }
         );
-
+         
         // Borrar respuestas anteriores
         $affectedRows = multiple_option_answer::where('encuesta_id',$Encuesta->registro)
             ->where('reactivo', $clave)->delete();
@@ -213,9 +214,6 @@ class Encuesta22Controller extends Controller
             }
         }
     }
-
-
-   
     
         // 7. Lógica específica para guardar el comentario de la sección G
         if ($section === 'G') {
