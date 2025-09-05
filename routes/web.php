@@ -72,8 +72,12 @@ Route::group(['middleware' => ['auth']], function(){
 
         Route::get('revisiones','revisiones_index')->name('revisiones.index');//prueba
         Route::get('revision','revision')->name('muestras.seg20.revision');
+        
         //encuesta de act 16
         Route::get('revision16','revision16')->name('muestras.act16.revision');
+
+        //encuesta de seguimiento 2022
+        Route::get('revision22', 'revision22')->name('muestras.seg20.revision22');
 
         //completar encuesta
         Route::get('completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta');

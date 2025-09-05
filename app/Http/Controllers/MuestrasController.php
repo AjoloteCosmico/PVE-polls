@@ -387,28 +387,12 @@ public function show_22($carrera,$plantel){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 public function revisiones_index(){
   return view('muestras.revisiones.index');
 }
 
 
-
+//Revisar encuenstas de seg 2020
 public function revision(){
   $Encuestas=respuestas20::leftJoin('carreras', function($join)
   {
@@ -416,7 +400,10 @@ public function revision(){
       $join->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');                             
   })
   ->leftjoin('users','users.clave','=','respuestas20.aplica')
+  ->leftJoin('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
   ->select('respuestas20.*','carreras.carrera','carreras.plantel','users.name')
+  ->where('egresados.anio_egreso', 2020)
+  ->where('egresados.muestra', 3)
   ->where('completed',1)
   //->where('aplica',Auth::user()->clave) 
   ->get();
@@ -424,6 +411,29 @@ public function revision(){
     $Encuestas=$Encuestas->where('aplica',Auth::user()->clave);
   }
   return view('muestras.seg20.revision',compact('Encuestas'));
+}
+
+//Revisar encuenstas de seg 2022
+public function revision22(){
+
+  $Encuestas=respuestas20::leftJoin('carreras', function($join)
+    {
+        $join->on('carreras.clave_carrera', '=', 'respuestas20.nbr2');
+        $join->on('carreras.clave_plantel', '=', 'respuestas20.nbr3');
+    })
+    ->leftjoin('users','users.clave','=','respuestas20.aplica')
+    ->leftJoin('egresados', 'egresados.cuenta', '=', 'respuestas20.cuenta')
+    ->select('respuestas20.*','carreras.carrera','carreras.plantel','users.name')
+    ->where('egresados.anio_egreso', 2022)
+    ->where('completed',1)
+    ->where('egresados.muestra', 5)
+    //->where('aplica',Auth::user()->clave)
+    ->get();
+
+    if(Auth::user()->confidential<2){
+        $Encuestas=$Encuestas->where('aplica',Auth::user()->clave);
+    }
+    return view('muestras.seg20.revision22',compact('Encuestas'));
 }
 
 

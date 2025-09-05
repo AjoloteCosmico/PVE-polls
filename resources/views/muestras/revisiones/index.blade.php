@@ -19,6 +19,11 @@
       <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
     </button>
   </a>
+  <a href="{{route('muestras.seg20.revision22')}}">
+  <button class='boton-muestras' >
+      <br><br>ENCUESTA DE SEGUIMIENTO 2022 <br><br><br>
+      <img src="{{ asset('img/encuesta.png') }}" alt="encuesta" class="icono-boton">
+  </button></a>
   </div>
   </center>
 </div>
