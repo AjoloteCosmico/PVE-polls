@@ -20,15 +20,21 @@
   </button></a>
   <br>
 <a href="{{route('muestras16.show',[$Encuesta->nbr2,$Encuesta->nbr3])}}"><button type="button"style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">  <i class="fas fa-arrow-left"></i> Regresar a la muestra</button></a>
-@else
+@elseif($Encuesta->gen_dgae==2020)
   <a href="{{route('edit_20',[$Encuesta->registro,'A'])}}">
        <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
   </button></a>
   <br>
 <a href="{{route('muestras20.show',[$Encuesta->nbr2,$Encuesta->nbr3])}}"><button type="button"style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">  <i class="fas fa-arrow-left"></i> Regresar a la muestra</button></a>
-  
-  @endif
+@else
+  <a href="{{route('edit_22',[$Encuesta->registro,'A'])}}">
+       <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
+    <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
+  </button></a>
+  <br>
+<a href="{{route('muestras22.show22',[$Encuesta->nbr2,$Encuesta->nbr3])}}"><button type="button"style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">  <i class="fas fa-arrow-left"></i> Regresar a la muestra</button></a>
+@endif
    </center>
     </div>
 @endsection
