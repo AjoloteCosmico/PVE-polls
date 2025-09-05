@@ -11,9 +11,11 @@ use App\Models\respuestas20;
 use App\Models\Reactivo;
 use App\Models\Bloqueo;
 use App\Models\Option;
-use App\Models\multiple_option;
+use App\Models\multiple_option_answer;
 use DB;
 use App\Models\historico_encuestas;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 use File;
@@ -113,32 +115,18 @@ class Encuesta22Controller extends Controller
             ->whereIn('bloqueos.bloqueado', $Reactivos->pluck('clave')->toArray())
             ->select('bloqueos.*')
             ->get();
-        // Inicializa las variables para evitar errores
-        $Becas = collect();
-        $Becas_options = collect();
-        $nfr23_answers = collect();
-        $nfr23_options = collect();
 
-        // Solo carga las opciones si el reactivo corresponde a la sección actual
-        if ($section === 'A') {
-            $Becas = DB::table("multiple_option_answers")
-                ->where("encuesta_id", "=", $Encuesta->registro)
-                ->where("reactivo", "nar3a")
-                ->get();
-            $Becas_options = DB::table("options")
-                ->where("reactivo", "=", "nar3a")
-                ->get();
-        }
+       
+        // Se obtienen todas las respuestas de opción múltiple para la encuesta y sección actual.
+        // Esto reemplaza las búsquedas específicas para 'nar3a' y 'nfr23'.
+        $multiple_option_answers = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+            ->whereIn('reactivo', $Reactivos->pluck('clave'))
+            ->get();
         
-        if ($section === 'F') {
-            $nfr23_answers = DB::table("multiple_option_answers")
-                ->where("encuesta_id", "=", $Encuesta->registro)
-                ->where("reactivo", "nfr23")
-                ->get();
-            $nfr23_options = DB::table("options")
-                ->where("reactivo", "=", "nfr23")
-                ->get();
-        }
+        $multiple_option_reactivos = $Reactivos->where('type', 'multiple_option')->pluck('clave');
+        
+        $multiple_options = Option::whereIn('reactivo', $multiple_option_reactivos)->get();
+ 
         
         
         
@@ -159,80 +147,84 @@ class Encuesta22Controller extends Controller
             'Bloqueos',
             'section',
             'Comentario',
-            'Becas',
-            'Becas_options',
-            'nfr23_answers',
-            'nfr23_options'
+            'multiple_option_answers', 
+            'multiple_options' 
         ));
     }
 
-     public function update(Request $request, $id, $section)
+
+    public function update(Request $request, $id, $section)
     {
+        // 1. Obtener los datos de la encuesta y el egresado
         $Encuesta = respuestas20::where("registro", $id)->first();
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
             ->where("carrera", $Encuesta->nbr2)
             ->first();
 
-        // 1. Asignar datos básicos
+        // 2. Asignar datos básicos
         $Encuesta->aplica = Auth::user()->clave;
         $Encuesta->fec_capt = now()->modify("-6 hours");
 
-         // 2. Lógica para manejar el botón "Terminar Encuesta"
+        // 3. Lógica para manejar el botón "Terminar Encuesta"
         if ($request->btn_pressed === 'terminar') {
-            $this->validar($Encuesta, $Egresado);  
+            $this->validar($Encuesta, $Egresado);
             return back();
         }
 
-        // 3. Lógica para manejar el botón "Guardar Sección" y "Guardar como inconclusa"
-        // $Encuesta->update($request->except(["_token", "_method", "btn_pressed", "nar3a", "nfr23", "comentario"]));
-        $Encuesta->update($request->except(["_token", "_method", "btn_pressed", "comentario"]));
+        // 4. Actualizar la tabla de respuestas 20
+        $Encuesta->update($request->except(['_token', 'btn_pressed', 'comentario', 'btnradio', 'section']));
 
-        // 4. Lógica centralizada para manejar opciones múltiples
-        // $multipleOptionFields = [
-        //     'nar3a',
-        //     'nfr23'
-        // ];
-        
-        // foreach ($multipleOptionFields as $reactivo) {
-        //     $reactivoModel = Reactivo::where('clave', $reactivo)->first();
 
-        //     // Solo procesa los reactivos que están en la sección actual
-        //     if ($reactivoModel && $reactivoModel->section === $section) {
-        //         // Elimina las respuestas anteriores
-        //         DB::table("multiple_option_answers")
-        //             ->where("encuesta_id", $Encuesta->registro)
-        //             ->where("reactivo", $reactivo)
-        //             ->delete();
+        // 5. Manejar respuestas de opción múltiple
 
-        //         $selectedOptions = $request->input($reactivo, []);
-                
-                // Si la pregunta es "nar3a", verifica la dependencia con "binbeca"
-                // if ($reactivo === 'nar3a') {
-                //     $binbecaValue = $request->input('binbeca');
-                //     if ($binbecaValue != 1) {
-                //         $selectedOptions = []; // Si la respuesta a 'binbeca' no es 'Sí', no se guardan opciones para 'nar3a'.
-                //     }
-                // }
+        $reativos_multiples = Reactivo::where('type', 'multiple_option')
+        ->where('section', $section)
+        ->get();
 
-                // Inserta las nuevas opciones seleccionadas
-                // foreach ($selectedOptions as $claveOpcion) {
-                //     DB::table("multiple_option_answers")->insert([
-                //         "encuesta_id" => $Encuesta->registro,
-                //         "clave_opcion" => $claveOpcion,
-                //         "reactivo" => $reactivo,
-                //     ]);
-                // }
-        //     }
-        // }
-        
-        // Lógica específica para guardar el comentario de la sección G
+    foreach ($reativos_multiples as $r) {
+        $clave = $r->clave;
+
+        // Buscar todas las opciones seleccionadas de este reactivo
+        $selected_options = Arr::where(
+            $request->except(['_token', '_method', 'btn_pressed', 'btnradio', 'section', 'comentario']),
+            function ($value, $key) use ($clave) {
+                return str_contains($key, $clave . 'opcion');
+            }
+        );
+
+        // Borrar respuestas anteriores
+        $affectedRows = multiple_option_answer::where('encuesta_id',$Encuesta->registro)
+            ->where('reactivo', $clave)->delete();
+
+        // Guardar nuevas respuestas seleccionadas
+        foreach($selected_options as $key => $value){
+            if (str_starts_with($key, $clave . 'opcion')) {
+            // Extraer solo el número de la opción
+            $clave_opcion = str_replace($clave . 'opcion', '', $key); 
+
+            // Validar que sea un entero válido
+                if (!empty($clave_opcion) && ctype_digit($clave_opcion)) {
+                    $answer = new multiple_option_answer();
+                    $answer->encuesta_id = $Encuesta->registro;
+                    $answer->reactivo = $clave;
+                    $answer->clave_opcion = (int) $clave_opcion;
+                    $answer->save();
+                }
+            }
+        }
+    }
+
+
+   
+    
+        // 7. Lógica específica para guardar el comentario de la sección G
         if ($section === 'G') {
             $Comentario = Comentario::firstOrNew(['cuenta' => $Egresado->cuenta]);
             $Comentario->comentario = $request->input('comentario', '');
             $Comentario->save();
         }
 
-        // 3.2. Validar la sección y actualizar el flag
+        // 8. Validar la sección y actualizar el flag
         $section_field = "sec_" . strtolower($section);
         if ($this->validar_seccion($Encuesta, $section)) {
             $Encuesta->$section_field = 1;
@@ -243,14 +235,15 @@ class Encuesta22Controller extends Controller
 
         $this->validar($Encuesta, $Egresado);
 
-        // 3.3. Redirigir a la siguiente sección
+        // 9. Redirigir a la siguiente sección
         $next_section = $this->obtener_siguiente_seccion($section);
-        
+    
         return redirect()->route('edit_22', [
             'id' => $Encuesta->registro,
             'section' => $next_section
         ])->with('status', 'guardado');
     }
+
     
 
 
@@ -288,7 +281,7 @@ class Encuesta22Controller extends Controller
         }
     }
 
-     // Método para validar que la sección actual esté completa (adaptado de tu código)
+     // Método para validar que la sección actual esté completa
     public function validar_seccion($Encuesta, $section)
     {
         $Reactivos = Reactivo::where('section', $section)->get();
@@ -333,10 +326,7 @@ class Encuesta22Controller extends Controller
         return $current_section;
     }
 
-
-
-
- public function respaldar($registro)
+    public function respaldar($registro)
     {
         $Encuesta = respuestas20::where("registro", $registro)->first();
         $Encuesta_respaldo = $Encuesta->replicate();
@@ -359,5 +349,8 @@ class Encuesta22Controller extends Controller
             return redirect()->route("muestras22.index", $Encuesta->nbr3);
         }
     }
+
+
+
     
 }
