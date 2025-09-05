@@ -4,13 +4,13 @@
             <input 
                 class="form-check-input" 
                 type="checkbox" 
-                name="{{ $Reactivo->clave }}opcion{{ $opcion->clave_opcion }}" 
-                id="{{ $Reactivo->clave }}-{{ $opcion->clave_opcion }}"
-                @if(in_array($opcion->clave_opcion, $respuestas_anteriores))
+                name="{{ $Reactivo->clave }}opcion{{ $opcion->clave }}" 
+                id="{{ $Reactivo->clave }}-{{ $opcion->clave }}"
+                @if(in_array($opcion->clave, $respuestas_anteriores))
                     checked
                 @endif
             >
-            <label class="form-check-label" for="{{ $Reactivo->clave }}-{{ $opcion->clave_opcion }}">
+            <label class="form-check-label" for="{{ $Reactivo->clave }}-{{ $opcion->clave }}">
                 {{ $opcion->descripcion }}
             </label>
         </div>

@@ -217,7 +217,7 @@ use \App\Http\Controllers\ComponentController;
           color: white; 
     }
     .boton-borde:hover { 
-        background-color: rgba(255, 255, 255, 0.664); 
+        background-color: rgba(255, 255, 255, 0.664);
         color: #000b1b; 
     }
     .boton-borde-oscuro { 

@@ -92,7 +92,6 @@
                 <br>
                 <h3 class="text-white-40" id="layer"> RECADOS ANTERIORES</h3>
                 <br>
-                dd.{{ $Recados }}]
                 @if($Recados->count()==0)
                 <p> Aún no hay recados para mostrar </p>
                 @else
