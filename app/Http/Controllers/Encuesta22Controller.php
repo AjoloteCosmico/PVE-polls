@@ -51,8 +51,7 @@ class Encuesta22Controller extends Controller
             }
             $data = $process->getOutput();
         }
-
-
+        
         $Encuesta = respuestas20::where("cuenta", "=", $cuenta)
             ->where("nbr2", "=", $carrera)
             ->first();
