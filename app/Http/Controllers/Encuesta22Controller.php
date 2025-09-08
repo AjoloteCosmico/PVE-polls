@@ -192,7 +192,7 @@ class Encuesta22Controller extends Controller
                 return str_contains($key, $clave . 'opcion');
             }
         );
-         
+       
         // Borrar respuestas anteriores
         $affectedRows = multiple_option_answer::where('encuesta_id',$Encuesta->registro)
             ->where('reactivo', $clave)->delete();
