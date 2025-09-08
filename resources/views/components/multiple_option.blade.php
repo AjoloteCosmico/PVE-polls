@@ -6,6 +6,8 @@
                 type="checkbox" 
                 name="{{ $Reactivo->clave }}opcion{{ $opcion->clave }}" 
                 id="{{ $Reactivo->clave }}-{{ $opcion->clave }}"
+                value="{{ $opcion->clave }}"
+                onclick="checkBloqueos('{{ $Reactivo->clave }}')"
                 @if(in_array($opcion->clave, $respuestas_anteriores))
                     checked
                 @endif
