@@ -8,6 +8,7 @@ use App\Models\Egresado;
 use App\Models\Carrera;
 use App\Models\Telefono;
 class TelefonosController extends Controller
+
 {
     public function create($cuenta,$carrera,$encuesta,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
@@ -16,6 +17,8 @@ class TelefonosController extends Controller
         return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta','TelefonoEnLlamada'));
     }
     
+
+
     public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
@@ -40,13 +43,26 @@ class TelefonosController extends Controller
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
         }
-     }
+        if($Egresado->muestra==5){
+            if($encuesta == '2022'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
+            }
+        }
+    }
+
+
+
     public function edit($id,$carrera,$encuesta=0,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
         return view('encuesta.seg20.editar_telefono',compact('Egresado','Telefono','encuesta','TelefonoEnLlamada'));
     }
+
+
+
     public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
@@ -71,5 +87,12 @@ class TelefonosController extends Controller
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
         }
+        if($Egresado->muestra==5){
+            if($encuesta == '2022'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
+            }
         }
+    }
 }

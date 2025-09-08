@@ -42,6 +42,13 @@ class CorreosController extends Controller
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
             }
         }
+        if($Egresado->muestra==5){
+            if($encuesta == '2022'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
+            }
+        }
     }
 
     public function edit($id,$carrera,$encuesta,$telefono_id){
@@ -75,6 +82,13 @@ class CorreosController extends Controller
                 return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
                 return redirect()->route('edit_20',[$encuesta,'SEARCH']);
+            }
+        }
+        if($Egresado->muestra==5){
+            if($encuesta == '2022'){
+                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+            }else{
+                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
             }
         }
    }
