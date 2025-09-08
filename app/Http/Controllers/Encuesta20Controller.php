@@ -384,16 +384,16 @@ class Encuesta20Controller extends Controller
         $empresaData['giro_especifico'] = $request->giro_especifico;
         $empresaData['sector'] = $request->ncr3;
         $empresaData['nota'] = $request->nota_empresa;
-        if( $existe_empresa  == null){
-            $empresaData['usuario'] = Auth::user()->clave;
-            $empresaData['registro'] = $Encuesta->registro;
-            DB::table("empresas")
-                ->insert($empresaData);
-        }else{
-            DB::table("empresas")
-                ->where('registro', $Encuesta->registro)
-                ->update($empresaData);
-        }
+        // if( $existe_empresa  == null){
+        //     $empresaData['usuario'] = Auth::user()->clave;
+        //     $empresaData['registro'] = $Encuesta->registro;
+        //     DB::table("empresas")
+        //         ->insert($empresaData);
+        // }else{
+        //     DB::table("empresas")
+        //         ->where('registro', $Encuesta->registro)
+        //         ->update($empresaData);
+        // }
         if ($request->ncr6 == 1) {
             $Encuesta->ncr6 = $request->ncr6t;
         }
