@@ -100,10 +100,10 @@
                 
                 <div class="col">
                     @if($Encuesta->completed == 1)
-                    <a href="{{route('terminar',$Encuesta->registro)}}">
+                    <a href="{{route('terminar22',$Encuesta->registro)}}">
                     <button class="btn boton-dorado" onclick="send_form('terminar')">Terminar Encuesta</button>
                     @else
-                    <a href="{{route('terminar',$Encuesta->registro)}}">
+                    <a href="{{route('terminar22',$Encuesta->registro)}}">
                     <button class="btn boton-dorado" onclick="send_form('inconclusa')">Guardar como inconclusa</button>
                     @endif
                 </div>

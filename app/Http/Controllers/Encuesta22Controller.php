@@ -332,7 +332,7 @@ class Encuesta22Controller extends Controller
         $Encuesta_respaldo->save();
     }
 
-    public function terminar($id)
+    public function terminar22($id)
     {
         $Encuesta = respuestas20::where("registro", $id)->first();
         $this->respaldar($Encuesta->registro);
