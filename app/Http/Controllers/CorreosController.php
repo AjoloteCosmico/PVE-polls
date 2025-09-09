@@ -27,6 +27,7 @@ class CorreosController extends Controller
         $Correo->status='13';
         $Correo->enviado=0;
         $Correo->save();
+        
         if($Egresado->act_suvery==1){
             if($encuesta == '2016'){
                 return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);

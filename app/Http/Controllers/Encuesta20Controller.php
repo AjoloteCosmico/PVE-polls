@@ -432,6 +432,7 @@ class Encuesta20Controller extends Controller
             "ncr24porque" => "required",
             "ncr23" => "required",
         ];
+        
         $validated = $request->validate($rules);
         $Encuesta->sec_c = 1;
         $Encuesta->save();
