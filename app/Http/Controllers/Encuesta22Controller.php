@@ -299,7 +299,7 @@ class Encuesta22Controller extends Controller
                         $OpcionesBloquen = $ThisBloqueos->where('clave_reactivo', $r_block)->pluck('valor');
                         if (in_array($Encuesta->$r_block, $OpcionesBloquen->toArray())) {
                             $bloqueado = true;
-                            break;
+                                ;
                         }
                     }
                 }
