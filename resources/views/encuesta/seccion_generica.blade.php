@@ -87,6 +87,11 @@ use \App\Http\Controllers\ComponentController;
                 <div class="column_react column_header"> <h3>¿Han sido necesarios para su desempeño laboral?</h3></div>
                 
                 @endif
+                @if($reactivo->clave=='ngr131abel')
+                <div class="column_react column_header"> <h3>¿Cuánto las desarrolló durante su formación profesional?</h3></div>
+                
+                <div class="column_react column_header"> <h3>¿Qué tan necesario es para su desempeño laboral?</h3></div>
+                @endif
             @endforeach
         </div>
 
