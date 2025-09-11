@@ -123,14 +123,11 @@ class Encuesta22Controller extends Controller
         $multiple_option_answers = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
             ->whereIn('reactivo', $Reactivos->pluck('clave'))
             ->get();
-        
+
         $multiple_option_reactivos = $Reactivos->where('type', 'multiple_option')->pluck('clave');
         
         $multiple_options = Option::whereIn('reactivo', $multiple_option_reactivos)->get();
- 
-        
-        
-        
+
         $Comentario = null;
         if ($section == 'G') {
             $Comentario = Comentario::where("cuenta", $Egresado->cuenta)->first();
@@ -217,6 +214,7 @@ class Encuesta22Controller extends Controller
     
         // 7. Lógica específica para guardar el comentario de la sección G
         if ($section === 'G') {
+            //TODO-future : AGREGAR LLAVE FORANEA A COMENTARIOS, MODEL AND ID 
             $Comentario = Comentario::firstOrNew(['cuenta' => $Egresado->cuenta]);
             $Comentario->comentario = $request->input('comentario', '');
             $Comentario->save();
@@ -228,11 +226,12 @@ class Encuesta22Controller extends Controller
             $Encuesta->$section_field = 1;
         } else {
             $Encuesta->$section_field = 0;
+            return back()->with('error', 'true');
         }
         $Encuesta->save();
 
         $this->validar($Encuesta, $Egresado);
-
+        
         // 9. Redirigir a la siguiente sección
         $next_section = $this->obtener_siguiente_seccion($section);
     

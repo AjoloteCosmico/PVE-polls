@@ -39,7 +39,7 @@
     </tr>
     <tr>
         <th colspan="8">
-            <div class="row justify-content-center" style="margin-top: 10px; margin-bottom: 10px;">
+            <div class="row justify-content-center" style="">
                 
                             <div class="col">
                   @if($Encuesta->sec_a==1)
@@ -123,6 +123,9 @@
 @endpush
 
 @push('js')
+<script>
+    document.getElementById("btn-{{ $section }}").style="background-color: #002b7a; color: white;border: 2px solid #f7f7f7ff;"
+</script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     function correos(correo_id, correo) {

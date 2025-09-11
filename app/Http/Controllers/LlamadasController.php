@@ -66,7 +66,7 @@ class LlamadasController extends Controller
             ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
             ->get();
         $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->Join("codigos", "codigos.code", "=", "correos.status")
+            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
             ->get();
         $Carrera = Carrera::where(
             "clave_carrera",

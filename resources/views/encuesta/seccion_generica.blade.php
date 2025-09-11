@@ -40,7 +40,7 @@ use \App\Http\Controllers\ComponentController;
                     <br>
                 @else
                 
-                    <div class="react_container" id="{{'container'.$reactivo->clave}}">
+                    <div class="react_container @if($reactivo->breakline==1) column_react @endif" id="{{'container'.$reactivo->clave}}" >
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
                         @php $field_presenter = $reactivo->clave @endphp
 
@@ -80,6 +80,12 @@ use \App\Http\Controllers\ComponentController;
                         @endif
 
                     </div>
+                @endif
+                @if($reactivo->clave=='ngr6label')
+                <div class="column_react column_header"> <h3>¿Cuánto incrementó o adquirió esta habilidad durante la licenciatura?</h3></div>
+                
+                <div class="column_react column_header"> <h3>¿Han sido necesarios para su desempeño laboral?</h3></div>
+                
                 @endif
             @endforeach
         </div>
@@ -377,7 +383,7 @@ use \App\Http\Controllers\ComponentController;
     margin-top: 30px; 
     display: flex; 
     align-items: center; 
-}
+     }
     .cuadro-azul { 
         background-color: #002b7a; 
         border-radius: 10px; 
@@ -415,14 +421,27 @@ use \App\Http\Controllers\ComponentController;
         border: 2px solid white; 
         border-radius: 20px; 
     }
+    .column_react{
+        padding: 0.7vw; 
+        max-width: 49% !important;
+        width: 48%; !important; 
+        margin: 0.7vw; 
+        border: 2px solid white; 
+        border-radius: 20px; 
+    }
+    .column_header{
+        
+        background-color: rgba(14, 21, 68, 1); 
+        bold: bolder; 
+    }
     .label_container { 
         padding: 0.7vw; 
-        width: 80%; 
+        width: 90%; 
         margin: 0.7vw; 
         border: 2px solid white; 
         bold: bolder; 
         border-radius: 20px; 
-        background-color: rgb(8, 16, 71); 
+        background-color: rgba(14, 21, 68, 1); 
     }
     .tabla { 
         display: grid; 
@@ -507,12 +526,12 @@ use \App\Http\Controllers\ComponentController;
 {{-- Lógica de bloqueo de reactivos y búsqueda de empresas --}}
 @include('posgrado.scripts_bloquear')
 
-@if(session('status')=='incompleta')
+@if(session('error')=='true')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     Swal.fire({
         title: "Encuesta Incompleta",
-        text: "faltan respuestas",
+        text: "faltan respuestas  {{session('falta')}}",
         icon: "warning",
     });
 </script>
