@@ -33,26 +33,26 @@ class Encuesta22Controller extends Controller
             ->where("carrera", $carrera)
             ->first();
 
-        if ($Correo->enviado == 0) {
-            $caminoalpoder = public_path();
-            $process = new Process([
-                env("PY_COMAND"),
-                $caminoalpoder . "/aviso.py",
-                $Egresado->nombre,
-                $Correo->correo,
-            ]);
-            $process->run();
+        // if ($Correo->enviado == 0) {
+        //     $caminoalpoder = public_path();
+        //     $process = new Process([
+        //         env("PY_COMAND"),
+        //         $caminoalpoder . "/aviso.py",
+        //         $Egresado->nombre,
+        //         $Correo->correo,
+        //     ]);
+        //     $process->run();
 
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-                $Correo->enviado = 2;
-                $Correo->save();
-            } else {
-                $Correo->enviado = 1;
-                $Correo->save();
-            }
-            $data = $process->getOutput();
-        }
+        //     if (!$process->isSuccessful()) {
+        //         throw new ProcessFailedException($process);
+        //         $Correo->enviado = 2;
+        //         $Correo->save();
+        //     } else {
+        //         $Correo->enviado = 1;
+        //         $Correo->save();
+        //     }
+        //     $data = $process->getOutput();
+        // }
        
         //  dd('hasta aki');
         $Encuesta = respuestas20::where("cuenta", "=", $cuenta)
