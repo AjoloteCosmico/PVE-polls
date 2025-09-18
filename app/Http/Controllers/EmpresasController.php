@@ -77,12 +77,12 @@ class EmpresasController extends Controller
         $Empresa->nota=$request->nota;
         $Empresa->save();
 
-        //guardar la relacion de empresa/encuesta
-        $EncuestaEmpresa=new EncuestaEmpresa();
-        $EncuestaEmpresa->id_encuesta=$request->id_encuesta;
-        $EncuestaEmpresa->id_empresa=$Empresa->id;
-        $EncuestaEmpresa->table=$request->table;
-        $EncuestaEmpresa->save();
+        // //guardar la relacion de empresa/encuesta
+        // $EncuestaEmpresa=new EncuestaEmpresa();
+        // $EncuestaEmpresa->id_encuesta=$request->id_encuesta;
+        // $EncuestaEmpresa->id_empresa=$Empresa->id;
+        // $EncuestaEmpresa->table=$request->table;
+        // $EncuestaEmpresa->save();
         // Crear una nueva empresa
         return response()->json(['message' => 'Empresa creada', 'data' => $Empresa,'notas'=>$request->nota,'giro_esp'=>$request->giro_especifico], 201);
      }
@@ -91,11 +91,7 @@ class EmpresasController extends Controller
     public function edit($id){
         $empresa = Empresas::findOrFail($id);
        
-        $EncuestaEmpresa=new EncuestaEmpresa();
-        $EncuestaEmpresa->id_encuesta=1;
-        $EncuestaEmpresa->id_empresa=$empresa->id;
-        $EncuestaEmpresa->table='2022';
-        $EncuestaEmpresa->save();
+        
         return view('empresas.edit', compact('empresa'));
     }
 
