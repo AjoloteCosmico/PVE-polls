@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresas;
+use App\Models\EncuestaEmpresa;
 use DB;
 
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,7 @@ class EmpresasController extends Controller
 
     public function show($id){
         $empresa = Empresas::findOrFail($id); // Busca la empresa por ID, si no existe lanza un error 404
+       
         return view('empresas.show', compact('empresa')); // Pasa la empresa a la vista show
     }
     // Mostrar el formulario para crear una nueva empresa
@@ -74,7 +76,13 @@ class EmpresasController extends Controller
         $Empresa->giro_especifico=$request->giro_especifico;
         $Empresa->nota=$request->nota;
         $Empresa->save();
-    
+
+        //guardar la relacion de empresa/encuesta
+        $EncuestaEmpresa=new EncuestaEmpresa();
+        $EncuestaEmpresa->id_encuesta=$request->id_encuesta;
+        $EncuestaEmpresa->id_empresa=$Empresa->id;
+        $EncuestaEmpresa->table=$request->table;
+        $EncuestaEmpresa->save();
         // Crear una nueva empresa
         return response()->json(['message' => 'Empresa creada', 'data' => $Empresa,'notas'=>$request->nota,'giro_esp'=>$request->giro_especifico], 201);
      }
@@ -82,6 +90,12 @@ class EmpresasController extends Controller
     // Mostrar el formulario para editar una empresa existente
     public function edit($id){
         $empresa = Empresas::findOrFail($id);
+       
+        $EncuestaEmpresa=new EncuestaEmpresa();
+        $EncuestaEmpresa->id_encuesta=1;
+        $EncuestaEmpresa->id_empresa=$empresa->id;
+        $EncuestaEmpresa->table='2022';
+        $EncuestaEmpresa->save();
         return view('empresas.edit', compact('empresa'));
     }
 
@@ -97,8 +111,12 @@ class EmpresasController extends Controller
         ]);
 
         // Encontrar la empresa y actualizarla
-        $empresa = Empresas::findOrFail($id);
-        $empresa->update($request->all());
+        $empresa = Empresas::find($id);
+        $empresa->nombre = $request->nombre;
+        $empresa->clave_giro = $request->clave_giro;
+        $empresa->giro_especifico = $request->giro_especifico;
+        $empresa->nota = $request->nota;
+        $empresa->sector = $request->sector;
         $empresa->usuario=Auth::user()->clave;
         $empresa->save();
         // Redireccionar a la lista de empresas con un mensaje de éxito

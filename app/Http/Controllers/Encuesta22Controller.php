@@ -148,6 +148,7 @@ class Encuesta22Controller extends Controller
             'multiple_option_answers', 
             'multiple_options' 
         ));
+        
     }
 
 

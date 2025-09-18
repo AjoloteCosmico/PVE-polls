@@ -5,7 +5,7 @@
             // Lista de no seleccionado por defecto
             $reactivos_predeterminados = ['ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a', 'ner1a'];
 
-            // Bandera para determinar si la opción debe ser seleccionada
+            // Bandera para determinar si la opción debe ser seleccionada.
             $seleccionada = false;
 
             // si ya hay un valor guardado

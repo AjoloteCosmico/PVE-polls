@@ -398,7 +398,6 @@ class Encuesta20Controller extends Controller
             $Encuesta->ncr6 = $request->ncr6t;
         }
         $Encuesta->sec_c = 0;
-        
         $this->validar_completa($Encuesta->registro);
         $Encuesta->save();
         $rules = [

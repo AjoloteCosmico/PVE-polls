@@ -383,9 +383,6 @@ public function show_22($carrera,$plantel){
 
 }
 
-
-
-
 public function revisiones_index(){
   return view('muestras.revisiones.index');
 }
