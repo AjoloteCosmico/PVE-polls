@@ -41,7 +41,7 @@ class Encuesta22Controller extends Controller
                 $Egresado->nombre,
                 $Correo->correo,
             ]);
-            $process->run();
+             $process->run();
 
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
@@ -154,6 +154,7 @@ class Encuesta22Controller extends Controller
 
     public function update(Request $request, $id, $section)
     {
+        // dd($request->all());
         // 1. Obtener los datos de la encuesta y el egresado
         $Encuesta = respuestas20::where("registro", $id)->first();
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
@@ -223,7 +224,7 @@ class Encuesta22Controller extends Controller
 
         // 8. Validar la sección y actualizar el flag
         $section_field = "sec_" . strtolower($section);
-        if ($this->validar_seccion($Encuesta, $section)) {
+        if ($this->validar_seccion($Encuesta, $section,$request)) {
             $Encuesta->$section_field = 1;
         } else {
             $Encuesta->$section_field = 0;
@@ -280,7 +281,7 @@ class Encuesta22Controller extends Controller
     }
 
      // Método para validar que la sección actual esté completa
-    public function validar_seccion($Encuesta, $section)
+    public function validar_seccion($Encuesta, $section,$request)
     {
         $Reactivos = Reactivo::where('section', $section)->get();
         $Bloqueos = DB::table('bloqueos')
@@ -292,15 +293,36 @@ class Encuesta22Controller extends Controller
         foreach ($Reactivos->sortBy('orden')->where('type', '!=', 'label')->where('type', '!=', 'multiple_option') as $reactivo) {
             $bloqueado = false;
             $field_presenter = $reactivo->clave;
-
+             //para cada reactivo verifica, si esta vacio que 
+             // exista entonces un bloqueo que avale la falta de ese valor
             if (empty($Encuesta->$field_presenter)) {
+                //esta vacio, entonces busca los bloqueos
                 $ThisBloqueos = $Bloqueos->where('bloqueado', $field_presenter);
                 if ($ThisBloqueos->count() > 0) {
                     foreach ($ThisBloqueos->unique('clave_reactivo')->pluck('clave_reactivo') as $r_block) {
+                        
+                        $reacivo_bloqueo=$Reactivos->where('clave',$r_block)->first(); 
                         $OpcionesBloquen = $ThisBloqueos->where('clave_reactivo', $r_block)->pluck('valor');
+                        // para cada reactivo que podria bloquearlo,verifica si esta alguna de las opciones que bloquean el reactivo
                         if (in_array($Encuesta->$r_block, $OpcionesBloquen->toArray())) {
                             $bloqueado = true;
-                                ;
+                        }
+                        //hay que verificar tambien las respuestas de opcion multiple que bloquean
+                        if($reacivo_bloqueo->type=='multiple_option'){
+                            $clave = $reacivo_bloqueo->clave;
+                            // buscar las opciones seleccionadas
+                             $selected_options = Arr::where(
+                                    $request->except(['_token', '_method', 'btn_pressed', 'btnradio', 'section', 'comentario']),
+                                    function ($value, $key) use ($clave) {
+                                        return str_contains($key, $clave . 'opcion');
+                                    }
+                                );
+                            $interseccion = array_intersect($selected_options, $OpcionesBloquen->toArray());
+                                // dd($request->all(),$reactivo,$selected_options,$interseccion);
+                             if (!empty($interseccion)) {
+                                $bloqueado = true;
+                                }
+                            
                         }
                     }
                 }
