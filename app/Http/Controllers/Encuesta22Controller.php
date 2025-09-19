@@ -92,6 +92,9 @@ class Encuesta22Controller extends Controller
         $Carrera = Carrera::where("clave_carrera", $Egresado->carrera)->first()->carrera;
         $Plantel = Carrera::where("clave_plantel", $Egresado->plantel)->first()->plantel;
 
+        //valor de ncr1
+        $ncr1_value = $Encuesta->ncr1;
+
         //navegacion en secciones
         if ($section == "SEARCH"){
             foreach (["A", "E", "F", "C", "D", "G"] as $sec){
@@ -146,7 +149,8 @@ class Encuesta22Controller extends Controller
             'section',
             'Comentario',
             'multiple_option_answers', 
-            'multiple_options' 
+            'multiple_options',
+            'ncr1_value'
         ));
         
     }

@@ -32,69 +32,73 @@ use \App\Http\Controllers\ComponentController;
             {{-- Renderizado dinámico de los reactivos de la sección actual --}}
             @foreach($Reactivos as $reactivo)
 
-                @if($reactivo->type == 'label')
-                    <br>
-                    <div class="label_container" id="{{'container'.$reactivo->clave}}" style="width:90%">
-                        <h3>{{$reactivo->description}}  </h3>
-                    </div>
-                    <br>
-                @else
+                @if(! (in_array($reactivo->clave, ['ndr18', 'ndr19', 'ngr5']) && in_array($Encuesta->ncr1, ['3', '4'])) )
+                    {{-- El resto de tu código para el reactivo va aquí adentro --}}
+                    @if($reactivo->type == 'label')
+                        <br>
+                        <div class="label_container" id="{{'container'.$reactivo->clave}}" style="width:90%">
+                            <h3>{{$reactivo->description}}  </h3>
+                        </div>
+                         <br>
+                    @else
                 
-                    <div class="react_container @if($reactivo->breakline==1) column_react @endif" id="{{'container'.$reactivo->clave}}" >
-                    {{$reactivo->clave}}    
-                    <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
-                        @php $field_presenter = $reactivo->clave @endphp
+                        <div class="react_container @if($reactivo->breakline==1) column_react @endif" id="{{'container'.$reactivo->clave}}" >
+                        {{$reactivo->clave}}      
+                        <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
+                             @php $field_presenter = $reactivo->clave @endphp
 
-                        @if($reactivo->type === 'multiple_option')
-                            {{-- Filtrar las opciones y respuestas para esta pregunta --}}
-                            @php
-                                $opciones_reactivo = $multiple_options->where('reactivo', $reactivo->clave);
-                                $respuestas_reactivo = $multiple_option_answers->where('reactivo', $reactivo->clave)->pluck('clave_opcion')->toArray();
+                            @if($reactivo->type === 'multiple_option')
+                                {{-- Filtrar las opciones y respuestas para esta pregunta --}}
+                                @php
+                                    $opciones_reactivo = $multiple_options->where('reactivo', $reactivo->clave);
+                                    $respuestas_reactivo = $multiple_option_answers->where('reactivo', $reactivo->clave)->pluck('clave_opcion')->toArray();
 
-                                
-                            @endphp
+                            
+                                @endphp
 
-                            {{-- Llama al componente y le pasa los datos necesarios --}}
-                            @include('components.multiple_option', [
-                                'Reactivo' => $reactivo,
-                                'Opciones' => $opciones_reactivo,
-                                'respuestas_anteriores' => $respuestas_reactivo
-                            ])
+                                {{-- Llama al componente y le pasa los datos necesarios --}}
+                                @include('components.multiple_option', [
+                                    'Reactivo' => $reactivo,
+                                    'Opciones' => $opciones_reactivo,
+                                    'respuestas_anteriores' => $respuestas_reactivo
+                                ])
 
-                        @elseif($reactivo->clave == 'ncr2')
-                            <div class="row" style="display:flex; justify-content:flex-start;">
-                                <div class="col col-lg-10">
-                                    {{-- Consulta para este reactivo específico --}}
-                                    @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
-                                    {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
+                            @elseif($reactivo->clave == 'ncr2')
+                                <div class="row" style="display:flex; justify-content:flex-start;">
+                                    <div class="col col-lg-10">
+                                        {{-- Consulta para este reactivo específico --}}
+                                        @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
+                                        {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
+                                    </div>
+                                    <div class="col col-lg-2">
+                                        <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
+                                    </div>
+                                    <div class="col"></div>
                                 </div>
-                                <div class="col col-lg-2">
-                                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
-                                </div>
-                                <div class="col"></div>
-                            </div>
-                            <div class="resultados-div" id="resultados"></div>
-                        @else
-                            {{-- Consulta para otros reactivos --}}
-                            @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
-                            {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
-                        @endif
+                                <div class="resultados-div" id="resultados"></div>
+                            @else
+                                {{-- Consulta para otros reactivos --}}
+                                @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
+                                {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
+                            @endif
 
-                    </div>
+                        </div>
+                     @endif
                 @endif
+        
                 @if($reactivo->clave=='ngr6label')
                 <div class="column_react column_header"> <h3>¿Cuánto incrementó o adquirió esta habilidad durante la licenciatura?</h3></div>
-                
+        
                 <div class="column_react column_header"> <h3>¿Han sido necesarios para su desempeño laboral?</h3></div>
-                
+        
                 @endif
                 @if($reactivo->clave=='ngr131abel')
-                <div class="column_react column_header"> <h3>¿Cuánto las desarrolló durante su formación profesional?</h3></div>
-                
-                <div class="column_react column_header"> <h3>¿Qué tan necesario es para su desempeño laboral?</h3></div>
-                @endif
-            @endforeach
-        </div>
+        <div class="column_react column_header"> <h3>¿Cuánto las desarrolló durante su formación profesional?</h3></div>
+        
+        <div class="column_react column_header"> <h3>¿Qué tan necesario es para su desempeño laboral?</h3></div>
+        @endif
+    @endforeach
+</div>
 
         {{-- Comentario de la sección G --}}
         @if($section === 'G')
