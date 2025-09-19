@@ -68,6 +68,11 @@ class EmpresasController extends Controller
             'giro_especifico' => 'required|string|max:150',
             'nota' => 'nullable|string|max:250',
         ]);
+        // EncuestaEmpresa::where('encuesta_id',$request->id_encuesta)->where('table',$request->table)->delete();
+        // // //guardar la relacion de empresa/encuesta
+        
+        
+
         $Empresa=new Empresas();
         $Empresa->usuario=Auth::user()->clave;
         $Empresa->nombre=$request->nombre;
@@ -77,12 +82,11 @@ class EmpresasController extends Controller
         $Empresa->nota=$request->nota;
         $Empresa->save();
 
-        // //guardar la relacion de empresa/encuesta
-        // $EncuestaEmpresa=new EncuestaEmpresa();
-        // $EncuestaEmpresa->id_encuesta=$request->id_encuesta;
-        // $EncuestaEmpresa->id_empresa=$Empresa->id;
-        // $EncuestaEmpresa->table=$request->table;
-        // $EncuestaEmpresa->save();
+        $EncuestaEmpresa=new EncuestaEmpresa();
+        $EncuestaEmpresa->encuesta_id=$request->encuesta_id;
+        $EncuestaEmpresa->empresa_id=$Empresa->id;
+        $EncuestaEmpresa->suvery_type=$request->table;
+        $EncuestaEmpresa->save();
         // Crear una nueva empresa
         return response()->json(['message' => 'Empresa creada', 'data' => $Empresa,'notas'=>$request->nota,'giro_esp'=>$request->giro_especifico], 201);
      }
