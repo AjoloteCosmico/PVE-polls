@@ -3,11 +3,17 @@ array_bloqueos={
     @foreach($Reactivos as $reactivo)
     '{{$reactivo->clave}}':{
        @php
-        $ThisBloqueos=$Bloqueos->where('clave_reactivo',$reactivo->clave);
+        $ThisBloqueos=$BloqueosSeccion->where('clave_reactivo',$reactivo->clave);
        @endphp
+
        @foreach($ThisBloqueos->unique('valor')->pluck('valor') as $bloqueo_value)
+        @php
+            $BloqueosParaValor = $ThisBloqueos->filter(fn($b) => $b->valor == $bloqueo_value);
+        @endphp
+
         {{$bloqueo_value}}:[@foreach($ThisBloqueos->where('valor',$bloqueo_value)->unique('bloqueado')->pluck('bloqueado') as $bloqueado) '{{$bloqueado}}', @endforeach ],
        @endforeach
+       
        'involucrados': [@foreach($ThisBloqueos->unique('bloqueado')->pluck('bloqueado') as $bloqueado) '{{$bloqueado}}', @endforeach ]
        },
        @endforeach

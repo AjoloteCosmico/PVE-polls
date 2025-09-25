@@ -1,4 +1,7 @@
-<select name="{{$Reactivo->clave}}" id="{{$Reactivo->clave}}" style="color:black" onChange="checkBloqueos('{{$Reactivo->clave}}')">
+<select name="{{$Reactivo->clave}}" id="{{$Reactivo->clave}}" style="color:black" onChange="checkBloqueos('{{$Reactivo->clave}}')" 
+    @if(isset($disabled) && $disabled) 
+        disabled 
+    @endif >
     <option value="">seleccione </option>
     @foreach($Opciones as $opcion)
         @php

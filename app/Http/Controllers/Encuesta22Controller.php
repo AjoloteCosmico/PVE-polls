@@ -87,13 +87,10 @@ class Encuesta22Controller extends Controller
     public function edit_22($id, $section)
     {
         $Encuesta = respuestas20::where("registro", $id)->first();
-        
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)->first();
         $Carrera = Carrera::where("clave_carrera", $Egresado->carrera)->first()->carrera;
         $Plantel = Carrera::where("clave_plantel", $Egresado->plantel)->first()->plantel;
 
-        //valor de ncr1
-        $ncr1_value = $Encuesta->ncr1;
 
         //navegacion en secciones
         if ($section == "SEARCH"){
@@ -113,14 +110,54 @@ class Encuesta22Controller extends Controller
         $Telefonos = Telefono::where("cuenta", $Egresado->cuenta)->get();
         $Correos = Correo::where("cuenta", $Egresado->cuenta)->get();
 
+        /*
         $Bloqueos = DB::table('bloqueos')
             ->join('reactivos', 'bloqueos.clave_reactivo', 'reactivos.clave')
             ->where('reactivos.section', $section)
             ->whereIn('bloqueos.bloqueado', $Reactivos->pluck('clave')->toArray())
             ->select('bloqueos.*')
             ->get();
+        */
 
-       
+        $ReactivoClaves = $Reactivos->pluck('clave');
+
+        // Obtenemos TODOS los bloqueos que son disparados por *cualquier* reactivo de la sección actual.
+        // Esto es lo que necesita el JavaScript para la lógica dinámica de bloqueo/desbloqueo.
+        $BloqueosSeccion = Bloqueo::whereIn('clave_reactivo', $ReactivoClaves)->get();
+
+
+
+
+
+
+
+        //Cambios s controlador
+
+
+        //Modificacion 1
+
+        $AllBloqueos = Bloqueo::all();
+        $AllAnswers = $Encuesta->toArray();
+
+        $BloqueosActivos = collect();
+        foreach ($AllBloqueos as $bloqueo) {
+            $reactivoBloqueante = Reactivo::where('clave', $bloqueo->clave_reactivo)->first();
+            if ($reactivoBloqueante && $reactivoBloqueante->type == 'multiple_option'){
+                $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                                ->where('reactivo', $bloqueo->clave_reactivo)
+                                                ->where('clave_opcion', $bloqueo->valor)
+                                                ->first();
+                if ($answer) {
+                    $BloqueosActivos->push($bloqueo);
+                }
+            } else {
+                if (isset($AllAnswers[$bloqueo->clave_reactivo]) && $AllAnswers[$bloqueo->clave_reactivo] == $bloqueo->valor) {
+                    $BloqueosActivos->push($bloqueo);
+                }
+            }
+        }
+
+
         // Se obtienen todas las respuestas de opción múltiple para la encuesta y sección actual.
         // Esto reemplaza las búsquedas específicas para 'nar3a' y 'nfr23'.
         $multiple_option_answers = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
@@ -145,12 +182,12 @@ class Encuesta22Controller extends Controller
             'Reactivos',
             'Telefonos',
             'Correos',
-            'Bloqueos',
+            'BloqueosActivos',
+            'BloqueosSeccion',
             'section',
             'Comentario',
             'multiple_option_answers', 
-            'multiple_options',
-            'ncr1_value'
+            'multiple_options'
         ));
         
     }
@@ -285,8 +322,10 @@ class Encuesta22Controller extends Controller
     }
 
      // Método para validar que la sección actual esté completa
+     /*
     public function validar_seccion($Encuesta, $section,$request)
     {
+
         $Reactivos = Reactivo::where('section', $section)->get();
         $Bloqueos = DB::table('bloqueos')
             ->join('reactivos', 'reactivos.clave', 'bloqueos.clave_reactivo')
@@ -338,6 +377,123 @@ class Encuesta22Controller extends Controller
         }
         return true;
     }
+        */
+
+
+
+    public function validar_seccion($Encuesta, $section, $request)
+{
+    // **MODIFICACIÓN 2: Cargar todos los reactivos y todos los bloqueos**
+    $AllReactivos = Reactivo::all();
+    $AllBloqueos = Bloqueo::all();
+
+    // Obtener las respuestas de opción múltiple del request para la sección actual
+    $multiple_option_answers_request = collect();
+    $reativos_multiples_seccion_actual = $AllReactivos->where('section', $section)->where('type', 'multiple_option');
+    foreach ($reativos_multiples_seccion_actual as $r) {
+        $clave = $r->clave;
+        $selected_options = Arr::where(
+            $request->except(['_token', '_method', 'btn_pressed', 'btnradio', 'section', 'comentario']),
+            function ($value, $key) use ($clave) {
+                return str_contains($key, $clave . 'opcion');
+            }
+        );
+        $multiple_option_answers_request[$clave] = array_keys($selected_options);
+    }
+
+    // Iterar sobre los reactivos de la sección actual que no son de tipo 'label' o 'multiple_option'
+    $ReactivosAValidar = $AllReactivos->where('section', $section)
+                                      ->whereNotIn('type', ['label', 'multiple_option'])
+                                      ->sortBy('orden');
+
+    foreach ($ReactivosAValidar as $reactivo) {
+        $bloqueado = false;
+        $field_presenter = $reactivo->clave;
+        
+        if (empty($Encuesta->$field_presenter)) {
+            $ThisBloqueos = $AllBloqueos->where('bloqueado', $field_presenter);
+
+            if ($ThisBloqueos->count() > 0) {
+                foreach ($ThisBloqueos as $bloqueo) {
+                    $clave_reactivo_bloqueante = $bloqueo->clave_reactivo;
+                    $valor_bloqueante = $bloqueo->valor;
+
+                    $reactivoBloqueante = $AllReactivos->where('clave', $clave_reactivo_bloqueante)->first();
+                    
+                    if ($reactivoBloqueante) {
+                        if ($reactivoBloqueante->type == 'multiple_option') {
+                            $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                                            ->where('reactivo', $clave_reactivo_bloqueante)
+                                                            ->where('clave_opcion', $valor_bloqueante)
+                                                            ->first();
+                            if ($answer) {
+                                $bloqueado = true;
+                                break;
+                            }
+                        } else {
+                            if ($Encuesta->$clave_reactivo_bloqueante == $valor_bloqueante) {
+                                $bloqueado = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!$bloqueado) {
+                Session::put('falta', $field_presenter);
+                return false;
+            }
+        }
+    }
+
+    // Validar las preguntas de opción múltiple de la sección actual
+    foreach ($reativos_multiples_seccion_actual as $reactivo) {
+        $clave = $reactivo->clave;
+        $selected_options = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                                ->where('reactivo', $clave)
+                                                ->get();
+                                                
+        if ($selected_options->isEmpty()) {
+            $bloqueado = false;
+            $ThisBloqueos = $AllBloqueos->where('bloqueado', $clave);
+            
+            if ($ThisBloqueos->count() > 0) {
+                foreach ($ThisBloqueos as $bloqueo) {
+                    $clave_reactivo_bloqueante = $bloqueo->clave_reactivo;
+                    $valor_bloqueante = $bloqueo->valor;
+
+                    $reactivoBloqueante = $AllReactivos->where('clave', $clave_reactivo_bloqueante)->first();
+
+                    if ($reactivoBloqueante) {
+                        if ($reactivoBloqueante->type == 'multiple_option') {
+                            $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                                            ->where('reactivo', $clave_reactivo_bloqueante)
+                                                            ->where('clave_opcion', $valor_bloqueante)
+                                                            ->first();
+                            if ($answer) {
+                                $bloqueado = true;
+                                break;
+                            }
+                        } else {
+                            if ($Encuesta->$clave_reactivo_bloqueante == $valor_bloqueante) {
+                                $bloqueado = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!$bloqueado) {
+                Session::put('falta', $clave);
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
     
     // Método para obtener la siguiente sección en el orden
     public function obtener_siguiente_seccion($current_section)
