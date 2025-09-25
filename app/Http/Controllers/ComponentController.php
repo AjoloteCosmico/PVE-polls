@@ -18,7 +18,7 @@ class ComponentController extends Controller
         return view('components.text',compact('width'));
     }
     
-    public static function RenderReactive($Reactivo,$Opciones,$value){
+    public static function RenderReactive($Reactivo,$Opciones,$value, $disabled = false){
         // $Reactivo=reactivos_posgrado::find($id);
         // $Opciones=opciones_posgrado::where('reactivo',$Reactivo->clave)->get();
         if($Reactivo->archtype){
@@ -27,7 +27,7 @@ class ComponentController extends Controller
         }else{
             $Opciones=Option::where('reactivo',$Reactivo->clave)->orderBy('clave', 'ASC')->get();
         }
-        return view('components.'.$Reactivo->type,compact('Reactivo','Opciones','value'));
+        return view('components.'.$Reactivo->type,compact('Reactivo','Opciones','value', 'disabled'));
     }
 
     public static function RenderMultiple($reactivo_id, $all_options, $user_answers)
