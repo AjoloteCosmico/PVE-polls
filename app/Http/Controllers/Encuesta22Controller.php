@@ -115,7 +115,7 @@ class Encuesta22Controller extends Controller
 
         $Bloqueos = DB::table('bloqueos')
             ->join('reactivos', 'bloqueos.clave_reactivo', 'reactivos.clave')
-            ->where('reactivos.section', $section)
+            // ->where('reactivos.section', $section)
             ->whereIn('bloqueos.bloqueado', $Reactivos->pluck('clave')->toArray())
             ->select('bloqueos.*')
             ->get();

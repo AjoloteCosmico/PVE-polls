@@ -3,7 +3,7 @@
     @foreach($Opciones as $opcion)
         @php
             // Lista de no seleccionado por defecto
-            $reactivos_predeterminados = ['ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a', 'ner1a'];
+            $reactivos_predeterminados = ['ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
 
             // Bandera para determinar si la opción debe ser seleccionada.
             $seleccionada = false;

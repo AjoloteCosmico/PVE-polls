@@ -183,9 +183,7 @@ cursó sus estudios en la UNAM? </h2>
 <td colspan="2">
 Otra:
 <input type="text" class="texto"id="nar15otra" name="nar15otra" size="10" maxlength="80"  value="{{$Encuesta->nar15otra}}" > 
-
 </td>
-
 </tr>
 
 <!-- sexta columna  -->
@@ -196,20 +194,20 @@ Otra:
         
         <select class="select" id="nar13" name="nar13"   onchange="escolaridadp()" >
         <option value=""></option>
-       <option value=1 @if($Encuesta->nar13==1) selected @endif >Sin instrucción</option>
-       <option value=2 @if($Encuesta->nar13==2) selected @endif >Primaria</option;n>
-       <option value=3 @if($Encuesta->nar13==3) selected @endif >Carrera técnica o comercial después de primaria</option>
-       <option value=4 @if($Encuesta->nar13==4) selected @endif >Secundaria</option>
-       <option value=5 @if($Encuesta->nar13==5) selected @endif >Escuela Normal</option>
-       <option value=6 @if($Encuesta->nar13==6) selected @endif >Carrera técnica o comercial después de secundaria</option>
-       <option value=7 @if($Encuesta->nar13==7) selected @endif >Bachillerato o vocacional</option>
-       <option value=8 @if($Encuesta->nar13==8) selected @endif >Esc. Normal Superior</option>
-       <option value=9 @if($Encuesta->nar13==9) selected @endif >Carrera técnica o com. después de bachillerato</option>
-       <option value=10 @if($Encuesta->nar13==10) selected @endif >Licenciatura</option>
-       <option value=11 @if($Encuesta->nar13==11) selected @endif >Posgrado</option>
-       <option value=12 @if($Encuesta->nar13==12) selected @endif >Lo desconoce</option>
-       <option value=13  @if($Encuesta->nar13==13) selected @endif >Otro (Especifíque)</option>
- </select>
+        <option value=1 @if($Encuesta->nar13==1) selected @endif >Sin instrucción</option>
+        <option value=2 @if($Encuesta->nar13==2) selected @endif >Primaria</option;n>
+        <option value=3 @if($Encuesta->nar13==3) selected @endif >Carrera técnica o comercial después de primaria</option>
+        <option value=4 @if($Encuesta->nar13==4) selected @endif >Secundaria</option>
+        <option value=5 @if($Encuesta->nar13==5) selected @endif >Escuela Normal</option>
+        <option value=6 @if($Encuesta->nar13==6) selected @endif >Carrera técnica o comercial después de secundaria</option>
+        <option value=7 @if($Encuesta->nar13==7) selected @endif >Bachillerato o vocacional</option>
+        <option value=8 @if($Encuesta->nar13==8) selected @endif >Esc. Normal Superior</option>
+        <option value=9 @if($Encuesta->nar13==9) selected @endif >Carrera técnica o com. después de bachillerato</option>
+        <option value=10 @if($Encuesta->nar13==10) selected @endif >Licenciatura</option>
+        <option value=11 @if($Encuesta->nar13==11) selected @endif >Posgrado</option>
+        <option value=12 @if($Encuesta->nar13==12) selected @endif >Lo desconoce</option>
+        <option value=13  @if($Encuesta->nar13==13) selected @endif >Otro (Especifíque)</option>
+      </select>
     </td>
     <td >
 (Especifíque)

@@ -13,7 +13,6 @@ array_bloqueos={
        @endforeach
       };
 
-
 // Función de bloqueo
     function checkBloqueos(reactive, isInitialLoad = false) {
         console.log('---CHANGE: ' + reactive + ' Ha cambiado');

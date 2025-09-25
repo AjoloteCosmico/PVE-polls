@@ -582,7 +582,7 @@ use \App\Http\Controllers\ComponentController;
             })
             .catch(error => console.error('Error:', error));
     });
-
+    
     function rellenar_empresa(nombre, sector, giro, giro_esp) {
         setValueWithEffect(document.getElementById('ncr2'), nombre);
         setValueWithEffect(document.getElementById('ncr3'), sector);
