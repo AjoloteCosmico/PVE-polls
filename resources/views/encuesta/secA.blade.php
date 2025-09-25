@@ -189,7 +189,6 @@ Otra:
 <!-- sexta columna  -->
 <tr>
     <td colspan="2">
-
     <h2 class="reactivo">7.- Nivel de estudios de su padre</h2>
         
         <select class="select" id="nar13" name="nar13"   onchange="escolaridadp()" >
