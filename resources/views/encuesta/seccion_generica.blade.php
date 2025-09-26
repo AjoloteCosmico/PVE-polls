@@ -113,6 +113,14 @@ use \App\Http\Controllers\ComponentController;
             </div>
         @endif
 
+<h1>Spoilers de la siguiente sección</h1>
+        <br><br>
+        @foreach($Spoiler as $r)
+         <div class="label_container" >
+                        <h3>{{$r->description}}  </h3>
+                    </div>
+                    <br>
+        @endforeach
         {{-- Botón de Guardar --}}
         <div style="display:flex; flex-direction: row-reverse; padding:1.2vw" class='fixed'>
             <button style="font-size:1.5vw; padding:1.4vw" type="button" onclick="send_form('guardar')" class="boton-azul">

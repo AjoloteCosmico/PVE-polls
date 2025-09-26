@@ -173,7 +173,9 @@ class Encuesta22Controller extends Controller
             $Comentario = Comentario::where("cuenta", $Egresado->cuenta)->first();
             $Comentario = $Comentario ? $Comentario->comentario : '';
         }
-
+        $next_section = $this->obtener_siguiente_seccion($section);
+        $Spoiler=Reactivo::where('section',$next_section)->orderBy('orden', 'asc')->paginate(5);
+       
         return view('encuesta.seccion_generica', compact(
             'Encuesta',
             'Egresado',
@@ -187,7 +189,7 @@ class Encuesta22Controller extends Controller
             'section',
             'Comentario',
             'multiple_option_answers', 
-            'multiple_options'
+            'multiple_options','Spoiler'
         ));
         
     }
