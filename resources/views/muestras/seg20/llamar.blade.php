@@ -165,7 +165,7 @@
                             </button>
                         </a>
                         @endif
-                        @if($gen==2022)
+                        @if($gen==2022 && $Encuesta->completed==0)
                         <a href="{{route('edit_22',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
