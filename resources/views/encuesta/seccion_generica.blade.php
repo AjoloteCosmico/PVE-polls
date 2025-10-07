@@ -59,8 +59,7 @@ use \App\Http\Controllers\ComponentController;
                             @php
                                 $opciones_reactivo = $multiple_options->where('reactivo', $reactivo->clave);
                                 $respuestas_reactivo = $multiple_option_answers->where('reactivo', $reactivo->clave)->pluck('clave_opcion')->toArray();
-
-                                
+     
                             @endphp
 
                             {{-- Llama al componente y le pasa los datos necesarios --}}

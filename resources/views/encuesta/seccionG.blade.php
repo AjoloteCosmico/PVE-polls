@@ -13,7 +13,7 @@
         </ul>
     </div>
 @endif
-<form action="{{ url('encuestas/2020/G_update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+ <form action="{{ url('encuestas/2020/G_update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
 @csrf
 <table class="encuesta_table">
         <!-- primera fila  -->
