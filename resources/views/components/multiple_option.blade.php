@@ -1,4 +1,4 @@
-<div class="container" name="{{$Reactivo->clave}}" style="width: 25vmax; color:white">
+<div class="container" name="{{$Reactivo->clave}}" style="color:white;">
     @foreach($Opciones->sortBy('orden') as $opcion)
         <div class="form-check">
             <input 

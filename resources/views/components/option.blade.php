@@ -2,7 +2,7 @@
     @if(isset($disabled) && $disabled) 
         disabled 
     @endif >
-    <option value="">seleccione </option>
+    <option value=""> </option>
     @foreach($Opciones as $opcion)
         @php
             // Lista de no seleccionado por defecto
