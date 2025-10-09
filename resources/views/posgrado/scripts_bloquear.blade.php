@@ -37,7 +37,7 @@ array_bloqueos={
             checkboxes.forEach(checkbox => {
                 selected_values.push(checkbox.value);
             });
-        }
+        }   
 
         // se usa para distiguir entre la carga inicial o un cambio posterior
         if (!isInitialLoad) {
@@ -85,6 +85,42 @@ array_bloqueos={
             console.log('Ninguna opción seleccionada, nada por cerrar.');
         }
     }
+
+    //aplica estilo de bloquepo a las preguntas que venian bloqueadas
+    document.addEventListener('DOMContentLoaded', (event) => {
+        
+        const contenedoresBloqueados = document.querySelectorAll('.bloqueado_inicialmente');
+    
+        contenedoresBloqueados.forEach(contenedor_bloqueado => {
+            const id_contenedor = contenedor_bloqueado.id; 
+            const bloqueado = id_contenedor.replace('container', ''); 
+        
+            const elemento_bloqueado = document.getElementById(bloqueado);
+
+            
+            if (elemento_bloqueado && contenedor_bloqueado) {
+                console.log('Aplicando estilos iniciales a ' + bloqueado);
+                contenedor_bloqueado.style.backgroundColor = '#252E56';
+            
+                
+                if (elemento_bloqueado.tagName !== 'INPUT' || elemento_bloqueado.type !== 'hidden') {
+                    elemento_bloqueado.style.backgroundColor = 'gray';
+                    elemento_bloqueado.disabled = true;
+                }
+            
+               
+            }
+        });
+    
+        
+        const reactivos_disparadores = Object.keys(array_bloqueos);
+        reactivos_disparadores.forEach(reactive => {
+            checkBloqueos(reactive, true); 
+        });
+    });
+
+
+
 
  // Inicializa los bloqueos cuuando la página carga
     document.addEventListener('DOMContentLoaded', (event) => {

@@ -43,8 +43,11 @@ use \App\Http\Controllers\ComponentController;
                         <h3>{{$reactivo->description}}  </h3>
                     </div>
                     <br>
-                @else                
-                    <div class="react_container @if($reactivo->breakline==1) column_react @endif" id="{{'container'.$reactivo->clave}}" style="@if($is_bloqueado_inicialmente) display: none; @endif" >
+                @else
+                
+                    <div class="react_container @if($reactivo->breakline==1) column_react @endif @if($is_bloqueado_inicialmente) bloqueado_inicialmente @endif" id="{{'container'.$reactivo->clave}}">
+
+
 
                         {{$reactivo->clave}}    
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
