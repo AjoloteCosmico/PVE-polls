@@ -22,4 +22,3 @@
         <option value="{{$opcion->clave}}" @if($seleccionada) selected @endif > {{$opcion->clave}} {{$opcion->descripcion}}</option>
     @endforeach
 </select>
-
