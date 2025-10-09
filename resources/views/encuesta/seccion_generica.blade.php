@@ -46,7 +46,7 @@ use \App\Http\Controllers\ComponentController;
                     <br>
                 @else
                 
-                    <div class="react_container @if($reactivo->breakline==1) column_react @endif" id="{{'container'.$reactivo->clave}}" style="@if($is_bloqueado_inicialmente) display: none; @endif" >
+                    <div class="react_container @if($reactivo->breakline==1) column_react @endif @if($is_bloqueado_inicialmente) bloqueado_inicialmente @endif" id="{{'container'.$reactivo->clave}}">
 
 
 
