@@ -37,18 +37,14 @@ use \App\Http\Controllers\ComponentController;
         
                 @endphp
                 
-
                 @if($reactivo->type == 'label')
                     <br>
                     <div class="label_container" id="{{'container'.$reactivo->clave}}" style="width:90%">
                         <h3>{{$reactivo->description}}  </h3>
                     </div>
                     <br>
-                @else
-                
+                @else                
                     <div class="react_container @if($reactivo->breakline==1) column_react @endif" id="{{'container'.$reactivo->clave}}" style="@if($is_bloqueado_inicialmente) display: none; @endif" >
-
-
 
                         {{$reactivo->clave}}    
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
