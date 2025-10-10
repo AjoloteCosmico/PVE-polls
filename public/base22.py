@@ -38,7 +38,7 @@ database_uri = f"postgresql+psycopg2://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB
 # Crear el motor de SQLAlchemy
 engine = create_engine(database_uri)
 
-query = """select * from respuestas20 where gen_dgae=2022"""
+query = """select * from respuestas20 where gen_dgae=2022 and completed=1"""
 
 encuestas=pd.read_sql(query,engine)
 for col in ['created_at','updated_at','fec_capt']:
