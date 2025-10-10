@@ -1,4 +1,5 @@
 <select name="{{$Reactivo->clave}}" id="{{$Reactivo->clave}}" style="color:black" onChange="checkBloqueos('{{$Reactivo->clave}}')" 
+     class="select2-searchable"
     @if(isset($disabled) && $disabled) 
         disabled 
     @endif >
@@ -21,4 +22,5 @@
         @endphp
         <option value="{{$opcion->clave}}" @if($seleccionada) selected @endif > {{$opcion->clave}} {{$opcion->descripcion}}</option>
     @endforeach
+ 
 </select>

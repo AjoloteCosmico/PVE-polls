@@ -137,6 +137,8 @@ use \App\Http\Controllers\ComponentController;
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     /* ... tus estilos CSS ... */
 
@@ -536,6 +538,9 @@ use \App\Http\Controllers\ComponentController;
 @push('js')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     // Tu script JavaScript
     function send_form(value){
@@ -564,6 +569,7 @@ use \App\Http\Controllers\ComponentController;
 @endif
 
 <script>
+   
     function setValueWithEffect(element, value) {
         console.log('setting value');
         element.classList.remove('highlight');
@@ -571,7 +577,7 @@ use \App\Http\Controllers\ComponentController;
         element.value = value;
         element.classList.add('highlight');
     }
-
+ @if($section=='C')
     const searchBox = document.getElementById('ncr2');
     const resultadosDiv = document.getElementById('resultados');
 
@@ -611,6 +617,7 @@ use \App\Http\Controllers\ComponentController;
         document.getElementById('rama').value = rama;
         document.getElementById('sector').value = sector;
     }
+    @endif
 
     function handleExclusiveOption(react_name, checkbox) {
     var opciones = document.getElementsByClassName(react_name + 'opcion');
@@ -673,6 +680,19 @@ use \App\Http\Controllers\ComponentController;
 </script>
 
 
-
+<script>
+    $(document).ready(function() {
+    // 1. Obtener el número de opciones
+   
+            // 3. Inicializar Select2 en el select deseado
+            $('#nar16').select2({
+                // Opciones opcionales de Select2, por ejemplo, el placeholder:
+                placeholder: "Selecciona o busca una opción...",
+                allowClear: true,
+                width: '100%' // Asegura que tome todo el ancho del contenedor
+            });
+        
+});
+</script>
 
 @endpush
