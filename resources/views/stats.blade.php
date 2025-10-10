@@ -46,6 +46,11 @@
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; ENCUESTAS 2020 BASE (al dia de hoy)
                 </button>
             </a>
+            <a href="{{ route('report','base22')}}">
+                <button class="boton-azul" >
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; ENCUESTAS 2022 BASE (al dia de hoy)
+                </button>
+            </a>
             <a href="{{ route('report','estado_muestra_2020')}}">
                 <button class="boton-azul">
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Estado muestra 2020
