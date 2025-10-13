@@ -18,7 +18,8 @@ use \App\Http\Controllers\ComponentController;
     <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 9999;">
         @include('encuesta.personal_data_22')
     </div>
-    <br><br>
+    <br>
+    <br>
 
     {{-- Título de la sección actual --}}
     <h1>Sección {{ $section }}</h1>
