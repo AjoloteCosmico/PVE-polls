@@ -42,7 +42,7 @@
                         @if($empresa->usuario==23)	Sandra Pérez Jiménez @endif
                         @if($empresa->usuario==24)	Miguel Angel Herrera Ortiz @endif
                         @if($empresa->usuario==25)	Amanda Vega García @endif
-                        @if($empresa->usuario==100)	Isaac Celis Vargas @endif
+                        @if($empresa->usuario==26)	Eli Maldonado @endif
                     </td>
                     <td>{{ $empresa->nombre }}</td>
                     <td>{{ $empresa->clave_giro }}</td>

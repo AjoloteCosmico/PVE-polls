@@ -442,7 +442,6 @@ class Encuesta22Controller extends Controller
             }   
         }
 
-
         //Segundo bucle para validar los reactivos de opcion multiple
         foreach ($reativos_multiples_seccion_actual as $reactivo) {
             $clave = $reactivo->clave;
