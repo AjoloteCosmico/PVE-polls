@@ -53,8 +53,24 @@ array_bloqueos={
                     }
                     contenedor_bloqueado.style.backgroundColor = 'transparent';
                     elemento_bloqueado.style.backgroundColor = 'white';
+                    
                     elemento_bloqueado.disabled = false;
+                    //si  el reactivo es un rating,
+                    radio_buttons=document.querySelectorAll(`#${involucrado} input[type="radio"]`);
+                    // console.log('Radio buttons a bloquear: ', radio_buttons);
+                    radio_buttons.forEach(radio => {
+                        radio.disabled = false;
+                        radio.style.backgroundColor = 'transparent';
+                    });
+                    radio_button_divs=contenedor_bloqueado.querySelectorAll(`.rating-option-wrapper`);
+                    // console.log('Radio buttons a bloquear: ', radio_buttons);
+                    radio_button_divs.forEach(radio => {
+                        radio.style.backgroundColor = 'transparent';
+                        //si entra a este ciclo, significa que es un contenedor de radio-buttons, donde elemento_bloqueado es un div, y no un input, asi que evitamos que se quede blanco
+                        elemento_bloqueado.style.backgroundColor = 'transparent';
+                    });
                 }
+                 
             });
         }
 
@@ -68,15 +84,29 @@ array_bloqueos={
                 reactivos_a_bloquear.forEach(bloqueado => {
                     const elemento_bloqueado = document.getElementById(bloqueado);
                     const contenedor_bloqueado = document.getElementById('container' + bloqueado);
-
                     if (elemento_bloqueado && contenedor_bloqueado) {
                         console.log('bloqueando ' + bloqueado);
                         // No modificar el valor para no deshabilitar otros campos
                         elemento_bloqueado.value = '0';
                         contenedor_bloqueado.style.backgroundColor = '#252E56';
-                        elemento_bloqueado.style.backgroundColor = 'gray';
+                        elemento_bloqueado.style.backgroundColor = '#252E56';
                         elemento_bloqueado.disabled = true;
+                        //si  el reactivo es un rating,
+                    radio_buttons=document.querySelectorAll(`#${bloqueado} input[type="radio"]`);
+                    // console.log('Radio buttons a bloquear: ', radio_buttons);
+                    radio_buttons.forEach(radio => {
+                        radio.checked = false;
+                        radio.disabled = true;
+                        radio.style.backgroundColor = '#252E56';
+                    });
+                    radio_button_divs=contenedor_bloqueado.querySelectorAll(`.rating-option-wrapper`);
+                    // console.log('Radio buttons a bloquear: ', radio_buttons);
+                    radio_button_divs.forEach(radio => {
+                        radio.style.backgroundColor = '#252E56';
+                    });
                     }
+                    
+
                 });
             }
         });
@@ -104,11 +134,23 @@ array_bloqueos={
             
                 
                 if (elemento_bloqueado.tagName !== 'INPUT' || elemento_bloqueado.type !== 'hidden') {
-                    elemento_bloqueado.style.backgroundColor = 'gray';
+                    elemento_bloqueado.style.backgroundColor = '#252E56';
                     elemento_bloqueado.disabled = true;
                 }
             
-               
+                  //si  el reactivo es un rating,
+                    radio_buttons=document.querySelectorAll(`#${bloqueado} input[type="radio"]`);
+                    // console.log('Radio buttons a bloquear: ', radio_buttons);
+                    radio_buttons.forEach(radio => {
+                        radio.checked = false;
+                        radio.disabled = true;
+                        radio.style.backgroundColor = '#252E56';
+                    });
+                    radio_button_divs=contenedor_bloqueado.querySelectorAll(`.rating-option-wrapper`);
+                    // console.log('Radio buttons a bloquear: ', radio_buttons);
+                    radio_button_divs.forEach(radio => {
+                        radio.style.backgroundColor = '#252E56';
+                    });
             }
         });
     

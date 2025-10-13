@@ -5,7 +5,7 @@
     - $value (valor previamente guardado, si existe)
 --}}
 
-<div class="rating-stars-container">
+<div class="rating-stars-container" id="{{$Reactivo->clave}}">
     
     @foreach($Opciones->sortByDesc('clave') as $index => $opcion)
         @php
