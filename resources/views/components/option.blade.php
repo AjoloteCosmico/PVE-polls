@@ -1,5 +1,11 @@
+
+@if("$Reactivo->archtype"=='escala')
+    @include('components.rating')
+@else
 <select name="{{$Reactivo->clave}}" id="{{$Reactivo->clave}}" style="color:black" onChange="checkBloqueos('{{$Reactivo->clave}}')" 
-     class="select2-searchable"
+    @if($Opciones->count()>=10)
+    class="select2-searchable"
+    @endif
     @if(isset($disabled) && $disabled) 
         disabled 
     @endif >
@@ -24,3 +30,5 @@
     @endforeach
  
 </select>
+
+@endif
