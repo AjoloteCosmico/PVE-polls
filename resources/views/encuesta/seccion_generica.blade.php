@@ -15,7 +15,7 @@ use \App\Http\Controllers\ComponentController;
     </div>
 
     {{-- Sección de datos personales --}}
-    <div id='datos' style="position: fixed; top: 0px; left: flex;">
+    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 9999;">
         @include('encuesta.personal_data_22')
     </div>
     <br><br>
@@ -218,13 +218,14 @@ use \App\Http\Controllers\ComponentController;
         text-align: center; 
         background-color: #002b7a; 
         color: white; 
+        
     }
     .table-personal td { 
         border: 2px solid #000b1b; 
         text-align: center; 
         background-color: white; 
         padding: 8px;
-         font-weight: 600;
+        font-weight: 600;
     }
     .boton-oscuro { 
         background-color: #000b1b; 
@@ -412,8 +413,6 @@ use \App\Http\Controllers\ComponentController;
         font-weight: 800; 
         color: black; 
     }
-/* css para el componente de raiting */
-
 /* --- Estilos para el Componente Rating de Estrellas --- */
 
 .rating-stars-container {
@@ -421,6 +420,7 @@ use \App\Http\Controllers\ComponentController;
     align-items: flex-end; /* Alinea las bases de las estrellas para el efecto progresivo */
     gap: 15px; /* Espacio entre cada opción de estrella */
     padding: 15px 0;
+    color: white; 
 }
 
 .rating-option-wrapper {
@@ -447,9 +447,11 @@ use \App\Http\Controllers\ComponentController;
 /* Estilo de la Estrella (La etiqueta <label>) */
 .rating-star {
     cursor: pointer;
-    color: #ccc; /* Color de estrella sin seleccionar (gris) */
+    color: #ffffffff; /* Color de estrella sin seleccionar (gris) */
     transition: color 0.2s ease, font-size 0.2s ease;
     line-height: 1; /* Para que el tamaño de fuente controle la altura */
+    position: relative;
+    
 }
 
 /* Color de la estrella seleccionada */
@@ -480,6 +482,53 @@ use \App\Http\Controllers\ComponentController;
     font-size: 10px; /* Letra pequeña para la descripción debajo */
     text-align: center;
     color: #333;
+}
+
+/* Ocultar el tooltip por defecto */
+.rating-star::after, 
+.rating-star::before {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* El cuadro del tooltip (el contenido) */
+.rating-star::after {
+    content: attr(data-tooltip); /* Toma el texto del nuevo atributo data-tooltip */
+    position: absolute;
+    bottom: 100%; /* Lo coloca encima de la estrella */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* TU ESTILO REQUERIDO: Fondo Negro y Letra Blanca */
+    background-color: black; 
+    color: white; 
+    
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    font-size: 14px; /* Un tamaño de letra legible para el tooltip */
+    z-index: 10; /* Asegura que esté por encima de otros elementos */
+}
+
+/* El pequeño "triángulo" debajo del tooltip (opcional) */
+.rating-star::before {
+    content: '';
+    position: absolute;
+    top: -5px; /* Lo pone justo debajo del tooltip::after */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: black; /* Color de fondo del tooltip */
+    z-index: 9;
+}
+
+/* Mostrar el tooltip al hacer hover sobre la estrella */
+.rating-star:hover::after,
+.rating-star:hover::before {
+    visibility: visible;
+    opacity: 1;
 }
     div { 
         background-color: #050a30; 
