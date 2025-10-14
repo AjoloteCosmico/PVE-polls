@@ -370,7 +370,7 @@ use \App\Http\Controllers\ComponentController;
         border: none;
         background-color: white;
         margin: 10px; /* Aplica el margen al contenedor para el espaciado */
-        height: 5vh; /* Permite que el padding determine la altura */
+        height: auto; /* Permite que el padding determine la altura */
     }
 
     /* 3. Estilos para el texto y padding dentro del Select2 */
@@ -707,7 +707,7 @@ use \App\Http\Controllers\ComponentController;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     // Tu script JavaScript
