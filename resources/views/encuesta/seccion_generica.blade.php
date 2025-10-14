@@ -15,7 +15,7 @@ use \App\Http\Controllers\ComponentController;
     </div>
 
     {{-- Sección de datos personales --}}
-    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 9999;">
+    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 200;">
         @include('encuesta.personal_data_22')
     </div>
     <br>
@@ -370,7 +370,7 @@ use \App\Http\Controllers\ComponentController;
         border: none;
         background-color: white;
         margin: 10px; /* Aplica el margen al contenedor para el espaciado */
-        height: auto; /* Permite que el padding determine la altura */
+        height: 5vh; /* Permite que el padding determine la altura */
     }
 
     /* 3. Estilos para el texto y padding dentro del Select2 */

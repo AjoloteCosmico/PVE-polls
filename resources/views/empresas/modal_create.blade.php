@@ -1,5 +1,5 @@
-<div class="modal fade" id="empresaModal" tabindex="-1" aria-labelledby="empresaModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style=" font-size: 150%;">
+<div class="modal fade" id="empresaModal" tabindex="-1" aria-labelledby="empresaModalLabel" aria-hidden="true" >
+  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
     <form id="formEmpresa" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"  style="color:white;">Nueva Empresa</h5>
