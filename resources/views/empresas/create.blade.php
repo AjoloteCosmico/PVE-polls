@@ -88,4 +88,16 @@
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
+
+
+    @if ($errors->any())
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+  Swal.fire({
+  title: "Algo falló",
+  text: "Algo fallo,. verifica los datos e intenta de nuevo",
+  icon: "warning",
+});
+</script>
+    @endif
 @endpush
