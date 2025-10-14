@@ -89,7 +89,7 @@ array_bloqueos={
                         // No modificar el valor para no deshabilitar otros campos
                         elemento_bloqueado.value = '0';
                         contenedor_bloqueado.style.backgroundColor = '#252E56';
-                        elemento_bloqueado.style.backgroundColor = '#252E56';
+                        elemento_bloqueado.style.backgroundColor = 'gray';
                         elemento_bloqueado.disabled = true;
                         //si  el reactivo es un rating,
                     radio_buttons=document.querySelectorAll(`#${bloqueado} input[type="radio"]`);
@@ -134,7 +134,7 @@ array_bloqueos={
             
                 
                 if (elemento_bloqueado.tagName !== 'INPUT' || elemento_bloqueado.type !== 'hidden') {
-                    elemento_bloqueado.style.backgroundColor = '#252E56';
+                    elemento_bloqueado.style.backgroundColor = 'gray';
                     elemento_bloqueado.disabled = true;
                 }
             
@@ -149,6 +149,7 @@ array_bloqueos={
                     radio_button_divs=contenedor_bloqueado.querySelectorAll(`.rating-option-wrapper`);
                     // console.log('Radio buttons a bloquear: ', radio_buttons);
                     radio_button_divs.forEach(radio => {
+                        elemento_bloqueado.style.backgroundColor = 'transparent';
                         radio.style.backgroundColor = '#252E56';
                     });
             }
