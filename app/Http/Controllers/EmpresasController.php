@@ -57,7 +57,7 @@ class EmpresasController extends Controller
 
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa creada exitosamente.');
-    }
+        }
 
     public function modal_store(Request $request){
         // Validar la solicitud
@@ -69,10 +69,7 @@ class EmpresasController extends Controller
             'nota' => 'nullable|string|max:250',
         ]);
         // EncuestaEmpresa::where('encuesta_id',$request->id_encuesta)->where('table',$request->table)->delete();
-        // // //guardar la relacion de empresa/encuesta
-        
-        
-
+        // // //guardar la relacion de empresa/encuestas
         $Empresa=new Empresas();
         $Empresa->usuario=Auth::user()->clave;
         $Empresa->nombre=$request->nombre;

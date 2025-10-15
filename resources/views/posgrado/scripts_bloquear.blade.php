@@ -46,7 +46,7 @@ array_bloqueos={
                 const elemento_bloqueado = document.getElementById(involucrado);
                 const contenedor_bloqueado = document.getElementById('container' + involucrado);
                 if (elemento_bloqueado && contenedor_bloqueado){
-                    if (elemento_bloqueado.classList.contains('bloqueado_inicialmente')) {
+                    if (!contenedor_bloqueado.classList.contains('bloqueado_inicialmente')) {
                     console.log('desbloqueando ' + involucrado);
                     if (elemento_bloqueado.value === '0') {
                         elemento_bloqueado.value = '';
