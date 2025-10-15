@@ -45,10 +45,7 @@ use \App\Http\Controllers\ComponentController;
                     </div>
                     <br>
                 @else
-                
                     <div class="react_container @if($reactivo->breakline==1) column_react @endif @if($is_bloqueado_inicialmente) bloqueado_inicialmente @endif" id="{{'container'.$reactivo->clave}}">
-
-
 
                         {{$reactivo->clave}}    
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
@@ -402,6 +399,10 @@ use \App\Http\Controllers\ComponentController;
     
     /* Opcional: Para mejorar el espaciado si lo necesitas */
     padding: 8px 12px;
+}
+.select2-results__options  {
+    height: 450px; /* <--- Esta es la clave para el "largo" de la cajita */
+    overflow-y: auto;  /* Asegura que aparezca la barra de scroll si las opciones exceden el max-height */
 }
 
 /* Opcional: Estilo para la opción que está siendo resaltada (hover) */
