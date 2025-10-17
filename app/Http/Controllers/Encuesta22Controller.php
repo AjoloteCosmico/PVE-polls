@@ -142,19 +142,23 @@ class Encuesta22Controller extends Controller
         $BloqueosActivos = collect();
         foreach ($AllBloqueos as $bloqueo) {
             $reactivoBloqueante = Reactivo::where('clave', $bloqueo->clave_reactivo)->first();
-            if ($reactivoBloqueante && $reactivoBloqueante->type == 'multiple_option'){
-                $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
-                                                ->where('reactivo', $bloqueo->clave_reactivo)
-                                                ->where('clave_opcion', $bloqueo->valor)
-                                                ->first();
-                if ($answer) {
-                    $BloqueosActivos->push($bloqueo);
-                }
-            } else {
-                if (isset($AllAnswers[$bloqueo->clave_reactivo]) && $AllAnswers[$bloqueo->clave_reactivo] == $bloqueo->valor) {
-                    $BloqueosActivos->push($bloqueo);
+            if($reactivoBloqueante==null){dd($reactivoBloqueante,$bloqueo);}
+            if($reactivoBloqueante->section != $section){
+                if ($reactivoBloqueante && $reactivoBloqueante->type == 'multiple_option'){
+                    $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                                    ->where('reactivo', $bloqueo->clave_reactivo)
+                                                    ->where('clave_opcion', $bloqueo->valor)
+                                                    ->first();
+                    if ($answer) {
+                        $BloqueosActivos->push($bloqueo);
+                    }
+                } else {
+                    if (isset($AllAnswers[$bloqueo->clave_reactivo]) && $AllAnswers[$bloqueo->clave_reactivo] == $bloqueo->valor) {
+                        $BloqueosActivos->push($bloqueo);
+                    }
                 }
             }
+            
         }
 
 

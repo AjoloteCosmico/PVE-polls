@@ -69,11 +69,12 @@ use \App\Http\Controllers\ComponentController;
 
 @push('css')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
     *{
@@ -302,6 +303,182 @@ option{
     font-weight: 800;
     color: black;
 }
+
+
+        /* 2. Estilos para el contenedor principal de Select2 */
+    /* Select2 reemplaza el <select> original, por eso apuntamos a su contenedor */
+    .select2-container--default .select2-selection--single {
+        /* Aquí aplicamos la mayoría de tus estilos de apariencia */
+        border-radius: 6px;
+        border: none;
+        background-color: white;
+        margin: 10px; /* Aplica el margen al contenedor para el espaciado */
+        height: auto; /* Permite que el padding determine la altura */
+    }
+
+    /* 3. Estilos para el texto y padding dentro del Select2 */
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        /* El texto seleccionado y el placeholder van aquí */
+        padding: 10px 10px; /* El padding que tenías en el select */
+        text-align: center;
+        text-justify: center;
+        font-size: 16px !important; /* El tamaño de letra que deseas */
+        font-weight: 800 !important;
+        color: black !important;
+        /* El ancho del contenedor, que es lo más complicado con Select2 y unidades vw */
+        /* La propiedad width se debe pasar como opción en el JS, pero podemos darle un ancho mínimo y máximo al contenedor si es necesario. */
+        width: 100%;
+        min-width: 7.5vw;
+    }
+
+    /* 4.Para el cuadro de búsqueda dentro del desplegable */
+    .select2-container .select2-search--dropdown .select2-search__field {
+        font-size: 16px; /* Un tamaño más pequeño para el campo de búsqueda */
+        padding: 5px;
+    }
+    /* Estilos para el texto de cada opción dentro del menú desplegable de Select2 */
+.select2-container--default .select2-results__option {
+    /* Aplicamos tus estilos de fuente */
+    font-size: 16px !important; 
+    font-weight: 800 !important; 
+    color: black !important; 
+    
+    /* Opcional: Para mejorar el espaciado si lo necesitas */
+    padding: 8px 12px;
+}
+.select2-results__options  {
+    height: 450px; /* <--- Esta es la clave para el "largo" de la cajita */
+    overflow-y: auto;  /* Asegura que aparezca la barra de scroll si las opciones exceden el max-height */
+}
+
+/* Opcional: Estilo para la opción que está siendo resaltada (hover) */
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: #3875d7 !important; /* Puedes cambiar este color */
+    color: white !important; /* El color de letra al hacer hover */
+}
+    option { 
+        font-size: 16px; 
+        font-weight: 800; 
+        color: black; 
+    }
+/* --- Estilos para el Componente Rating de Estrellas --- */
+
+.rating-stars-container {
+    display: flex; /* Muestra las opciones en línea */
+    align-items: flex-end; /* Alinea las bases de las estrellas para el efecto progresivo */
+    gap: 15px; /* Espacio entre cada opción de estrella */
+    padding: 15px 0;
+    color: white; 
+}
+
+.rating-option-wrapper {
+    display: flex;
+    flex-direction: column; /* Estrella y descripción apiladas */
+    align-items: center; /* Centra la estrella y la descripción */
+    min-width: 60px; /* Ancho mínimo para la descripción */
+}
+
+/* Ocultar el radio button nativo */
+.rating-input {
+    /* Clases para ocultar visualmente el input (si usas Tailwind, usa 'sr-only') */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Estilo de la Estrella (La etiqueta <label>) */
+.rating-star {
+    cursor: pointer;
+    color: #ffffffff; /* Color de estrella sin seleccionar (gris) */
+    transition: color 0.2s ease, font-size 0.2s ease;
+    line-height: 1; /* Para que el tamaño de fuente controle la altura */
+    position: relative;
+    
+}
+
+/* Color de la estrella seleccionada */
+.rating-input:checked + .rating-star {
+    color: gold;
+}
+
+/* Color al pasar el ratón (hover) */
+.rating-star:hover {
+    color: orange;
+}
+
+/* --- Tamaños Progresivos para el Efecto de Escalado --- */
+
+/* Los tamaños serán progresivamente mayores basados en el índice */
+.star-size-1 { font-size: 20px; }
+.star-size-2 { font-size: 24px; }
+.star-size-3 { font-size: 28px; }
+.star-size-4 { font-size: 32px; }
+.star-size-5 { font-size: 36px; }
+.star-size-6 { font-size: 40px; }
+/* ... añade más si tienes más de 6 opciones ... */
+
+
+/* Estilo de la Descripción */
+.rating-description {
+    margin-top: 5px;
+    font-size: 10px; /* Letra pequeña para la descripción debajo */
+    text-align: center;
+    color: #333;
+}
+
+/* Ocultar el tooltip por defecto */
+.rating-star::after, 
+.rating-star::before {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* El cuadro del tooltip (el contenido) */
+.rating-star::after {
+    content: attr(data-tooltip); /* Toma el texto del nuevo atributo data-tooltip */
+    position: absolute;
+    bottom: 100%; /* Lo coloca encima de la estrella */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* TU ESTILO REQUERIDO: Fondo Negro y Letra Blanca */
+    background-color: black; 
+    color: white; 
+    
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    font-size: 14px; /* Un tamaño de letra legible para el tooltip */
+    z-index: 10; /* Asegura que esté por encima de otros elementos */
+}
+
+/* El pequeño "triángulo" debajo del tooltip (opcional) */
+.rating-star::before {
+    content: '';
+    position: absolute;
+    top: -5px; /* Lo pone justo debajo del tooltip::after */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: black; /* Color de fondo del tooltip */
+    z-index: 9;
+}
+
+/* Mostrar el tooltip al hacer hover sobre la estrella */
+.rating-star:hover::after,
+.rating-star:hover::before {
+    visibility: visible;
+    opacity: 1;
+}
+
 /*estilo de contenedores*/
 div{
     background-color: #050a30;
@@ -470,7 +647,10 @@ div{
 
 @push('js')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 function send_form(value){
     document.getElementById('btn-pressed').value=value;
@@ -607,4 +787,19 @@ checkBloqueos('nfr27');
 
     });
 </script>
+<script>
+    $(document).ready(function() {
+    // 1. Obtener el número de opciones
+   
+            // 3. Inicializar Select2 en el select deseado
+             $('.select2-searchable').select2({
+                // Opciones opcionales de Select2, por ejemplo, el placeholder:
+                placeholder: "Selecciona o busca una opción...",
+                allowClear: true,
+                width: '100%' // Asegura que tome todo el ancho del contenedor
+            });
+        
+});
+</script>
+
 @endpush

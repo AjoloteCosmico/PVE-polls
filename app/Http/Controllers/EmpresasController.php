@@ -49,15 +49,15 @@ class EmpresasController extends Controller
             'usuario' => 'required|string|max:20',
             'nombre' => 'required|string|max:150',
             'clave_giro' => 'required|string|max:20',
-            'giro_especifico' => 'required|string|max:150',
-            'nota' => 'nullable|string|max:250',
+            'giro_especifico' => 'required|string|max:200',
+            'nota' => 'nullable|string|max:280',
         ]);
         // Crear una nueva empresa
         Empresas::create($request->all());
 
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa creada exitosamente.');
-    }
+        }
 
     public function modal_store(Request $request){
         // Validar la solicitud
@@ -65,14 +65,11 @@ class EmpresasController extends Controller
             'nombre' => 'required|string|max:150',
             'sector' => 'required|string|max:150',
             'rama' => 'required|string|max:20',
-            'giro_especifico' => 'required|string|max:150',
+            'giro_especifico' => 'required|string|max:300',
             'nota' => 'nullable|string|max:250',
         ]);
         // EncuestaEmpresa::where('encuesta_id',$request->id_encuesta)->where('table',$request->table)->delete();
-        // // //guardar la relacion de empresa/encuesta
-        
-        
-
+        // // //guardar la relacion de empresa/encuestas
         $Empresa=new Empresas();
         $Empresa->usuario=Auth::user()->clave;
         $Empresa->nombre=$request->nombre;
@@ -105,7 +102,7 @@ class EmpresasController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:150',
             'clave_giro' => 'required|string|max:20',
-            'giro_especifico' => 'required|string|max:550',
+            'giro_especifico' => 'required|string|max:540',
             'nota' => 'nullable|string|max:250',
             'sector' => 'nullable|int|max:250',
         ]);
