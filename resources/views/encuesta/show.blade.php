@@ -1380,7 +1380,7 @@ Especifique:</h2>
     ¿Cuál? </h2>
     <INPUT   id="ner10a" name="ner10a" TYPE=TEXT class="texto"  value=" " SIZE=60 MAXLENGTH=60 >
    
-        </td>
+</td>
 <td>
 <h2 class="reactivo"> 
     <TD width=30%>73a).- ¿Ya se graduó? </h2>

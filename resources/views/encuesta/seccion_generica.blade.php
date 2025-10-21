@@ -430,11 +430,12 @@ use \App\Http\Controllers\ComponentController;
     flex-direction: column; /* Estrella y descripción apiladas */
     align-items: center; /* Centra la estrella y la descripción */
     min-width: 60px; /* Ancho mínimo para la descripción */
+    align-self:start;
 }
 
 /* Ocultar el radio button nativo */
 .rating-input {
-    /* Clases para ocultar visualmente el input (si usas Tailwind, usa 'sr-only') */
+    /* Clases para ocultar visualmente el input  */
     position: absolute;
     width: 1px;
     height: 1px;
@@ -483,7 +484,7 @@ use \App\Http\Controllers\ComponentController;
     margin-top: 5px;
     font-size: 10px; /* Letra pequeña para la descripción debajo */
     text-align: center;
-    color: #333;
+    color: #fffefeff;
 }
 
 /* Ocultar el tooltip por defecto */
