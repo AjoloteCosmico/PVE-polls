@@ -376,6 +376,7 @@ option{
     flex-direction: column; /* Estrella y descripción apiladas */
     align-items: center; /* Centra la estrella y la descripción */
     min-width: 60px; /* Ancho mínimo para la descripción */
+    align-self:start;
 }
 
 /* Ocultar el radio button nativo */
@@ -429,7 +430,7 @@ option{
     margin-top: 5px;
     font-size: 10px; /* Letra pequeña para la descripción debajo */
     text-align: center;
-    color: #333;
+    color: #ffffffff;
 }
 
 /* Ocultar el tooltip por defecto */
