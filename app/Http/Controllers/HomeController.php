@@ -252,6 +252,7 @@ class HomeController extends Controller
         $scripts = [
             2016 => 'invitacion16.py',
             2020 => 'invitacion20.py',
+            2022 => 'invitacion22.py',
         ];
         
         $anio = $request->anio;
