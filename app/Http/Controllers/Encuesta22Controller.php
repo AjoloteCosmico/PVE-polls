@@ -74,7 +74,7 @@ class Encuesta22Controller extends Controller
             $Encuesta->nombre = $Egresado->nombre;
             $Encuesta->nbr2 = $carrera;
             $Encuesta->nbr3 = $Egresado->plantel;
-            $Encuesta->gen_dgae = 2022;
+            $Encuesta->gen_dgae =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
             return redirect()->route('edit_22', [

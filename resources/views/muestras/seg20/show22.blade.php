@@ -45,6 +45,9 @@
             @endif
             <th>llamadas</th>
             <th>status</th>
+            @if($carrera==136)
+            <th>Año egreso</th>
+            @endif
             <th> </th>
           </tr>
           </thead>
@@ -60,6 +63,9 @@
             @endif
                <td>{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
+                  @if($carrera==136)
+                <td>{{$e->anio_egreso}}</td>
+                  @endif
                 <td> 
                 <p hidden> {{$e->orden}}</p>
                 <a href="{{route('llamar',[2022,$e->cuenta,$e->carrera])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a> 
