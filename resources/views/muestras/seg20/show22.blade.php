@@ -116,7 +116,7 @@
     pageLength: 300,
     @endif
     responsive: true,
-    @if($Egresado->carrera==136)
+    @if($carrera==136)
     sorting: [[5, 'asc'],[1, 'asc'],[2,'asc']],
     @else
         sorting: [[6, 'asc'],[1, 'asc'],[2,'asc']],
