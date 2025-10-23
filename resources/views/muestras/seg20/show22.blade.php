@@ -19,7 +19,7 @@
         <table>
           <thead> 
             <tr> 
-              <th>Codigos</th>
+              <th>Códigos</th>
             </tr>         
           </thead>
           <tbody>
