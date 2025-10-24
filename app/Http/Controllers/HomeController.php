@@ -92,7 +92,6 @@ class HomeController extends Controller
         $sandy20=$encuestas20->where('aplica', '=' ,'23')->count();
         $amanda20=$encuestas20->where('aplica', '=' ,'25')->count();
         $migue20=$encuestas20->where('aplica', '=' ,'24')->count();
-    
        
         $ere16=respuestas16::where('aplica', '=' ,'17')->count();
         $eli16=respuestas16::where('aplica', '=' ,'22')->count();

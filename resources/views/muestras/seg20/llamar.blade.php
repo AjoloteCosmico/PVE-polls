@@ -49,7 +49,7 @@
                 </td>
                 
                 <td>
-                   
+                 Año: {{$Egresado->anio_egreso}}  
                 </td>
             </tr>
             @if($gen==2016)

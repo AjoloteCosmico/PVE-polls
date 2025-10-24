@@ -19,7 +19,7 @@
         <table>
           <thead> 
             <tr> 
-              <th>Codigos</th>
+              <th>Códigos</th>
             </tr>         
           </thead>
           <tbody>
@@ -45,6 +45,9 @@
             @endif
             <th>llamadas</th>
             <th>status</th>
+            @if($carrera==136)
+            <th>Año egreso</th>
+            @endif
             <th> </th>
           </tr>
           </thead>
@@ -60,6 +63,9 @@
             @endif
                <td>{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
+                  @if($carrera==136)
+                <td>{{$e->anio_egreso}}</td>
+                  @endif
                 <td> 
                 <p hidden> {{$e->orden}}</p>
                 <a href="{{route('llamar',[2022,$e->cuenta,$e->carrera])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a> 
@@ -110,8 +116,12 @@
     pageLength: 300,
     @endif
     responsive: true,
-    sorting: [[6, 'asc'],[1, 'asc'],[2,'asc']],
-    });
+    @if($carrera==136)
+    sorting: [[5, 'asc'],[1, 'asc'],[2,'asc']],
+    @else
+        sorting: [[6, 'asc'],[1, 'asc'],[2,'asc']],
+    @endif
+});
 </script>
 
  
