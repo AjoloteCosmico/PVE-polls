@@ -6,7 +6,6 @@ from email.mime.image import MIMEImage
 import sys
 import os
 
-
 def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
     remitente = "vinculacionexalumnos@exalumno.unam.mx"
     destinatario = correo
