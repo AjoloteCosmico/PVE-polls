@@ -57,7 +57,7 @@
     <div class="row"> 
         <div class="col">
             <div class="cuadro-amarillo">
-                <h3> Total encuestas 2020:  {{$total20}}</h3>
+                <h3> Total encuestas 2022:  {{$total22}}</h3>
                 <h3> por internet: {{$Internet}} </h3>
             </div>
         </div>
@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-5 cuadro-amarillo">
+        <div class="col-md-5 cuadro-amarillo" >
             {!! $chart->container() !!}
         </div>
         <div class="col-md-5 cuadro-amarillo">

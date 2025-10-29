@@ -39,35 +39,53 @@ class HomeController extends Controller
         ->get();
 
         return view('home',compact('nuevos_datos'));
-    } 
+    }
+    
+    
     public function stats()
     {
-        //2020
+        //2022
         $encuestas20=DB::table('respuestas20')
         ->select('respuestas20.*')
         ->where('completed','=',1)
         ->whereNull('aplica2')
         ->get();
+
         $carreras=DB::table('muestras')
         ->leftJoin('carreras', function($join)
                          {
                              $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
                              $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
                          })
-        ->where('estudio_id','3')
+        ->where('estudio_id','5')
         ->get();
         
-        $requeridas=$carreras->sum('requeridas_10')-$encuestas20->count();
+
+        $requeridas = $carreras->sum(function ($carrera) {
+            $realizadas = DB::table('respuestas20')
+                ->where('completed', '=', 1)
+                ->whereNull('aplica2')
+                ->where('carrera', '=', $carrera->carrera_id)
+                ->count();
+            return max(0, $carrera->requeridas_5 - $realizadas);
+        });
+
+
+
+        
         $internet=$encuestas20->whereIn('aplica',['111','104','20'])->count();
         $telefonicas=$encuestas20->count()-$internet;
-        
-        //grafica1 encuestas telefono vs internet de 2020
-        $chart = LarapexChart::setTitle('Encuestas realizadas 2020')
+
+
+        //grafica1 encuestas telefono vs internet de 2022
+        $chart = LarapexChart::setTitle('Encuestas realizadas 2022')
         ->setColors(['#D1690E', '#D1330E','#D19914'])
             ->setLabels(['Realizadas por Internet','Realizadas Telefonica', 'Por hacer'])
             ->setDataset([$internet,$telefonicas, $requeridas]);
 
         
+
+
         //2016
         $encuestas16=DB::table('respuestas16')
         ->select('respuestas16.*')
@@ -77,7 +95,8 @@ class HomeController extends Controller
         $requeridas16=Egresado::where('act_suvery','1')->count() - $encuestas16->count();
         $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
         $telefonicas16= $encuestas16->count() -$Internet16;
-        // dd($Internet16);
+    
+
         //grafica1.2 encuestas telefono vs internet de 2016
         $chart16 = LarapexChart::setTitle('Encuestas realizadas 2016')
         ->setColors(['#D1690E', '#D1330E','#D19914'])
@@ -86,36 +105,42 @@ class HomeController extends Controller
 
         $encuestas16=respuestas16::all();
         $encuestas20=respuestas20::where('completed','=',1)->get();
+
+
         #Grafica de encuestadores       
-        $ere20=$encuestas20->where('aplica', '=' ,'17')->count();
-        $eli20=$encuestas20->where('aplica', '=' ,'22')->count();
-        $sandy20=$encuestas20->where('aplica', '=' ,'23')->count();
-        $amanda20=$encuestas20->where('aplica', '=' ,'25')->count();
-        $migue20=$encuestas20->where('aplica', '=' ,'24')->count();
+       $ere20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '17')->count();
+       $eli20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '22')->count();
+       $sandy20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '23')->count();
+       $amanda20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '25')->count();
+       $eliMal20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '26')->count();
        
         $ere16=respuestas16::where('aplica', '=' ,'17')->count();
         $eli16=respuestas16::where('aplica', '=' ,'22')->count();
         $sandy16=respuestas16::where('aplica', '=' ,'23')->count();
         $amanda16=respuestas16::where('aplica', '=' ,'25')->count();
-        $migue16=respuestas16::where('aplica', '=' ,'24')->count();
+        
     
         
         $aplica_chart = LarapexChart::barChart()
         ->setTitle('Conteo por encuestador')
-        ->setSubtitle('enc2020 vs enc2016 actualizacion')
-         ->addData('2020', [ $ere20,$eli20,$sandy20,$amanda20,$migue20])
-         ->addData('2016', [ $ere16,$eli16,$sandy16,$amanda16,$migue16])
+        ->setSubtitle('enc2022 vs enc2016 actualizacion')
+         ->addData('2022', [ $ere20,$eli20,$sandy20,$amanda20,$eliMal20])
+         ->addData('2016', [ $ere16,$eli16,$sandy16,$amanda16])
          ->setColors(['#D1690E', '#EB572F','#f3b87c'])
-         ->setXAxis(['Erendira', 'Elizabeth', 'Sandra','Amanda','Miguel']);
+         ->setXAxis(['Erendira', 'Elizabeth', 'Sandra','Amanda','Elizabeth Maldonado']);
     
-        $total20=$encuestas20->count();
+
+
+         //totales
+
+        $total22=$encuestas20->count();
         $total16=$encuestas16->count();
         $Internet=respuestas20::where('completed','=',1)
         ->where('aplica','=',111)->get()->count();
         return view('stats',compact('encuestas20','carreras',
-        'chart','chart16','aplica_chart','total20','total16','Internet',
+        'chart','chart16','aplica_chart','total22','total16','Internet',
          'Internet16'));
-        }
+    }
 
 
     public function links()
