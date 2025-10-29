@@ -54,5 +54,3 @@
         </div>
     @endforeach
 </div>
-
-{{-- **IMPORTANTE:** Necesitas añadir el CSS en tu hoja de estilos principal. --}}

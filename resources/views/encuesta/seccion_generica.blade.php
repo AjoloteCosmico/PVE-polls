@@ -432,7 +432,7 @@ use \App\Http\Controllers\ComponentController;
     min-width: 60px; /* Ancho mínimo para la descripción */
     align-self:start;
 }
-
+    
 /* Ocultar el radio button nativo */
 .rating-input {
     /* Clases para ocultar visualmente el input  */

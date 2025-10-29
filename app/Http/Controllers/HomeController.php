@@ -243,6 +243,7 @@ class HomeController extends Controller
         $links = [
             2016 => "https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2016",
             2020 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2020",
+            2022 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2021",
             2022 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2022",
         ];
         
@@ -252,6 +253,7 @@ class HomeController extends Controller
         $scripts = [
             2016 => 'invitacion16.py',
             2020 => 'invitacion20.py',
+            2020 => 'invitacion21.py',
             2022 => 'invitacion22.py',
         ];
         
