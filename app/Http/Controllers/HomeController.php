@@ -280,7 +280,6 @@ class HomeController extends Controller
             $request->carrera,
             $request->plantel,
             $link
-
         ]);
 
         $process->run();
