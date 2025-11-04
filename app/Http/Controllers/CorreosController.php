@@ -18,7 +18,18 @@ class CorreosController extends Controller
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
         return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
+
     public function store(Request $request ,$cuenta,$carrera,$encuesta,$telefono_id){
+
+        //Validacion de que el correo no esté repetido
+        $request->validate([
+            'correo' => 'required|email|unique:correos,correo',
+        ], [
+            'correo.required' => 'Debes ingresar un correo.',
+            'correo.email' => 'El formato del correo no es válido.',
+            'correo.unique' => 'Este correo ya está registrado en el sistema.',
+        ]);
+
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         $Correo=new Correo();
@@ -52,6 +63,8 @@ class CorreosController extends Controller
         }
     }
 
+
+
     public function edit($id,$carrera,$encuesta,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Correo=Correo::find($id);
@@ -63,6 +76,17 @@ class CorreosController extends Controller
 
 
     public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
+
+        //Validacion de que el correo no esté repetido
+
+        $request->validate([
+            'correo' => 'required|email|unique:correos,correo,'. $id,
+        ], [
+            'correo.required' => 'Debes ingresar un correo.',
+            'correo.email' => 'El formato del correo no es válido.',
+            'correo.unique' => 'Este correo ya está registrado en el sistema.',
+        ]);
+
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
         $Correo->correo=$request->correo;
@@ -112,3 +136,4 @@ class CorreosController extends Controller
  
  }
 }
+
