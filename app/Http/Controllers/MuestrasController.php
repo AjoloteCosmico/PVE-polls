@@ -364,6 +364,7 @@ public function show_16($carrera,$plantel){
   ->orderBy('color')->get();
   
   return view('muestras.act16.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
+  
 }
 
 
