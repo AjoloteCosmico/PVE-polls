@@ -58,19 +58,37 @@ class HomeController extends Controller
                              $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
                          })
         ->where('estudio_id','5')
+        //->get()
+        //nueva
+        ->select(
+        'muestras.*',
+        'carreras.carrera as nombre_carrera',
+        'carreras.plantel as nombre_plantel'
+        )
         ->get();
-        
 
-        $requeridas = $carreras->sum(function ($carrera) {
+        $requeridas = $carreras->sum(function ($carrera){
             $realizadas = DB::table('respuestas20')
                 ->where('completed', '=', 1)
+                ->where('gen_dgae', '=', 2022)
                 ->whereNull('aplica2')
                 ->where('carrera', '=', $carrera->carrera_id)
                 ->count();
             return max(0, $carrera->requeridas_5 - $realizadas);
         });
-
-
+        
+/*
+        $requeridas = $carreras->sum(function ($carrera) {
+            $realizadas = DB::table('respuestas20')
+                ->where('completed', '=', 1)
+                ->where('gen_dgae', '=', 2022)
+                ->whereNull('aplica2')
+                ->where('carrera', '=', $carrera->carrera_id)
+                ->count();
+            return max(0, $carrera->requeridas_5 - $realizadas);
+        });
+        
+*/
 
         
         $internet=$encuestas20->whereIn('aplica',['111','104','20'])->count();

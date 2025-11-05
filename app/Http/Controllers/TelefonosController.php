@@ -11,6 +11,7 @@ class TelefonosController extends Controller
 
 {
     public function create($cuenta,$carrera,$encuesta,$telefono_id){
+
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         
@@ -20,8 +21,20 @@ class TelefonosController extends Controller
 
 
     public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
+
+        //Validacion de que el telefono no esté repetido
+        $request->validate([
+            'telefono' => 'required|string|max:20|unique:telefonos,telefono',
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'telefono.unique' => 'Este número ya está registrado.',
+        ]);
+
+
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
+
         $Correo=new Telefono();
         $Correo->cuenta=$cuenta;
         $Correo->telefono=$request->telefono;
@@ -64,6 +77,17 @@ class TelefonosController extends Controller
 
 
     public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
+
+        //Validacion de que el telefono no esté repetido
+        $request->validate([
+            'telefono' => 'required|string|max:20|unique:telefonos,telefono,'.$id,
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'telefono.unique' => 'Este número ya está registrado.',
+        ]);
+
+
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
