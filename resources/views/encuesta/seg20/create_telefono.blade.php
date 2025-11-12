@@ -14,7 +14,7 @@
         <form action="{{ route('guardar_telefono',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label for="exampleInputEmail1" style="color:white">Ingrese el nuevo telefono (10 digitos solo numeros)</label>
+                <label for="exampleInputEmail1" style="color:white">Ingrese el nuevo teléfono (10 dígitos solo números)</label>
                 <br> <br>
                 <input  style="width:50%" type="tel" pattern="[0-9]{10}" class="form-control" name="telefono" aria-describedby="emailHelp" placeholder="Ingrese el telefono 10 digitos">
             </div>
