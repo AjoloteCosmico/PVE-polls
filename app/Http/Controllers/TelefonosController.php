@@ -10,7 +10,7 @@ use App\Models\Telefono;
 class TelefonosController extends Controller
 
 {
-    public function create($cuenta,$carrera,$encuesta,$telefono_id){
+    public function create($cuenta,$carrera,$encuesta = null, $telefono_id = null){
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
@@ -35,32 +35,51 @@ class TelefonosController extends Controller
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
 
-        $Correo=new Telefono();
-        $Correo->cuenta=$cuenta;
-        $Correo->telefono=$request->telefono;
-        $Correo->descripcion=$request->description;
-        $Correo->status=0;
-        $Correo->save();
-        if($Egresado->act_suvery==1){
-            if($encuesta == '2016'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_16',[$encuesta]);
-            }
+        $Telefono=new Telefono();
+        $Telefono->cuenta=$cuenta;
+        $Telefono->telefono=$request->telefono;
+        $Telefono->descripcion=$request->description;
+        $Telefono->status=0;
+
+        $Telefono->save();
+
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Teléfono agregado correctamente',
+                'telefono' => $Telefono,
+                'redirect_url' => $redirectUrl
+            ]);
         }
         
-        if($Egresado->muestra==3){
-            if($encuesta == '2020'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_20',[$encuesta,'SEARCH']);
+        return redirect($redirectUrl);
+    }
+
+    protected function getRedirectUrl($Egresado, $encuesta, $telefono_id)
+    {
+        if ($Egresado->act_suvery == 1) {
+            if ($encuesta == '2016') {
+                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
+            } else {
+                return route('edit_16', [$encuesta]);
             }
         }
-        if($Egresado->muestra==5){
-            if($encuesta == '2022'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
+    
+        if ($Egresado->muestra == 3) {
+            if ($encuesta == '2020') {
+                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
+            } else {
+                return route('edit_20', [$encuesta, 'SEARCH']);
+            }
+        }
+    
+        if ($Egresado->muestra == 5) {
+            if ($encuesta == '2022') {
+                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
+            } else {
+                return route('edit_22', [$encuesta, 'SEARCH']);
             }
         }
     }

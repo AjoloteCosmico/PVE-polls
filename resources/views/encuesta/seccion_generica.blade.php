@@ -8,7 +8,8 @@ use \App\Http\Controllers\ComponentController;
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
 @include('empresas.modal_create')
-
+@include('encuesta.seg20.modal_create_telefono')
+@include('encuesta.seg20.modal_create_correo')
 <div>
     <div class="titulos">
         <h1>ENCUESTA DE SEGUIMIENTO GEN 2022 UNAM</h1>
@@ -77,6 +78,7 @@ use \App\Http\Controllers\ComponentController;
                                     <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
                                 </div>
                                 <div class="col"></div>
+                                
                             </div>
                             <div class="resultados-div" id="resultados"></div>
                         @else

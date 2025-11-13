@@ -163,7 +163,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::controller(CorreosController::class)->group(function(){
         Route::get('/agregar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'create')->name('agregar_correo');
         Route::get('/editar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_correo');
-        Route::post('/guardar_correo{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_correo');
+        Route::post('/guardar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_correo');
         Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
     });

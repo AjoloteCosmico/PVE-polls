@@ -17,6 +17,7 @@
                 <label for="exampleInputEmail1">Ingrese el nuevo telefono</label>
                 <input  style="width:50%" type="text" class="form-control" name="telefono" aria-describedby="emailHelp" placeholder="Enter phone number">
             </div>
+            
             <div class="form-group">
                 <label for="exampleInputEmail1">Descripcion o notas (telefono de trabajo, lada, extencion)</label>
                 <input  style="width:50%" type="text" class="form-control" name="description" aria-describedby="emailHelp" placeholder="Enter phone number">

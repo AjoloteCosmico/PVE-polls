@@ -6,7 +6,7 @@
         <th>Número de Cuenta:</th>
         <td> {{ $Egresado->cuenta }}</td>
 
-        <th>Teléfonos: <br><br> <a href="{{ route('agregar_telefono', [$Egresado->cuenta, $Egresado->carrera, $Encuesta->registro, Session::get('telefono_encuesta')]) }}"> <button class="btn boton-dorado"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button></a></th>
+        <th>Teléfonos: <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#phoneModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button></a></th>
         <td style="width:25vw">
             @foreach($Telefonos as $t)
                 <a class="contact_data" style="color: #002b7a;" href="{{ route('editar_telefono', [$t->id, $Egresado->carrera, $Encuesta->registro, Session::get('telefono_encuesta')]) }}">{{ $t->telefono }} </a>, &nbsp;
@@ -25,7 +25,7 @@
         <th>Plantel:</th>
         <td> {{ $Plantel }}</td>
 
-        <th>Correos: <br><br> <a href="{{ route('agregar_correo', [$Egresado->cuenta, $Egresado->carrera, $Encuesta->registro, Session::get('telefono_encuesta')]) }}"> <button class="btn boton-dorado"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo</button></a></th>
+        <th>Correos: <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#emailModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo</button></a></th>
         <td>
             @foreach($Correos as $c)
                 <a class="contact_data" style="color: #002b7a;" onclick="correos({{ $c->id }},'{{ $c->correo }}')"> {{ $c->correo }} </a>, &nbsp;

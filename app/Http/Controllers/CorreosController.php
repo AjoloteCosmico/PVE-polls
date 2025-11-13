@@ -19,7 +19,7 @@ class CorreosController extends Controller
         return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
 
-    public function store(Request $request ,$cuenta,$carrera,$encuesta,$telefono_id){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
 
         //Validacion de que el correo no esté repetido
         $request->validate([
@@ -32,33 +32,48 @@ class CorreosController extends Controller
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
+
         $Correo=new Correo();
         $Correo->cuenta=$cuenta;
         $Correo->correo=$request->correo;
         $Correo->status='13';
         $Correo->enviado=0;
         $Correo->save();
-        
+
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Correo agregado correctamente',
+                'correo' => $Correo,
+                'redirect_url' => $redirectUrl
+            ]);
+        }
+        return redirect($redirectUrl);  
+    }
+
+    protected function getRedirectUrl($Egresado, $encuesta, $telefono_id)
+    {
         if($Egresado->act_suvery==1){
             if($encuesta == '2016'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+                return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
-                return redirect()->route('edit_16',[$encuesta]);
+                return route('edit_16',[$encuesta]);
             }
         }
         
         if($Egresado->muestra==3){
             if($encuesta == '2020'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+                return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
-                return redirect()->route('edit_20',[$encuesta,'SEARCH']);
+                return route('edit_20',[$encuesta,'SEARCH']);
             }
         }
         if($Egresado->muestra==5){
             if($encuesta == '2022'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
+                return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
-                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
+                return route('edit_22',[$encuesta,'SEARCH']);
             }
         }
     }
