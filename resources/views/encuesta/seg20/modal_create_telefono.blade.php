@@ -44,7 +44,7 @@
 
 
 <script>
-const URL_GUARDAR = "{{ route('guardar_telefono',[$Egresado->cuenta,$Egresado->carrera,'0',$TelefonoEnLlamada->id ?? 0])}}";
+const URL_GUARDAR = "{{ route('guardar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,$TelefonoEnLlamada->id ?? 0])}}";
 // Lógica para enviar el formulario vía AJAX
 $(document).ready(function() {
     $('#formPhone').on('submit', function(e) {
@@ -66,6 +66,17 @@ $(document).ready(function() {
                     showConfirmButton: false,
                     timer: 1500
                 });
+                if (response.redirect_url) {
+                    // Esperamos 500ms para que el usuario pueda ver la alerta
+                    setTimeout(() => {
+                        window.location.href = response.redirect_url;
+                    }, 500); 
+                } else {
+                    // Fallback (recargar la página actual)
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 500);
+                }
 
 
                 

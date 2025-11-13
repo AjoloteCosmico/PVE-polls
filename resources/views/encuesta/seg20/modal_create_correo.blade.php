@@ -39,7 +39,7 @@
 
 
 <script>
-const URL_GUARDAR_EMAIL = "{{ route('guardar_correo',[$Egresado->cuenta,$Egresado->carrera,'0',$TelefonoEnLlamada->id ?? 0])}}";
+const URL_GUARDAR_EMAIL = "{{ route('guardar_correo',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,$TelefonoEnLlamada->id ?? 0])}}";
 // Lógica para enviar el formulario vía AJAX
 $(document).ready(function() {
     $('#formEmail').on('submit', function(e) {

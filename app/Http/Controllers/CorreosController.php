@@ -19,7 +19,7 @@ class CorreosController extends Controller
         return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
 
-    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta,$telefono_id){
 
         //Validacion de que el correo no esté repetido
         $request->validate([
@@ -37,10 +37,12 @@ class CorreosController extends Controller
         $Correo->cuenta=$cuenta;
         $Correo->correo=$request->correo;
         $Correo->status='13';
-        $Correo->enviado=0;
+        $Correo->enviado=0;   
+
         $Correo->save();
 
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'success' => true, 
@@ -49,6 +51,7 @@ class CorreosController extends Controller
                 'redirect_url' => $redirectUrl
             ]);
         }
+
         return redirect($redirectUrl);  
     }
 
