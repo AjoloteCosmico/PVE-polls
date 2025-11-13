@@ -87,7 +87,12 @@ class Encuesta22Controller extends Controller
     public function edit_22($id, $section)
     {
         $Encuesta = respuestas20::where("registro", $id)->first();
-        $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)->first();
+        $Egresado = Egresado::where('anio_egreso',2022)
+                    ->orWhere("muestra", 5)
+                    ->get()
+                    ->where("cuenta", $Encuesta->cuenta)
+                    ->first();
+                    
         $Carrera = Carrera::where("clave_carrera", $Egresado->carrera)->first()->carrera;
         $Plantel = Carrera::where("clave_plantel", $Egresado->plantel)->first()->plantel;
 

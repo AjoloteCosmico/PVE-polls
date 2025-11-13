@@ -15,7 +15,6 @@ use App\Models\Bloqueo;
 use App\Models\Option;
 use Session;
 use DB;
-
 use File;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Process\Process;

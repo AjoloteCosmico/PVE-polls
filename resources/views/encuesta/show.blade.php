@@ -1623,7 +1623,7 @@ Especifique:</h2>
     <option value=2 @if($Encuesta->nfr5==2) selected @endif>No</option>
    </select> 
    
-       </td>
+</td>
 <td>
     </td>
 <td>
