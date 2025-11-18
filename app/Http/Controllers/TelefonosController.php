@@ -106,7 +106,6 @@ class TelefonosController extends Controller
             'telefono.unique' => 'Este número ya está registrado.',
         ]);
 
-
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
