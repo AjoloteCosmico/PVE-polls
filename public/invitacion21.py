@@ -41,7 +41,7 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
         <table style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
         <tr>
             <td style="text-align: left;">
-                <a href="http://www.pveaju.unam.mx/avisodeprivacidad" target="_blank" style="font-size: 14px; color: #015190; text-decoration: underline;">
+                <a href="https://www.pveaju.unam.mx/aviso-de-privacidad/" target="_blank" style="font-size: 14px; color: #015190; text-decoration: underline;">
                     Aviso de Privacidad
                 </a>
             </td>

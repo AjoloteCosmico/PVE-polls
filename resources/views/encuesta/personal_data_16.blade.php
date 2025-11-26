@@ -5,7 +5,7 @@
          <tr>
            <th>Egresad@: </th>
            <td> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</td>
-           <th>Número C:</th>
+           <th>Número de Cuenta:</th>
            <td> {{$Egresado->cuenta}}</td>
            <th> Teléfonos:  <br><br> <a href="{{route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">  <button class="btn boton-dorado" > <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono  </button></a></th>
            <td>  

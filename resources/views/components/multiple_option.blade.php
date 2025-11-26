@@ -12,7 +12,7 @@
                     checked
                 @endif
             >
-            <label class="form-check-label" for="{{ $Reactivo->clave }}-{{ $opcion->clave }}">
+            <label class="form-check-label **fs-1**" for="{{ $Reactivo->clave }}-{{ $opcion->clave }}">
                 {{ $opcion->descripcion }}
             </label>
         </div>
