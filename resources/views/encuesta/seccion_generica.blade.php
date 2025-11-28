@@ -629,6 +629,12 @@ use \App\Http\Controllers\ComponentController;
         background-color: rgba(14, 21, 68, 1); 
         bold: bolder; 
     }
+
+   .fade{
+        background-color: rgba(14, 21, 68, 0.6) !important;  
+   }
+
+
     .label_container { 
         padding: 0.7vw; 
         width: 90%; 

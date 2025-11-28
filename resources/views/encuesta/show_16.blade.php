@@ -5,6 +5,8 @@ use \App\Http\Controllers\ComponentController;
 @endphp
 {{-- {{session('logs')}} --}}
 
+@include('encuesta.seg20.modal_create_telefono')
+@include('encuesta.seg20.modal_create_correo')
 @include('empresas.modal_create')
 <div> 
         <div class="titulos">
@@ -522,7 +524,9 @@ div{
     display: flex;
     align-items: center;
 }
-
+ .fade{
+        background-color: rgba(14, 21, 68, 0.6) !important;  
+   }
 .cuadro-azul{
     background-color: #002b7a;
     border-radius: 10px;

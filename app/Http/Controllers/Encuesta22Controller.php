@@ -310,6 +310,7 @@ class Encuesta22Controller extends Controller
             $Encuesta->sec_g == 1
             ) {
             $Encuesta->completed = 1;
+            $Encuesta->fec_capt = now()->modify("-6 hours");
             $Egresado->status = 1;
             // Generar el archivo JSON
             $fileName = $Encuesta->cuenta . ".json";
