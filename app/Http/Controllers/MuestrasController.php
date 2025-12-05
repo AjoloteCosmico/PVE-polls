@@ -42,7 +42,7 @@ class MuestrasController extends Controller
 }
 
 public function plantel_index_16(){
-
+  
   $Planteles=Egresado::where('act_suvery','1')
       ->join('carreras','egresados.plantel','carreras.clave_plantel')
       ->select('carreras.plantel','carreras.clave_plantel',)
@@ -191,6 +191,7 @@ public function index_general($gen,$id){
 
   
 public function index_16($id){
+ 
   $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             

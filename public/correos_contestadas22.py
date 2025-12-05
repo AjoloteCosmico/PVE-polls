@@ -35,7 +35,7 @@ egresados=pd.read_sql("""select egresados.* from  egresados
                       inner join respuestas20 on egresados.cuenta=respuestas20.cuenta where muestra = 5 and( status ='2' or status='1') and completed=1""",cnx)
 print('len de egresados',len(egresados))
 correos=pd.read_sql('select * from correos',cnx)
-writer = pd.ExcelWriter('storage/correos_contestadas.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/correos_contestadas22.xlsx', engine='xlsxwriter')
 
 workbook = writer.book
 a_color='#173d83'
