@@ -140,7 +140,7 @@ class CorreosController extends Controller
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->first();
         $caminoalpoder=public_path();
-        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.$Egresado->paterno,$Correo->correo]);
+        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
         $process->run();
         if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);

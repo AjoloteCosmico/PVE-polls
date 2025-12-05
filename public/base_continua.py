@@ -57,7 +57,7 @@ for i in range(len(reactivos)):
             continuas.loc[continuas['registro'].isin(resp['encuesta_id'].unique()),f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"]=1
             print(continuas[f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"].unique())
 #exportar codificado
-continuas[['registro','nbr2', 'nbr3', 'carrera', 'anio_egreso','edc1',
+continuas[['registro','cuenta','nbr2', 'nbr3', 'carrera', 'anio_egreso','edc1',
 'edc14',
 'edc15',
 'edc15-En la UNAM', 'edc15-En otra institución pública',
@@ -101,7 +101,7 @@ for i in range(len(reactivos)):
             print(len(ops))
             continuas[f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"]=continuas[f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"].map(meta_continua[f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"])
          
-continuas[['registro','nbr2', 'nbr3', 'carrera', 'anio_egreso','edc1',
+continuas[['registro', 'cuenta','nbr2', 'nbr3', 'carrera', 'anio_egreso','edc1',
 'edc14',
 'edc15',
 'edc15-En la UNAM', 'edc15-En otra institución pública',
