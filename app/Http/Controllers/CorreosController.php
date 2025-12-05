@@ -51,7 +51,6 @@ class CorreosController extends Controller
                 'redirect_url' => $redirectUrl
             ]);
         }
-
         return redirect($redirectUrl);  
     }
 
