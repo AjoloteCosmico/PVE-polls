@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid" >
+<div class="container-fluid" background="{{asset('img/Fondo2.jpg')}}">
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl tabla_muestra" id="myTable">
           <thead>
@@ -39,7 +39,6 @@
     </div>
     <center >
    
-
    </center>
     </div>
 @endsection
@@ -71,6 +70,4 @@
         
 });
  </script>
-
-
 @endpush

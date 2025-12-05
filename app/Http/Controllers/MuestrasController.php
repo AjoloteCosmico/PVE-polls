@@ -479,7 +479,11 @@ public function programas_index(){
    return view('muestras.posgrado.programas_index',compact('Programas'));
 }
 
+
+
 public function index_posgrado($programa){
+  $programa = urldecode($programa);
+  
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->select('plan')
     ->distinct()
@@ -492,18 +496,16 @@ public function index_posgrado($programa){
       ->where('plan', $p->plan);
 
     // Encuestas por teléfono
-    $p->nencuestas_tel = $queryBase->where('status', 1)->count();
+    $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();
 
     // Encuestas por internet
-    $p->nencuestas_int = $queryBase->where('status', 2)->count();
+    $p->nencuestas_int = (clone $queryBase)->where('status', 2)->count();
 
     // Encuestas requeridas
-    $p->requeridas = $queryBase->count();
+    $p->requeridas = (clone $queryBase)->count();
   }
 
   return view('muestras.posgrado.index', compact('planes', 'programa'));
-
-
 
 }
 
