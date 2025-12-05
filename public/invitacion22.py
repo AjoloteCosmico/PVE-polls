@@ -26,28 +26,32 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
         <img src="cid:header_img" alt="Cabecera PVE" style="width: 100%; display: block; margin: 0; padding: 0; border: 0;">
         
         
-        <h2 style="margin-top: 20px; font-size: 20px; color:#015190; text-align: left;">Estimado Egresado</h2>
-        <p style="font-size: 18px; color:#015190;">{nombre}</p>
-        <p style="font-size: 16px; color:#015190; text-align: left;"><strong>Número de cuenta:</strong> {cuenta}</p>
-        <p style="font-size: 16px; color:#015190; text-align: left;"><strong>Facultad:</strong> {plantel}</p>
-        <p style="font-size: 16px; color:#015190; text-align: left;"><strong>Carrera:</strong> {carrera}</p><br>
-        <br>
+       <div class="container" style="text-align: justify; font-size: 2vw; width:100%;">
+       
+          <h2 style="margin-top: 20px; font-size: 3vw; color:#263673; text-align: left;">Estimado Egresado</h2>
+          <p style="font-size: 3vw; color:#263673;">{nombre}</p>
+          <p style="font-size: 2vw; color:#263673; text-align: left;"><strong>Número de cuenta:</strong> {cuenta}</p>
+          <p style="font-size: 2vw; color:#263673; text-align: left;"><strong>Facultad:</strong> {plantel}</p>
+          <p style="font-size: 2vw; color:#263673; text-align: left;"><strong>Carrera:</strong> {carrera}</p><br>
+        </div>
+        <br><br><br>
+        
         <img src="cid:imagen_encuesta" alt="Encuesta UNAM" style="max-width: 100%; height: auto;"><br>
         
          <p>
-            <a href="{link}" target="_blank" style="background-color:#BA800D; color:white; padding: 15px 22px; text-decoration: none; border-radius: 5px;">Ir a la encuesta</a>
+            <a href="{link}" target="_blank" style="background-color:#BA800D; color:white; padding: 15px 22px; text-decoration: none; border-radius: 22px; font-size: 2vw;">Ir a la encuesta</a>
         </p>
         
         <!-- Enlaces (versión compatible con correos) -->
         <table style="width: 100%; margin-top: 20px; margin-bottom: 20px;">
         <tr>
             <td style="text-align: left;">
-                <a href="https://www.pveaju.unam.mx/aviso-de-privacidad/" target="_blank" style="font-size: 14px; color: #015190; text-decoration: underline;">
+                <a href="https://www.pveaju.unam.mx/aviso-de-privacidad/" target="_blank" style="font-size: 2vw; color: #263673; text-decoration: underline;">
                     Aviso de Privacidad
                 </a>
             </td>
             <td style="text-align: right;">
-                <a href="https://www.pveaju.unam.mx/" target="_blank" style="font-size: 14px; color: #015190; text-decoration: underline;">
+                <a href="https://www.pveaju.unam.mx/" target="_blank" style="font-size: 2vw; color: #263673; text-decoration: underline;">
                     Sitio Oficial PVEAJU
                 </a>
             </td>
@@ -64,24 +68,24 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
     msg.attach(MIMEText(html, 'html'))
     
     # Adjuntar la imagen principal
-    with open('img/correo/invitacion/Encuesta2022.png', 'rb') as img_file:
-        imagen = MIMEImage(img_file.read())
+    with open('img/correo/invitacion/Encuesta2022.jpg', 'rb') as img_file:
+        imagen = MIMEImage(img_file.read(), _subtype='jpeg')
         imagen.add_header('Content-ID', '<imagen_encuesta>')
-        imagen.add_header('Content-Disposition', 'inline', filename='Encuesta2022.png')
+        imagen.add_header('Content-Disposition', 'inline', filename='Encuesta2022.jpg')
         msg.attach(imagen)
         
     # Adjuntar la imagen de cabecera
-    with open('img/correo/invitacion/Cabecera_Seguimiento.png', 'rb') as img_file:
-        header_img = MIMEImage(img_file.read())
+    with open('img/correo/invitacion/Cabecera_Seguimiento.jpg', 'rb') as img_file:
+        header_img = MIMEImage(img_file.read(), _subtype='jpeg')
         header_img.add_header('Content-ID', '<header_img>')
-        header_img.add_header('Content-Disposition', 'inline', filename='Cabecera_Seguimiento.png')
+        header_img.add_header('Content-Disposition', 'inline', filename='Cabecera_Seguimiento.jpg')
         msg.attach(header_img)
     
     # Adjuntar la imagen de pie de página
-    with open('img/correo/invitacion/Pie_seguimiento.png', 'rb') as img_file:
-        footer_img = MIMEImage(img_file.read())
+    with open('img/correo/invitacion/Pie_seguimiento.jpg', 'rb') as img_file:
+        footer_img = MIMEImage(img_file.read(), _subtype='jpeg')
         footer_img.add_header('Content-ID', '<footer_img>')
-        footer_img.add_header('Content-Disposition', 'inline', filename='Pie_seguimiento.png')
+        footer_img.add_header('Content-Disposition', 'inline', filename='Pie_seguimiento.jpg')
         msg.attach(footer_img)
         
     # Configuración del servidor SMTP
