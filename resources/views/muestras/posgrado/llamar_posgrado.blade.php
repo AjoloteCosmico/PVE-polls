@@ -92,7 +92,7 @@
                                 <td> {{$r->description}} </td>
                                 <td> {{$r->fecha}} </td>
                                 <td> 
-                                    <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
+                                    <form method="POST" action="{{ route('recados.destroyP', $r->id) }}">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
 

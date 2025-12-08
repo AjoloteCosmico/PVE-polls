@@ -159,6 +159,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::controller(RecadosController::class)->group(function(){
         Route::get('recados', 'index')->name('recados.index');
         Route::delete('recados/delete/{id}', 'destroy')->name('recados.destroy');
+        Route::delete('recados/posgrado/delete/{id}', 'destroyP')->name('recados.destroyP');
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
         Route::post('/encuestas/2014/marcar/{id}', 'marcar_14')->name('marcar_14');
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
