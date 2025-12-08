@@ -79,6 +79,7 @@ class RecadosController extends Controller
     public function marcar_20(Request $request,$tel_id,$eg_id){
       $Egresado=Egresado::find($eg_id);
       $telefono=Telefono::find($tel_id);
+      // dd($Egresado);
       $Recado= new Recado();
       $Recado->recado=$request->recado;
       $Recado->status=$request->code;
@@ -90,6 +91,7 @@ class RecadosController extends Controller
 
       $telefono->status=$request->code;
       $telefono->save();
+      
       $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get()->count();
       if($Egresado->status!=1&&$Egresado->status!=2){
      

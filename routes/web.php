@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth']], function(){
         //encuesta de posgrado
         Route::get('muestra_posgrado/programas/','programas_index')->name('posgrado.programas_index');
 
-        Route::get('muestra_posgrado/index/{programa}','index_posgrado')->name('muestrasposgrado.index');
+        Route::get('showmuestra_posgrado/{programa}','index_posgrado')->name('muestrasposgrado.index');
 
 
         Route::get('muestra_posgrado/show/{programa}/{plan}','show_posgrado')->name('muestrasposgrado.show');
@@ -238,9 +238,10 @@ Route::group(['middleware' => ['auth']], function(){
     });
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Rutas para la encuesta de posgrado
-    //Route::controller(PosgradoController::class)->group(function(){
-       //Route::get('/posgrado/render/{section}', 'show')->name('posgrado_vista');
-    //});
+    Route::controller(PosgradoController::class)->group(function(){
+       Route::get('/encuesta_posgrado/{section}/{id}', 'show')->name('posgrado.show');
+       Route::post('/update_posgrado/{section}/{id}', 'update')->name('posgrado.update');
+    });
     
 
 });

@@ -11,4 +11,5 @@ class EgresadoPosgrado extends Model
     
     //protected $table = 'egresados_posgrado';
     protected $table = 'egresados_posgrado';
+    
 }

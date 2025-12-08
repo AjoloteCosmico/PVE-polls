@@ -6,42 +6,219 @@ use Illuminate\Http\Request;
 use App\Models\Bloqueo;
 use App\Models\Carrera;
 use App\Models\Correo;
-use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Telefono;
-use App\Models\respuestas20;
+use App\Models\respuestasPosgrado;
 use App\Models\Reactivo;
 use App\Models\Option;
+use App\Models\multiple_option_answer;
 use DB;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use App\Models\Comentario;
+use Illuminate\Support\Facades\Auth;
+use File;
+use Session;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+
 
 class PosgradoController extends Controller
 {
     //
-    public function show($section){
-        $Egresado=Egresado::find(1);
-        $Encuesta=respuestas20::find(235);
-        $Telefonos=Telefono::where('id','<',3)->get();
-        $Correos=Correo::where('id','<',3)->get();
-        $Carrera = Carrera::where(
-            "clave_carrera",
-            "=",
-            $Egresado->carrera
-        )->first()->carrera;
-        $Plantel = Carrera::where(
-            "clave_plantel",
-            "=",
-            $Egresado->plantel
-        )->first()->plantel;
+     public function obtener_siguiente_seccion($current_section)
+    {
+        $secciones = ["pA","pB" ,"pC", "pD","pE"];
+        $current_index = array_search($current_section, $secciones);
+        if ($current_index !== false && isset($secciones[$current_index + 1])) {
+            return $secciones[$current_index + 1];
+        }
+        return $current_section;
+    }
 
+
+    public function show($section,$id){
+        $Encuesta=respuestasPosgrado::find($id);
+        $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->first();
+        $cuenta = ltrim($Egresado->cuenta, "0"); 
+        $Telefonos = Telefono::where("cuenta", $cuenta)->get();
+        $Correos = Correo::where("cuenta", $cuenta)->get();
+       
         $Reactivos=Reactivo::where('section',$section)->get();
         $Opciones=Option::where('clave','like','%p%r')->get();
         $Bloqueos=Bloqueo::where('clave_reactivo','like','p%')->get();
+        $ReactivoClaves = $Reactivos->pluck('clave');
 
+        // Obtenemos TODOS los bloqueos que son disparados por *cualquier* reactivo de la sección actual.
+        // Esto es lo que necesita el JavaScript para la lógica dinámica de bloqueo/desbloqueo.
+        $BloqueosSeccion = Bloqueo::whereIn('clave_reactivo', $ReactivoClaves)->get();
+
+        $AllBloqueos = Bloqueo::all();
+        $AllAnswers = $Encuesta->toArray();
+
+        $BloqueosActivos = collect();
+        foreach ($AllBloqueos as $bloqueo) {
+            $reactivoBloqueante = Reactivo::where('clave', $bloqueo->clave_reactivo)->first();
+            if($reactivoBloqueante==null){dd($reactivoBloqueante,$bloqueo);}
+            if($reactivoBloqueante->section != $section){
+                if ($reactivoBloqueante && $reactivoBloqueante->type == 'multiple_option'){
+                    $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                                    ->where('reactivo', $bloqueo->clave_reactivo)
+                                                    ->where('clave_opcion', $bloqueo->valor)
+                                                    ->first();
+                    if ($answer) {
+                        $BloqueosActivos->push($bloqueo);
+                    }
+                } else {
+                    if (isset($AllAnswers[$bloqueo->clave_reactivo]) && $AllAnswers[$bloqueo->clave_reactivo] == $bloqueo->valor) {
+                        $BloqueosActivos->push($bloqueo);
+                    }
+                }
+            }
+            
+        }
+        $Comentario = null;
+        if ($section == 'pE') {
+            $Comentario = Comentario::where("cuenta", $Egresado->cuenta)->first();
+            $Comentario = $Comentario ? $Comentario->comentario : '';
+        }
+        $next_section = $this->obtener_siguiente_seccion($section);
+        $Spoiler=Reactivo::where('section',$next_section)->orderBy('orden', 'asc')->paginate(5);
+       
         // dd($Bloqueos->unique('valor')->pluck('valor'));
         return view('posgrado.section', 
                     compact('Egresado', 'Encuesta',
-                    'Telefonos','Correos','Carrera','Plantel',
-                'Reactivos','Opciones','Bloqueos'));
+                            'Telefonos','Correos',
+                            'Reactivos','Opciones','Bloqueos','BloqueosActivos','Comentario',
+                            'BloqueosSeccion','ReactivoClaves','Spoiler','section','next_section'));
     }
     
     
+
+    public function update(Request $request, $id, $section)
+    {
+        // dd($request->all());
+        // 1. Obtener los datos de la encuesta y el egresado
+        $Encuesta = respuestasPosgrado::where("registro", $id)->first();
+        $Egresado = EgresadoPosgrado::where("cuenta", $Encuesta->cuenta)
+            ->where("carrera", $Encuesta->nbr2)
+            ->first();
+
+        // 2. Asignar datos básicos
+        $Encuesta->aplica = Auth::user()->clave;
+        if ($Encuesta->completed =! 1)
+            $Encuesta->fec_capt = now()->modify("-6 hours");
+        // 3. Lógica para manejar el botón "Terminar Encuesta"
+        if ($request->btn_pressed === 'terminar') {
+            $this->validar($Encuesta, $Egresado);
+            return back();
+        }
+
+        // 4. Actualizar la tabla de respuestas 20
+        $Encuesta->update($request->except(['_token', 'btn_pressed', 'comentario', 'btnradio', 'section']));
+
+
+        // 5. Manejar respuestas de opción múltiple
+
+        $reativos_multiples = Reactivo::where('type', 'multiple_option')
+        ->where('section', $section)
+        ->get();
+
+    foreach ($reativos_multiples as $r) {
+        $clave = $r->clave;
+
+        // Buscar todas las opciones seleccionadas de este reactivo
+        $selected_options = Arr::where(
+            $request->except(['_token', '_method', 'btn_pressed', 'btnradio', 'section', 'comentario']),
+            function ($value, $key) use ($clave) {
+                return str_contains($key, $clave . 'opcion');
+            }
+        );
+       
+        // Borrar respuestas anteriores
+        $affectedRows = multiple_option_answer::where('encuesta_id',$Encuesta->registro)
+            ->where('reactivo', $clave)->delete();
+
+        // Guardar nuevas respuestas seleccionadas
+        foreach($selected_options as $key => $value){
+            if (str_starts_with($key, $clave . 'opcion')) {
+            // Extraer solo el número de la opción
+            $clave_opcion = str_replace($clave . 'opcion', '', $key); 
+
+            // Validar que sea un entero válido
+                if (!empty($clave_opcion) && ctype_digit($clave_opcion)) {
+                    $answer = new multiple_option_answer();
+                    $answer->encuesta_id = $Encuesta->registro;
+                    $answer->reactivo = $clave;
+                    $answer->clave_opcion = (int) $clave_opcion;
+                    $answer->save();
+                }
+            }
+        }
+    }
+    
+        // 7. Lógica específica para guardar el comentario de la sección G
+        if ($section === 'pE') {
+            //TODO-future : AGREGAR LLAVE FORANEA A COMENTARIOS, MODEL AND ID 
+            $Comentario = Comentario::firstOrNew(['cuenta' => $Egresado->cuenta]);
+            $Comentario->comentario = $request->input('comentario', '');
+            $Comentario->save();
+        }
+
+        // 8. Validar la sección y actualizar el flag
+        $section_field = "sec_" . strtolower($section);
+        if ($this->validar_seccion($Encuesta, $section,$request)) {
+            $Encuesta->$section_field = 1;
+        } else {
+            $Encuesta->$section_field = 0;
+            return back()->with('error', 'true');
+        }
+        $Encuesta->save();
+
+        $this->validar($Encuesta, $Egresado);
+        
+        // 9. Redirigir a la siguiente sección
+        $next_section = $this->obtener_siguiente_seccion($section);
+    
+        return redirect()->route('edit_22', [
+            'id' => $Encuesta->registro,
+            'section' => $next_section
+        ])->with('status', 'guardado');
+    }
+
+    
+
+
+    
+    public function validar($Encuesta, $Egresado)
+    {
+
+        if ($Encuesta->sec_pa == 1 &&
+            $Encuesta->sec_pc == 1 &&
+            $Encuesta->sec_pd == 1 &&
+            $Encuesta->sec_pe == 1 
+            ) {
+            $Encuesta->completed = 1;
+            $Encuesta->fec_capt = now()->modify("-6 hours");
+            $Egresado->status = 1;
+            // Generar el archivo JSON
+            $fileName = 'pos'.$Encuesta->cuenta . ".json";
+            $fileStorePath = public_path("storage/json/" . $fileName);
+            File::put($fileStorePath, json_encode($Encuesta));
+
+            $Encuesta->save();
+            $Egresado->save();
+
+            Session::put('status', 'completa');
+            return true;
+        } else {
+            $Encuesta->completed = 0;
+            $Egresado->status = 10;
+            $Encuesta->save();
+            $Egresado->save();
+            
+            Session::put('status', 'incompleta');
+            return false;
+        }
+    }
 }

@@ -515,7 +515,14 @@ public function show_posgrado($programa, $plan){
   $muestra = DB::table('egresados_posgrado')
     ->where('programa', '=', $programa)
     ->where('plan', '=', $plan)
-    ->leftJoin('codigos', 'codigos.code', '=', 'egresados_posgrado.status')
+    ->leftJoin('codigos',function($join){
+      $join->on(
+            // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
+            DB::raw('CAST(codigos.code AS INTEGER)'), // Columna de texto
+            '=',
+            'egresados_posgrado.status'
+        );
+    })
     ->select('egresados_posgrado.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden')
     ->get();
 

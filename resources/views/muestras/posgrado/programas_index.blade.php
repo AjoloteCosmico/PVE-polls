@@ -17,7 +17,7 @@
             <tr >
                 <td>{{$pr->programa}} </td>
               
-                <td> <a href="{{route('muestrasposgrado.index', ['programa' => urlencode($pr->programa)])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                <td> <a href="{{route('muestrasposgrado.index', urlencode($pr->programa))}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
                
               </tr>
             @endforeach

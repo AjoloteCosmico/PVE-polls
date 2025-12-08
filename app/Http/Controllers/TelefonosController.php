@@ -82,6 +82,14 @@ class TelefonosController extends Controller
                 return route('edit_22', [$encuesta, 'SEARCH']);
             }
         }
+        if ($Egresado->plan) {
+            dd('Posgrado');
+            if ($encuesta == '2022') {
+                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
+            } else {
+                return route('edit_22', [$encuesta, 'SEARCH']);
+            }
+        }
     }
 
 
