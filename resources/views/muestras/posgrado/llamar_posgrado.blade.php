@@ -105,7 +105,7 @@
                     </tbody>
                 </table>
                 @endif
-                <form action="" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
+                <form action="/encuestaPosgrado/marcar/{{$telefono->id}}/{{$EgresadoPos->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                 @csrf
                     <div class="form-group titulos">
                         <h3 for="exampleInputEmail1">Deja un recado</h3>

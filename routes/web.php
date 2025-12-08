@@ -162,6 +162,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
         Route::post('/encuestas/2014/marcar/{id}', 'marcar_14')->name('marcar_14');
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
+        Route::post('/encuestaPosgrado/marcar/{telid}/{egid}', 'marcar_posgrado')->name('marcar_posgrado');
     });
 
     /**Correos */

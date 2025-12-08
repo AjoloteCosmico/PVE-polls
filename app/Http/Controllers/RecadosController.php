@@ -6,6 +6,7 @@ use App\Models\respuestas2;
 use App\Models\respuestas3;
 use App\Models\respuestas14;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Comentario;
 use App\Models\Recado;
@@ -138,4 +139,41 @@ class RecadosController extends Controller
         $Telefono->save();
         return back();
       }
+
+/*
+      public function marcar_posgrado(Request $request,$tel_id,$eg_id){
+        $EgresadoPos=EgresadoPosgrado::find($eg_id);
+        $telefono=Telefono::find($tel_id);
+        $Recado= new Recado();
+        $Recado->recado=$request->recado;
+        $Recado->status=$request->code;
+        $Recado->tel_id=$telefono->id;
+        $Recado->cuenta=$EgresadoPos->cuenta;
+        $Recado->user_id=Auth::user()->id;
+        $Recado->fecha=now()->modify('-6 hours');
+        $Recado->save();
+
+        $telefono->status=$request->code;
+        $telefono->save();
+        $EgresadoPos->llamadas=$Recados=Recado::where('cuenta', '=',$EgresadoPos->cuenta)->get()->count();
+        if($EgresadoPos->status!=1&&$EgresadoPos->status!=2){
+            if(($Recado->status == 6)||($Recado->status==11)){
+                $Telefonos=Telefono::where('cuenta',$EgresadoPos->cuenta)->get();
+                $flag=1;
+                foreach( $Telefonos as $r){ if($r->status != 6&&$r->status != 11){$flag=0;}}
+                if($flag==1){
+                    $EgresadoPos->status=$request->code; 
+                    $EgresadoPos->save(); 
+                  }
+              }else{
+                $EgresadoPos->status=$request->code; 
+                $EgresadoPos->save();
+              }
+        }
+        //verificacion de telefonos
+        $Telefonos=Telefono::where('cuenta',$EgresadoPos->cuenta);
+        return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa]);
+
+      }}*/
 }
+        

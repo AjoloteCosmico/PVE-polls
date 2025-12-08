@@ -20,8 +20,6 @@ class LlamadasController extends Controller
 {
     public function llamar($gen,$id,$carrera){
         
-        
-
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
         ->first();
