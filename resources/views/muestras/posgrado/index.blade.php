@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container-fluid" background="{{asset('img/Fondo2.jpg')}}">
+  <h1>{{$programa}} </h1>
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl tabla_muestra" id="myTable">
           <thead>
@@ -17,6 +18,7 @@
           </thead>
           <tbody>
             @foreach($planes as $p)
+            @if($p->plan)
             <tr style="background-color: rgba({{ 255 * (1 - (($p->requeridas > 0) ? ($p->nencuestas_tel + $p->nencuestas_int) / $p->requeridas : 0)) }},{{ 255 * (($p->requeridas > 0) ? ($p->nencuestas_tel + $p->nencuestas_int) / $p->requeridas : 0) }},0,0.4)">
                 <td> {{$p->plan}} </td>
                 <td> {{$p->nencuestas_tel}} </td>
@@ -24,10 +26,11 @@
                 <td> {{$p->requeridas}} </td>
                 <td> {{ $p->requeridas > 0 ? number_format((($p->nencuestas_tel + $p->nencuestas_int) * 100) / $p->requeridas, 2) : '0.00' }} %</td>
                 <th> - </th>
-                
+               
                 <td><a href="{{ route('muestrasposgrado.show', [$programa, $p->plan]) }}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
-                
+              
               </tr>
+              @endif
             @endforeach
           </tbody>
         </table>
