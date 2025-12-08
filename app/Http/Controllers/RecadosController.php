@@ -58,27 +58,25 @@ class RecadosController extends Controller
 
 
     }
-    
-    public function marcar_14(Request $request,$id){
-        $Egresado=respuestas14::find($id);
-        $Recado= new Recado();
-        $Recado->recado=$request->recado;
-        $Recado->status=$request->code;
-        $Recado->cuenta=$Egresado->cuenta;
-        $Recado->fecha=now()->modify('-6 hours');
-        $Recado->save();
-
-        $Egresado->status=$request->code;
-        $Egresado->recado=$request->recado;
-        $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get()->count();
-        $Egresado->save();
-       
-        return redirect()->route('muestras14.show',[$Egresado->carrera,$Egresado->plantel]);
-        }
         
     public function marcar_20(Request $request,$tel_id,$eg_id){
+
       $Egresado=Egresado::find($eg_id);
       $telefono=Telefono::find($tel_id);
+
+      if($Egresado->act_suvery==1){
+        $gen=2016;
+      }
+      if($Egresado->muestra==3){
+        $gen=2020;
+      }
+      if($Egresado->muestra==5){
+        $gen=2022;
+      }
+
+      $type = ($gen == 2016) ? 'act' : 'seg';
+
+
       // dd($Egresado);
       $Recado= new Recado();
       $Recado->recado=$request->recado;
@@ -87,10 +85,12 @@ class RecadosController extends Controller
       $Recado->cuenta=$Egresado->cuenta;
       $Recado->user_id=Auth::user()->id;
       $Recado->fecha=now()->modify('-6 hours');
+      $Recado->type=$type;
       $Recado->save();
 
       $telefono->status=$request->code;
       $telefono->save();
+
       
       $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get()->count();
       if($Egresado->status!=1&&$Egresado->status!=2){
@@ -114,21 +114,14 @@ class RecadosController extends Controller
       //verificar si todos los telefonos no existen (egresado ilocalizable)
       $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
       
-      if($Egresado->act_suvery==1){
-        $gen=2016;
-      }
-      if($Egresado->muestra==3){
-        $gen=2020;
-      }
-      if($Egresado->muestra==5){
-        $gen=2022;
-      }
+
       return redirect()->route('llamar',[$gen,$Egresado->cuenta,$Egresado->carrera]);
-      }
+    }
 
       public function destroy($id){
         $Recado=Recado::find($id);
         // dd($Recado);
+
         $Egresado=Egresado::where('cuenta',$Recado->cuenta)->first();
         $Telefono=Telefono::find($Recado->tel_id);
         Recado::destroy($id);
@@ -142,10 +135,29 @@ class RecadosController extends Controller
         return back();
       }
 
-/*
+      public function destroyP($id){
+        $Recadop=Recado::find($id);
+        // dd($Recado);
+        
+        $EgresadoPos=EgresadoPosgrado::where('cuenta',$Recadop->cuenta)->first();
+        $Telefono=Telefono::find($Recadop->tel_id);
+        Recado::destroy($id);
+        $Recados=Recado::where('cuenta','=',$EgresadoPos->cuenta)->get();
+        $EgresadoPos->llamadas=$Recados->count();
+        $$EgresadoPos->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+        $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+        //verificar los no existe unu
+        $EgresadoPos->save();
+        $Telefono->save();
+        return back();
+      }
+
+
       public function marcar_posgrado(Request $request,$tel_id,$eg_id){
+
         $EgresadoPos=EgresadoPosgrado::find($eg_id);
         $telefono=Telefono::find($tel_id);
+
         $Recado= new Recado();
         $Recado->recado=$request->recado;
         $Recado->status=$request->code;
@@ -153,8 +165,8 @@ class RecadosController extends Controller
         $Recado->cuenta=$EgresadoPos->cuenta;
         $Recado->user_id=Auth::user()->id;
         $Recado->fecha=now()->modify('-6 hours');
+        $Recado->type = 'pos';
         $Recado->save();
-
         $telefono->status=$request->code;
         $telefono->save();
         $EgresadoPos->llamadas=$Recados=Recado::where('cuenta', '=',$EgresadoPos->cuenta)->get()->count();
@@ -176,6 +188,7 @@ class RecadosController extends Controller
         $Telefonos=Telefono::where('cuenta',$EgresadoPos->cuenta);
         return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa]);
 
-      }}*/
-}
+      }
+  }
+
         
