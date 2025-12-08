@@ -139,7 +139,7 @@
                         <!-- TODO: hacer una ruta llamada completar encuesta -->
                     @if($EncuestaPos)
                         @if($EncuestaPos->completed==0)
-                            <a href="{{route('completar_encuesta_posgrado',[$EgresadaPos->cuenta,$EgresadaPos->plan,$EgresadaPos->programa])}}">
+                            <a href="{{route('completar_encuesta_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa])}}">
                                 <button type="button" class="boton-dorado">
                                     <i class="fas fa-edit"></i> Continuar encuesta inconclusa
                                 </button>
