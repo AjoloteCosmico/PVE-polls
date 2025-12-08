@@ -82,11 +82,16 @@ Route::group(['middleware' => ['auth']], function(){
         //completar encuesta
         Route::get('completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta');
 
-        //encuesta de posgrado
-        Route::get('muestras_posgrado/programas/','programas_index')->name('posgrado.programas_index');
-        Route::get('muestras_posgrado/index/{programa}','index_posgrado')->name('muestrasposgrado.index');
-        Route::get('muestras_posgrado/show/{programa}/{plan}','show_posgrado')->name('muestrasposgrado.show');
 
+        //encuesta de posgrado
+        Route::get('muestra_posgrado/programas/','programas_index')->name('posgrado.programas_index');
+
+        Route::get('muestra_posgrado/index/{programa}','index_posgrado')->name('muestrasposgrado.index');
+
+
+        Route::get('muestra_posgrado/show/{programa}/{plan}','show_posgrado')->name('muestrasposgrado.show');
+
+        
         //encuetsa de seguimiento 2022
         Route::get('muestras22/planteles/','plantel_index')->name('muestras22.plantel_index');
         //Route::get('muestras22/index/{id}','index_20')->name('muestras22.index');
@@ -157,6 +162,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
         Route::post('/encuestas/2014/marcar/{id}', 'marcar_14')->name('marcar_14');
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
+        Route::post('/encuestaPosgrado/marcar/{telid}/{egid}', 'marcar_posgrado')->name('marcar_posgrado');
     });
 
     /**Correos */
@@ -223,6 +229,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
+    Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     
     Route::controller(UserController::class)->group(function(){
@@ -231,9 +238,9 @@ Route::group(['middleware' => ['auth']], function(){
     });
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Rutas para la encuesta de posgrado
-    Route::controller(PosgradoController::class)->group(function(){
-       Route::get('/posgrado/render/{section}', 'show')->name('posgrado_vista');
-    });
+    //Route::controller(PosgradoController::class)->group(function(){
+       //Route::get('/posgrado/render/{section}', 'show')->name('posgrado_vista');
+    //});
     
 
 });

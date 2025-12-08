@@ -63,7 +63,7 @@
                 <td> 
                 <p hidden> {{$e->orden}}</p>
                 <!-- generalizar el metodo de llamada :O -->
-                <a href=""> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>             
+                <a href="{{route('llamar_posgrado',[$e->cuenta,$e->plan,$e->programa])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>             
               </td>
             </tr>
             @endforeach

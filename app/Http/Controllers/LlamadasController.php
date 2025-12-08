@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\respuestas20;
+use App\Models\respuestasPosgrado;
 use App\Models\respuestas3;
 use App\Models\respuestas16;
 use App\Models\Correo;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Comentario;
 use App\Models\Telefono;
@@ -18,8 +20,6 @@ class LlamadasController extends Controller
 {
     public function llamar($gen,$id,$carrera){
         
-        
-
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
         ->first();
@@ -51,6 +51,32 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
 
+    }
+
+    public function llamar_egresadosPosgrado($id,$plan,$programa){
+
+        $EgresadoPos=EgresadoPosgrado::where('cuenta', '=',$id)
+        ->where('programa',$programa)
+        ->where('plan',$plan)
+        ->first();
+
+        $EncuestaPos=respuestasPosgrado::where('cuenta','=',$EgresadoPos->cuenta)->first();
+
+        $Telefonos=DB::table('telefonos')->where('cuenta','=',$EgresadoPos->cuenta)
+        ->leftJoin('codigos','codigos.code','=','telefonos.status')
+        ->select('telefonos.*','codigos.color_rgb','codigos.description')
+        ->get();
+        $Recados=DB::table('recados')->where('cuenta','=',$EgresadoPos->cuenta)
+        ->orderBy('fecha','asc')
+        ->leftJoin('codigos','codigos.code','=','recados.status')
+        ->select('recados.*','codigos.color_rgb','codigos.description')
+        ->get();
+        $Codigos=DB::table('codigos')
+        ->where('internet','=',0)
+        ->orderBy('color')->get();
+        $Codigos_all=DB::table('codigos')
+        ->orderBy('color')->get();
+        return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos','Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
 
     public function act_data($cuenta, $carrera, $gen,$telefono_id)
