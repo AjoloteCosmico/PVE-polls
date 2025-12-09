@@ -232,7 +232,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
-    
+    Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
+
     Route::controller(UserController::class)->group(function(){
         Route::get('/users/give/{id}/{permission}', 'give_permission')->name('users.give');
         Route::get('/users/revoke/{id}/{permission}', 'revoke_permission')->name('users.revoke');
