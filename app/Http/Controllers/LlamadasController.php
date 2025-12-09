@@ -118,4 +118,51 @@ class LlamadasController extends Controller
             )
         );
     }
+
+
+    public function act_data_posgrado($cuenta, $programa, $plan, $telefono_id)
+    {
+        Session::put('telefono_encuesta',$telefono_id);
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $EgresadoPos = EgresadoPosgrado::where("cuenta", $cuenta)
+            ->where("programa", $programa)
+            ->where("plan", $plan)
+            ->first();
+        $Telefonos = DB::table("telefonos")
+            ->where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
+            ->get();
+        $Correos = Correo::where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
+            ->get();
+    
+        return view(
+            "muestras.posgrado.actualizar_datos_posgrado",
+            compact(
+                "TelefonoEnLlamada",
+                "EgresadoPos",
+                "Telefonos",
+                "Correos",
+                "programa",
+                "plan"
+            )
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

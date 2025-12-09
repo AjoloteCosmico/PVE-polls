@@ -130,7 +130,7 @@
 
                         <br><br><br>
 
-                        <a href="">
+                        <a href="{{route('act_data_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->programa,$EgresadoPos->plan,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
