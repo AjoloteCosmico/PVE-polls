@@ -25,7 +25,62 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class PosgradoController extends Controller
 {
-    //
+    
+     public function comenzar($correo, $cuenta, $plan)
+    {
+        $Correo = Correo::find($correo);
+        $Egresado = EgresadoPos::where("cuenta", $cuenta)
+            ->where("paln", $plan)
+            ->first();
+
+        if ($Correo->enviado == 0) {
+            $caminoalpoder = public_path();
+            $process = new Process([
+                env("PY_COMAND"),
+                $caminoalpoder . "/aviso.py",
+                $Egresado->nombre,
+                $Correo->correo,
+            ]);
+             $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                $Correo->enviado = 2;
+                $Correo->save();
+            } else {
+                $Correo->enviado = 1;
+                $Correo->save();
+            }
+            $data = $process->getOutput();
+        }
+       
+        //  dd('hasta aki');
+        $Encuesta = respuestasPosgrado::where("cuenta", "=", $cuenta)
+            ->first();
+
+        if ($Encuesta) {
+            return redirect()->route('posgrado.show', [
+                'section' => 'SEARCH',
+                'id' => $Encuesta->registro
+                
+            ]);
+        } else {
+            $Encuesta = new respuestasPosgrado();
+            $Encuesta->cuenta = $cuenta;
+            $Encuesta->nombre = $Egresado->nombre;
+            $Encuesta->paterno = $Egresado->paterno;
+            $Encuesta->materno = $Egresado->materno;
+            $Encuesta->plan = $Egresado->plan;
+            $Encuesta->anio_egreso =  $Egresado->anio_egreso;
+            $Encuesta->completed = 0;
+            $Encuesta->save();
+            return redirect()->route('edit_22', [
+                'id' => $Encuesta->registro,
+                'section' => 'pA'
+            ]);
+        }
+    }
+
      public function obtener_siguiente_seccion($current_section)
     {
         $secciones = ["pA","pB" ,"pC", "pD","pE"];

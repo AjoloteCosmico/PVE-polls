@@ -99,7 +99,7 @@
           <td>{{$c->description}} </td>
 
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2020,$TelefonoEnLlamada->id])}}"> 
+            <a href="{{route('editar_correo',[$c->id,$EgresadoPos->carrera,2020,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
@@ -114,7 +114,7 @@
                 </a>
               </td>
               <td>
-                <a href=""> 
+                <a href="{{route('comenzar_encuesta_posrado',[$c->id,$Egresado->cuenta,$Egresado->plan])}}"> 
                   <button class="boton-oscuro" > 
                     <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
                   </button>
