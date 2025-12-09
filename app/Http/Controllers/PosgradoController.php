@@ -95,13 +95,12 @@ class PosgradoController extends Controller
     
     
 
-    public function update(Request $request, $id, $section)
+    public function update(Request $request,  $section,$id)
     {
         // dd($request->all());
         // 1. Obtener los datos de la encuesta y el egresado
         $Encuesta = respuestasPosgrado::where("registro", $id)->first();
         $Egresado = EgresadoPosgrado::where("cuenta", $Encuesta->cuenta)
-            ->where("carrera", $Encuesta->nbr2)
             ->first();
 
         // 2. Asignar datos básicos
@@ -180,16 +179,124 @@ class PosgradoController extends Controller
         // 9. Redirigir a la siguiente sección
         $next_section = $this->obtener_siguiente_seccion($section);
     
-        return redirect()->route('edit_22', [
-            'id' => $Encuesta->registro,
-            'section' => $next_section
+        return redirect()->route('posgrado.show', [
+            'section' => $next_section,
+            'id' => $Encuesta->registro
         ])->with('status', 'guardado');
     }
 
     
-
-
     
+    public function validar_seccion($Encuesta, $section, $request)
+    {
+        //Cargamos los datos de Reactivos y Bloqueos
+        $AllReactivos = Reactivo::all();
+        $AllBloqueos = Bloqueo::all();
+
+        //Cargamos todas las respuestas multiples d ela encuensta 
+        $AllMultipleAnswers = multiple_option_answer::where('encuesta_id', $Encuesta->registro)->get();
+
+        //PreProcessmiento de respuestas multiples
+        $reativos_multiples_seccion_actual = $AllReactivos->where('section', $section)->where('type', 'multiple_option');
+
+        //primer bucle
+        $ReactivosAValidar = $AllReactivos->where('section', $section)
+                                      ->whereNotIn('type', ['label', 'multiple_option'])
+                                      ->sortBy('orden');
+        
+        foreach ($ReactivosAValidar as $reactivo) {
+            $bloqueado = false;
+            $field_presenter = $reactivo->clave;
+        
+            if (empty($Encuesta->$field_presenter)) {
+                $ThisBloqueos = $AllBloqueos->where('bloqueado', $field_presenter);
+
+                if ($ThisBloqueos->count() > 0) {
+                    foreach ($ThisBloqueos as $bloqueo) {
+                        $clave_reactivo_bloqueante = $bloqueo->clave_reactivo;
+                        $valor_bloqueante = $bloqueo->valor;
+
+                        $reactivoBloqueante = $AllReactivos->where('clave', $clave_reactivo_bloqueante)->first();
+                    
+                        if ($reactivoBloqueante) {
+                            if ($reactivoBloqueante->type == 'multiple_option') {
+                                
+                                $answer = $AllMultipleAnswers->where('reactivo', $clave_reactivo_bloqueante)
+                                                             ->where('clave_opcion', $valor_bloqueante)
+                                                             ->first();
+
+                                if ($answer) {
+                                    $bloqueado = true;
+                                    break;
+                                }
+                            } else {
+                                if ($Encuesta->$clave_reactivo_bloqueante == $valor_bloqueante) {
+                                $bloqueado = true;
+                                break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!$bloqueado) {
+                    Session::put('falta', $field_presenter);
+                    return false; // El campo está vacío y no está bloqueado
+                }
+            }   
+        }
+
+        //Segundo bucle para validar los reactivos de opcion multiple
+        foreach ($reativos_multiples_seccion_actual as $reactivo) {
+            $clave = $reactivo->clave;
+
+            
+            $selected_options = $AllMultipleAnswers->where('reactivo', $clave);
+                                                
+            if ($selected_options->isEmpty()) {
+                $bloqueado = false;
+                $ThisBloqueos = $AllBloqueos->where('bloqueado', $clave);
+            
+                if ($ThisBloqueos->count() > 0) {
+                    foreach ($ThisBloqueos as $bloqueo) {
+                        $clave_reactivo_bloqueante = $bloqueo->clave_reactivo;
+                        $valor_bloqueante = $bloqueo->valor;
+
+                        $reactivoBloqueante = $AllReactivos->where('clave', $clave_reactivo_bloqueante)->first();
+
+                        if ($reactivoBloqueante) {
+                            if ($reactivoBloqueante->type == 'multiple_option') {
+                                
+                                $answer = $AllMultipleAnswers->where('reactivo', $clave_reactivo_bloqueante)
+                                                            ->where('clave_opcion', $valor_bloqueante)
+                                                            ->first();
+                                if ($answer) {
+                                    $bloqueado = true;
+                                    break;
+                                }
+                            } else {
+                                if ($Encuesta->$clave_reactivo_bloqueante == $valor_bloqueante) {
+                                    $bloqueado = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!$bloqueado) {
+                    Session::put('falta', $clave);
+                    return false; // La pregunta múltiple está vacía y no está bloqueada
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+   
+
     public function validar($Encuesta, $Egresado)
     {
 

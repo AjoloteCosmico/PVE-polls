@@ -26,13 +26,13 @@ use \App\Http\Controllers\ComponentController;
     <h1>Sección {{ $section }}</h1>
     <br>
 
-    <form action="{{ route('posgrado.update', ['id' => $Encuesta->registro, 'section'=>$section]) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+    <form action="{{ route('posgrado.update', [ 'section'=>$section,'id' => $Encuesta->registro]) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
         @csrf
         <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
 
         <div class="posgrado_reactivos">
             {{-- Renderizado dinámico de los reactivos de la sección actual --}}
-            @foreach($Reactivos as $reactivo)
+            @foreach($Reactivos->sortBy('orden') as $reactivo)
                 @php
                     // 1. Verificar si el reactivo actual está bloqueado por una respuesta anterior.
                     $is_bloqueado_inicialmente = $BloqueosActivos->contains('bloqueado', $reactivo->clave);

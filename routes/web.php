@@ -242,6 +242,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::controller(PosgradoController::class)->group(function(){
        Route::get('/encuesta_posgrado/{section}/{id}', 'show')->name('posgrado.show');
        Route::post('/update_posgrado/{section}/{id}', 'update')->name('posgrado.update');
+       Route::get('posgrado_completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta_posgrado');
     });
     
 

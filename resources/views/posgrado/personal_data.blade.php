@@ -43,46 +43,46 @@
                 
                             <div class="col">
                   @if($Encuesta->sec_pa==1)
-                         <a class="btn boton-verde" id="btn-A" href="{{route('posgrado.show',['pA',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección A </a>
+                         <a class="btn boton-verde" id="btn-pA" href="{{route('posgrado.show',['pA',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección A </a>
                
                     @else
-                         <a class="btn boton-dorado" id="btn-A" href="{{route('posgrado.show',['pA',$Encuesta->registro])}}">Sección A</a>
+                         <a class="btn boton-dorado" id="btn-pA" href="{{route('posgrado.show',['pA',$Encuesta->registro])}}">Sección A</a>
                
                     @endif
                 </div>
                <div class="col">
-                  @if($Encuesta->sec_b==1)
-                         <a class="btn boton-verde" id="btn-B" href="{{route('posgrado.show',['pB',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección B </a>
+                  @if($Encuesta->sec_pb==1)
+                         <a class="btn boton-verde" id="btn-pB" href="{{route('posgrado.show',['pB',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección B </a>
                
                     @else
-                         <a class="btn boton-dorado" id="btn-B" href="{{route('posgrado.show',['pB',$Encuesta->registro])}}">Sección B</a>
+                         <a class="btn boton-dorado" id="btn-pB" href="{{route('posgrado.show',['pB',$Encuesta->registro])}}">Sección B</a>
                
                     @endif
                 </div>
                <div class="col">
-                  @if($Encuesta->sec_c==1)
-                         <a class="btn boton-verde" id="btn-C" href="{{route('posgrado.show',['pC',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección C </a>
+                  @if($Encuesta->sec_pc==1)
+                         <a class="btn boton-verde" id="btn-pC" href="{{route('posgrado.show',['pC',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección C </a>
                
                     @else
-                         <a class="btn boton-dorado" id="btn-C" href="{{route('posgrado.show',['pC',$Encuesta->registro])}}">Sección C</a>
+                         <a class="btn boton-dorado" id="btn-pC" href="{{route('posgrado.show',['pC',$Encuesta->registro])}}">Sección C</a>
                
                     @endif
                 </div>
                <div class="col">
-                  @if($Encuesta->sec_d==1)
-                         <a class="btn boton-verde" id="btn-D" href="{{route('posgrado.show',['pD',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
+                  @if($Encuesta->sec_pd==1)
+                         <a class="btn boton-verde" id="btn-pD" href="{{route('posgrado.show',['pD',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
                
                     @else
-                         <a class="btn boton-dorado" id="btn-D" href="{{route('posgrado.show',['pD',$Encuesta->registro])}}">Sección D</a>
+                         <a class="btn boton-dorado" id="btn-pD" href="{{route('posgrado.show',['pD',$Encuesta->registro])}}">Sección D</a>
                
                     @endif
                 </div>
                <div class="col">
-                  @if($Encuesta->sec_e==1)
-                         <a class="btn boton-verde" id="btn-E" href="{{route('posgrado.show',['pE',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección E </a>
+                  @if($Encuesta->sec_pe==1)
+                         <a class="btn boton-verde" id="btn-pE" href="{{route('posgrado.show',['pE',$Encuesta->registro])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección E </a>
                
                     @else
-                         <a class="btn boton-dorado" id="btn-E" href="{{route('posgrado.show',['pE',$Encuesta->registro])}}">Sección E</a>
+                         <a class="btn boton-dorado" id="btn-pE" href="{{route('posgrado.show',['pE',$Encuesta->registro])}}">Sección E</a>
                
                     @endif
                 </div>
@@ -99,7 +99,6 @@
                     <button class="btn boton-dorado" onclick="send_form('inconclusa')">Guardar como inconclusa</button>
                     @endif
                 </div>
-
 
             </div>
         </th>
