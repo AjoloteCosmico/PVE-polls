@@ -1,17 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+
+@php
+    // 1. Normalizacion
+    $egresadoActual = $Egresado ?? $EgresadoPos;
+    
+    // 2. Identificamos si es licenciatura o posgrado para la ruta
+    $identificador = isset($egresadoActual->carrera) ? $egresadoActual->carrera : $egresadoActual->programa;
+    
+    $rutaDestino = isset($egresadoActual->carrera) ? 'guardar_telefono' : 'guardar_telefono_pos';
+@endphp
+
+
+
 <div class="numero_telefonico">
     Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
   </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >
-    <h1>Agregar otro telefono para {{$Egresado->nombre }} </h1>
+    <h1>Agregar otro telefono para {{ $egresadoActual->nombre }} </h1>
+
     <h1></h1>
     </div>
     <br><br>
+
     <center>
-        <form action="{{ route('guardar_telefono',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route($rutaDestino, [$egresadoActual->cuenta, $identificador, $encuesta, $TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="exampleInputEmail1" style="color:white">Ingrese el nuevo teléfono (10 dígitos solo números)</label>

@@ -141,6 +141,7 @@ Route::group(['middleware' => ['auth']], function(){
     /** Telefonos */
     Route::controller(TelefonosController::class)->group(function(){
         Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'create')->name('agregar_telefono');
+        Route::get('/agregar_telefono_posgrado/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'createPos')->name('agregar_telefono_pos');
         Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_telefono');
         Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_telefono');
         Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'update')->name('actualizar_telefono');

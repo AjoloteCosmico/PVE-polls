@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Redirect;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Telefono;
 class TelefonosController extends Controller
@@ -17,6 +18,53 @@ class TelefonosController extends Controller
         
         return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta','TelefonoEnLlamada'));
     }
+
+    public function createPos($cuenta,$programa,$encuesta = null, $telefono_id = null){
+
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $EgresadoPos=EgresadoPosgrado::where('cuenta',$cuenta)->where('programa',$programa)->first();
+
+        return view('encuesta.seg20.create_telefono', compact('EgresadoPos','encuesta','TelefonoEnLlamada'));
+
+    }
+
+
+
+    public function storePos(Request $request ,$cuenta,$programa,$encuesta=0,$telefono_id){
+
+        $request->validate([
+            'telefono' => 'required|string|max:20|unique:telefonos,telefono',
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'telefono.unique' => 'Este número ya está registrado.',
+        ]);
+
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $EgresadoPos=EgresadoPosgrado::where('cuenta',$cuenta)->where('programa',$programa)->first();
+
+        $Telefono = new Telefono();
+        $Telefono->cuenta = $cuenta;
+        $Telefono->telefono = $request->telefono;
+        $Telefono->descripcion = $request->description;
+        $Telefono->status = 0;
+        $Telefono->save();
+
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true, 
+                'message' => 'Teléfono agregado correctamente',
+                'telefono' => $Telefono,
+                'redirect_url' => $redirectUrl
+            ]);
+        }
+        
+        return redirect($redirectUrl);
+
+    }
+
     
 
 
@@ -82,7 +130,7 @@ class TelefonosController extends Controller
                 return route('edit_22', [$encuesta, 'SEARCH']);
             }
         }
-        if ($Egresado->plan) {
+        if ($Egresado->plan != null) {
             dd('Posgrado');
             if ($encuesta == '2022') {
                 return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);

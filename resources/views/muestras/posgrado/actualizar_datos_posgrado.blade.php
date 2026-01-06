@@ -42,7 +42,7 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="">
+      <a href="{{ route('agregar_telefono_pos',[$EgresadoPos->cuenta,$EgresadoPos->programa, '0',$TelefonoEnLlamada->id])}}">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
@@ -114,7 +114,7 @@
                 </a>
               </td>
               <td>
-                <a href="{{route('comenzar_encuesta_posrado',[$c->id,$Egresado->cuenta,$Egresado->plan])}}"> 
+                <a href="{{route('comenzar_encuesta_posgrado',[$c->id,$EgresadoPos->cuenta,$EgresadoPos->plan])}}"> 
                   <button class="boton-oscuro" > 
                     <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
                   </button>
