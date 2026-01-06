@@ -38,7 +38,7 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono',[$EgresadoPos->cuenta,$EgresadoPos->carrera, 'posgrado', $TelefonoEnLlamada->id])}}">
+      <a href="{{ route('agregar_telefono_pos',[$EgresadoPos->cuenta,$EgresadoPos->programa, '0',$TelefonoEnLlamada->id])}}">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
