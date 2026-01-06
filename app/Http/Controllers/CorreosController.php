@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
 use App\Models\Telefono;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
-
+use Session;
 class CorreosController extends Controller
 {
     public function create($cuenta,$carrera,$encuesta,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+            $Carrera=$Egresado->programa;
+            $Plantel=$Egresado->plan;
+        }else{
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
+        }
+        
         return view('encuesta.seg20.create_correo',compact('Egresado','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
 
@@ -32,7 +40,10 @@ class CorreosController extends Controller
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
-
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+        }
+        
         $Correo=new Correo();
         $Correo->cuenta=$cuenta;
         $Correo->correo=$request->correo;
@@ -78,16 +89,28 @@ class CorreosController extends Controller
                 return route('edit_22',[$encuesta,'SEARCH']);
             }
         }
+         if ($Egresado->carrera==0) {
+            if ($encuesta == 'posgrado') {
+                return route('act_data_posgrado', [$Egresado->cuenta, $Egresado->programa,$Egresado->plan, $telefono_id]);
+            } else {
+                return route('posgrado.show', [ 'SEARCH',$encuesta]);
+            }
+        }
     }
-
 
 
     public function edit($id,$carrera,$encuesta,$telefono_id){
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$Correo->cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+            $Carrera=$Egresado->programa;
+            $Plantel=$Egresado->plan;
+        }else{
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
+        }
         return view('encuesta.seg20.editar_correo',compact('Egresado','Correo','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
 
@@ -106,33 +129,19 @@ class CorreosController extends Controller
 
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->where('carrera',$carrera)->first();
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$Correo->cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+        }
         $Correo->correo=$request->correo;
         $Correo->status=$request->status;
         $Correo->enviado=0;
         $Correo->save();
-        //TODO: parece que hay que agregar otro parametro para el caso en que viene de una encuesta 
-        if($Egresado->act_suvery==1){
-            if($encuesta == '2016'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_16',[$encuesta]);
-            }
-        }
+        
 
-        if($Egresado->muestra==3){
-            if($encuesta == '2020'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_20',[$encuesta,'SEARCH']);
-            }
-        }
-        if($Egresado->muestra==5){
-            if($encuesta == '2022'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
-            }
-        }
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+
+        return redirect($redirectUrl);
+       
    }
 
     public function direct_send($id){

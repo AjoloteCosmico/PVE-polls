@@ -480,17 +480,12 @@ public function programas_index(){
    return view('muestras.posgrado.programas_index',compact('Programas'));
 }
 
-
-
 public function index_posgrado($programa){
   $programa = urldecode($programa);
-  
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->select('plan')
     ->distinct()
     ->get();
-
-
   
   foreach ($planes as $p) {
     $queryBase = EgresadoPosgrado::where('programa', $programa)

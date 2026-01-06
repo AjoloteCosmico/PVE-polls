@@ -29,8 +29,8 @@ class PosgradoController extends Controller
      public function comenzar($correo, $cuenta, $plan)
     {
         $Correo = Correo::find($correo);
-        $Egresado = EgresadoPos::where("cuenta", $cuenta)
-            ->where("paln", $plan)
+        $Egresado = EgresadoPosgrado::where("cuenta", $cuenta)
+            ->where("plan", $plan)
             ->first();
 
         if ($Correo->enviado == 0) {
@@ -44,9 +44,11 @@ class PosgradoController extends Controller
              $process->run();
 
             if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
+                //TODO-future: return swal alert,
                 $Correo->enviado = 2;
                 $Correo->save();
+                throw new ProcessFailedException($process);
+                
             } else {
                 $Correo->enviado = 1;
                 $Correo->save();
@@ -54,7 +56,6 @@ class PosgradoController extends Controller
             $data = $process->getOutput();
         }
        
-        //  dd('hasta aki');
         $Encuesta = respuestasPosgrado::where("cuenta", "=", $cuenta)
             ->first();
 
@@ -98,7 +99,18 @@ class PosgradoController extends Controller
         $cuenta = ltrim($Egresado->cuenta, "0"); 
         $Telefonos = Telefono::where("cuenta", $cuenta)->get();
         $Correos = Correo::where("cuenta", $cuenta)->get();
-       
+        if ($section == "SEARCH"){
+            foreach (["pA", "pB", "pC", "pD", "pE"] as $sec){
+                $format_field = "sec_" . strtolower($sec);
+                if ($Encuesta->$format_field != 1){
+                    $section = $sec;
+                    break;
+                }
+            }
+            if ($section == "SEARCH"){
+                $section = "pA"; //default section
+            }
+        }       
         $Reactivos=Reactivo::where('section',$section)->get();
         $Opciones=Option::where('clave','like','%p%r')->get();
         $Bloqueos=Bloqueo::where('clave_reactivo','like','p%')->get();
@@ -130,7 +142,6 @@ class PosgradoController extends Controller
                     }
                 }
             }
-            
         }
         $Comentario = null;
         if ($section == 'pE') {
@@ -178,7 +189,7 @@ class PosgradoController extends Controller
         ->where('section', $section)
         ->get();
 
-    foreach ($reativos_multiples as $r) {
+        foreach ($reativos_multiples as $r) {
         $clave = $r->clave;
 
         // Buscar todas las opciones seleccionadas de este reactivo

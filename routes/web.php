@@ -128,7 +128,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/encuestas_2020/render/{id}/{section}', 'render')->name('render_20');
     });
 
-
     //Rutas para el controlador de la encuesta 22
     Route::controller(Encuesta22Controller::class)->group(function(){
         Route::get('/comenzar_encuesta_2022/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2022');

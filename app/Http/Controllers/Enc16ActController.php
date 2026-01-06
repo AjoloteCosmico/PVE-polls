@@ -86,8 +86,6 @@ class Enc16ActController extends Controller
         )->first()->plantel;
         $Telefonos = Telefono::where("cuenta", $Egresado->cuenta)->get();
 
-      
-        
         
         $Correos = Correo::where("cuenta", $Egresado->cuenta)->get();
         $Reactivos=Reactivo::where('rules','act')->get();
@@ -143,7 +141,10 @@ class Enc16ActController extends Controller
          ->where('reactivos.rules','act')
         ->select('bloqueos.*')
         ->get();
-        foreach($Reactivos->sortBy('act_order')->where('type','!=','label')->where('clave','!=','giro_especifico')->where('clave','!=','nota_empresa') as $reactivo){
+        foreach($Reactivos->sortBy('act_order')
+            ->where('type','!=','label')
+            ->where('clave','!=','giro_especifico')
+            ->where('clave','!=','nota_empresa') as $reactivo){
             $bloqueado=false;
             $field_presenter=$reactivo->clave;
             $logs=$logs."Checando el reactivo".$field_presenter." 
@@ -216,6 +217,7 @@ class Enc16ActController extends Controller
             $Encuesta->save();
             $Egresado->status=1;
             $Egresado->save();
+        
             //guardar los datos de la empresa si es necesario
             // $Empresa=Empresas::where('nombre',$Encuesta->ncr2)->first();
             // if(!$Empresa){

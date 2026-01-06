@@ -128,6 +128,7 @@ class LlamadasController extends Controller
             ->where("programa", $programa)
             ->where("plan", $plan)
             ->first();
+        Session::put('plan_posgrado',$plan);
         $Telefonos = DB::table("telefonos")
             ->where("cuenta", "=", $cuenta)
             ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")

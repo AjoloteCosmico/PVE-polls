@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Redirect;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Telefono;
+use Session;
 class TelefonosController extends Controller
 
 {
@@ -14,7 +16,9 @@ class TelefonosController extends Controller
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
-        
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+        }
         return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta','TelefonoEnLlamada'));
     }
     
@@ -34,7 +38,9 @@ class TelefonosController extends Controller
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
-
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+        }
         $Telefono=new Telefono();
         $Telefono->cuenta=$cuenta;
         $Telefono->telefono=$request->telefono;
@@ -82,12 +88,12 @@ class TelefonosController extends Controller
                 return route('edit_22', [$encuesta, 'SEARCH']);
             }
         }
-        if ($Egresado->plan) {
-            dd('Posgrado');
-            if ($encuesta == '2022') {
-                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
+        
+        if ($Egresado->carrera==0) {
+            if ($encuesta == 'posgrado') {
+                return route('act_data_posgrado', [$Egresado->cuenta, $Egresado->programa,$Egresado->plan, $telefono_id]);
             } else {
-                return route('edit_22', [$encuesta, 'SEARCH']);
+                return route('posgrado.show', [ 'SEARCH',$encuesta]);
             }
         }
     }
@@ -98,6 +104,9 @@ class TelefonosController extends Controller
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$Telefono->cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+        }
         return view('encuesta.seg20.editar_telefono',compact('Egresado','Telefono','encuesta','TelefonoEnLlamada'));
     }
 
@@ -117,32 +126,14 @@ class TelefonosController extends Controller
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Telefono=Telefono::find($id);
         $Egresado=Egresado::where('cuenta',$Telefono->cuenta)->where('carrera',$carrera)->first();
-        
+        if($carrera==0){
+            $Egresado=EgresadoPosgrado::where('cuenta',$Telefono->cuenta)->where('plan',Session::get('plan_posgrado'))->first();
+        }
         $Telefono->telefono=$request->telefono;
         $Telefono->descripcion=$request->description;
         // $Telefono->status=0;
         $Telefono->save();
-        if($Egresado->act_suvery==1){
-            if($encuesta == '2016'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_16',[$encuesta]);
-            }
-        }
-        
-        if($Egresado->muestra==3){
-            if($encuesta == '2020'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_20',[$encuesta,'SEARCH']);
-            }
-        }
-        if($Egresado->muestra==5){
-            if($encuesta == '2022'){
-                return redirect()->route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
-            }else{
-                return redirect()->route('edit_22',[$encuesta,'SEARCH']);
-            }
-        }
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+        return redirect($redirectUrl);
     }
 }
