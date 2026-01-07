@@ -143,6 +143,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/agregar_telefono_posgrado/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'createPos')->name('agregar_telefono_pos');
         Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_telefono');
         Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_telefono');
+        Route::post('/guardar_telefono_pos/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'storepos')->name('guardar_telefono_pos');
         Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'update')->name('actualizar_telefono');
     });
 

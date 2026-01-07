@@ -25,15 +25,16 @@ class TelefonosController extends Controller
     public function createPos($cuenta,$programa,$encuesta = null, $telefono_id = null){
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
-        $EgresadoPos=EgresadoPosgrado::where('cuenta',$cuenta)->where('programa',$programa)->first();
 
-        return view('encuesta.seg20.create_telefono', compact('EgresadoPos','encuesta','TelefonoEnLlamada'));
+        $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('programa',$programa)->firstOrFail();
+
+        return view('encuesta.seg20.create_telefono', compact('Egresado','encuesta','TelefonoEnLlamada'));
 
     }
 
 
 
-    public function storePos(Request $request ,$cuenta,$programa,$encuesta=0,$telefono_id){
+    public function storepos(Request $request ,$cuenta,$programa,$encuesta=0,$telefono_id){
 
         $request->validate([
             'telefono' => 'required|string|max:20|unique:telefonos,telefono',
@@ -44,7 +45,8 @@ class TelefonosController extends Controller
         ]);
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
-        $EgresadoPos=EgresadoPosgrado::where('cuenta',$cuenta)->where('programa',$programa)->first();
+
+        $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('programa',$programa)->first();
 
         $Telefono = new Telefono();
         $Telefono->cuenta = $cuenta;
@@ -110,39 +112,49 @@ class TelefonosController extends Controller
         return redirect($redirectUrl);
     }
 
-    protected function getRedirectUrl($Egresado, $encuesta, $telefono_id)
+
+
+    protected function getRedirectUrl($egresado, $encuesta, $telefono_id)
     {
-        if ($Egresado->act_suvery == 1) {
-            if ($encuesta == '2016') {
-                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
-            } else {
-                return route('edit_16', [$encuesta]);
+
+        $identificador = isset($egresado->programa) ? $egresado->programa : $egresado->carrera;
+
+        if (isset($egresado->carrera) && $egresado->carrera != 0) {
+
+            if ($egresado->act_suvery == 1) {
+                if ($encuesta == '2016') {
+                    return route('act_data', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
+                } else {
+                    return route('edit_16', [$encuesta]);
+                }
             }
+
+            if ($egresado->muestra == 3) {
+                if ($encuesta == '2020') {
+                    return route('act_data', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
+                } else {
+                    return route('edit_20', [$encuesta, 'SEARCH']);
+                }
+            }
+
+            if ($egresado->muestra == 5) {
+                if ($encuesta == '2022') {
+                    return route('act_data', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
+                } else {
+                    return route('edit_22', [$encuesta, 'SEARCH']);
+                }
+            }
+            
+        }
+
+        if (isset($egresado->programa)){
+            return route('act_data_posgrado', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
+            
+
+        } else {
+            return route('edit_22', [$encuesta, 'SEARCH']);
         }
     
-        if ($Egresado->muestra == 3) {
-            if ($encuesta == '2020') {
-                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
-            } else {
-                return route('edit_20', [$encuesta, 'SEARCH']);
-            }
-        }
-    
-        if ($Egresado->muestra == 5) {
-            if ($encuesta == '2022') {
-                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
-            } else {
-                return route('edit_22', [$encuesta, 'SEARCH']);
-            }
-        }
-        if ($Egresado->plan) {
-            dd('Posgrado');
-            if ($encuesta == '2022') {
-                return route('act_data', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $telefono_id]);
-            } else {
-                return route('posgrado.show', [ 'SEARCH',$encuesta]);
-            }
-        }
     }
 
 

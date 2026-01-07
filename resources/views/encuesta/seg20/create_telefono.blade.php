@@ -3,13 +3,12 @@
 @section('content')
 
 @php
-    // 1. Normalizacion
-    $egresadoActual = $Egresado ?? $EgresadoPos;
+    // Si el objeto tiene 'programa', sabemos que es de posgrado
+    $esPosgrado = isset($Egresado->programa);
     
-    // 2. Identificamos si es licenciatura o posgrado para la ruta
-    $identificador = isset($egresadoActual->carrera) ? $egresadoActual->carrera : $egresadoActual->programa;
-    
-    $rutaDestino = isset($egresadoActual->carrera) ? 'guardar_telefono' : 'guardar_telefono_pos';
+    // Definimos la ruta y el identificador
+    $rutaDestino = $esPosgrado ? 'guardar_telefono_pos' : 'guardar_telefono';
+    $identificador = $esPosgrado ? $Egresado->programa : $Egresado->carrera;
 @endphp
 
 
@@ -19,14 +18,15 @@
   </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >
-    <h1>Agregar otro telefono para {{ $egresadoActual->nombre }} </h1>
+    
+    <h1>Agregar otro telefono para {{ $Egresado->nombre }} </h1>
 
     <h1></h1>
     </div>
     <br><br>
 
     <center>
-        <form action="{{ route($rutaDestino, [$egresadoActual->cuenta, $identificador, $encuesta, $TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route($rutaDestino, [$Egresado->cuenta, $identificador, $encuesta, $TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="exampleInputEmail1" style="color:white">Ingrese el nuevo teléfono (10 dígitos solo números)</label>

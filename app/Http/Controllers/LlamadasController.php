@@ -124,11 +124,17 @@ class LlamadasController extends Controller
     {
         Session::put('telefono_encuesta',$telefono_id);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
+
         $EgresadoPos = EgresadoPosgrado::where("cuenta", $cuenta)
             ->where("programa", $programa)
-            ->where("plan", $plan)
+            //->where("plan", $plan)
             ->first();
-        Session::put('plan_posgrado',$plan);
+        
+        if (!$EgresadoPos) {
+            $EgresadoPos = EgresadoPosgrado::where("cuenta", $cuenta)->firstOrFail();
+        }
+
+        Session::put('plan_posgrado',$EgresadoPos->plan);
         $Telefonos = DB::table("telefonos")
             ->where("cuenta", "=", $cuenta)
             ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
