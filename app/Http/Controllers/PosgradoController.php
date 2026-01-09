@@ -110,7 +110,7 @@ class PosgradoController extends Controller
                 $section = "pA"; //default section
             }
         }
-               
+
         $Reactivos=Reactivo::where('section',$section)->get();
           //Si No esta graduado
             if($Egresado->grado=='NO'){
@@ -246,13 +246,15 @@ class PosgradoController extends Controller
 
         // 8. Validar la sección y actualizar el flag
         $section_field = "sec_" . strtolower($section);
-        if ($this->validar_seccion($Encuesta, $section,$request)) {
+        if ($this->validar_seccion($Encuesta, $Egresado,$section,$request)) {
             $Encuesta->$section_field = 1;
+            $Encuesta->save();
         } else {
             $Encuesta->$section_field = 0;
+            $Encuesta->save();
             return back()->with('error', 'true');
         }
-        $Encuesta->save();
+        
 
         $this->validar($Encuesta, $Egresado);
         
@@ -267,7 +269,7 @@ class PosgradoController extends Controller
 
     
     
-    public function validar_seccion($Encuesta, $section, $request)
+    public function validar_seccion($Encuesta, $Egresado,$section, $request)
     {
         //Cargamos los datos de Reactivos y Bloqueos
         $AllReactivos = Reactivo::all();
@@ -279,10 +281,28 @@ class PosgradoController extends Controller
         //PreProcessmiento de respuestas multiples
         $reativos_multiples_seccion_actual = $AllReactivos->where('section', $section)->where('type', 'multiple_option');
 
-        //primer bucle
-        $ReactivosAValidar = $AllReactivos->where('section', $section)
-                                      ->whereNotIn('type', ['label', 'multiple_option'])
-                                      ->sortBy('orden');
+        //FILTRAR REACTIVOS
+        
+        //Si No esta graduado
+        if($Egresado->grado=='NO'){
+            $ReactivosAValidar=Reactivo::where('section',$section)->whereNotIn('clave',['pbr1','pbr1otro','pbr2','pbr3','pbr4'])
+                                        ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
+        }else{
+            //GRADUADO DE DOCTORADO
+            if(str_contains($Egresado->plan, 'DOCTORADO')){
+                $ReactivosAValidar=Reactivo::where('section',$section)
+                                    ->whereNotIn('clave',['pbr5','pbr5otro','pbr6','pbr7'])
+                                    ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
+            //GRADUADO DE MAESTRIA
+            }else{
+                $ReactivosAValidar=Reactivo::where('section',$section)
+                                    ->whereNotIn('clave',['pbr3','pbr4','pbr5','pbr5otro','pbr6','pbr7'])
+                                    ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
+        
+            }
+        
+        }
+        
         
         foreach ($ReactivosAValidar as $reactivo) {
             $bloqueado = false;
@@ -381,6 +401,7 @@ class PosgradoController extends Controller
     {
 
         if ($Encuesta->sec_pa == 1 &&
+            $Encuesta->sec_pb == 1 &&
             $Encuesta->sec_pc == 1 &&
             $Encuesta->sec_pd == 1 &&
             $Encuesta->sec_pe == 1 
@@ -403,9 +424,26 @@ class PosgradoController extends Controller
             $Egresado->status = 10;
             $Encuesta->save();
             $Egresado->save();
-            
+
             Session::put('status', 'incompleta');
             return false;
+        }
+    }
+    public function terminar($id)
+    {
+        $Encuesta = respuestasPosgrado::where("registro", $id)->first();
+        $Egresado = EgresadoPosgrado::where("cuenta", $Encuesta->cuenta)
+            ->first();
+        // $this->respaldar($Encuesta->registro);
+        if ($Encuesta->completed == 1) {
+            $fileName = $Encuesta->cuenta . ".json";
+            $fileStorePath = public_path("storage/json/" . $fileName);
+
+            File::put($fileStorePath, json_encode($Encuesta));
+
+            return view("encuesta.saved", compact("Encuesta"));
+        } else {
+            return redirect()->route("muestrasposgrado.show", [$Egresado->programa,$Encuesta->plan]);
         }
     }
 }
