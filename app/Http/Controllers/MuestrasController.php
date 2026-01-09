@@ -51,10 +51,7 @@ public function plantel_index_16(){
   return view('muestras.act16.plantel_index',compact('Planteles'));
 }
 
-//public function plantel_index(){
-  //$Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
-  //return view('muestras.seg20.plantel_index',compact('Planteles'));
-//}
+
 
 public function index_general($gen,$id){
 
@@ -323,7 +320,9 @@ public function index_22($id){
   return view('muestras.seg20.index22',compact('carreras','id'));
 }
 
+
 public function plantel_index($gen){
+  
   $Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
    if ($gen==20){
     return view('muestras.plantel_index',compact('Planteles', 'gen'));
