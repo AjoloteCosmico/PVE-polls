@@ -92,7 +92,6 @@ class PosgradoController extends Controller
         return $current_section;
     }
 
-
     public function show($section,$id){
         $Encuesta=respuestasPosgrado::find($id);
         $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->first();
@@ -110,8 +109,23 @@ class PosgradoController extends Controller
             if ($section == "SEARCH"){
                 $section = "pA"; //default section
             }
-        }       
+        }
+               
         $Reactivos=Reactivo::where('section',$section)->get();
+          //Si No esta graduado
+            if($Egresado->grado=='NO'){
+                $Reactivos=Reactivo::where('section',$section)->whereNotIn('clave',['pbr1','pbr1otro','pbr2','pbr3','pbr4'])->orderBy('orden')->get();
+            }else{
+                //GRADUADO DE DOCTORADO
+                if(str_contains($Egresado->plan, 'DOCTORADO')){
+                    $Reactivos=Reactivo::where('section',$section)->whereNotIn('clave',['pbr5','pbr5otro','pbr6','pbr7'])->orderBy('orden')->get();
+               //GRADUADO DE MAESTRIA
+                }else{
+                    $Reactivos=Reactivo::where('section',$section)->whereNotIn('clave',['pbr3','pbr4','pbr5','pbr5otro','pbr6','pbr7'])->orderBy('orden')->get();
+           
+                }
+            
+            }
         $Opciones=Option::where('clave','like','%p%r')->get();
         $Bloqueos=Bloqueo::where('clave_reactivo','like','p%')->get();
         $ReactivoClaves = $Reactivos->pluck('clave');

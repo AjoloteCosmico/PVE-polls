@@ -29,12 +29,16 @@
     </div>
   </div>
   <div class="col-6 col-lg-12 table-responsive">    
-  @if($EgresadoPos->status==8)
-          <a href="">
+  
+  @if($EgresadoPos->status==8||$EgresadoPos->status==10)
+  
+      @if($EncuestaInconclusa )
+          <a href="{{route('posgrado.show',['SEARCH',$EncuestaInconclusa->registro])}}">
               <button type="button"  class="boton-dorado">
                   <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
               </button>
           </a>
+          @endif
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">

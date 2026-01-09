@@ -142,7 +142,8 @@ class LlamadasController extends Controller
         $Correos = Correo::where("cuenta", "=", $cuenta)
             ->leftJoin("codigos", "codigos.code", "=", "correos.status")
             ->get();
-    
+        $EncuestaInconclusa = respuestasPosgrado::where("cuenta", "=", $cuenta)
+            ->first();
         return view(
             "muestras.posgrado.actualizar_datos_posgrado",
             compact(
@@ -151,7 +152,7 @@ class LlamadasController extends Controller
                 "Telefonos",
                 "Correos",
                 "programa",
-                "plan"
+                "plan","EncuestaInconclusa"
             )
         );
     }
