@@ -69,18 +69,18 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
         imagen.add_header('Content-Disposition', 'inline', filename='Encuesta2021.png')
         msg.attach(imagen)
         
-    # Adjuntar la imagen de cabecera
+      # Adjuntar la imagen de cabecera
     with open('img/correo/invitacion/Cabecera_Seguimiento.jpg', 'rb') as img_file:
-        header_img = MIMEImage(img_file.read())
+        header_img = MIMEImage(img_file.read(), _subtype='jpeg')
         header_img.add_header('Content-ID', '<header_img>')
         header_img.add_header('Content-Disposition', 'inline', filename='Cabecera_Seguimiento.jpg')
         msg.attach(header_img)
     
     # Adjuntar la imagen de pie de página
-    with open('img/correo/invitacion/Pie_seguimiento.png', 'rb') as img_file:
-        footer_img = MIMEImage(img_file.read())
+    with open('img/correo/invitacion/Pie_seguimiento.jpg', 'rb') as img_file:
+        footer_img = MIMEImage(img_file.read(), _subtype='jpeg')
         footer_img.add_header('Content-ID', '<footer_img>')
-        footer_img.add_header('Content-Disposition', 'inline', filename='Pie_seguimiento.png')
+        footer_img.add_header('Content-Disposition', 'inline', filename='Pie_seguimiento.jpg')
         msg.attach(footer_img)
         
     # Configuración del servidor SMTP
