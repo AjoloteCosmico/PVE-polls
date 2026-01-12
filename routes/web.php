@@ -245,8 +245,8 @@ Route::group(['middleware' => ['auth']], function(){
        Route::get('/encuesta_posgrado/{section}/{id}', 'show')->name('posgrado.show');
        Route::post('/update_posgrado/{section}/{id}', 'update')->name('posgrado.update');
        Route::get('posgrado_completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta_posgrado');
-       Route::get('encuesta_posgrado/terminar/{id}', 'terminar')->name('terminar');
-       Route::get('encuesta_posgrado/{correo}/{cuenta}/{programa}', 'comenzar')->name('comenzar_encuesta_posgrado');
+        Route::get('term_encuesta_posgrado/terminar/{id}', 'terminar')->name('posgrado.terminar');
+        Route::get('encuesta_posgrado/{correo}/{cuenta}/{programa}', 'comenzar')->name('comenzar_encuesta_posgrado');
     });
     
 

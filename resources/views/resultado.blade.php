@@ -156,22 +156,24 @@
                     <td>{{$egp->nombre}}  {{  $egp->paterno}}  {{  $egp->materno }}   </td>
                     <td> {{$egp->cuenta}} </td>
                     <td> {{$egp->anio_egreso}} </td>
-                    <td>{{$egp->nombre_programa}}</td>     
+                    <td>{{$egp->programa}}</td>     
                     <td>{{$egp->plan}}</td>
                     <td style="background-color: {{$egp->color_codigo}};">{{$egp->estado}}<br>
                     <td>
                         @if(in_array($egp->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
-                        <a href="{{route('llamar_posgrado',['posgrado',$egp->cuenta,$egp->programa])}}">
+                        <a href="{{route('llamar_posgrado',[$egp->cuenta,$egp->plan,$egp->programa])}}">
+                            @can('ver_muestra_posgrado')
                             <button class="boton-oscuro">
                                 <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                             </button>
+                            @endcan
                         </a>
                         <br>
                             <small><strong>Fecha:</strong> {{ $egp->fecha_posgrado ?? 'N/A' }}</small><br>
                             <small><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
                             <br>
                             <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
-                            @if($egp->r_posgrado_completed != 1)
+                            @if($egp->rpos20_completed != 1)
                                 <small><strong>Encuesta Inconclusa</strong></small>
                             @endif
                         @endif
@@ -186,6 +188,7 @@
             </tbody>
         </table>
     </div>
+
     @else
         No hay egresados que mostrar
 
