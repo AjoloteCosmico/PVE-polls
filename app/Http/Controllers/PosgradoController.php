@@ -439,7 +439,7 @@ class PosgradoController extends Controller
 
             File::put($fileStorePath, json_encode($Encuesta));
 
-            return view("encuesta.saved", compact("Encuesta"));
+            return view("encuesta.saved_posgrado", compact("Encuesta"));
         } else {
             return redirect()->route("muestrasposgrado.show", [$Egresado->programa,$Encuesta->plan]);
         }
