@@ -71,10 +71,10 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
         msg.attach(imagen)
         
     # Adjuntar la imagen de cabecera
-    with open('img/correo/invitacion/Cabecera_Seguimiento.png', 'rb') as img_file:
+    with open('img/correo/invitacion/Cabecera_Seguimiento.jpg', 'rb') as img_file:
         header_img = MIMEImage(img_file.read())
         header_img.add_header('Content-ID', '<header_img>')
-        header_img.add_header('Content-Disposition', 'inline', filename='Cabecera_Seguimiento.png')
+        header_img.add_header('Content-Disposition', 'inline', filename='Cabecera_Seguimiento.jpg')
         msg.attach(header_img)
     
     # Adjuntar la imagen de pie de página

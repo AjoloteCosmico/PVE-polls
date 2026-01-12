@@ -343,12 +343,9 @@ class PosgradoController extends Controller
                 }
             }   
         }
-
         //Segundo bucle para validar los reactivos de opcion multiple
         foreach ($reativos_multiples_seccion_actual as $reactivo) {
-            $clave = $reactivo->clave;
-
-            
+            $clave = $reactivo->clave;            
             $selected_options = $AllMultipleAnswers->where('reactivo', $clave);
                                                 
             if ($selected_options->isEmpty()) {
