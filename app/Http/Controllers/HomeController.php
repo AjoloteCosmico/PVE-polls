@@ -14,6 +14,7 @@ use DB;
 use App\Models\User;
 use App\Models\Estudio;
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\Muestra;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -214,8 +215,26 @@ class HomeController extends Controller
             ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.updated_at as fecha_16', 'respuestas16.fec_capt as fechaFinal_16','respuestas20.fec_capt as fechaFinal_20', 'respuestas20.updated_at as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20', 'respuestas16.nbr2 as r16_nbr2', 'respuestas20.nbr2 as r20_nbr2', 'respuestas16.completed as r16_completed', 'respuestas20.completed as r20_completed')
             ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')   
             ->get();
+
+        // --- 2. POSGRADO (Ajustado para campos INT) ---
+$egresados_posgrado = DB::table('egresados_posgrado')
+        ->leftJoin('codigos', function($join){
+            
+            $join->on(DB::raw('CAST(codigos.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
+        })
+        ->leftJoin('respuestas20', function($join){
+            
+            $join->on(DB::raw('CAST(respuestas20.cuenta AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'));
+        })
+        ->leftJoin('users as u_posgrado', 'u_posgrado.clave', '=', 'respuestas20.aplica')
+        ->select(
+            'egresados_posgrado.*', 'egresados_posgrado.cuenta as cuenta_posgrado', 'programa as programa_posgrado', 'plan as plan_posgrado', 'codigos.description as estado', 'codigos.color_rgb as color_codigo', 'respuestas20.updated_at as fecha_20', 'respuestas20.fec_capt as fechaFinal_20', 'respuestas20.completed as rpos20_completed', 'u_posgrado.name as aplicador_posgrado')
+        ->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', substr($request->nc, 0, 6) . '%')   
+        ->get();
+        
+       
                   
-        return view('resultado',compact('egresados'));
+        return view('resultado',compact('egresados', 'egresados_posgrado'));
     }
 
 
