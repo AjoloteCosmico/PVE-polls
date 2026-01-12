@@ -5,7 +5,7 @@
     <div class="padding div" style="padding:30px;">
     <h1>Hola  {{Auth::user()->name }} </h1>   
     </div>
-    <center >
+    <center>
     <br><br>
        <h1> Encuesta guardada con exito </h1>
 <a href="{{route('encuestas.json',$Encuesta->cuenta)}}">
@@ -14,7 +14,7 @@
   </button></a>
 <br>
 
-<a href="{{route('show.posgrado',$Encuesta->registro)}}">
+<a href="{{route('posgrado.show',['SEARCH',$Encuesta->registro])}}">
        <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
   </button></a>
