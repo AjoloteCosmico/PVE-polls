@@ -75,9 +75,9 @@ class PosgradoController extends Controller
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
-            return redirect()->route('edit_22', [
-                'id' => $Encuesta->registro,
-                'section' => 'pA'
+            return redirect()->route('posgrado.show', [
+                'section' => 'pA',
+                'id' => $Encuesta->registro,                
             ]);
         }
     }
@@ -282,7 +282,7 @@ class PosgradoController extends Controller
         $reativos_multiples_seccion_actual = $AllReactivos->where('section', $section)->where('type', 'multiple_option');
 
         //FILTRAR REACTIVOS
-        
+
         //Si No esta graduado
         if($Egresado->grado=='NO'){
             $ReactivosAValidar=Reactivo::where('section',$section)->whereNotIn('clave',['pbr1','pbr1otro','pbr2','pbr3','pbr4'])
@@ -298,7 +298,6 @@ class PosgradoController extends Controller
                 $ReactivosAValidar=Reactivo::where('section',$section)
                                     ->whereNotIn('clave',['pbr3','pbr4','pbr5','pbr5otro','pbr6','pbr7'])
                                     ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-        
             }
         
         }
@@ -324,7 +323,6 @@ class PosgradoController extends Controller
                                 $answer = $AllMultipleAnswers->where('reactivo', $clave_reactivo_bloqueante)
                                                              ->where('clave_opcion', $valor_bloqueante)
                                                              ->first();
-
                                 if ($answer) {
                                     $bloqueado = true;
                                     break;
