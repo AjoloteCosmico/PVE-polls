@@ -4,7 +4,7 @@
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div">
         <h1>Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
-        <h1> ¿Deseas buscar un numero de cuenta?</h1>
+       
     </div>
 
 
@@ -134,7 +134,7 @@
     @endif
 
     {{-- SECCIÓN: EGRESADOS (POSGRADO)--}}
-    @if($egresados_posgrado->count() > 0)
+    @if($egresados_posgrado->count())
     <h1>Egresados de Posgrado</h1>
     <h3>¿Deseas hacer una nueva encuesta? </h3>
     <div class="col-6 col-sm-12 table-responsive">
@@ -202,6 +202,7 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
+        $('#tablaPosgrado').DataTable();
     } );
 </script>
 @endpush
