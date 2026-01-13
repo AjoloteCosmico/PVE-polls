@@ -126,10 +126,15 @@ class PosgradoController extends Controller
                 }
             
             }
+            foreach($Reactivos as $reactivo){
+                if($reactivo->act_description){
+                    $reactivo->description=$reactivo->act_description;
+                }
+            }
         $Opciones=Option::where('clave','like','%p%r')->get();
         $Bloqueos=Bloqueo::where('clave_reactivo','like','p%')->get();
         $ReactivoClaves = $Reactivos->pluck('clave');
-
+         
         // Obtenemos TODOS los bloqueos que son disparados por *cualquier* reactivo de la sección actual.
         // Esto es lo que necesita el JavaScript para la lógica dinámica de bloqueo/desbloqueo.
         $BloqueosSeccion = Bloqueo::whereIn('clave_reactivo', $ReactivoClaves)->get();
