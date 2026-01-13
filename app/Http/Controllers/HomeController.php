@@ -229,7 +229,8 @@ $egresados_posgrado = DB::table('egresados_posgrado')
         ->leftJoin('users as u_posgrado', 'u_posgrado.clave', '=', 'respuestas20.aplica')
         ->select(
             'egresados_posgrado.*', 'egresados_posgrado.cuenta as cuenta_posgrado', 'programa as programa_posgrado', 'plan as plan_posgrado', 'codigos.description as estado', 'codigos.color_rgb as color_codigo', 'respuestas20.updated_at as fecha_20', 'respuestas20.fec_capt as fechaFinal_20', 'respuestas20.completed as rpos20_completed', 'u_posgrado.name as aplicador_posgrado')
-        ->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', substr($request->nc, 0, 6) . '%')   
+        ->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', substr($request->nc, 0, 6) . '%')
+        ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])   
         ->get();
         
        
@@ -283,8 +284,31 @@ $egresados_posgrado = DB::table('egresados_posgrado')
                 }
             })
             ->get();
-            
-            return view('resultado',compact('egresados'));
+
+        // --- 2. POSGRADO ---
+        $egresados_posgrado = DB::table('egresados_posgrado')
+            ->leftJoin('codigos', function($join){
+                $join->on(DB::raw('CAST(codigos.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
+            })
+            ->leftJoin('respuestas20', function($join){
+                $join->on(DB::raw('CAST(respuestas20.cuenta AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'));
+            })
+            ->leftJoin('users as u_posgrado', 'u_posgrado.clave', '=', 'respuestas20.aplica')
+            ->select('egresados_posgrado.*', 'egresados_posgrado.cuenta as cuenta_posgrado', 'programa as programa_posgrado', 'plan as plan_posgrado', 'codigos.description as estado', 'codigos.color_rgb as color_codigo', 'respuestas20.updated_at as fecha_20', 'respuestas20.fec_capt as fechaFinal_20', 'respuestas20.completed as rpos20_completed', 'u_posgrado.name as aplicador_posgrado')
+            ->where(function($query) use ($partes_nombre) {
+                foreach ($partes_nombre as $parte) {
+                    $query->where(function($subQuery) use ($parte) {
+                        $subQuery->where('egresados_posgrado.nombre', 'LIKE', "%{$parte}%")
+                                ->orWhere('egresados_posgrado.paterno', 'LIKE', "%{$parte}%")
+                                ->orWhere('egresados_posgrado.materno', 'LIKE', "%{$parte}%");
+                    });
+                }
+            })
+            ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])
+            ->get();
+
+        
+            return view('resultado',compact('egresados','egresados_posgrado'));
     }
 
     public function enviar_aviso(Request $request){
