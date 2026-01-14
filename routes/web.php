@@ -88,6 +88,8 @@ Route::group(['middleware' => ['auth']], function(){
 
         Route::get('showmuestra_posgrado/{programa}','index_posgrado')->name('muestrasposgrado.index');
 
+        Route::get('revision_posgrado', 'revision_posgrado')->name('muestras.posgrado.revision_posgrado');
+
 
         Route::get('muestra_posgrado/show/{programa}/{plan}','show_posgrado')->name('muestrasposgrado.show');
 

@@ -13,6 +13,7 @@ use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
 use App\Models\respuestas2;
 
+
 use App\Models\respuestas20;
 use App\Models\respuestas16;
 use App\Models\respuestas14;
@@ -432,6 +433,37 @@ public function revision22(){
     }
     return view('muestras.seg20.revision22',compact('Encuestas'));
 }
+
+
+public function revision_posgrado(){
+
+  $Encuestas = respuestasPosgrado::leftJoin('egresados_posgrado', function($join) {
+            $join->on(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), '=', DB::raw('CAST(respuestas_posgrado.cuenta AS TEXT)'));
+            $join->on('egresados_posgrado.plan', '=', 'respuestas_posgrado.plan');
+        })
+        ->leftJoin('users', function($join) {
+            $join->on(DB::raw('CAST(users.clave AS TEXT)'), '=', DB::raw('CAST(respuestas_posgrado.aplica AS TEXT)'));
+        })
+        
+        ->select('respuestas_posgrado.*', 
+            'egresados_posgrado.nombre', 
+            'egresados_posgrado.paterno', 
+            'egresados_posgrado.materno',
+            'egresados_posgrado.programa as programa_nombre', 
+            'users.name as aplicador_nombre', 
+            'egresados_posgrado.plan',
+        )
+        ->where('respuestas_posgrado.completed', 1)
+        ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022]) // Filtro opcional de años
+        ->get();
+
+    if(Auth::user()->confidential < 2){
+        $Encuestas = $Encuestas->where('aplica', Auth::user()->clave);
+    }
+
+    return view('muestras.posgrado.revision_posgrado', compact('Encuestas'));
+  }
+
 
 
 //Revisar encuenstas de act 2016
