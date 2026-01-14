@@ -199,7 +199,7 @@ seguir prestando el servicio del sistema en l&iacute;nea que nos solicit&oacute;
 conclusi&oacute;n de su relaci&oacute;n con nosotros.</P>
 <P><STRONG>Limitar el env&iacute;o de informaci&oacute;n</STRONG></P>
 <P>  Usted puede dejar de recibir los mensajes informativos visitando 
-<U>www.pve.unam.mx/tools/unsucribe.php</U> e ingresando su direcci&oacute;n de 
+<U>www.pveaju.unam.mx/tools/unsucribe.php</U> e ingresando su direcci&oacute;n de 
 correo.</P>
 <P><STRONG>Modificaciones al Aviso de  Privacidad</STRONG></P>
 <P>  El presente aviso de privacidad puede sufrir modificaciones o 
@@ -213,8 +213,7 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 </p>
 <hr /><div style="text-align:left; font-size: 95%;">
 <p align="left">POR MI RAZA HABLAR&Aacute; EL ESP&Iacute;RITU</p>
-<p>      Ven y adquiere tu credencial de egresado en: <br />
-- Zona Cultural de C.U., edificio D, planta baja,    (a un costado del museo Universum)    de lunes a  viernes de 10:00 a 18:00 hrs.</p>
+<p>      Tramita tu credencial de egresado en: <a href="https://www.pveaju.unam.mx/credencial/>https://www.pveaju.unam.mx/credencial/</a> </p>
 <p>Informes a los tel&eacute;fonos:  5622-6057, 5622-6186  y 5622-6181 Fax: 5622-6058</p>
 </div>
 </div></body></html>
