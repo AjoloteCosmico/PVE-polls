@@ -125,9 +125,8 @@ if __name__ == '__main__':
     cuenta = sys.argv[3]
     plan = sys.argv[4]
     programa = sys.argv[5]
-    link = sys.argv[6]
 
-    enviar_encuesta(nombre, correo, cuenta, plan, programa, link)
+    enviar_encuesta(nombre,  cuenta, plan, programa,correo,)
         
         
         
