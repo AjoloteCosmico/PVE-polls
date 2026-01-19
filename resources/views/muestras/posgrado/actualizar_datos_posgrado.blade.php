@@ -117,7 +117,7 @@
                   </button>
                 </a>
               </td>
-        </tr>
+        </tr> 
         @endforeach
       </tbody>
     </table>

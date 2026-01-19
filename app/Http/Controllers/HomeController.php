@@ -388,7 +388,7 @@ $egresados_posgrado = DB::table('egresados_posgrado')
     }
 
  public function enviar_invitacion_posgrado(Request $request){
-
+        
         $link =  "https://encuestas.pveaju.unam.mx/encuesta_posgrado";
         
 
@@ -426,7 +426,7 @@ $egresados_posgrado = DB::table('egresados_posgrado')
 
         return redirect()->route('act_data_posgrado', [
             $request->cuenta,
-            $request->programae,
+            $request->programa,
             $request->plan,
             $request->telefono
         ]);
