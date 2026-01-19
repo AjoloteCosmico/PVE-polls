@@ -201,8 +201,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/invitacion14/{registro}', 'invitacion')->name('invitacion14');
         Route::get('/invitacion19/{id}', 'invitacion19')->name('invitacion19');
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
-        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}', 'enviar_encuesta')->name('enviar_encuesta');
-    });
+        Route::post('/enviar_invitacion_posgrado', 'enviar_invitacion_posgrado')->name('enviar_invitacion_posgrado');
+        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{posgrado?}', 'enviar_encuesta')->name('enviar_encuesta');
+        
+  });
 //comentario
     /**Reportes */
     Route::controller(ReportController::class)->group(function(){

@@ -213,7 +213,7 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 </p>
 <hr /><div style="text-align:left; font-size: 95%;">
 <p align="left">POR MI RAZA HABLAR&Aacute; EL ESP&Iacute;RITU</p>
-<p>      Tramita tu credencial de egresado en: <a href="https://www.pveaju.unam.mx/credencial/>https://www.pveaju.unam.mx/credencial/</a> </p>
+<p>      Tramita tu credencial de egresado en: <a href="https://www.pveaju.unam.mx/credencial/"> https://www.pveaju.unam.mx/credencial/ </a> </p>
 <p>Informes a los tel&eacute;fonos:  5622-6057, 5622-6186  y 5622-6181 Fax: 5622-6058</p>
 </div>
 </div></body></html>

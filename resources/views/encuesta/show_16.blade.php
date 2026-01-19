@@ -731,8 +731,9 @@ function rellenar_empresa(nombre,sector,giro,giro_esp){
 
     setValueWithEffect(document.getElementById('ncr2'), nombre);
     setValueWithEffect(document.getElementById('ncr3'), sector);
-    setValueWithEffect(document.getElementById('ncr4'), giro);
-    setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
+    // setValueWithEffect(document.getElementById('ncr4'), giro);
+     $('#ncr4').val(giro).trigger('change');
+    // setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
     console.log('se ha seleccionado una empresa',sector,giro);
     resultadosDiv.innerHTML = '';
 }
@@ -741,11 +742,11 @@ function update_empresa_form(){
     nombre=document.getElementById('ncr2').value;
     sector=document.getElementById('ncr3').value;
     rama=document.getElementById('ncr4').value;
-    giro=document.getElementById('giro_especifico').value;
+    // giro=document.getElementById('giro_especifico').value;
     document.getElementById('nombre_empresa').value=nombre;
     document.getElementById('rama').value=rama;
     document.getElementById('sector').value=sector;
-    document.getElementById('giro_modal').value=giro;
+    // document.getElementById('giro_modal').value=giro;
 }
 
 document.addEventListener('DOMContentLoaded', function () {

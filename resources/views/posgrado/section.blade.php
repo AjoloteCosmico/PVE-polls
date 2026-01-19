@@ -781,7 +781,8 @@ use \App\Http\Controllers\ComponentController;
     function rellenar_empresa(nombre, sector, giro, giro_esp) {
         setValueWithEffect(document.getElementById('ncr2'), nombre);
         setValueWithEffect(document.getElementById('ncr3'), sector);
-        setValueWithEffect(document.getElementById('ncr4'), giro);
+        // setValueWithEffect(document.getElementById('ncr4'), giro);
+        $('#ncr4').val(giro).trigger('change');
         setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
         console.log('se ha seleccionado una empresa', sector, giro);
         resultadosDiv.innerHTML = '';

@@ -387,15 +387,69 @@ $egresados_posgrado = DB::table('egresados_posgrado')
 
     }
 
+ public function enviar_invitacion_posgrado(Request $request){
 
-    public function enviar_encuesta($id_correo, $id_egresado,$telefono){
-        $Egresado=Egresado::find($id_egresado);   
-        $Correo=Correo::find($id_correo);
-        $Carrera = DB::table('carreras')
-        ->where('clave_carrera', '=', $Egresado->carrera)
-        ->where('clave_plantel', '=', $Egresado->plantel)
-        ->first();  
-        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera','telefono'));
+        $link =  "https://encuestas.pveaju.unam.mx/encuesta_posgrado";
+        
+
+        // Determinar el script Python que se utilizará
+
+        $script= 'invitacion_posgrado.py';
+        
+        $anio = $request->anio;
+
+    
+
+        $scriptPath = public_path($script);
+
+        $python = env('PY_COMAND');
+
+        $process = new Process([
+            $python,
+            $scriptPath,
+            $request->nombre,
+            $request->correo,
+            $request->cuenta,
+            $request->paln,
+            $request->programa,
+            $link
+        ]);
+
+        $process->run();
+
+        if(!$process->isSuccessful()){
+            throw new ProcessFailedException($process);
+        }
+
+        $output = $process->getOutput();
+
+        $egresado = EgresadoPosgrado::where('cuenta', $request->cuenta)->where('plan', $request->plan)->first();
+
+        return redirect()->route('act_data_posgrado', [
+            $request->cuenta,
+            $request->carrera_clave,
+            $request->anio,
+            $request->telefono
+        ]);
+
+    }
+
+    public function enviar_encuesta($id_correo, $id_egresado,$telefono,$posgrado=null){
+        if($posgrado!='posgrado'){
+            $Egresado=Egresado::find($id_egresado);   
+            $Correo=Correo::find($id_correo);
+            $Carrera = DB::table('carreras')
+            ->where('clave_carrera', '=', $Egresado->carrera)
+            ->where('clave_plantel', '=', $Egresado->plantel)
+            ->first();  
+        }else{
+            $Egresado=EgresadoPosgrado::find($id_egresado);   
+            $Correo=Correo::find($id_correo);
+            $Carrera = '';
+
+        }
+       
+        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera','telefono','posgrado'));
     }
 }
 
