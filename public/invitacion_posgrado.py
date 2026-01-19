@@ -41,8 +41,8 @@ def enviar_encuesta(nombre, cuenta, plan, programa, correo1):
         <h2 style="margin-top: 20px; font-size: 2vw; color:#015190; text-align: left;">Estimado Egresado</h2>
         <p style="font-size: 3vw; color:#B7812C;">{nombre}</p>
         <p style="font-size: 2vw; color:#B7812C; text-align: left;"><strong>Número de cuenta:</strong> {cuenta}</p>
-        <p style="font-size: 2vw; color:#B7812C; text-align: left;"><strong>Facultad:</strong> {programa}</p>
-        <p style="font-size: 2vw; color:#B7812C; text-align: left;"><strong>plan:</strong> {plan}</p><br>
+        <p style="font-size: 2vw; color:#B7812C; text-align: left;"><strong>Programa:</strong> {programa}</p>
+        <p style="font-size: 2vw; color:#B7812C; text-align: left;"><strong>Plan:</strong> {plan}</p><br>
         <br>
         
          <!-- IMAGEN CON LINK -->
