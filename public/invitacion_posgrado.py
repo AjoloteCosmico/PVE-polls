@@ -19,8 +19,7 @@ def validar_correo(correo):
     return re.match(patron, correo.strip()) is not None
 
 
-#Nota: podemos quitar correo2 de la funcion enviar_encuesta, ya que no se usa 
-def enviar_encuesta(nombre, cuenta, plan, programa, correo1, correo2 ):
+def enviar_encuesta(nombre, cuenta, plan, programa, correo1):
     remitente = "VINCULACION EGRESADOS UNAM <vinculacionexalumnos@exalumno.pve.unam.mx>"
     destinatario = correo1
     
