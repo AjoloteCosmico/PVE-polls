@@ -120,10 +120,10 @@ def enviar_encuesta(nombre, cuenta, plan, programa, correo1):
 #leer argumentos de la línea de comandos
 if __name__ == '__main__':
     nombre = sys.argv[1]
-    correo = sys.argv[2]
-    cuenta = sys.argv[3]
-    plan = sys.argv[4]
-    programa = sys.argv[5]
+    cuenta = sys.argv[2]
+    plan = sys.argv[3]
+    programa = sys.argv[4]
+    correo = sys.argv[5]
 
     enviar_encuesta(nombre,  cuenta, plan, programa,correo,)
         
