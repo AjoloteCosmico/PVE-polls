@@ -408,11 +408,10 @@ $egresados_posgrado = DB::table('egresados_posgrado')
             $python,
             $scriptPath,
             $request->nombre,
-            $request->correo,
             $request->cuenta,
-            $request->paln,
+            $request->plan,
             $request->programa,
-            $link
+            $request->correo,
         ]);
 
         $process->run();
