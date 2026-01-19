@@ -426,8 +426,8 @@ $egresados_posgrado = DB::table('egresados_posgrado')
 
         return redirect()->route('act_data_posgrado', [
             $request->cuenta,
-            $request->carrera_clave,
-            $request->anio,
+            $request->programae,
+            $request->plan,
             $request->telefono
         ]);
 
