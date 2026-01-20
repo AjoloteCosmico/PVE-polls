@@ -32,9 +32,8 @@
   </button></a>
   @endcan
 
-
   @can('ver_muestra_posgrado')
-  <a href="{{route('muestras.posgrado.revision_posgrado')}}">
+  <a href="{{route('muestras.posgrado.revision_posgrado')}}"> 
   <button class='boton-muestras' >
       <br><br>ENCUESTA DE POSGRADO <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="encuesta" class="icono-boton">

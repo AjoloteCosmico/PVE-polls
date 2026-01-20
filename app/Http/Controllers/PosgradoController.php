@@ -22,7 +22,6 @@ use Session;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-
 class PosgradoController extends Controller
 {
     
@@ -177,8 +176,7 @@ class PosgradoController extends Controller
                             'Reactivos','Opciones','Bloqueos','BloqueosActivos','Comentario',
                             'BloqueosSeccion','ReactivoClaves','Spoiler','section','next_section'));
     }
-    
-    
+
 
     public function update(Request $request,  $section,$id)
     {
@@ -190,8 +188,10 @@ class PosgradoController extends Controller
 
         // 2. Asignar datos básicos
         $Encuesta->aplica = Auth::user()->clave;
-        if ($Encuesta->completed =! 1)
+        if ($Encuesta->completed =! 1){
             $Encuesta->fec_capt = now()->modify("-6 hours");
+        }
+            
         // 3. Lógica para manejar el botón "Terminar Encuesta"
         if ($request->btn_pressed === 'terminar') {
             $this->validar($Encuesta, $Egresado);
