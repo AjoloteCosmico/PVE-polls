@@ -215,8 +215,8 @@ class Encuesta22Controller extends Controller
 
         // 2. Asignar datos básicos
         $Encuesta->aplica = Auth::user()->clave;
-        if ($Encuesta->completed =! 1)
-            $Encuesta->fec_capt = now()->modify("-6 hours");
+        if ($Encuesta->completed =! 1){$Encuesta->fec_capt = now()->modify("-6 hours");}
+            
         // 3. Lógica para manejar el botón "Terminar Encuesta"
         if ($request->btn_pressed === 'terminar') {
             $this->validar($Encuesta, $Egresado);
