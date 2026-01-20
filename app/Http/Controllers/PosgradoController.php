@@ -188,9 +188,7 @@ class PosgradoController extends Controller
 
         // 2. Asignar datos básicos
         $Encuesta->aplica = Auth::user()->clave;
-        if ($Encuesta->completed =! 1){
-            $Encuesta->fec_capt = now()->modify("-6 hours");
-        }
+        
             
         // 3. Lógica para manejar el botón "Terminar Encuesta"
         if ($request->btn_pressed === 'terminar') {
@@ -200,7 +198,6 @@ class PosgradoController extends Controller
 
         // 4. Actualizar la tabla de respuestas 20
         $Encuesta->update($request->except(['_token', 'btn_pressed', 'comentario', 'btnradio', 'section']));
-
 
         // 5. Manejar respuestas de opción múltiple
 
@@ -406,9 +403,11 @@ class PosgradoController extends Controller
             $Encuesta->sec_pd == 1 &&
             $Encuesta->sec_pe == 1 
             ) {
-                if($Encuesta->completed != 1){
-                    $Encuesta->fec_capt = now()->modify("-6 hours");
-                }
+                //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
+                if ($Encuesta->completed != 1){
+            $Encuesta->fec_capt = now()->modify("-6 hours");
+
+                    }
             $Encuesta->completed = 1;
             
             $Egresado->status = 1;
