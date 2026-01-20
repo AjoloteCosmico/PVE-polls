@@ -406,8 +406,11 @@ class PosgradoController extends Controller
             $Encuesta->sec_pd == 1 &&
             $Encuesta->sec_pe == 1 
             ) {
+                if($Encuesta->completed != 1){
+                    $Encuesta->fec_capt = now()->modify("-6 hours");
+                }
             $Encuesta->completed = 1;
-            $Encuesta->fec_capt = now()->modify("-6 hours");
+            
             $Egresado->status = 1;
             // Generar el archivo JSON
             $fileName = 'pos'.$Encuesta->cuenta . ".json";
