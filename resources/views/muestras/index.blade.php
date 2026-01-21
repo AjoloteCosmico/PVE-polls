@@ -6,6 +6,7 @@
     <h1>Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
     <h1> Estas son tus muestras:</h1>
   </div>
+  
   <div class="container-muestras">
     <!-- <div style="display:flex; justify-content:space-around; align-content:space-around; align-items: flex-start; margin:4.9vh; padding:5.6vh;flex-wrap: wrap"> -->
       @can('ver_muestra_actualizacion')
