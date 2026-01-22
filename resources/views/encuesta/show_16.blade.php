@@ -7,7 +7,7 @@ use \App\Http\Controllers\ComponentController;
 
 @include('encuesta.seg20.modal_create_telefono')
 @include('encuesta.seg20.modal_create_correo')
-@include('empresas.modal_create')
+@include('empresas.modal_create', ['typeStudy' => 'act'])
 <div> 
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2016 UNAM</h1>

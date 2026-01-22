@@ -7,7 +7,7 @@ use \App\Http\Controllers\ComponentController;
 {{-- {{session('logs')}} --}}
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
-@include('empresas.modal_create')
+@include('empresas.modal_create', ['typeStudy' => 'posgrado'])
 @include('encuesta.seg20.modal_create_telefono')
 @include('encuesta.seg20.modal_create_correo')
 <div>
@@ -67,20 +67,7 @@ use \App\Http\Controllers\ComponentController;
                                 'respuestas_anteriores' => $respuestas_reactivo
                             ])
 
-                        @elseif($reactivo->clave == 'ncr2')
-                            <div class="row" style="display:flex; justify-content:flex-start;">
-                                <div class="col col-lg-10">
-                                    {{-- Consulta para este reactivo específico --}}
-                                    @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
-                                    {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter, $is_bloqueado_inicialmente)}}
-                                </div>
-                                <div class="col col-lg-2">
-                                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
-                                </div>
-                                <div class="col"></div>
-                                
-                            </div>
-                            <div class="resultados-div" id="resultados"></div>
+                        
                         @else
                             {{-- Consulta para otros reactivos --}}
                             @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
@@ -89,16 +76,14 @@ use \App\Http\Controllers\ComponentController;
 
                     </div>
                 @endif
-                @if($reactivo->clave=='ngr6label')
-                <div class="column_react column_header"> <h3>¿Cuánto incrementó o adquirió esta habilidad durante la licenciatura?</h3></div>
-                
-                <div class="column_react column_header"> <h3>¿Han sido necesarios para su desempeño laboral?</h3></div>
-                
-                @endif
-                @if($reactivo->clave=='ngr131abel')
-                <div class="column_react column_header"> <h3>¿Cuánto las desarrolló durante su formación profesional?</h3></div>
-                
-                <div class="column_react column_header"> <h3>¿Qué tan necesario es para su desempeño laboral?</h3></div>
+              
+                @if($reactivo->clave=='pdr2')
+                <div class="react_container">
+                    <h3>¿Cual es el nombre de la empresa dónde trabaja?</h3>
+                    <input type="text" id="name_empresa" name="empresa" class="form-control">
+                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
+                <div class="resultados-div" id="resultados"></div>
+                </div>
                 @endif
             @endforeach
         </div>
@@ -115,7 +100,7 @@ use \App\Http\Controllers\ComponentController;
         <br><br>
         @foreach($Spoiler as $r)
          <div class="label_container" >
-                        <h3>{{$r->description}}  </h3>
+                        <h3>{{$r->act_description}}  </h3>
                     </div>
                     <br>
         @endforeach
@@ -746,6 +731,20 @@ use \App\Http\Controllers\ComponentController;
 </script>
 @endif
 
+@if($section=='pD')
+<script>
+    // 1. Localizamos el select por su ID
+const selectPdr11 = document.getElementById('pdr11');
+
+// 2. Creamos la nueva opción: new Option("Texto a mostrar", "valor")
+const nuevaOpcion = new Option("9 No deseo contestar", "9");
+
+// 3. La añadimos al final del select
+selectPdr11.add(nuevaOpcion);
+</script>
+@endif
+
+
 <script>
    
     function setValueWithEffect(element, value) {
@@ -755,8 +754,8 @@ use \App\Http\Controllers\ComponentController;
         element.value = value;
         element.classList.add('highlight');
     }
- @if($section=='C')
-    const searchBox = document.getElementById('ncr2');
+ @if($section=='pD')
+    const searchBox = document.getElementById('name_empresa');
     const resultadosDiv = document.getElementById('resultados');
 
     searchBox.addEventListener('input', function(e) {
@@ -779,22 +778,15 @@ use \App\Http\Controllers\ComponentController;
     });
     
     function rellenar_empresa(nombre, sector, giro, giro_esp) {
-        setValueWithEffect(document.getElementById('ncr2'), nombre);
-        setValueWithEffect(document.getElementById('ncr3'), sector);
-        // setValueWithEffect(document.getElementById('ncr4'), giro);
-        $('#ncr4').val(giro).trigger('change');
-        setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
+        setValueWithEffect(document.getElementById('name_empresa'), nombre);
+        
         console.log('se ha seleccionado una empresa', sector, giro);
         resultadosDiv.innerHTML = '';
     }
 
     function update_empresa_form() {
-        nombre = document.getElementById('ncr2').value;
-        sector = document.getElementById('ncr3').value;
-        rama = document.getElementById('ncr4').value;
+        nombre = document.getElementById('name_empresa').value;
         document.getElementById('nombre_empresa').value = nombre;
-        document.getElementById('rama').value = rama;
-        document.getElementById('sector').value = sector;
     }
     @endif
 

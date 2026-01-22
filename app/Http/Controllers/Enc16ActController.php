@@ -199,7 +199,6 @@ class Enc16ActController extends Controller
             ->where("carrera", $Encuesta->nbr2)
             ->first();
         $Encuesta->aplica = Auth::user()->clave;
-        $Encuesta->fec_capt = now()->modify("-6 hours");
         // $request->validate($rules);
         $Encuesta->update($request->except(["_token", "_method","giro_especifico","nota_empresa", "btn_pressed"]));
         
@@ -212,6 +211,11 @@ class Enc16ActController extends Controller
         return back()->with('status', 'guardado');
     }
         if( $this->validar($Encuesta)){
+            //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
+                if ($Encuesta->completed != 1){
+            $Encuesta->fec_capt = now()->modify("-6 hours");
+
+                    }
             $Encuesta->completed=1;
             $Encuesta->nbr7=2016;
             $Encuesta->save();

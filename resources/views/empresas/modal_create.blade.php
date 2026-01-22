@@ -11,7 +11,7 @@
       <div class="modal-body">
         @csrf
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$Encuesta->registro}}">
-        <input type="hidden" id="table" name="table" value="{{$Egresado->anio_egreso}}">
+        <input type="hidden" id="table" name="table" value="{{$typeStudy}}">
         <div class="mb-3">
           <label style="color:white;">Nombre</label>
           <input type="text" name="nombre" id="nombre_empresa" class="form-control modal-input" style=" font-size: 120%;">
