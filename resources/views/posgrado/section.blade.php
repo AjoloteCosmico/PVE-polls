@@ -80,7 +80,7 @@ use \App\Http\Controllers\ComponentController;
                 @if($reactivo->clave=='pdr2')
                 <div class="react_container">
                     <h3>¿Cual es el nombre de la empresa dónde trabaja?</h3>
-                    <input type="text" id="name_empresa" name="empresa" class="form-control">
+                    <input type="text" id="name_empresa" name="empresa" value="{{$Encuesta->empresa}}">
                     <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
                 <div class="resultados-div" id="resultados"></div>
                 </div>
