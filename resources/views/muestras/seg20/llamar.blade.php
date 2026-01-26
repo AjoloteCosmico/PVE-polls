@@ -159,25 +159,33 @@
                         <!-- TODO: hacer una ruta llamada completar encuesta -->
                     @if($Encuesta)
                         @if($gen==2020)
+                        @can('aplicar_encuesta_seguimiento')
                         <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
                             </button>
                         </a>
+                        @endcan
                         @endif
+                        
                         @if($gen==2022 && $Encuesta->completed==0)
+                        @can('aplicar_encuesta_seguimiento')
                         <a href="{{route('edit_22',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
                             </button>
                         </a>
+                        @endcan
                         @endif
+
                         @if($gen==2016)
+                        @can('aplicar_encuesta_actualizacion')
                         <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
                             </button>
                         </a>
+                        @endcan
                         @endif
                     @endif
                     </div> 

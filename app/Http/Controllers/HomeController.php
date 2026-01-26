@@ -45,6 +45,10 @@ class HomeController extends Controller
     
     public function stats()
     {
+        if (!auth()->user()->can('ver_graficas')) {
+            return redirect()->route('home')->with('error', 'No tienes acceso.');
+            }
+            
         //2022
         $encuestas20=DB::table('respuestas20')
         ->select('respuestas20.*')
@@ -78,18 +82,7 @@ class HomeController extends Controller
             return max(0, $carrera->requeridas_5 - $realizadas);
         });
         
-/*
-        $requeridas = $carreras->sum(function ($carrera) {
-            $realizadas = DB::table('respuestas20')
-                ->where('completed', '=', 1)
-                ->where('gen_dgae', '=', 2022)
-                ->whereNull('aplica2')
-                ->where('carrera', '=', $carrera->carrera_id)
-                ->count();
-            return max(0, $carrera->requeridas_5 - $realizadas);
-        });
-        
-*/
+
 
         
         $internet=$encuestas20->whereIn('aplica',['111','104','20'])->count();

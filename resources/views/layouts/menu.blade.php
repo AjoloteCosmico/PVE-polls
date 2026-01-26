@@ -6,22 +6,25 @@
         <p>Dashboard </p>
     </a>
 </li>
-@if(Auth::user()->confidential>=2)
+
+@can('ver_graficas')
 <li class="nav-item">
     <a href="{{ route('stats') }}" class="nav-link {{ Request::is('stats') ? 'active' : '' }}">
         <i class="nav-icon fas fa-chart-bar"></i>
         <p>Conteo</p>
     </a>
 </li>
-@endif
-@if(Auth::user()->confidential>=1)
+@endcan
+
+@can('ver_reactivos')
 <li class="nav-item">
     <a href="{{ route('reactivos.index') }}" class="nav-link {{ Request::is('reactivos') ? 'active' : '' }}">
         <i class="nav-icon fas fa-question"></i>
         <p>Reactivos</p>
     </a>
 </li>
-@endif
+@endcan
+
 <li class="nav-item">
     <a href="{{ route('links') }}" class="nav-link {{ Request::is('links') ? 'active' : '' }}">
         <i class="nav-icon fas fa-link"></i>
@@ -29,12 +32,15 @@
     </a>
 </li>
 
+@can('ver_recados')
 <li class="nav-item">
     <a href="{{ route('recados.index') }}" class="nav-link {{ Request::is('recados') ? 'active' : '' }}">
     <i class="fas fa-poll"></i>
         <p>Recados Lista</p>
     </a>
 </li>
+@endcan
+
 <li class="nav-item">
     <a href="{{ route('muestras.index') }}" class="nav-link {{ Request::is('muestras') ? 'active' : '' }}">
     <i class="nav-icon fas fa-table"></i>
@@ -60,12 +66,15 @@
         <p>Buscar numero  </p>
     </a>
 </li>
+@can('ver_empresas')
 <li class="nav-item">
     <a href="{{ route('empresas.index') }}" class="nav-link {{ Request::is('empresas') ? 'active' : '' }}">
         <i class="fas fa-building"></i>
         <p> Empresas   </p>
     </a>
 </li>
+@endcan
+
 <li class="nav-item">
     <a href="{{ route('switch_mode') }}" class="nav-link">
     <button  class="btn" >

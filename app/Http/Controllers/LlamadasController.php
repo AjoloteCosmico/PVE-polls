@@ -19,7 +19,12 @@ use Session;
 class LlamadasController extends Controller
 {
     public function llamar($gen,$id,$carrera){
-        
+
+        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
+            return redirect()->back()->with('error', 'No tienes permisos para la muestra ' . $gen);
+        }
+
+    
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
         ->first();
@@ -55,6 +60,10 @@ class LlamadasController extends Controller
 
     public function llamar_egresadosPosgrado($id,$plan,$programa){
 
+        if (!auth()->user()->can('ver_muestra_posgrado')) {
+            return redirect()->back()->with('error', 'No tienes permisos para la muestra de posgrado');
+        }
+
         $EgresadoPos=EgresadoPosgrado::where('cuenta', '=',$id)
         ->where('programa',$programa)
         ->where('plan',$plan)
@@ -81,6 +90,9 @@ class LlamadasController extends Controller
 
     public function act_data($cuenta, $carrera, $gen,$telefono_id)
     {
+        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
+            return redirect()->back()->with('error', 'No tienes permisos para aplicar la encuesta ' . $gen);
+        }
 
         Session::put('telefono_encuesta',$telefono_id);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
@@ -122,6 +134,10 @@ class LlamadasController extends Controller
 
     public function act_data_posgrado($cuenta, $programa, $plan, $telefono_id)
     {
+        if (!auth()->user()->can('aplicar_encuesta_posgrado')) {
+            return redirect()->back()->with('error', 'No tienes permisos para aplicar la encuesta de posgrado');
+        }
+
         Session::put('telefono_encuesta',$telefono_id);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
 
@@ -156,21 +172,6 @@ class LlamadasController extends Controller
             )
         );
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

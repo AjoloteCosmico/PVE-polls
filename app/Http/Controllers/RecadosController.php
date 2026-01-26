@@ -20,16 +20,29 @@ class RecadosController extends Controller
 
 
   public function index(){
-    $Recados=DB::table('recados')
-    ->leftJoin('codigos','codigos.code','=','recados.status')
-    ->join('telefonos','telefonos.id','=','recados.tel_id')
-    ->select('recados.*','codigos.color_rgb','codigos.description')
-    ->where('recados.user_id','=',Auth::user()->id)
-    ->select('recados.*','codigos.color_rgb','codigos.description','telefonos.telefono','telefonos.cuenta')
-    ->get();
-    $Codigos=DB::table('codigos')->where('internet','=',0)
-    ->orderBy('color')->get();
-    return view('recados.index',compact('Recados','Codigos'));
+    if(auth()->user()->can('ver_mis_recados')){
+      $Recados=DB::table('recados')
+          ->leftJoin('codigos','codigos.code','=','recados.status')
+          ->join('telefonos','telefonos.id','=','recados.tel_id')
+          ->where('recados.user_id','=',Auth::user()->id)
+          ->select('recados.*','codigos.color_rgb','codigos.description','telefonos.telefono','telefonos.cuenta')
+          ->get();
+    } elseif (auth()->user()->can('recados_global')) {
+      $Recados=DB::table('recados')
+          ->leftJoin('codigos','codigos.code','=','recados.status')
+          ->join('telefonos','telefonos.id','=','recados.tel_id')
+          ->join('users','users.id','=','recados.user_id')
+          ->select('recados.*','codigos.color_rgb','codigos.description','telefonos.telefono','telefonos.cuenta','users.name as encuestador')
+          ->orderBy('recados.fecha', 'desc')
+          ->limit(100)
+          ->get();
+    } else {
+      return redirect()->route('home')->with('error', 'No tienes acceso.');
+    }
+
+      $Codigos=DB::table('codigos')->where('internet','=',0)
+          ->orderBy('color')->get();
+          return view('recados.index',compact('Recados','Codigos'));
   }
 
     public function recado_14($id){

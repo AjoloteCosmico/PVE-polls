@@ -63,7 +63,9 @@
                 <td> 
                 <p hidden> {{$e->orden}}</p>
                 <!-- generalizar el metodo de llamada :O -->
+                 @can('aplicar_encuesta_actualizacion')
                 <a href="{{route('llamar',[2016,$e->cuenta,$e->carrera])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>             
+                @endcan
               </td>
             </tr>
             @endforeach
