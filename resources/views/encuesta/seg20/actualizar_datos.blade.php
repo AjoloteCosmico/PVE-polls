@@ -155,6 +155,7 @@
             </a>
           </td>
           @endif
+
           @if($gen==2020)
               <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
@@ -163,6 +164,7 @@
                   </button>
                 </a>
               </td>
+              @can('aplicar_encuesta_seguimiento')
               <td>
                 <a href="{{route('comenzar_encuesta_2020',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
                   <button class="boton-oscuro" > 
@@ -170,6 +172,7 @@
                   </button>
                 </a>
               </td>
+              @endcan
             @endif
             @if($gen==2022)
               <td>
@@ -179,6 +182,7 @@
                   </button>
                 </a>
               </td>
+              @can('aplicar_encuesta_seguimiento')
               <td>
                 <a href="{{route('comenzar_encuesta_2022',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
                   <button class="boton-oscuro" > 
@@ -186,6 +190,7 @@
                   </button>
                 </a>
               </td>
+              @endcan
             @endif
             @if($gen==2016)
             <td>
@@ -195,6 +200,7 @@
                   </button>
                 </a>
               </td>
+              @can('aplicar_encuesta_actualizacion')
               <td>
                 <a href="{{route('comenzar_encuesta_2016',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
                   <button class="boton-oscuro" > 
@@ -202,6 +208,7 @@
                   </button>
                 </a>
               </td>
+              @endcan
             @endif
           
         </tr>

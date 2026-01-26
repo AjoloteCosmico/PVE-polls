@@ -26,8 +26,9 @@
                 <td>{{$e->updated_at}} </td>
                 <td> {{$e->programa_nombre}}</td>
                 <td> {{$e->plan}}</td>
-                
-                <td><a href="{{route('posgrado.show',['SEARCH',$e->registro])}}"> <button class="boton-oscuro"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button></a>
+                <td>
+                  <a href="{{route('posgrado.show',['SEARCH',$e->registro])}}"> <button class="boton-oscuro"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button>
+                </a>
               </td>
             </tr>
             @endforeach

@@ -110,6 +110,7 @@
                   </button>
                 </a>
               </td>
+              @can('aplicar_encuesta_posgrado')
               <td>
                 <a href="{{route('comenzar_encuesta_posgrado',[$c->id,$EgresadoPos->cuenta,$EgresadoPos->plan])}}"> 
                   <button class="boton-oscuro" > 
@@ -117,7 +118,8 @@
                   </button>
                 </a>
               </td>
-        </tr> 
+              @endcan
+        </tr>
         @endforeach
       </tbody>
     </table>

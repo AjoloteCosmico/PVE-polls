@@ -94,13 +94,6 @@
 
 
 
-
-
-
-
-
-
-
                         <!-- 2016 -->
 
                         <!--  Checamos el estado del egresado y si esta en la muestra correspondiente del 2016 -->
@@ -138,7 +131,7 @@
     <h1>Egresados de Posgrado</h1>
     <h3>¿Deseas hacer una nueva encuesta? </h3>
     <div class="col-6 col-sm-12 table-responsive">
-        <table class="table  text-xl" id="myTable">
+        <table class="table  text-xl" id="myTablePosgrado">
             <thead>
                 <tr>
                 <th>Egresado</th>
@@ -202,7 +195,7 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
-        $('#tablaPosgrado').DataTable();
+        $('#myTablePosgrado').DataTable();
     } );
 </script>
 @endpush

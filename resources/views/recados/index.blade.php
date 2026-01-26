@@ -30,7 +30,10 @@
             <th>Recado</th>
             <th>tipo</th>
             <th>Fecha</th>
-            <th></th>
+            @can('recados_global')
+                <th>Hecho por</th>
+            @endcan
+            <th>Muestra</th>
         </tr>
     </thead>
     <tbody>
@@ -41,13 +44,12 @@
             <td> {{$r->recado}} </td>
             <td> {{$r->description}} </td>
             <td> {{$r->fecha}} </td>
+            @if(isset($r->encuestador))
+            <td>{{ $r->encuestador }}</td>
+            @endif
             <td> 
-            <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
-                            @csrf
-                            <input name="_method" type="hidden" value="DELETE">
-
-                            <button type="submit" class="btn btn-danger btn-lg" data-toggle="tooltip" title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
-                        </form>  </td>
+            
+            </td>
             
         </tr>
         @endforeach
@@ -69,9 +71,15 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
   console.log('script jalando ¿?');
-  $(document).ready(function() {
-    $('#myTable').DataTable();
-} );
+  new DataTable('#myTable', {
+    fixedHeader: true,
+    pageLength: 25,
+    scroller: true,
+    responsive: true,
+    order: [[4, 'desc'], [0, 'asc'], [1, 'asc']],
+    });
+    
+  
  </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript">
