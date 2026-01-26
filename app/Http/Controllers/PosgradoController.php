@@ -95,6 +95,7 @@ class PosgradoController extends Controller
         $Encuesta=respuestasPosgrado::find($id);
         $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->first();
         $cuenta = ltrim($Egresado->cuenta, "0"); 
+        Session::put('plan_posgrado',$Egresado->plan);
         $Telefonos = Telefono::where("cuenta", $cuenta)->get();
         $Correos = Correo::where("cuenta", $cuenta)->get();
         if ($section == "SEARCH"){

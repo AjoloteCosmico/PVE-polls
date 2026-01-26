@@ -67,6 +67,13 @@ class CorreosController extends Controller
 
     protected function getRedirectUrl($Egresado, $encuesta, $telefono_id)
     {
+        if ($Egresado->carrera==0) {
+            if ($encuesta == 'posgrado') {
+                return route('act_data_posgrado', [$Egresado->cuenta, $Egresado->programa,$Egresado->plan, $telefono_id]);
+            } else {
+                return route('posgrado.show', [ 'SEARCH',$encuesta]);
+            }
+        }
         if($Egresado->act_suvery==1){
             if($encuesta == '2016'){
                 return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
@@ -89,13 +96,7 @@ class CorreosController extends Controller
                 return route('edit_22',[$encuesta,'SEARCH']);
             }
         }
-         if ($Egresado->carrera==0) {
-            if ($encuesta == 'posgrado') {
-                return route('act_data_posgrado', [$Egresado->cuenta, $Egresado->programa,$Egresado->plan, $telefono_id]);
-            } else {
-                return route('posgrado.show', [ 'SEARCH',$encuesta]);
-            }
-        }
+         
     }
 
 
@@ -147,6 +148,23 @@ class CorreosController extends Controller
     public function direct_send($id){
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->first();
+        $caminoalpoder=public_path();
+        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }else{
+            $Correo->enviado=1;
+            $Correo->save();
+        }
+        $data = $process->getOutput();
+
+        return redirect()->back();
+ 
+ }
+ public function posgrado_direct_send($id){
+        $Correo=Correo::find($id);
+        $Egresado=EgresadoPos::where('cuenta',$Correo->cuenta)->first();
         $caminoalpoder=public_path();
         $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
         $process->run();

@@ -26,6 +26,7 @@ use App\Http\Controllers\{
     ConfigController,
     EmpresasController,
     PosgradoController,
+    EncuestaContinuaController,
     UserController
 };
 
@@ -97,6 +98,8 @@ Route::group(['middleware' => ['auth']], function(){
         //encuetsa de seguimiento 2022
         Route::get('muestras22/planteles/','plantel_index')->name('muestras22.plantel_index');
         //Route::get('muestras22/index/{id}','index_20')->name('muestras22.index');
+        
+        Route::get('muestra_rapida/show/{gen}/{carr}','show_rapida')->name('muestrasrapidas.show');
 
 
     });
@@ -176,6 +179,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/guardar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_correo');
         Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
+        Route::get('posgrado_direct_send/{id}',  'posgradp_direct_send')->name('posgrado_direct_send');
     });
     
     /** Pantalla de inicio */
@@ -251,6 +255,12 @@ Route::group(['middleware' => ['auth']], function(){
        Route::get('posgrado_completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta_posgrado');
         Route::get('term_encuesta_posgrado/terminar/{id}', 'terminar')->name('posgrado.terminar');
         Route::get('encuesta_posgrado/{correo}/{cuenta}/{programa}', 'comenzar')->name('comenzar_encuesta_posgrado');
+    });
+
+     Route::controller(EncuestaContinuaController::class)->group(function(){
+        Route::get('/encuesta_continua/{id}', 'show')->name('continua.show');
+        Route::post('/update_continua/{id}', 'update')->name('continua.update');
+       
     });
     
 

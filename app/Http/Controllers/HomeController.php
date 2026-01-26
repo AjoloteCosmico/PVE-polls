@@ -231,10 +231,7 @@ $egresados_posgrado = DB::table('egresados_posgrado')
             'egresados_posgrado.*', 'egresados_posgrado.cuenta as cuenta_posgrado', 'programa as programa_posgrado', 'plan as plan_posgrado', 'codigos.description as estado', 'codigos.color_rgb as color_codigo', 'respuestas20.updated_at as fecha_20', 'respuestas20.fec_capt as fechaFinal_20', 'respuestas20.completed as rpos20_completed', 'u_posgrado.name as aplicador_posgrado')
         ->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', substr($request->nc, 0, 6) . '%')
         ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])   
-        ->get();
-        
-       
-                  
+        ->get();      
         return view('resultado',compact('egresados', 'egresados_posgrado'));
     }
 

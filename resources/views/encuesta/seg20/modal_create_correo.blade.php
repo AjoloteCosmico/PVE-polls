@@ -108,7 +108,7 @@ $(document).ready(function() {
                 Swal.fire({
                     icon: "error",
                     title: errorTitle,
-                    html: htmlMsg,
+                    html: `<span style="color: white; font-size: 1.4rem; font-weight: bold;">` + htmlMsg+ `</span>`,
                     footer: xhr.status ? `Estado: ${xhr.status}` : ''
                 });
 
