@@ -215,8 +215,7 @@ class Encuesta22Controller extends Controller
 
         // 2. Asignar datos básicos
         $Encuesta->aplica = Auth::user()->clave;
-        if ($Encuesta->completed =! 1)
-            $Encuesta->fec_capt = now()->modify("-6 hours");
+            
         // 3. Lógica para manejar el botón "Terminar Encuesta"
         if ($request->btn_pressed === 'terminar') {
             $this->validar($Encuesta, $Egresado);
@@ -309,8 +308,13 @@ class Encuesta22Controller extends Controller
             $Encuesta->sec_f == 1 &&
             $Encuesta->sec_g == 1
             ) {
+                //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
+            if ($Encuesta->completed != 1){
+                    $Encuesta->fec_capt = now()->modify("-6 hours");
+
+                }
             $Encuesta->completed = 1;
-            $Encuesta->fec_capt = now()->modify("-6 hours");
+            
             $Egresado->status = 1;
             // Generar el archivo JSON
             $fileName = $Encuesta->cuenta . ".json";

@@ -69,12 +69,13 @@ class LlamadasController extends Controller
         ->where('plan',$plan)
         ->first();
 
-        $EncuestaPos=respuestasPosgrado::where('cuenta','=',$EgresadoPos->cuenta)->first();
+        $EncuestaPos=respuestasPosgrado::where('cuenta','=',$EgresadoPos->cuenta)->where('plan',$EgresadoPos->plan)->first();
 
         $Telefonos=DB::table('telefonos')->where('cuenta','=',$EgresadoPos->cuenta)
         ->leftJoin('codigos','codigos.code','=','telefonos.status')
         ->select('telefonos.*','codigos.color_rgb','codigos.description')
         ->get();
+        
         $Recados=DB::table('recados')->where('cuenta','=',$EgresadoPos->cuenta)
         ->orderBy('fecha','asc')
         ->leftJoin('codigos','codigos.code','=','recados.status')
@@ -85,7 +86,8 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
-        return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos','Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
+        return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos',
+        'Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
 
     public function act_data($cuenta, $carrera, $gen,$telefono_id)

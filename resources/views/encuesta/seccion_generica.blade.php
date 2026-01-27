@@ -7,7 +7,7 @@ use \App\Http\Controllers\ComponentController;
 {{-- {{session('logs')}} --}}
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
-@include('empresas.modal_create')
+@include('empresas.modal_create', ['typeStudy' => 'seg'])
 @include('encuesta.seg20.modal_create_telefono')
 @include('encuesta.seg20.modal_create_correo')
 <div>

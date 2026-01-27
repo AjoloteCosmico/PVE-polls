@@ -22,7 +22,6 @@ use Session;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-
 class PosgradoController extends Controller
 {
     
@@ -96,6 +95,7 @@ class PosgradoController extends Controller
         $Encuesta=respuestasPosgrado::find($id);
         $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->first();
         $cuenta = ltrim($Egresado->cuenta, "0"); 
+        Session::put('plan_posgrado',$Egresado->plan);
         $Telefonos = Telefono::where("cuenta", $cuenta)->get();
         $Correos = Correo::where("cuenta", $cuenta)->get();
         if ($section == "SEARCH"){
@@ -177,8 +177,7 @@ class PosgradoController extends Controller
                             'Reactivos','Opciones','Bloqueos','BloqueosActivos','Comentario',
                             'BloqueosSeccion','ReactivoClaves','Spoiler','section','next_section'));
     }
-    
-    
+
 
     public function update(Request $request,  $section,$id)
     {
@@ -190,8 +189,8 @@ class PosgradoController extends Controller
 
         // 2. Asignar datos básicos
         $Encuesta->aplica = Auth::user()->clave;
-        if ($Encuesta->completed =! 1)
-            $Encuesta->fec_capt = now()->modify("-6 hours");
+        
+            
         // 3. Lógica para manejar el botón "Terminar Encuesta"
         if ($request->btn_pressed === 'terminar') {
             $this->validar($Encuesta, $Egresado);
@@ -200,7 +199,6 @@ class PosgradoController extends Controller
 
         // 4. Actualizar la tabla de respuestas 20
         $Encuesta->update($request->except(['_token', 'btn_pressed', 'comentario', 'btnradio', 'section']));
-
 
         // 5. Manejar respuestas de opción múltiple
 
@@ -406,8 +404,13 @@ class PosgradoController extends Controller
             $Encuesta->sec_pd == 1 &&
             $Encuesta->sec_pe == 1 
             ) {
-            $Encuesta->completed = 1;
+                //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
+                if ($Encuesta->completed != 1){
             $Encuesta->fec_capt = now()->modify("-6 hours");
+
+                    }
+            $Encuesta->completed = 1;
+            
             $Egresado->status = 1;
             // Generar el archivo JSON
             $fileName = 'pos'.$Encuesta->cuenta . ".json";

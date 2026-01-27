@@ -37,7 +37,6 @@
   </div>
   @endcan
 
-
   @can('ver_muestra_posgrado')
   <div>
   <a href="{{route('muestras.posgrado.revision_posgrado')}}">
