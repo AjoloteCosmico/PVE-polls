@@ -18,14 +18,14 @@ use Illuminate\Http\Request;
 class RecadosController extends Controller
 {
 
-
   public function index(){
     if(auth()->user()->can('ver_mis_recados')){
       $Recados=DB::table('recados')
           ->leftJoin('codigos','codigos.code','=','recados.status')
           ->join('telefonos','telefonos.id','=','recados.tel_id')
+          ->join('users','users.id','=','recados.user_id')
           ->where('recados.user_id','=',Auth::user()->id)
-          ->select('recados.*','codigos.color_rgb','codigos.description','telefonos.telefono','telefonos.cuenta')
+          ->select('recados.*','codigos.color_rgb','codigos.description','telefonos.telefono','telefonos.cuenta','users.name as encuestador')
           ->get();
     } elseif (auth()->user()->can('recados_global')) {
       $Recados=DB::table('recados')

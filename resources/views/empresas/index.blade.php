@@ -115,6 +115,7 @@
     <script>
         new DataTable('#myTable', {
             paging: false,
+            order: [[1, 'asc']],
             layout: {
                 topStart: {
                     buttons: ['print','csv','excel','copy']

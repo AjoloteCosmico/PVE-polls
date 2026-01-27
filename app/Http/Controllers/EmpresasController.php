@@ -26,6 +26,7 @@ class EmpresasController extends Controller
     public function index(Request $request){
         $empresas = DB::table('empresas')
         ->select()
+        ->orderBy('nombre', 'asc')
         ->get();
         
         //dd(compact('empresas'));
