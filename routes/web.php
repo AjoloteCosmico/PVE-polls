@@ -68,9 +68,13 @@ Route::group(['middleware' => ['auth']], function(){
         
         //encuesta de act 2016
         Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
-        
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
+        //encuesta educación continua
+        Route::get('muestras_ed_continua/show/{carrera}/{plantel}/{gen}','show_continua')->name('muestras_ed_continua.show');
 
+
+
+       ////////////////////////////Rutas de revisiones///////////////////////////
         Route::get('revisiones','revisiones_index')->name('revisiones.index');//prueba
         Route::get('revision','revision')->name('muestras.seg20.revision');
         

@@ -149,7 +149,7 @@ class TelefonosController extends Controller
 
         if (isset($egresado->programa)){
            if( $encuesta !=0 ){
-                return route('edit_posgrado', [$encuesta, 'SEARCH']);
+                return route('posgrado.show', ['SEARCH',$encuesta]);
             } else {
                 return route('act_data_posgrado', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
             }
