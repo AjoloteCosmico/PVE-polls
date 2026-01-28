@@ -562,4 +562,21 @@ public function show_posgrado($programa, $plan){
   return view('muestras.posgrado.show', compact('muestra', 'programa', 'plan', 'Codigos'));
 }
 
+public function show_continua($carrera,$plantel,$gen){
+  $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
+  $muestra=DB::table('egresados')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
+    ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+    ->where('egresado_muestra.muestra_id','=',897) //ID de muestra de educación continua
+    ->where('egresados.anio_egreso','=',$gen)
+    ->leftJoin('codigos','codigos.code','=','egresados.status')
+    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+    ->get();
+
+  $Codigos=DB::table('codigos')->where('internet','=',0)
+  ->orderBy('color')->get();
+  
+  return view('muestras.ed_continua.show',compact('muestra','Carrera','Codigos','carrera','plantel','gen'));
+  
+}
+
 }
