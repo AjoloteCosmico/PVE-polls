@@ -264,8 +264,11 @@ Route::group(['middleware' => ['auth']], function(){
      Route::controller(EncuestaContinuaController::class)->group(function(){
         Route::get('/encuesta_continua/{id}', 'show')->name('continua.show');
         Route::post('/update_continua/{id}', 'update')->name('continua.update');
-       
+        Route::get('encuesta_continua_completar_encuesta/{id}','edit')->name('completar_encuesta_continua');
+        Route::post('/encuestas/continua/update/{id}', 'update')->name('encuesta_continua.update');
     });
+
+
     
 
 });
