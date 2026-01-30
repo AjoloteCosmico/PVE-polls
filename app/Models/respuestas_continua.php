@@ -9,7 +9,10 @@ class respuestas_continua extends Model
 {
     use HasFactory;
     
+    
     protected $primaryKey = 'registro';
+
+    protected $table = 'respuestas_continua';
 
     protected $guarded = ['registro'];  
 }

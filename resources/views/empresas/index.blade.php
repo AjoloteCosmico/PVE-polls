@@ -43,6 +43,9 @@
                         @if($empresa->usuario==24)	Miguel Angel Herrera Ortiz @endif
                         @if($empresa->usuario==25)	Amanda Vega García @endif
                         @if($empresa->usuario==26)	Eli Maldonado @endif
+                        @if($empresa->usuario==27)  Alondra Fernanda Arizabalo Espejel @endif
+                        @if($empresa->usuario==28)  Ana Karen Sanchez Martinez @endif
+                        @if($empresa->usuario==29)  Alejandro Juárez Vizcarra @endif
                     </td>
                     <td>{{ $empresa->nombre }}</td>
                     <td>{{ $empresa->clave_giro }}</td>
