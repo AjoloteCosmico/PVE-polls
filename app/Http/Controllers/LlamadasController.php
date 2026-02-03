@@ -133,6 +133,49 @@ class LlamadasController extends Controller
         );
     }
 
+    public function act_data_continua($cuenta, $carrera, $gen,$telefono_id)
+    {
+        if (!auth()->user()->can('aplicar_encuesta_continua')) {
+            return redirect()->back()->with('error', 'No tienes permisos para aplicar la encuesta continua');
+        }
+
+        Session::put('telefono_encuesta',$telefono_id);
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Egresado = Egresado::where("cuenta", $cuenta)
+            ->where("carrera", $carrera)
+            ->first();
+        $Telefonos = DB::table("telefonos")
+            ->where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
+            ->get();
+        $Correos = Correo::where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
+            ->get();
+        $Carrera = Carrera::where(
+            "clave_carrera",
+            "=",
+            $Egresado->carrera
+        )->first()->carrera;
+        $Plantel = Carrera::where(
+            "clave_plantel",
+            "=",
+            $Egresado->plantel
+        )->first()->plantel;
+    
+        return view(
+            "muestras.ed_continua.actualizar_datos_continua",
+            compact(
+                "TelefonoEnLlamada",
+                "Egresado",
+                "Telefonos",
+                "Correos",
+                "Carrera",
+                "Plantel",
+                "gen"
+            )
+        );
+    }
+
 
     public function act_data_posgrado($cuenta, $programa, $plan, $telefono_id)
     {
