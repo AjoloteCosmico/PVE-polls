@@ -59,6 +59,7 @@
                 @if($carrera==0)
             <td> {{$e->name_carrera}} </td>
             @endif
+            
                <td>{{$e->llamadas}} </td>
                <td>{{$e->anio_egreso}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
