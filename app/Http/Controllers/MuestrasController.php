@@ -53,7 +53,6 @@ public function plantel_index_16(){
 }
 
 
-
 public function index_general($gen,$id){
 
   //CHECA GENERACION 2016
@@ -321,6 +320,59 @@ public function index_22($id){
   return view('muestras.seg20.index22',compact('carreras','id'));
 }
 
+public function index_ed_continua($id){
+ 
+  $carreras=DB::table('egresados')
+      ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+      ->where('egresado_muestra.muestra_id','=',897)//ID de muestra de educación continua
+      ->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+  })
+  ->where('carreras.clave_plantel',$id)
+  ->select('carreras.carrera','carreras.plantel','egresados.plantel as p','egresados.carrera as c')
+  ->distinct()
+  ->get();
+  if($id==0){
+    $carreras=DB::table('egresados')
+      ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+      ->where('egresado_muestra.muestra_id','=',897)//ID de muestra de educación continua
+      ->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+  })
+  ->select('carreras.carrera','carreras.plantel')
+  ->distinct()
+  ->get();
+  }
+
+  foreach($carreras as $c){
+    // Partes comunes de la consulta base
+    $queryBase = DB::table('egresados')
+    ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->select('egresado_muestra.*')
+    ->get();
+
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->where('status', 1)
+    ->count();
+
+    // Encuestas por internet
+    $c->nencuestas_int = $queryBase
+    ->where('status', 2)
+    ->count();
+
+    // Encuestas requeridas
+    $c->requeridas = $queryBase
+    ->count();
+  }
+  // dd($carreras);
+  // $carreras=collect($carreras);
+  return view('muestras.ed_continua.index',compact('carreras'));
+}
 
 public function plantel_index($gen){
   
@@ -562,20 +614,33 @@ public function show_posgrado($programa, $plan){
   return view('muestras.posgrado.show', compact('muestra', 'programa', 'plan', 'Codigos'));
 }
 
-public function show_continua($carrera,$plantel,$gen){
+public function ed_continua_plantel_index(){
+  $Planteles=DB::table('egresados')
+      ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+      ->where('muestra_id',897)//ID de muestra de educación continua
+      ->join('carreras','egresados.plantel','carreras.clave_plantel')
+      ->select('carreras.plantel','carreras.clave_plantel',)
+      ->distinct()->get();
+  // dd($planteles);
+  return view('muestras.ed_continua.plantel_index',compact('Planteles'));
+}
+
+
+
+public function show_continua($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
   $muestra=DB::table('egresados')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
     ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
     ->where('egresado_muestra.muestra_id','=',897) //ID de muestra de educación continua
-    ->where('egresados.anio_egreso','=',$gen)
-    ->leftJoin('codigos','codigos.code','=','egresados.status')
-    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+
+    ->leftJoin('codigos','codigos.code','=','egresado_muestra.status')
+    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden','codigos.code as codigo_status')
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
   
-  return view('muestras.ed_continua.show',compact('muestra','Carrera','Codigos','carrera','plantel','gen'));
+  return view('muestras.ed_continua.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
   
 }
 

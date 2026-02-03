@@ -6,7 +6,7 @@
     <div >
      <div class='row'>
       <div class='col'><h1 class="text-white-25" >  @if($carrera>0) {{$Carrera->carrera}} @endif </h1> 
-    <h1 class="text-white-25" >{{$Carrera->plantel}} Generación: {{$gen}} </h1> 
+    <h1 class="text-white-25" >{{$Carrera->plantel}} </h1> 
     </div>
       <div class='col'>
           <a href="{{route('muestras16.index',$plantel)}}">
@@ -43,6 +43,7 @@
             @if($carrera==0)
             <th> Carrera</th>
             @endif
+            <th>Gen</th>
             <th>llamadas</th>
             <th>status</th>
             <th> </th>
@@ -59,6 +60,7 @@
             <td> {{$e->name_carrera}} </td>
             @endif
                <td>{{$e->llamadas}} </td>
+               <td>{{$e->anio_egreso}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
                 <p hidden> {{$e->orden}}</p>

@@ -19,10 +19,10 @@
         <div class="mb-3">
           <label style="color:white;">Sector</label>
           <select name="sector" id="sector"  class="form-control modal-input" style=" font-size: 120%;" >
-                <option value="">seleccione </option>
-                <option value="1"  >   Pública</option>
-                <option value="2"  >   Privada</option>
-                <option value="3"  >   Social</option>
+                <option value=""> seleccione </option>
+                <option value="1" >   Pública</option>
+                <option value="2" >   Privada</option>
+                <option value="3" >   Social</option>
           </select>
         </div>
         

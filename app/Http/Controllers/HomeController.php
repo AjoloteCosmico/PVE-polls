@@ -392,8 +392,6 @@ $egresados_posgrado = DB::table('egresados_posgrado')
         
         $anio = $request->anio;
 
-    
-
         $scriptPath = public_path($script);
 
         $python = env('PY_COMAND');

@@ -51,7 +51,16 @@
     </a>
     </div>
     @endcan
-
+@can('ver_muestra_ed_continua')
+       <div>
+        <a href="{{route('ed_continua.planteles') }}">
+          <button class='boton-muestras' >
+            <br><br>ENCUESTA DE EDUCACIÓN CONTINUA <br><br><br>
+            <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton">
+          </button>
+        </a>
+      </div>
+      @endcan
   </div>
 </div>
     @endsection
@@ -67,6 +76,7 @@
   .container-muestras div { 
     padding: 10px;
     text-align: center;
+    width: 20vw;
   }
     </style>
 @endpush
