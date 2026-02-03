@@ -44,12 +44,12 @@
             <td> {{$r->recado}} </td>
             <td> {{$r->description}} </td>
             <td> {{$r->fecha}} </td>
+            @can('recados_global')
             @if(isset($r->encuestador))
             <td>{{ $r->encuestador }}</td>
             @endif
-            <td> 
-            
-            </td>
+            @endcan
+            <td> {{$r->type}} </td>
             
         </tr>
         @endforeach

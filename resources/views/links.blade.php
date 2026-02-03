@@ -9,18 +9,8 @@
     </div>
     <center >
     <div class="cuadro-azul">
-        <div class="row link-card cuadro-amarillo"> 
-            <div class="col cuadro-amarillo">
-                <h3>Actualizacion 2014 internet</h3><br>
-                <a href="https://www.pveaju.unam.mx/encuesta/01/act_14/encuesta_actualizacion.php">https://www.pveaju.unam.mx/encuesta/01/act_14/encuesta_actualizacion.php</a>
-            </div>
-        </div>
-        <div class="row link-card cuadro-amarillo"> 
-            <div class="col cuadro-amarillo">
-                <h3>Actualizacion 2014 Telefonica</h3><br>
-                <a href="https://www.pveaju.unam.mx/encuesta/01/act_14/tel_act1_6.php">https://www.pveaju.unam.mx/encuesta/01/act_14/tel_act1_6.php</a>
-            </div>
-        </div>
+        
+        
         <div class="row link-card cuadro-amarillo"> 
             <div class="col cuadro-amarillo">
                 <h3>Página del seguimiento</h3><br>
@@ -31,6 +21,12 @@
             <div class="col cuadro-amarillo">
                 <h3>Encuesta por Internet General 2020</h3><br>
                 <a href="https://encuestas.pveaju.unam.mx/encuesta_generacion/2020"> https://encuestas.pveaju.unam.mx/encuesta_generacion/2020</a>
+            </div>
+        </div>
+        <div class="row link-card cuadro-amarillo"> 
+            <div class="col cuadro-amarillo">
+                <h3>Encuesta por Internet General 2022</h3><br>
+                <a href="https://encuestas.pveaju.unam.mx/encuesta_generacion/2022"> https://encuestas.pveaju.unam.mx/encuesta_generacion/2022</a>
             </div>
         </div>
         <div class="row link-card cuadro-amarillo"> 

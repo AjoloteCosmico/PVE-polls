@@ -1,3 +1,8 @@
+@php
+    // Si la variable no viene desde el controlador, la creamos vacía
+    $respuestas_anteriores = $respuestas_anteriores ?? [];
+@endphp
+
 <div class="container" name="{{$Reactivo->clave}}" style="color:white;">
     @foreach($Opciones->sortBy('orden') as $opcion)
         <div class="form-check">
