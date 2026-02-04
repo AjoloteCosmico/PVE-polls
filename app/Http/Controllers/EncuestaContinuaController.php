@@ -52,10 +52,51 @@ class EncuestaContinuaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(respuestas_continua $respuestas_continua)
+    public function comenzar($correo, $cuenta, $carrera)
     {
-        //
+        $Correo = Correo::find($correo);
+        $Egresado = Egresado::where("cuenta", $cuenta)
+            ->where("carrera", $carrera)
+            ->first();
+        if ($Correo->enviado == 0) {
+            $caminoalpoder = public_path();
+            $process = new Process([
+                env("PY_COMAND"),
+                $caminoalpoder . "/aviso.py",
+                $Egresado->nombre,
+                $Correo->correo,
+            ]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                $Correo->save();
+            } else {
+                $Correo->enviado = 1;
+                $Correo->save();
+            }
+            $data = $process->getOutput();
+        }
+
+        $Encuesta = respuestas_continua::where("cuenta", $cuenta)
+            ->where("nbr2", $carrera)
+            ->first();
+        if (!$Encuesta) {
+            $Encuesta = new respuestas_continua();
+            $Encuesta->cuenta = $cuenta;
+            $Encuesta->cuenta = $Egresado->nombre;
+            $Encuesta->paterno = $Egresado->paterno;
+            $Encuesta->materno = $Egresado->materno;
+            $Encuesta->nombre = $Egresado->nombre;
+            $Encuesta->nombre = $Egresado->nombre;
+            $Encuesta->nbr2 = $carrera;
+            $Encuesta->nbr3 = $Egresado->plantel;
+            $Encuesta->completed = 0;
+            $Encuesta->save();
+        }
+        return redirect()->route('completar_encuesta_continua', [$Encuesta->registro]);
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

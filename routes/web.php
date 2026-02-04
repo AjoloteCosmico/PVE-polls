@@ -174,6 +174,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/2014/marcar/{id}', 'marcar_14')->name('marcar_14');
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
         Route::post('/encuestaPosgrado/marcar/{telid}/{egid}', 'marcar_posgrado')->name('marcar_posgrado');
+        Route::post('/encuestas/continua/marcar/{telid}/{egid}', 'marcar_continua')->name('marcar_continua');
     });
 
     /**Correos */
@@ -243,6 +244,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
+    Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
@@ -267,6 +269,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/update_continua/{id}', 'update')->name('continua.update');
         Route::get('encuesta_continua_completar_encuesta/{id}','edit')->name('completar_encuesta_continua');
         Route::post('/encuestas/continua/update/{id}', 'update')->name('encuesta_continua.update');
+         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_continua');
     });
 
 
