@@ -58,13 +58,20 @@ class EncuestaContinuaController extends Controller
         if (!$Encuesta) {
             $Encuesta = new respuestas_continua();
             $Encuesta->cuenta = $cuenta;
-            $Encuesta->cuenta = $Egresado->nombre;
             $Encuesta->paterno = $Egresado->paterno;
             $Encuesta->materno = $Egresado->materno;
             $Encuesta->nombre = $Egresado->nombre;
-            $Encuesta->nombre = $Egresado->nombre;
             $Encuesta->nbr2 = $carrera;
             $Encuesta->nbr3 = $Egresado->plantel;
+            
+            $Encuesta->anio_egresp = $Egresado->anio_egreso;
+            $Encuesta->carrera = Carrera::where(
+                "clave_carrera",
+                "=",
+                $Egresado->carrera
+            )
+                ->first()
+                ->carrera;
             $Encuesta->completed = 0;
             $Encuesta->save();
         }

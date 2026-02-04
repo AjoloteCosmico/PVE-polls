@@ -82,8 +82,9 @@
                     <thead>
                         <tr>
                             <th>Recado</th>
-                            <th>tipo</th>
+                            <th>Status</th>
                             <th>Fecha</th>
+                            <th>Tipo</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -94,6 +95,7 @@
                                 <td> {{$r->recado}} </td>
                                 <td> {{$r->description}} </td>
                                 <td> {{$r->fecha}} </td>
+                                <td> {{$r->type}} </td>
                                 <td> 
                                     <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
                                         @csrf
