@@ -25,41 +25,6 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class EncuestaContinuaController extends Controller
 {
     
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(respuestas_continua $respuestas_continua)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $Encuesta=respuestas_continua::find($id);
@@ -114,7 +79,7 @@ class EncuestaContinuaController extends Controller
         $Encuesta->update($request->except(['_token', 'btn_pressed', 'aplica']));
 
         $reactivos_multiples = Reactivo::where('type', 'multiple_option')
-                                   ->where('section', 'ed_continua') 
+                                   ->where('section', 'ed_continua')
                                    ->get();
 
         foreach ($reactivos_multiples as $r) {
@@ -158,8 +123,13 @@ class EncuestaContinuaController extends Controller
                     }
             $Encuesta->completed=1;
             $Encuesta->save();
-            $Egresado->status=1;
-            $Egresado->save();
+            $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->first();
+            $EgMuestra->status=1;
+            // dd($EgMuestra);
+            $EgMuestra->save();
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
@@ -170,8 +140,13 @@ class EncuestaContinuaController extends Controller
             if($Encuesta->completed!=1){
                 $Encuesta->save();
             }
-            $Egresado->status=10;
-            $Egresado->save();
+            $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->first();
+            $EgMuestra->status=10;
+            // dd($EgMuestra);
+            $EgMuestra->save();
             if($request->btn_pressed == "inconclusa"){
 
                 return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);

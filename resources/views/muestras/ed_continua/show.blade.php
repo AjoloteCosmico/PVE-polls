@@ -49,7 +49,7 @@
             <th> </th>
           </tr>
           </thead>
-          <tbody>
+          <tbody> 
             @foreach($muestra as $e)
             <tr style="background-color: {{$e->color_rgb}}; ">
                 <td>{{$e->nombre}} </td>
@@ -59,9 +59,9 @@
                 @if($carrera==0)
             <td> {{$e->name_carrera}} </td>
             @endif
-            
-               <td>{{$e->llamadas}} </td>
+
                <td>{{$e->anio_egreso}} </td>
+               <td>{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
                 <p hidden> {{$e->orden}}</p>

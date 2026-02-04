@@ -621,7 +621,7 @@ public function ed_continua_plantel_index(){
       ->join('carreras','egresados.plantel','carreras.clave_plantel')
       ->select('carreras.plantel','carreras.clave_plantel',)
       ->distinct()->get();
-  // dd($planteles);
+
   return view('muestras.ed_continua.plantel_index',compact('Planteles'));
 }
 
