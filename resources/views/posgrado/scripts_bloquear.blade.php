@@ -72,7 +72,7 @@ array_bloqueos={
                   }
                 
                 }
-                 
+            $('[id^="'+involucrado+'-"]').prop('disabled', false);      
             });
         }
 
@@ -104,12 +104,14 @@ array_bloqueos={
                     radio_button_divs=contenedor_bloqueado.querySelectorAll(`.rating-option-wrapper`);
                     // console.log('Radio buttons a bloquear: ', radio_buttons);
                     radio_button_divs.forEach(radio => {
-                        radio.style.backgroundColor = '#252E56';
+                        radio.style.backgroundColor = '#08090a';
                     });
                     }
-                    
+                //si hay checkboxes
+                $('[id^="'+bloqueado+'-"]').prop('disabled', true);    
 
                 });
+                
             }
         });
 

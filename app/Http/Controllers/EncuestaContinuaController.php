@@ -110,26 +110,40 @@ class EncuestaContinuaController extends Controller
 
         if($request->btn_pressed === 'guardar'){
             $this->validar($Encuesta);
+ 
             if($Encuesta->completed != 1){
                 $Encuesta->save();
+                $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->first();
+            if($EgMuestra){
+                $EgMuestra->status=10;
+                $EgMuestra->save();
+            }
+            }else{
+                 $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->update(['status' => 1]);
+           
             }
             return back()->with('status', 'guardado');
         }
 
         if($this->validar($Encuesta)){
+            
             if ($Encuesta->completed != 1){
             $Encuesta->fec_capt = now()->modify("-6 hours");
 
                     }
             $Encuesta->completed=1;
             $Encuesta->save();
+            $Encuesta->save();
             $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->first();
-            $EgMuestra->status=1;
-            // dd($EgMuestra);
-            $EgMuestra->save();
+                        ->update(['status' => 1]);
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
@@ -137,18 +151,22 @@ class EncuestaContinuaController extends Controller
             return view("encuesta.saved", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
+          
             if($Encuesta->completed!=1){
                 $Encuesta->save();
+                $Encuesta->save();
+                $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua|    
+                        ->update(['status' => 1]);
             }
-            $EgMuestra=DB::table('egresado_muestra')
+            $Encuesta->save();
+                
+            if($request->btn_pressed == "inconclusa"){
+                $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->first();
-            $EgMuestra->status=10;
-            // dd($EgMuestra);
-            $EgMuestra->save();
-            if($request->btn_pressed == "inconclusa"){
-
+                        ->update(['status' => 10]);
                 return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
             }
             return back();
