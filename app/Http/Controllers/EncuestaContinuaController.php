@@ -64,7 +64,7 @@ class EncuestaContinuaController extends Controller
             $Encuesta->nbr2 = $carrera;
             $Encuesta->nbr3 = $Egresado->plantel;
             
-            $Encuesta->anio_egresp = $Egresado->anio_egreso;
+            $Encuesta->anio_egreso = $Egresado->anio_egreso;
             $Encuesta->carrera = Carrera::where(
                 "clave_carrera",
                 "=",
