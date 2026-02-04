@@ -13,7 +13,8 @@ use \App\Http\Controllers\ComponentController;
     <br><br><br>
 <div>
     <div class="titulos">
-            <h1>ENCUESTA DE EDUCACION CONTINUA UNAM</h1>
+            <h1>ENCUESTA DE EDUCACION CONTINUA UNAM {{session('status') }}
+</h1>
         </div>
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
     <form action="{{ url('encuestas/continua/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
@@ -59,20 +60,7 @@ use \App\Http\Controllers\ComponentController;
                 ])
 
             
-            @elseif($reactivo->clave == 'ncr2') 
-                <div class="row" style="display:flex; justify-content:flex-start;"> 
-                    <div class="col col-lg-10">
-                        {{ComponentController::RenderReactive($reactivo, $opciones, $Encuesta->$field_presenter)}}
-                    </div>
-                    @can('crear_empresa_encuesta')
-                        <div class="col col-lg-2"> 
-                            <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> 
-                                <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva 
-                            </button>
-                        </div>
-                    @endcan
-                </div>
-                <div class="resultados-div" id="resultados"></div>
+            
 
             
             @else 
@@ -693,7 +681,8 @@ function send_form(value){
 
 @include('posgrado.scripts_bloquear')
 
-@if(session('status')=='incompleta')
+@if(session('status')=='incompleta') 
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
   Swal.fire({
@@ -709,118 +698,6 @@ function send_form(value){
 </script>
 @endif
 
-
-<script>
-function setValueWithEffect(element, value) {
-    console.log('setting value');
-  // Quitar la clase si ya existe
-  element.classList.remove('highlight');
-  
-  // Forzar reinicio de la animación (truco de reflow)
-  void element.offsetWidth;
-  
-  // Asignar el nuevo valor
-  element.value = value;
-  
-  // Aplicar el efecto
-  element.classList.add('highlight');
-}
- const searchBox = document.getElementById('ncr2');
-const resultadosDiv = document.getElementById('resultados');
-
-searchBox.addEventListener('input', function(e) {
-    const searchTerm = e.target.value;
-    
-    if (searchTerm.length < 2) {
-        resultadosDiv.innerHTML = '';
-        return;
-    }
-
-    // Enviar solicitud AJAX
-    fetch(`/search_empresa?q=${encodeURIComponent(searchTerm)}`)
-        .then(response => response.json())
-        .then(data => {
-            resultadosDiv.innerHTML = '';
-            data.forEach(item => {
-                
-                const nombre = item.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
-            });
-        })
-        .catch(error => console.error('Error:', error));
-});
-
-function rellenar_empresa(nombre,sector,giro,giro_esp){
-
-    // document.getElementById('ncr2').value=nombre;
-    // document.getElementById('ncr3').value=sector;
-    // document.getElementById('ncr4').value=giro;
-    // document.getElementById('giro_especifico').value=giro_esp;
-
-    setValueWithEffect(document.getElementById('ncr2'), nombre);
-    setValueWithEffect(document.getElementById('ncr3'), sector);
-    // setValueWithEffect(document.getElementById('ncr4'), giro);
-     $('#ncr4').val(giro).trigger('change');
-    // setValueWithEffect(document.getElementById('giro_especifico'), giro_esp);
-    console.log('se ha seleccionado una empresa',sector,giro);
-    resultadosDiv.innerHTML = '';
-}
-
-function update_empresa_form(){
-    nombre=document.getElementById('ncr2').value;
-    sector=document.getElementById('ncr3').value;
-    rama=document.getElementById('ncr4').value;
-    // giro=document.getElementById('giro_especifico').value;
-    document.getElementById('nombre_empresa').value=nombre;
-    document.getElementById('rama').value=rama;
-    document.getElementById('sector').value=sector;
-    // document.getElementById('giro_modal').value=giro;
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    
-    const ner1 = document.getElementById('ner1');
-
-    if (ner1) {
-        ner1.addEventListener('change', function () {
-            if (this.value === '1') { // Si el usuario elige "Sí"
-                const reactivosObjetivo = ['ner2', 'ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
-
-                reactivosObjetivo.forEach(id => {
-                    const select = document.getElementById(id);
-                    if (select && !select.value) {
-                        select.value = '2'; // Forzar "No"
-                    }
-                });
-            }
-        });
-    }
-
-
-@if($Encuesta->ncr24!=14)
-    checkBloqueos('ncr24');
-@endif
-@if($Encuesta->ncr22==2)
-    checkBloqueos('ncr22');
-@endif
-checkBloqueos('nfr27');
-
-    // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
-    const ncr2 = document.getElementById('ncr2');
-    if (ncr2 && ncr2.value.trim().length >= 2) {
-        fetch(`/search_empresa?q=${encodeURIComponent(ncr2.value.trim())}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                const item = data[0]; // asumimos el primer match
-                rellenar_empresa(item.nombre, item.sector, item.clave_giro, item.giro_especifico);
-            }
-        })
-        .catch(error => console.error('Error al buscar empresa al cargar:', error));
-    }
-
-    });
-</script>
 <script>
     $(document).ready(function() {
     // 1. Obtener el número de opciones

@@ -25,6 +25,54 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class EncuestaContinuaController extends Controller
 {
     
+    
+
+    public function comenzar($correo, $cuenta, $carrera)
+    {
+        $Correo = Correo::find($correo);
+        $Egresado = Egresado::where("cuenta", $cuenta)
+            ->where("carrera", $carrera)
+            ->first();
+        if ($Correo->enviado == 0) {
+            $caminoalpoder = public_path();
+            $process = new Process([
+                env("PY_COMAND"),
+                $caminoalpoder . "/aviso.py",
+                $Egresado->nombre,
+                $Correo->correo,
+            ]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+                $Correo->save();
+            } else {
+                $Correo->enviado = 1;
+                $Correo->save();
+            }
+            $data = $process->getOutput();
+        }
+
+        $Encuesta = respuestas_continua::where("cuenta", $cuenta)
+            ->where("nbr2", $carrera)
+            ->first();
+        if (!$Encuesta) {
+            $Encuesta = new respuestas_continua();
+            $Encuesta->cuenta = $cuenta;
+            $Encuesta->cuenta = $Egresado->nombre;
+            $Encuesta->paterno = $Egresado->paterno;
+            $Encuesta->materno = $Egresado->materno;
+            $Encuesta->nombre = $Egresado->nombre;
+            $Encuesta->nombre = $Egresado->nombre;
+            $Encuesta->nbr2 = $carrera;
+            $Encuesta->nbr3 = $Egresado->plantel;
+            $Encuesta->completed = 0;
+            $Encuesta->save();
+        }
+        return redirect()->route('completar_encuesta_continua', [$Encuesta->registro]);
+    }
+
+
+
     public function edit($id)
     {
         $Encuesta=respuestas_continua::find($id);
@@ -65,9 +113,7 @@ class EncuestaContinuaController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, $id)
     {
         $Encuesta = respuestas_continua::find($id);
@@ -116,11 +162,7 @@ class EncuestaContinuaController extends Controller
                 $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->first();
-            if($EgMuestra){
-                $EgMuestra->status=10;
-                $EgMuestra->save();
-            }
+                        ->update(['status' => 10]);
             }else{
                  $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
@@ -128,7 +170,7 @@ class EncuestaContinuaController extends Controller
                         ->update(['status' => 1]);
            
             }
-            return back()->with('status', 'guardado');
+            return back();
         }
 
         if($this->validar($Encuesta)){
@@ -235,6 +277,8 @@ class EncuestaContinuaController extends Controller
                 }
 
                 if (!$bloqueado) {
+                   
+                    
                     Session::put('logs', $logs);
                     Session::put('falta', $field_presenter);
                     Session::put('status', 'incompleta');
@@ -252,7 +296,7 @@ class EncuestaContinuaController extends Controller
         Session::put('status', 'completa');
         return true;
        
-    }
+    } 
     
 
     /**

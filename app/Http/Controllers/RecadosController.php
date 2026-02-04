@@ -137,6 +137,7 @@ class RecadosController extends Controller
 
         $Egresado=Egresado::where('cuenta',$Recado->cuenta)->first();
         $Telefono=Telefono::find($Recado->tel_id);
+        
         Recado::destroy($id);
         $Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get();
         $Egresado->llamadas=$Recados->count();
@@ -202,6 +203,47 @@ class RecadosController extends Controller
         return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa]);
 
       }
+
+
+
+      public function marcar_continua(Request $request,$tel_id,$eg_id){
+
+        $Egresado=Egresado::find($eg_id);
+        $telefono=Telefono::find($tel_id);
+
+        $Recado= new Recado();
+        $Recado->recado=$request->recado;
+        $Recado->status=$request->code;
+        $Recado->tel_id=$telefono->id;
+        $Recado->cuenta=$Egresado->cuenta;
+        $Recado->user_id=Auth::user()->id;
+        $Recado->fecha=now()->modify('-6 hours');
+        $Recado->type = 'cont';
+        $Recado->save();
+        $telefono->status=$request->code;
+        $telefono->save();
+
+        $Egresado->llamadas=$Recados=Recado::where('cuenta', '=',$Egresado->cuenta)->get()->count();
+        if($Egresado->status!=1&&$Egresado->status!=2){
+
+            if(($Recado->status == 6)||($Recado->status==11)){
+
+                $Telefonos=Telefono::where('cuenta',$Egresado->cuenta)->get();
+                $flag=1;
+                foreach( $Telefonos as $r){ if($r->status != 6&&$r->status != 11){$flag=0;}}
+                if($flag==1){
+                    $Egresado->status=$request->code; 
+                    $Egresado->save(); 
+                  }
+              }else{
+                $Egresado->status=$request->code; 
+                $Egresado->save();
+              }
+        }
+        //verificacion de telefonos
+        $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
+        return redirect()->route('llamar_continua',[$Egresado->anio_egreso,$Egresado->cuenta,$Egresado->carrera]);
   }
+}
 
         
