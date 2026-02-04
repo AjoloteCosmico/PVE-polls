@@ -273,6 +273,15 @@ Route::group(['middleware' => ['auth']], function(){
     });
 
 
-    
+    Route::get('/debug-permissions', function() {
+    $user = auth()->user();
+    Cache::forget('spatie.permission.cache');
+    return [
+        'user_id' => $user->id,
+        'permissions' => $user->getAllPermissions()->pluck('name'),
+        'direct_permissions' => $user->getDirectPermissions()->pluck('name'),
+        'roles' => $user->getRoleNames(),
+    ];
+});
 
 });
