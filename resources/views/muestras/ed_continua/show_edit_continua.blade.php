@@ -40,7 +40,7 @@ use \App\Http\Controllers\ComponentController;
     @else
         <div class="react_container" id="{{'container'.$reactivo->clave}}">
             <h3>
-                {{$reactivo->act_order}}.- 
+                {{$reactivo->orden}}.- 
                 {{ $reactivo->act_description ?? $reactivo->description }} 
                 {{$reactivo->clave}}
             </h3>
