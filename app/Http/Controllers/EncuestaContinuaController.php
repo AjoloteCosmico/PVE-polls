@@ -155,7 +155,6 @@ class EncuestaContinuaController extends Controller
 
         }
 
-
     }
 
     public function validar($Encuesta)
