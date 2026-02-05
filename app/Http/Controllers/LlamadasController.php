@@ -59,7 +59,7 @@ class LlamadasController extends Controller
 
     }
 
-    public function llamar_continua($gen,$id,$carrera)
+    public function llamar_continua($id,$carrera)
     {
         
         //if (!auth()->user()->can('aplicar_encuesta_continua')) {
