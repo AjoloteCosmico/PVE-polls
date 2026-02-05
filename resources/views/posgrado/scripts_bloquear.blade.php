@@ -87,6 +87,7 @@ array_bloqueos={
                     const elemento_bloqueado = document.getElementById(bloqueado);
                     const contenedor_bloqueado = document.getElementById('container' + bloqueado);
                     if (elemento_bloqueado && contenedor_bloqueado) {
+                        
                         console.log('bloqueando ' + bloqueado);
                         // No modificar el valor para no deshabilitar otros campos
                         elemento_bloqueado.value = '0';

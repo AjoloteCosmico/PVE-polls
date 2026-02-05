@@ -32,7 +32,7 @@ try:
 except psycopg2.Error as e:
     print("Ocurrió un error al conectar a la base de datos:", e)
 
-continuas=pd.read_sql("select * from  respuestas_continua where updated_at >'2025-11-24'",cnx)
+continuas=pd.read_sql("select * from  respuestas_continua where updated_at >'2025-11-24' and edc1 is not null",cnx)
 opciones=pd.read_sql("select * from  options where reactivo like 'edc%' or reactivo = 'binaria'",cnx)
 respuestas_multiple=pd.read_sql("select * from  multiple_option_answers where reactivo like 'edc%'",cnx)
 reactivos=pd.read_sql("select * from  reactivos where clave like 'edc%'",cnx)
@@ -57,7 +57,8 @@ for i in range(len(reactivos)):
             continuas.loc[continuas['registro'].isin(resp['encuesta_id'].unique()),f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"]=1
             print(continuas[f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"].unique())
 #exportar codificado
-continuas[['registro','cuenta','nbr2', 'nbr3', 'carrera', 'anio_egreso','edc1',
+continuas['area']=continuas['nbr2'].fillna(0).astype(str).str[0].astype(int)
+continuas[['registro','cuenta','nbr2', 'nbr3', 'carrera','area', 'anio_egreso','edc1',
 'edc14',
 'edc15',
 'edc15-En la UNAM', 'edc15-En otra institución pública',
