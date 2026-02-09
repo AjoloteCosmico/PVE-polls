@@ -105,7 +105,10 @@ class RecadosController extends Controller
       $telefono->save();
 
       
-      $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get()->count();
+      $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)
+      ->where('type','!=','cont')
+      ->get()->count();
+      $Egresado->save();
       if($Egresado->status!=1&&$Egresado->status!=2){
      
          if(($Recado->status == 6)||($Recado->status==11)){
@@ -223,7 +226,13 @@ class RecadosController extends Controller
         $telefono->status=$request->code;
         $telefono->save();
 
-        $Egresado->llamadas=$Recados=Recado::where('cuenta', '=',$Egresado->cuenta)->get()->count();
+        $Llamadas=$Recados=Recado::where('cuenta', '=',$Egresado->cuenta)
+        ->where('type', '=', 'cont')
+        ->get()->count();
+        $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->update(['llamadas' => $Llamadas]);
         if($Egresado->status!=1&&$Egresado->status!=2){
 
             if(($Recado->status == 6)||($Recado->status==11)){

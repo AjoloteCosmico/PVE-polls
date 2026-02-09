@@ -61,7 +61,7 @@
             @endif
 
                <td>{{$e->anio_egreso}} </td>
-               <td>{{$e->llamadas}} </td>
+               <td>{{$e->llamadas_continua}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
                 <p hidden> {{$e->orden}}</p>
