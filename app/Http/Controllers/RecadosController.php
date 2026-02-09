@@ -142,7 +142,9 @@ class RecadosController extends Controller
         $Telefono=Telefono::find($Recado->tel_id);
         
         Recado::destroy($id);
-        $Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get();
+        $Recados=Recado::where('cuenta','=',$Egresado->cuenta)
+        ->where('type','!=','cont')
+        ->get();
         $Egresado->llamadas=$Recados->count();
         $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
         $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
