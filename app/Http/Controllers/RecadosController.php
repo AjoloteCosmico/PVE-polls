@@ -106,8 +106,7 @@ class RecadosController extends Controller
 
       
       $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)
-      ->where('type','!=','cont')
-      ->orWhere('type',null)
+      ->whereIn('type',['act','seg',null])
       ->get()->count();
       $Egresado->save();
       if($Egresado->status!=1&&$Egresado->status!=2){
