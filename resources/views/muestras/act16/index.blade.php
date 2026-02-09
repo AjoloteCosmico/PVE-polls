@@ -26,7 +26,7 @@
                 <td> {{$c->requeridas}} </td>
                 <td> {{number_format((($c->nencuestas_tel+$c->nencuestas_int) *100)/$c->requeridas,2)}} %</td>
                 <th> - </th>
-                generalizar
+                <!-- generalizar -->
                 <td><a href="{{route('muestras16.show',[$c->c,$c->p])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
                 
               </tr>

@@ -232,12 +232,16 @@ class RecadosController extends Controller
                 $flag=1;
                 foreach( $Telefonos as $r){ if($r->status != 6&&$r->status != 11){$flag=0;}}
                 if($flag==1){
-                    $Egresado->status=$request->code; 
-                    $Egresado->save(); 
+                     $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->update(['status' => $request->code]);
                   }
               }else{
-                $Egresado->status=$request->code; 
-                $Egresado->save();
+                $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->update(['status' => $request->code]);
               }
         }
         //verificacion de telefonos

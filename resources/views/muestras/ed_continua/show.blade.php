@@ -59,7 +59,6 @@
                 @if($carrera==0)
             <td> {{$e->name_carrera}} </td>
             @endif
-            
 
                <td>{{$e->anio_egreso}} </td>
                <td>{{$e->llamadas}} </td>

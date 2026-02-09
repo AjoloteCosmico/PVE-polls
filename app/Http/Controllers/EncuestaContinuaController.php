@@ -73,6 +73,10 @@ class EncuestaContinuaController extends Controller
                 ->first()
                 ->carrera;
             $Encuesta->completed = 0;
+            $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->update(['status' => 10]);
             $Encuesta->save();
         }
         return redirect()->route('completar_encuesta_continua', [$Encuesta->registro]);
@@ -187,7 +191,11 @@ class EncuestaContinuaController extends Controller
 
                     }
             $Encuesta->completed=1;
-            $Encuesta->save();
+            $Encuesta->aplica=Auth::user()->clave;
+            $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->update(['status' => $request->code]);
             $Encuesta->save();
             $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
@@ -202,7 +210,6 @@ class EncuestaContinuaController extends Controller
         } else {
           
             if($Encuesta->completed!=1){
-                $Encuesta->save();
                 $Encuesta->save();
                 $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
@@ -226,6 +233,9 @@ class EncuestaContinuaController extends Controller
 
     public function validar($Encuesta)
     {
+        $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
+                        ->where("carrera", $Encuesta->nbr2)
+                        ->first();
         $logs = "";
         $Reactivos = Reactivo::where('section', 'ed_continua')->get();
     
@@ -292,6 +302,10 @@ class EncuestaContinuaController extends Controller
 
                     $Encuesta->completed = 0;
                     $Encuesta->save();
+                    $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->update(['status' => 10]);
                     return false;
                 }
             }
@@ -299,6 +313,12 @@ class EncuestaContinuaController extends Controller
 
         
         $Encuesta->completed = 1;
+        $Encuesta->fec_capt = now()->modify("-6 hours");
+        $Encuesta->aplica = Auth::user()->clave;
+        $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->update(['status' => 1]);
         $Encuesta->save();
         Session::put('status', 'completa');
         return true;
