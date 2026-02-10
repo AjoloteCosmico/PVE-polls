@@ -99,6 +99,7 @@
                     <thead>
                         <tr>
                             <th>Recado</th>
+                            <th>status</th>
                             <th>tipo</th>
                             <th>Fecha</th>
                             <th></th>
@@ -110,6 +111,7 @@
                             <tr style="background-color: {{$r->color_rgb}};">
                                 <td> {{$r->recado}} </td>
                                 <td> {{$r->description}} </td>
+                                <td> {{$r->type}} </td>
                                 <td> {{$r->fecha}} </td>
                                 <td> 
                                     <form method="POST" action="{{ route('recados.destroy', $r->id) }}">

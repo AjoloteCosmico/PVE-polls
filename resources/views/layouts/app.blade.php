@@ -44,9 +44,15 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <button type="button"  class="toggle-expand-btn btn  btn-sm" onclick="openFullScreen()">
-                        <i class="fa fa-expand"></i>
+                        <i style="color:white" class="fa fa-expand"></i>
                     </button>
-                </li> 
+                </li>
+                 <!-- <li class="nav-item">
+                    <span class="fa-layers fa-fw" style="background:transparent">
+                        <i class="fas fa-bell fa-xl" style="color:white" ></i>
+                        <span class="fa-layers-counter " style="background:Tomato">14</span>
+                    </span>`
+                </li>  -->
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="{{asset('img/logoPVE.png')}}" class="user-image img-circle elevation-2" alt="User Image">

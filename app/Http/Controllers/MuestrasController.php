@@ -653,7 +653,8 @@ public function show_continua($carrera,$plantel){
     ->where('egresado_muestra.muestra_id','=',897) //ID de muestra de educación continua
 
     ->leftJoin('codigos','codigos.code','=','egresado_muestra.status')
-    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden','codigos.code as codigo_status')
+    ->select('egresados.*','codigos.color_rgb','codigos.description',
+      'codigos.orden','egresado_muestra.llamadas as llamadas_continua','codigos.code as codigo_status')
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
