@@ -295,6 +295,15 @@ div.dataTables_length label {
 div{
     background-color: #050a30;
 }
+.tel-contorno{
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 20px;
+}
+.tel-contorno-div{
+    background-color: transparent !important;
+}
 .titulos{
     padding-top: 50px;
     text-align: center;

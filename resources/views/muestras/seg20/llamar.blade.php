@@ -72,13 +72,13 @@
         </table>   
     </div>
 
-    <div>
+    <div id="contaider-telefonos">
         <div class="elementos-centrados titulos">
             <h3 class="text-white-35" id="layer"> NUMEROS DE TELEFONO </h3>
         </div>
         @foreach($Telefonos as $telefono)
         <center>
-        <div class="elementos-centrados">
+        <div class="elementos-centrados tel-ind" >
             <button type="button" 
                 class="btn btn-info" 
                 id="{{'tel_button'.$telefono->id}}"
@@ -88,7 +88,7 @@
 
                 <h3 class="text-white-40"> {{$telefono->telefono}}</h3>
             </button>
-            <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados">
+            <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno" >
                 <br>
                 <h3 class="text-white-40" id="layer"> RECADOS ANTERIORES</h3>
                 <br>
@@ -114,12 +114,14 @@
                                 <td> {{$r->type}} </td>
                                 <td> {{$r->fecha}} </td>
                                 <td> 
-                                    <form method="POST" action="{{ route('recados.destroy', $r->id) }}">
+                                    @can('borrar_recado')
+                                    <form method="POST"  class="DeleteReg" action="{{ route('recados.destroy', $r->id) }}">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
 
-                                        <button type="submit" class="btn btn-danger btn-lg" data-toggle="tooltip" title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
+                                        <button type="submit" class="btn btn-danger btn-lg"  title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
                                     </form>  
+                                    @endcan
                                 </td>
                             </tr>
                             @endif
@@ -129,42 +131,43 @@
                 @endif
                 <form action="/encuestas/2020/marcar/{{$telefono->id}}/{{$Egresado->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                 @csrf
-                    <div class="form-group titulos">
-                        <h3 for="exampleInputEmail1">Deja un recado</h3>
+                    <div class="form-group titulos tel-contorno-div" >
+                        <h3 for="exampleInputEmail1">Deja un recado</h3></div>
                         <br>
-                        <div class="form-group">
+                        <div class="form-group tel-contorno-div">
                             <h6 for="exampleInputEmail1">Selecciona un código de color</h6>
                             <br>
-                            <select name="code" id="{{'code'.$telefono->id}}" class="select input"  onchange="codigo({{$telefono->id}})">
+                            <select name="code" id="{{'code'.$telefono->id}}" class="select input" style="color: white; font-size: 20px;" onchange="codigo({{$telefono->id}})">
                                 <option value=""> </option>
                                 @foreach($Codigos as $code)
-                                    <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
+                                    <option style="background-color: {{$code->color_rgb}};color: white; font-size: 20px;" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
-                    </div>
+                    
                     <br>
-                    <div class='tabla'>
                         <button type="button" onclick='check_form({{$telefono->id}})'  class="boton-dorado">
                             <i class="fas fa-paper-plane"></i> Marcar y guardar recado
                         </button>
-
+                        
+            </form>
                         <br><br><br>
-
+                <div class="row  tel-contorno-div">
+                    <div class="col tel-contorno-div"> 
                         <a href="{{route('act_data',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
                         </a>
-                        <br><br><br>
-                        <!-- TODO: hacer una ruta llamada completar encuesta -->
-                    @if($Encuesta)
+                    </div>
+                   <div class="col tel-contorno-div"> 
+                         @if($Encuesta)
                         @if($gen==2020)
                         @can('aplicar_encuesta_seguimiento')
                         <a href="{{route('edit_20',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
-                                Continuar encuesta Inconclusa
+                               <i class="fas fa-file-pen"></i>  Continuar encuesta Inconclusa
                             </button>
                         </a>
                         @endcan
@@ -174,7 +177,7 @@
                         @can('aplicar_encuesta_seguimiento')
                         <a href="{{route('edit_22',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
-                                Continuar encuesta Inconclusa
+                              <i class="fas fa-file-pen"></i>   Continuar encuesta Inconclusa
                             </button>
                         </a>
                         @endcan
@@ -184,22 +187,26 @@
                         @can('aplicar_encuesta_actualizacion')
                         <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
-                                Continuar encuesta Inconclusa
+                              <i class="fas fa-file-pen"></i>  Continuar encuesta Inconclusa
                             </button>
                         </a>
                         @endcan
                         @endif
                     @endif
+                    </div>
+                </div>
+                        
+                        <!-- TODO: hacer una ruta llamada completar encuesta -->
+                   
                     </div> 
-                </form>
+                
             </div>
-        </div>
         </center>
         <br> 
         @endforeach
     </div>
     
-    <div class='row'>
+    <div class='row tel-contorno-div'>
         <div class='col'>
             @if($gen==2020)
             <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
@@ -233,7 +240,6 @@
 @stop
 
 @push('js')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 
@@ -310,5 +316,24 @@ function codigo(tel_id){
           })
         }
     }
+</script>
+<script>
+    $('.DeleteReg').submit(function(e) {
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Estás seguro de querer eliminar el RECADO?',
+        html: " <p style='color: white;'>¡No podrás revertir esto!</p>",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '¡Sí, eliminar Registro!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // document.getElementById('loader').style.display = 'flex';
+            this.submit();
+        }
+    })
+});
 </script>
 @endpush
