@@ -141,6 +141,7 @@
                                     <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
                                 @endforeach
                             </select>
+                            <input type="text" id="fecha-prog{{$telefono->id}}" name="fecha_programada" class="form-control input" style="display:none; margin-top:10px;" placeholder="Selecciona fecha programada para llamar" onfocus="(this.type='datetime-local')">
                         </div>
                         <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
                     </div>
@@ -233,8 +234,6 @@
 @stop
 
 @push('js')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 
 function change_color(color,tel_id){
@@ -254,6 +253,9 @@ function codigo(tel_id){
         @foreach($Codigos as $code)
   case '{{$code->code}}':
     change_color('{{$code->color_rgb}}',tel_id);
+    @if($code->code==3)
+        document.getElementById('fecha-prog'+tel_id).style.display='block';
+    @endif
     break;
    @endforeach
   

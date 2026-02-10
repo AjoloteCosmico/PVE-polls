@@ -49,7 +49,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('options', OpcionesController::class);
     Route::resource('encuestas', EncuestasController::class);
     Route::resource('correos', CorreosController::class);
-
+    Route::resource('notifications', NotificationsController::class);
+    Route::get('/notificaciones/{notification}/read', 
+        [NotificationController::class, 'markAsReadAndRedirect'])
+        ->name('notifications.read');
     /**Rutas relacionadas con encuestas 
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */

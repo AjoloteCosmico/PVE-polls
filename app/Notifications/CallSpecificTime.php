@@ -14,9 +14,11 @@ class CallSpecificTime extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($Egresado, $horario_programado,$recado)
     {
-        //
+        $this->Egresado = $Egresado;
+        $this->horario_programado = $horario_programado;
+        $this->recado = $recado;
     }
 
     /**
@@ -26,7 +28,7 @@ class CallSpecificTime extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['array'];
+        return ['database'];
     }
 
     /**
@@ -45,10 +47,17 @@ class CallSpecificTime extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
+    public function toDatabase(object $notifiable): array
     {
+        if($this->egresado->act_suvery='1'){
+            $url=route('llamar',['gen'=>2016,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera]);
+        }
         return [
-            //
+            'message' => 'Llamada programada para el egresado: '.$this->Egresado->nombre.' '.$this->Egresado->paterno.' '.$this->Egresado->materno,
+            'cuenta'=>$this->Egresado->cuenta,
+            'horario_programado'=>$this->horario_programado,
+            'recado'=>$this->recado,
+            'action_url'=>$url ?? route('dashboard')
         ];
     }
 }

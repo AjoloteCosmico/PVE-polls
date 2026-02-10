@@ -89,7 +89,9 @@ class RecadosController extends Controller
 
       $type = ($gen == 2016) ? 'act' : 'seg';
 
-
+       if($request->code == 3){
+        Auth::user()->notify(new \App\Notifications\CallSpecificTime($Egresado,$request->fecha_programada,$request->recado));
+      }
       // dd($Egresado);
       $Recado= new Recado();
       $Recado->recado=$request->recado;
@@ -100,7 +102,8 @@ class RecadosController extends Controller
       $Recado->fecha=now()->modify('-6 hours');
       $Recado->type=$type;
       $Recado->save();
-
+      //Notificar si es horario especifico
+     
       $telefono->status=$request->code;
       $telefono->save();
 
