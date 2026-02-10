@@ -596,7 +596,7 @@ use \App\Http\Controllers\ComponentController;
     }
     .react_container { 
         padding: 0.7vw; 
-        max-width: 30%; 
+        max-width: 50%; 
         margin: 0.7vw; 
         border: 2px solid white; 
         border-radius: 20px; 

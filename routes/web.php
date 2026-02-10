@@ -69,11 +69,17 @@ Route::group(['middleware' => ['auth']], function(){
         //encuesta de act 2016
         Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
+
+
         //encuesta educación continua
         Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
         Route::get('muestrasv_ed_continua/planteles','ed_continua_plantel_index')->name('muestras_ed_continua.plantel_index');
         Route::get('planteles/ed_continua','ed_continua_plantel_index')->name('ed_continua.planteles');
         Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
+        Route::get('revision_continua', 'revision_continua')->name('muestras_ed_continua.revision');
+
+
+
        ////////////////////////////Rutas de revisiones///////////////////////////
         Route::get('revisiones','revisiones_index')->name('revisiones.index');//prueba
         Route::get('revision','revision')->name('muestras.seg20.revision');
@@ -184,7 +190,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/guardar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_correo');
         Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
-        Route::get('posgrado_direct_send/{id}',  'posgradp_direct_send')->name('posgrado_direct_send');
+        Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
     });
     
     /** Pantalla de inicio */
