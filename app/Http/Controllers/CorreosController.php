@@ -162,9 +162,10 @@ class CorreosController extends Controller
         return redirect()->back();
  
  }
+
  public function posgrado_direct_send($id){
         $Correo=Correo::find($id);
-        $Egresado=EgresadoPos::where('cuenta',$Correo->cuenta)->first();
+        $Egresado=EgresadoPosgrado::where('cuenta',$Correo->cuenta)->first();
         $caminoalpoder=public_path();
         $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
         $process->run();
@@ -179,5 +180,7 @@ class CorreosController extends Controller
         return redirect()->back();
  
  }
+
+ 
 }
 

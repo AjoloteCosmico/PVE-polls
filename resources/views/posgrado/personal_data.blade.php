@@ -126,7 +126,7 @@
             title: correo,
             html:
                 "<br>" +
-                '<button type="button" role="button" tabindex="0" class="SwalBtn1 customSwalBtn" onclick="location.href = `/direct_send/' + correo_id + '`">' + 'Enviar Aviso de Privacidad' + '</button>' +
+                '<button type="button" role="button" tabindex="0" class="SwalBtn1 customSwalBtn" onclick="location.href = `/posgrado_direct_send/' + correo_id + '`">' + 'Enviar Aviso de Privacidad' + '</button>' +
                 '<button type="button" role="button" tabindex="0" class="SwalBtn2 customSwalBtn" onclick="location.href = `/editar_correo/' + correo_id + '/{{ $Egresado->carrera }}/{{ $Encuesta->registro }}/{{ Session::get('telefono_encuesta') }}`">' + 'Editar' + '</button>',
             icon: "warning",
             showConfirmButton: false,

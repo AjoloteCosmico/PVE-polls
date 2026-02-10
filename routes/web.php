@@ -190,7 +190,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/guardar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_correo');
         Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
-        Route::get('posgrado_direct_send/{id}',  'posgradp_direct_send')->name('posgrado_direct_send');
+        Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
     });
     
     /** Pantalla de inicio */
