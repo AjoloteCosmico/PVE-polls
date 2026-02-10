@@ -11,6 +11,7 @@ use App\Models\Carrera;
 use DB;
 use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
+use App\Models\respuestas_continua;
 use App\Models\respuestas2;
 
 
@@ -486,6 +487,22 @@ public function revision22(){
     return view('muestras.seg20.revision22',compact('Encuestas'));
 }
 
+public function revision_continua(){
+  $Encuestas=respuestas_continua::leftJoin('carreras', function($join)
+  {
+      $join->on('carreras.clave_carrera', '=', DB::raw('CAST(respuestas_continua.nbr2 AS VARCHAR)'));
+      $join->on('carreras.clave_plantel', '=', DB::raw('CAST(respuestas_continua.nbr3 AS VARCHAR)'));                             
+  })
+  ->leftjoin('users','users.clave','=','respuestas_continua.aplica')
+  ->leftJoin('egresados', 'egresados.cuenta', '=', 'respuestas_continua.cuenta')
+  ->select('respuestas_continua.*','carreras.carrera','carreras.plantel','users.name')
+  ->where('egresados.muestra', 897) // Asegúrate de que este sea el valor correcto para la muestra de educación continua
+  ->where('completed',1)
+  //->where('aplica',Auth::user()->clave)
+  ->get();
+  return view('muestras.ed_continua.revision_continua',compact('Encuestas'));
+}
+
 
 public function revision_posgrado(){
 
@@ -556,6 +573,8 @@ public function completar_encuesta($id){
     }
   }
 }
+
+
 
 //funciones para posgrado
 public function programas_index(){

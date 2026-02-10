@@ -69,11 +69,17 @@ Route::group(['middleware' => ['auth']], function(){
         //encuesta de act 2016
         Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
+
+
         //encuesta educación continua
         Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
         Route::get('muestrasv_ed_continua/planteles','ed_continua_plantel_index')->name('muestras_ed_continua.plantel_index');
         Route::get('planteles/ed_continua','ed_continua_plantel_index')->name('ed_continua.planteles');
         Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
+        Route::get('revision_continua', 'revision_continua')->name('muestras_ed_continua.revision');
+
+
+
        ////////////////////////////Rutas de revisiones///////////////////////////
         Route::get('revisiones','revisiones_index')->name('revisiones.index');//prueba
         Route::get('revision','revision')->name('muestras.seg20.revision');
