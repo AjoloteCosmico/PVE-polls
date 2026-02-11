@@ -304,6 +304,11 @@ div{
 .tel-contorno-div{
     background-color: transparent !important;
 }
+.recado-form-div{
+    background-color: #002b7a;
+    border-radius: 10px;
+    padding: 20px;
+}
 .titulos{
     padding-top: 50px;
     text-align: center;
@@ -339,7 +344,7 @@ div{
 .cuadro-azul{
     background-color: #002b7a;
     border-radius: 10px;
-    width: 60%;
+    width: 70%;
     padding-top: 20px;
     padding-bottom: 50px;
     margin-top: 30px;

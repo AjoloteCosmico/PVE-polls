@@ -68,76 +68,25 @@
 
                 <h3 class="text-white-40"> {{$telefono->telefono}}</h3>
             </button>
-            <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados">
+            <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>
-                <h3 class="text-white-40" id="layer"> RECADOS ANTERIORES</h3>
-                <br>
-                @if($Recados->count()==0)
-                <p> Aún no hay recados para mostrar </p>
-                @else
-                <table class="table text-xl ">
-                    <thead>
-                        <tr>
-                            <th>Recado</th>
-                            <th>tipo</th>
-                            <th>Fecha</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($Recados as $r)
-                            @if($r->tel_id == $telefono->id)
-                            <tr style="background-color: {{$r->color_rgb}};">
-                                <td> {{$r->recado}} </td>
-                                <td> {{$r->description}} </td>
-                                <td> {{$r->fecha}} </td>
-                                <td> 
-                                    <form method="POST" action="{{ route('recados.destroyP', $r->id) }}">
-                                        @csrf
-                                        <input name="_method" type="hidden" value="DELETE">
-
-                                        <button type="submit" class="btn btn-danger btn-lg" data-toggle="tooltip" title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
-                                    </form>  
-                                </td>
-                            </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-                @endif
+              @include('recados.recados_tabla')
                 <form action="/encuestaPosgrado/marcar/{{$telefono->id}}/{{$EgresadoPos->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
-                @csrf
-                    <div class="form-group titulos">
-                        <h3 for="exampleInputEmail1">Deja un recado</h3>
-                        <br>
-                        <div class="form-group">
-                            <h6 for="exampleInputEmail1">Selecciona un código de color</h6>
-                            <br>
-                            <select name="code" id="{{'code'.$telefono->id}}" class="select input"  onchange="codigo({{$telefono->id}})">
-                                <option value=""> </option>
-                                @foreach($Codigos as $code)
-                                    <option style="background-color: {{$code->color_rgb}}" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
-                    </div>
-                    <br>
-                    <div class='tabla'>
-                        <button type="button" onclick='check_form({{$telefono->id}})'  class="boton-dorado">
-                            <i class="fas fa-paper-plane"></i> Marcar y guardar recado
-                        </button>
-
-                        <br><br><br>
-
-                        <a href="{{route('act_data_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->programa,$EgresadoPos->plan,$telefono->id])}}">
+                    @csrf
+                    @include('recados.recado_form_content')
+                </form>
+                        <br><br>
+                        
+                        <div class="row tel-contorno-div">
+                            <div class="col tel-contorno-div">
+                                 <a href="{{route('act_data_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->programa,$EgresadoPos->plan,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
                         </a>
-                        <br><br><br>
-                        <!-- TODO: hacer una ruta llamada completar encuesta -->
-                    @if($EncuestaPos)
+                            </div>
+                            <div class="col tel-contorno-div">
+                                  @if($EncuestaPos)
                         @if($EncuestaPos->completed==0)
                         @can('aplicar_encuesta_posgrado')
                             <a href="{{route('posgrado.show',['SEARCH',$EncuestaPos->registro])}}">
@@ -148,9 +97,17 @@
                         @endcan
                         @endif
                     @endif 
+                            </div>
+                        </div>
+                       
+                     
+
+                        <br><br>
+                     
+                  
                     </div> 
-                </form>
-            </div>
+
+
         </div>
         </center>
         <br> 
@@ -175,7 +132,6 @@
 @stop
 
 @push('js')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 

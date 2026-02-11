@@ -90,69 +90,12 @@
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno" >
                 <br>
-                <h3 class="text-white-40" id="layer"> RECADOS ANTERIORES</h3>
-                <br>
-                @if($Recados->count()==0)
-                <p> Aún no hay recados para mostrar </p>
-                @else
-                <table class="table text-xl ">
-                    <thead>
-                        <tr>
-                            <th>Recado</th>
-                            <th>status</th>
-                            <th>tipo</th>
-                            <th>Fecha</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($Recados as $r)
-                            @if($r->tel_id == $telefono->id)
-                            <tr style="background-color: {{$r->color_rgb}};">
-                                <td> {{$r->recado}} </td>
-                                <td> {{$r->description}} </td>
-                                <td> {{$r->type}} </td>
-                                <td> {{$r->fecha}} </td>
-                                <td> 
-                                    @can('borrar_recado')
-                                    <form method="POST"  class="DeleteReg" action="{{ route('recados.destroy', $r->id) }}">
-                                        @csrf
-                                        <input name="_method" type="hidden" value="DELETE">
-
-                                        <button type="submit" class="btn btn-danger btn-lg"  title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> BORRAR</button>
-                                    </form>  
-                                    @endcan
-                                </td>
-                            </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-                @endif
+                @include('recados.recados_tabla')
                 <form action="/encuestas/2020/marcar/{{$telefono->id}}/{{$Egresado->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
-                @csrf
-                    <div class="form-group titulos tel-contorno-div" >
-                        <h3 for="exampleInputEmail1">Deja un recado</h3></div>
-                        <br>
-                        <div class="form-group tel-contorno-div">
-                            <h6 for="exampleInputEmail1">Selecciona un código de color</h6>
-                            <br>
-                            <select name="code" id="{{'code'.$telefono->id}}" class="select input" style="color: white; font-size: 20px;" onchange="codigo({{$telefono->id}})">
-                                <option value=""> </option>
-                                @foreach($Codigos as $code)
-                                    <option style="background-color: {{$code->color_rgb}};color: white; font-size: 20px;" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
-                    
-                    <br>
-                        <button type="button" onclick='check_form({{$telefono->id}})'  class="boton-dorado">
-                            <i class="fas fa-paper-plane"></i> Marcar y guardar recado
-                        </button>
-                        
-            </form>
-                        <br><br><br>
+                    @csrf
+                    @include('recados.recado_form_content')
+                </form>
+                        <br><br>
                 <div class="row  tel-contorno-div">
                     <div class="col tel-contorno-div"> 
                         <a href="{{route('act_data',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">

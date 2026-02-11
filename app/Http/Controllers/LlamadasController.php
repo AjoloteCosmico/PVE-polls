@@ -48,7 +48,8 @@ class LlamadasController extends Controller
         $Recados=DB::table('recados')->where('cuenta','=',$Egresado->cuenta)
         ->orderBy('fecha','asc')
         ->leftJoin('codigos','codigos.code','=','recados.status')
-        ->select('recados.*','codigos.color_rgb','codigos.description')
+        ->leftJoin('users','users.id','=','recados.user_id')
+        ->select('recados.*','codigos.color_rgb','codigos.description','users.name as user_name')
         ->get();
         $Codigos=DB::table('codigos')
         ->where('internet','=',0)
@@ -81,7 +82,8 @@ class LlamadasController extends Controller
         $Recados=DB::table('recados')->where('cuenta','=',$Egresado->cuenta)
         ->orderBy('fecha','asc')
         ->leftJoin('codigos','codigos.code','=','recados.status')
-        ->select('recados.*','codigos.color_rgb','codigos.description')
+        ->leftJoin('users','users.id','=','recados.user_id')
+        ->select('recados.*','codigos.color_rgb','codigos.description','users.name as user_name')
         ->get();
         $Codigos=DB::table('codigos')
         ->where('internet','=',0)
@@ -113,7 +115,8 @@ class LlamadasController extends Controller
         $Recados=DB::table('recados')->where('cuenta','=',$EgresadoPos->cuenta)
         ->orderBy('fecha','asc')
         ->leftJoin('codigos','codigos.code','=','recados.status')
-        ->select('recados.*','codigos.color_rgb','codigos.description')
+        ->leftJoin('users','users.id','=','recados.user_id')
+        ->select('recados.*','codigos.color_rgb','codigos.description','users.name as user_name')
         ->get();
         $Codigos=DB::table('codigos')
         ->where('internet','=',0)
