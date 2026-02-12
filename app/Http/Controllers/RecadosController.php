@@ -231,7 +231,7 @@ class RecadosController extends Controller
         ->get()->count();
         $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
-                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->where('muestra_id',897) // ID de muestra de educación continua
                 ->update(['llamadas' => $Llamadas]);
         if($Egresado->status!=1&&$Egresado->status!=2){
 
