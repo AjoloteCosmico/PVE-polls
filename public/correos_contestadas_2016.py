@@ -32,8 +32,15 @@ try:
 except psycopg2.Error as e:
     print("Ocurrio un error al conectar a la base de datos", e)
 
-egresados = pd.read_sql("""select egresados.* from  egresados
-                        inner join respuestas16 on egresados.cuenta=respuestas16.cuenta where act_suvery = 1 and completed=1""", cnx)
+egresados = pd.read_sql("""select
+                                egresados.nombre, egresados.paterno, egresados.materno, egresados.cuenta, egresados.status,
+                                respuestas16.updated_at AS fecha_respuesta,
+                                users.name AS nombre_aplicador
+                            from egresados
+                            inner join respuestas16 on egresados.cuenta = respuestas16.cuenta
+                            left join users ON CAST(respuestas16.aplica AS VARCHAR) = CAST(users.clave AS VARCHAR) 
+                            where egresados.act_suvery = 1 
+                            and respuestas16.completed=1""", cnx)
 print('len de egresados', len(egresados))
 correos = pd.read_sql('select * from correos', cnx)
 writer = pd.ExcelWriter('storage/correos_contestadas_2016.xlsx', engine='xlsxwriter')
@@ -94,32 +101,49 @@ worksheet.write('D8','Materno',header_format)
 worksheet.write('E8','Numero de cuenta',header_format)
 worksheet.write('F8','Fecha en que realizó',header_format)
 worksheet.write('G8','mode de aplicacion',header_format)
-worksheet.write('H8','Correo 1',header_format)
-worksheet.write('I8','Correo 2',header_format)
-worksheet.write('J8','Correo 3',header_format)
-worksheet.write('K8','Correo 4',header_format)
+worksheet.write('H8','Aplicador',header_format)
+worksheet.write('I8','Correo 1',header_format)
+worksheet.write('J8','Correo 2',header_format)
+worksheet.write('K8','Correo 3',header_format)
+worksheet.write('L8','Correo 4',header_format)
 
 
-for i in range(0,len(egresados)):
-    correos_eg=correos.loc[correos['cuenta']==egresados['cuenta'].values[i]]
+# --- Llenado de Datos ---
+
+dict_correos = correos.groupby('cuenta')['correo'].apply(list).to_dict()
+
+for i, fila in egresados.iterrows():
+    idx_excel = i + 8 # Fila actual en Excel
+    cuenta_eg = str(fila['cuenta'])
     
-    worksheet.write('B'+str(i+9),egresados['nombre'].values[i],blue_content)
-    worksheet.write('C'+str(i+9),egresados['paterno'].values[i],blue_content)
-    worksheet.write('D'+str(i+9),egresados['materno'].values[i],blue_content)
-    worksheet.write('E'+str(i+9),egresados['cuenta'].values[i],blue_content)
-    worksheet.write('F'+str(i+9),str(egresados['updated_at'].values[i])[0:10],blue_content)
-    if(egresados['status'].values[i]=='1'):
-        aplica='TELEFONICA'
-    else:
-        aplica='INTERNET'
-    worksheet.write('G'+str(i+9),aplica,blue_content)
+    # Datos básicos
+    worksheet.write(idx_excel, 1, fila['nombre'], blue_content)
+    worksheet.write(idx_excel, 2, fila['paterno'], blue_content)
+    worksheet.write(idx_excel, 3, fila['materno'], blue_content)
+    worksheet.write(idx_excel, 4, cuenta_eg, blue_content)
     
-    for j in range(len(correos_eg)):
-        worksheet.write(i+8,7+j,correos_eg['correo'].values[j],blue_content)
+    # Fecha de respuesta
+    fecha_val = fila['fecha_respuesta']
+    fecha_str = str(fecha_val)[0:10] if pd.notnull(fecha_val) else 'N/A'
+    worksheet.write(idx_excel, 5, fecha_str, blue_content)
+    
+    # Modo  aplicación
+    modo = 'TELEFÓNICA' if str(fila['status']) == '1' else 'INTERNET'
+    worksheet.write(idx_excel, 6, modo, blue_content)
+    
+    # Aplicador
+    nom_ap = fila['nombre_aplicador'] if pd.notnull(fila['nombre_aplicador']) else 'N/A'
+    worksheet.write(idx_excel, 7, nom_ap, blue_content)
+    
+
+    lista_c = dict_correos.get(cuenta_eg, [])
+    for j, correo in enumerate(lista_c[:4]):
+        worksheet.write(idx_excel, 8 + j, correo, blue_content)
         
-worksheet.set_column('B:D',17)
-worksheet.set_column('E:E',20)
-worksheet.set_column('F:M',28)
+        
+worksheet.set_column('B:D',18)
+worksheet.set_column('E:E',25)
+worksheet.set_column('F:M',30)
 worksheet.set_landscape()
 worksheet.set_paper(9)
 worksheet.fit_to_pages(1, 1)  
