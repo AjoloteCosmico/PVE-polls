@@ -70,6 +70,7 @@
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>
+                
               @include('recados.recados_tabla')
                 <form action="/encuestaPosgrado/marcar/{{$telefono->id}}/{{$EgresadoPos->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                     @csrf
