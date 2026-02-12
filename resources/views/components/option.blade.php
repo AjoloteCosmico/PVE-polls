@@ -8,7 +8,7 @@
         disabled 
     @endif >
     <option value=""> </option>
-    @foreach($Opciones as $opcion)
+    @foreach($Opciones->sortBy('orden') as $opcion)
         @php
             // Lista de no seleccionado por defecto
             $reactivos_predeterminados = ['ner3', 'ner4', 'ner5', 'ner6', 'ner7', 'ner7int', 'ner7_a'];
