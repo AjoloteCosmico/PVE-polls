@@ -31,56 +31,18 @@
             @foreach($empresas as $empresa)
                 <tr>
                     <td>
-                        @if($empresa->usuario==104)	Ivan @endif
-                        @if($empresa->usuario==0)	malu @endif
-                        @if($empresa->usuario==20)	MALU @endif
-                        @if($empresa->usuario==22)	Sandra Elizabeth Vázquez Abundes @endif
-                        @if($empresa->usuario==12)	Monica Juárez Espino @endif
-                        @if($empresa->usuario==17)	Eréndira Jímenez Jímenez @endif
-                        @if($empresa->usuario==15)	CESAR VELAZQUEZ @endif
-                        @if($empresa->usuario==21)	IVONNE JAZMIN MEZA CASTAÑEDA @endif
-                        @if($empresa->usuario==23)	Sandra Pérez Jiménez @endif
-                        @if($empresa->usuario==24)	Miguel Angel Herrera Ortiz @endif
-                        @if($empresa->usuario==25)	Amanda Vega García @endif
-                        @if($empresa->usuario==26)	Eli Maldonado @endif
-                        @if($empresa->usuario==27)  Alondra Fernanda Arizabalo Espejel @endif
-                        @if($empresa->usuario==28)  Ana Karen Sanchez Martinez @endif
-                        @if($empresa->usuario==29)  Alejandro Juárez Vizcarra @endif
+                        {{ $empresa->nombre_usuario ?? 'Usuario: ' . $empresa->usuario }}
                     </td>
+ 
+ 
                     <td>{{ $empresa->nombre }}</td>
                     <td>{{ $empresa->clave_giro }}</td>
                     <td>
-                        @if($empresa->clave_giro==1) Agricultura, ganadería, aprovechamiento forestal, caza y pesca @endif
-                        @if($empresa->clave_giro==19) Asociaciones y agrupaciones @endif
-                        @if($empresa->clave_giro==20) Actividades de gobierno, organismos internacionales y extraterritoriales @endif
-                        @if($empresa->clave_giro==4) Construcción @endif
-                        @if($empresa->clave_giro==6) Comercio al por mayor @endif
-                        @if($empresa->clave_giro==7) Comercio al por menor @endif
-                        @if($empresa->clave_giro==13) Dirección de corporativos y empresas @endif
-                        @if($empresa->clave_giro==23) Editorial @endif
-                        @if($empresa->clave_giro==3) Electricidad, agua y suministro de gas @endif
-                        @if($empresa->clave_giro==5) Industrias manufactureras o de la transformación @endif
-                        @if($empresa->clave_giro==9) Información en medios masivos @endif
-                        @if($empresa->clave_giro==2) Minería @endif
-                        @if($empresa->clave_giro==10) Servicios financieros y de seguros @endif
-                        @if($empresa->clave_giro==11) Servicio inmobiliario y de alquiler de bienes muebles e intangibles @endif
-                        @if($empresa->clave_giro==12) Servicios profesionales, científicos y técnicos @endif
-                        @if($empresa->clave_giro==14) Servicios de apoyo a los negocios, manejo de desecho y servicios de remediación @endif
-                        @if($empresa->clave_giro==15) Servicios de salud @endif
-                        @if($empresa->clave_giro==16) Servicios educativos @endif
-                        @if($empresa->clave_giro==17) Servicios de esparcimiento, cultural, deportivos y otros centros recreativos< @endif
-                        @if($empresa->clave_giro==18) Servicios de alojamiento temporal, de preparación de alimentos y bebidas (hotel, restaurant, bar) @endif
-                        @if($empresa->clave_giro==8) Transporte, correos y almacenamiento @endif
-                        @if($empresa->clave_giro==22) Telecomunicaciones @endif
-                        @if($empresa->clave_giro==24) Servicios Personales @endif
-                        @if($empresa->clave_giro==25) Servicios  de reparacion y mantenimiento @endif
-                        @if($empresa->clave_giro==21) Otro (Especifíque) @endif
+                        {{ $giros[$empresa->clave_giro] ?? 'Otro (Especifíque)' }}
                     </td>
                     <td>{{ $empresa->giro_especifico }}</td>
                     <td>
-                        @if($empresa->sector==1) Público @endif
-                        @if($empresa->sector==2) Privado @endif
-                        @if($empresa->sector==3) Social @endif
+                        {{ $sectores[$empresa->sector] ?? 'N/A' }}
                     </td>
                     <td>{{ $empresa->nota }}</td>
                     <td>

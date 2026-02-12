@@ -6,17 +6,7 @@
     <h1>¡Bienvenid@ {{Auth::user()->name }}!</h1><br><br><br><br>
     <div class="botones-inicio">
         <br><br><br> 
-    <a href="{{ route('report','reporte_individual')}}"  > <button class="boton-azul">
-    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2019
-    </button></a>
     
-    <a href="{{ route('report','reporte_individual_act2014')}}"  > <button class="boton-azul">
-    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2014
-    </button></a>
-    
-    <a href="{{ route('report','correos_inconclusas')}}"  > <button class="boton-azul">
-    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos par encuestas inconclusas
-    </button></a>
     </div>
 <br><br><br>
 <div class="aviso">

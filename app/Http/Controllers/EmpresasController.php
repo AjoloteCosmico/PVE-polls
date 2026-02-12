@@ -22,7 +22,7 @@ class EmpresasController extends Controller
         return response()->json($resultados);
     }
 
-
+/** 
     public function index(Request $request){
         $empresas = DB::table('empresas')
         ->select()
@@ -31,6 +31,55 @@ class EmpresasController extends Controller
         
         //dd(compact('empresas'));
         return view('empresas.index', compact('empresas'));
+    }
+*/
+    public function index(Request $request) 
+    {
+        $empresas = DB::table('empresas')
+            ->leftJoin('users', 'empresas.usuario', '=', 'users.clave')
+            ->select(
+                'empresas.*',
+                'users.name as nombre_usuario'
+            )
+            ->orderBy('empresas.nombre', 'asc')
+            ->get();
+        
+        //Arreglos de girtos y sectores
+        $giros = [
+            1 => 'Agricultura, ganadería, aprovechamiento forestal, caza y pesca',
+            19 => 'Asociaciones y agrupaciones',
+            20 => 'Actividades de gobierno, organismos internacionales y extraterritoriales',
+            4 => 'Construcción',
+            6 => 'Comercio al por mayor',
+            7 => 'Comercio al por menor',
+            13 => 'Dirección de corporativos y empresass',
+            23 => 'Editorial',
+            3 => 'Electricidad, agua y suministro de gas',
+            5 => 'Industrias manufactureras o de la transformación',
+            9 => 'Información en medios masivos',
+            2 => 'Minería',
+            10 => 'Servicios financieros y de seguros',
+            11 => 'Servicios inmobiliarios y de alquiler de bienes muebles e intangibles',
+            12 => 'Servicios profesionales, científicos y técnicos',
+            14 => 'Servicios de apoyo a los negocios, manejo de desecho y servicios de remediación',
+            15 => 'Servicios de salud',
+            16 => 'Servicios educativos',
+            17 => 'Servicios de esparcimiento, cultural, deportivos y otros centros recreativos',
+            18 => 'Servicios de alojamiento temporal, de preparación de alimentos y bebidas (hotel, restaurant, bar)',
+            8 => 'Transporte, correos y almacenamiento',
+            22 => 'Telecomunicaciones',
+            24 => 'Servicios Personales',
+            25 => 'Servicios  de reparacion y mantenimiento',
+            21 => 'Otro (Especifíque)'
+        ];
+
+        $sectores = [
+            1 => 'Público',
+            2 => 'Privado',
+            3 => 'Social'
+        ];
+        return view('empresas.index', compact('empresas','giros','sectores'));
+
     }
 
     public function show($id){
