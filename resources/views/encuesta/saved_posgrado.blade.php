@@ -9,17 +9,19 @@
     <br><br>
        <h1> Encuesta guardada con exito </h1>
 <a href="{{route('encuestas.json',$Encuesta->cuenta)}}">
-       <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
+       <button class="boton-dorado"  type="button"  style=" color:white; padding:15px 30px; margin:15px;">
     <i class="fas fa-download fa-lg"></i> &nbsp; DESCARGAR JSON
   </button></a>
 <br>
 
 <a href="{{route('posgrado.show',['SEARCH',$Encuesta->registro])}}">
-       <button class="btn "  type="button"  style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">
+       <button class="boton-dorado"  type="button"  style=" color:white; padding:15px 30px; margin:15px;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
   </button></a>
   <br>
-<a href="{{route('muestrasposgrado.show', [$Egresado->programa,$Encuesta->plan])}}"><button type="button"style="background-color:{{Auth::user()->color}} ; color:white; display: flex;">  <i class="fas fa-arrow-left"></i> Regresar a la muestra</button></a>
+<a href="{{route('muestrasposgrado.show', [$Egresado->programa,$Encuesta->plan])}}">
+  <button class="boton-dorado" type="button" style=" color:white; padding:15px 30px; margin:15px;"> 
+     <i class="fas fa-arrow-left fa-lg"></i> &nbsp;Regresar a la muestra</button></a>
    </center>
     </div>
 @endsection
