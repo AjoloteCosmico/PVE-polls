@@ -76,7 +76,8 @@ class EncuestaContinuaController extends Controller
             $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
                 ->where('muestra_id',897) //ID de muestra de educación continua
-                ->update(['status' => 10]);
+                ->update(['status' => 10,
+                'updated_at'=>now()]);
             $Encuesta->save();
         }
         return redirect()->route('completar_encuesta_continua', [$Encuesta->registro]);
@@ -173,12 +174,12 @@ class EncuestaContinuaController extends Controller
                 $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->update(['status' => 10]);
+                        ->update(['status' => 10,'updated_at'=>now()]);
             }else{
                  $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->update(['status' => 1]);
+                        ->update(['status' => 1,'updated_at'=>now()]);
            
             }
             return back();
@@ -195,17 +196,17 @@ class EncuestaContinuaController extends Controller
             $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
                 ->where('muestra_id',897) //ID de muestra de educación continua
-                ->update(['status' => $request->code]);
+                ->update(['status' => $request->code,'updated_at'=>now()]);
             $Encuesta->save();
             $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->update(['status' => 1]);
+                        ->update(['status' => 1,'updated_at'=>now()]);
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
 
-            return view("encuesta.saved", compact("Encuesta"));
+            return view("encuesta.saved_continua", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
           
@@ -214,7 +215,7 @@ class EncuestaContinuaController extends Controller
                 $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua|    
-                        ->update(['status' => 1]);
+                        ->update(['status' => 1,'updated_at'=>now()]);
             }
             $Encuesta->save();
                 
@@ -222,7 +223,7 @@ class EncuestaContinuaController extends Controller
                 $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->update(['status' => 10]);
+                        ->update(['status' => 10,'updated_at'=>now()]);
                 return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
             }
             return back();
@@ -305,7 +306,7 @@ class EncuestaContinuaController extends Controller
                     $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',897) //ID de muestra de educación continua
-                        ->update(['status' => 10]);
+                        ->update(['status' => 10,'updated_at'=>now()]);
                     return false;
                 }
             }
@@ -318,7 +319,7 @@ class EncuestaContinuaController extends Controller
         $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
                 ->where('muestra_id',897) //ID de muestra de educación continua
-                ->update(['status' => 1]);
+                ->update(['status' => 1,'updated_at'=>now()]);
         $Encuesta->save();
         Session::put('status', 'completa');
         return true;
