@@ -22,6 +22,7 @@
                 <th>Generación</th>
                 <th>Carrera</th>
                 <th>Plantel</th>
+                <th> Muestra </th>
                 <th>Status</th>
                 <th></th>
                 </tr>
@@ -34,6 +35,13 @@
                     <td> {{$eg->anio_egreso}} </td>
                     <td>{{$eg->nombre_carrera}}</td>     
                     <td>{{$eg->nombre_plantel}}</td>
+                    <td>
+                        @if($eg->es_muestra)
+                            continua
+                        @else
+                            licenciatura
+                        @endif
+                    </td>
                     <td style="background-color: {{$eg->color_codigo}};">{{$eg->estado}}<br>
                     <td>
                         <!-- 2020 -->
