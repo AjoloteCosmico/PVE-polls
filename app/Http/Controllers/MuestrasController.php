@@ -323,6 +323,7 @@ public function index_22($id){
 
 public function index_ed_continua($id){
  
+
   $carreras=DB::table('egresados')
       ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
       ->where('egresado_muestra.muestra_id','=',897)//ID de muestra de educación continua
