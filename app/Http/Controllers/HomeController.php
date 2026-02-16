@@ -205,7 +205,11 @@ class HomeController extends Controller
             ->leftJoin('users as u20', function($join){
                 $join->on('u20.clave', '=', 'respuestas20.aplica');
             })
-            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.updated_at as fecha_16', 'respuestas16.fec_capt as fechaFinal_16','respuestas20.fec_capt as fechaFinal_20', 'respuestas20.updated_at as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20', 'respuestas16.nbr2 as r16_nbr2', 'respuestas20.nbr2 as r20_nbr2', 'respuestas16.completed as r16_completed', 'respuestas20.completed as r20_completed')
+            //new
+            ->leftJoin('egresado_muestra', function($join){
+                $join-> on('egresado_muestra.egresado_id', '=', 'egresados.id' );
+            })
+            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.updated_at as fecha_16', 'respuestas16.fec_capt as fechaFinal_16','respuestas20.fec_capt as fechaFinal_20', 'respuestas20.updated_at as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20', 'respuestas16.nbr2 as r16_nbr2', 'respuestas20.nbr2 as r20_nbr2', 'respuestas16.completed as r16_completed', 'respuestas20.completed as r20_completed', 'egresado_muestra.egresado_id as es_muestra')
             ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')   
             ->get();
 
