@@ -100,4 +100,5 @@ meta_continua={
  'edc11-Redes sociales': {1:'Sí',2:'No'},
  'edc11-Página oficial': {1:'Sí',2:'No'},
  'edc11-WhatsApp': {1:'Sí',2:'No'},
+ 'aplica':{111:'internet',30:'telefonica',0:'internet',104:'internet',22:'telefonica',23:'telefonica',25:'telefonica'}
 }

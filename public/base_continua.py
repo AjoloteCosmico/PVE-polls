@@ -7,7 +7,7 @@ import os
 from dotenv import load_dotenv
 from datetime import date
 from sqlalchemy import create_engine
-
+from meta_continua import meta_continua
 today = date.today()
 load_dotenv()
 
@@ -58,7 +58,9 @@ for i in range(len(reactivos)):
             print(continuas[f"{reactivos['clave'].values[i]}-{ops['descripcion'].values[j]}"].unique())
 #exportar codificado
 continuas['area']=continuas['nbr2'].fillna(0).astype(str).str[0].astype(int)
-continuas[['registro','cuenta','nbr2', 'nbr3', 'carrera','area', 'anio_egreso','edc1',
+continuas['aplica']=continuas['aplica'].fillna(0).astype(int).map(meta_continua['aplica'])
+
+continuas[['registro','cuenta','nbr2', 'nbr3', 'carrera','area', 'anio_egreso', 'aplica','edc1',
 'edc14',
 'edc15',
 'edc15-En la UNAM', 'edc15-En otra institución pública',
@@ -90,7 +92,7 @@ continuas[['registro','cuenta','nbr2', 'nbr3', 'carrera','area', 'anio_egreso','
 'edc9',
 'edc10','edc11-Correo electrónico',
 'edc11-Redes sociales', 'edc11-Página oficial', 'edc11-WhatsApp']].to_excel('storage/base_continua.xlsx')
-from meta_continua import meta_continua
+
 #recodificar 
 for i in range(len(reactivos)):
     print(reactivos['clave'].values[i])

@@ -1,7 +1,7 @@
 @extends('layouts.blank_app')
 @section('content')
 
-@include('empresas.modal_create')
+
 <h1 > COMPLETAR ENCUESTA </h1>
 <div  id='datos'>  @include('encuesta.personal_data') </div>
 <div style="padding:1.2vw;">

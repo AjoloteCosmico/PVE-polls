@@ -140,8 +140,6 @@ class HomeController extends Controller
          ->addData('2016', [ $ere16,$eli16,$sandy16,$amanda16])
          ->setColors(['#D1690E', '#EB572F','#f3b87c'])
          ->setXAxis(['Erendira', 'Elizabeth', 'Sandra','Amanda','Elizabeth Maldonado']);
-    
-
 
          //totales
 
@@ -386,14 +384,11 @@ $egresados_posgrado = DB::table('egresados_posgrado')
             $request->anio,
             $request->telefono
         ]);
-
     }
 
  public function enviar_invitacion_posgrado(Request $request){
         
         $link =  "https://encuestas.pveaju.unam.mx/encuesta_posgrado";
-        
-
         // Determinar el script Python que se utilizará
 
         $script= 'invitacion_posgrado.py';
