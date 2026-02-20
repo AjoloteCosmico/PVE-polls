@@ -17,7 +17,6 @@ DB_DATABASE = os.getenv('DB_DATABASE')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_PORT = os.getenv('DB_PORT')
 DB_HOST=os.getenv('DB_HOST')
-
 # Conectar a DB
 # Conectar a PostgreSQL
 try:
