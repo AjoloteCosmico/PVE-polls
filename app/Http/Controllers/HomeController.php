@@ -182,37 +182,8 @@ class HomeController extends Controller
     
     public function resultado(Request $request){
 
-        $egresados=DB::table('egresados')
-            ->leftJoin('carreras', function($join){
-                $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
-                $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                            
-            })
-            ->leftJoin('codigos', function($join){
-                $join->on('codigos.code', '=', 'egresados.status');
-            })
-            //nuevo leftjoin
-            ->leftJoin('respuestas16', function($join){
-                $join->on('respuestas16.cuenta', '=', 'egresados.cuenta');
-            })
-            ->leftJoin('users as u16', function($join){
-                $join->on('u16.clave', '=', 'respuestas16.aplica');
-            })
-            ->leftJoin('respuestas20', function($join){
-                $join->on('respuestas20.cuenta', '=', 'egresados.cuenta');
-            })
-            ->leftJoin('users as u20', function($join){
-                $join->on('u20.clave', '=', 'respuestas20.aplica');
-            })
-            //new
-            ->leftJoin('egresado_muestra', function($join){
-                $join-> on('egresado_muestra.egresado_id', '=', 'egresados.id' );
-            })
-            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.updated_at as fecha_16', 'respuestas16.fec_capt as fechaFinal_16','respuestas20.fec_capt as fechaFinal_20', 'respuestas20.updated_at as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20', 'respuestas16.nbr2 as r16_nbr2', 'respuestas20.nbr2 as r20_nbr2', 'respuestas16.completed as r16_completed', 'respuestas20.completed as r20_completed', 'egresado_muestra.egresado_id as es_muestra')
-            ->where('egresados.cuenta', 'LIKE', substr($request->nc, 0, 6) . '%')   
-            ->get();
-
         // --- 2. POSGRADO (Ajustado para campos INT) ---
-$egresados_posgrado = DB::table('egresados_posgrado')
+    $egresados_posgrado = DB::table('egresados_posgrado')
         ->leftJoin('codigos', function($join){
             
             $join->on(DB::raw('CAST(codigos.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
@@ -229,14 +200,19 @@ $egresados_posgrado = DB::table('egresados_posgrado')
         ->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', substr($request->nc, 0, 6) . '%')
         ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])   
         ->get();      
-        return view('resultado',compact('egresados', 'egresados_posgrado'));
+        return view('resultado',[
+        'egresados_posgrado' => $egresados_posgrado,
+        'nc' => $request->nc,
+        'nombre_completo' => null
+    ]);
     }
 
 
 
     public function resultado_fonetico(Request $request){
         $nombre_completo = mb_strtoupper($request->nombre_completo, 'UTF-8');
-        $partes_nombre = explode(' ', $nombre_completo);  // Divide el nombre completo en palabras
+        //$partes_nombre = explode(' ', $nombre_completo);  // Divide el nombre completo en palabras
+        $partes_nombre = array_filter(explode(' ', $nombre_completo));
 
         // Obtener las partes necesarias
         $nombre = isset($partes_nombre[0]) ? $partes_nombre[0] : null;
@@ -245,44 +221,7 @@ $egresados_posgrado = DB::table('egresados_posgrado')
         $materno = isset($partes_nombre[count($partes_nombre) - 1]) ? $partes_nombre[count($partes_nombre) - 1] : null;
 
         // Consulta para la tabla `egresados`
-        $egresados = DB::table('egresados')
-            ->leftJoin('carreras', function($join) {
-                $join->on('carreras.clave_carrera', '=', 'egresados.carrera')
-                    ->on('carreras.clave_plantel', '=', 'egresados.plantel');
-            })
-            ->leftJoin('codigos', function($join){
-                $join->on('codigos.code', '=', 'egresados.status');
-            })
-            //nuevo leftjoin
-            ->leftJoin('respuestas16', function($join){
-                $join->on('respuestas16.cuenta', '=', 'egresados.cuenta');
-            })
-            ->leftJoin('users as u16', function($join){
-                $join->on('u16.clave', '=', 'respuestas16.aplica');
-            })
-            ->leftJoin('respuestas20', function($join){
-                $join->on('respuestas20.cuenta', '=', 'egresados.cuenta');
-            })
-            ->leftJoin('users as u20', function($join){
-                $join->on('u20.clave', '=', 'respuestas20.aplica');
-            })
-            //new
-            ->leftJoin('egresado_muestra', function($join){
-                $join-> on('egresado_muestra.egresado_id', '=', 'egresados.id' );
-            })
-            
-            ->select('egresados.*','carreras.carrera as nombre_carrera','carreras.plantel as nombre_plantel','codigos.description as estado','codigos.color_rgb as color_codigo','respuestas16.updated_at as fecha_16', 'respuestas16.fec_capt as fechaFinal_16','respuestas20.fec_capt as fechaFinal_20', 'respuestas20.updated_at as fecha_20', 'u16.name as aplicador16', 'u20.name as aplicador20', 'respuestas16.nbr2 as r16_nbr2', 'respuestas20.nbr2 as r20_nbr2', 'respuestas16.completed as r16_completed', 'respuestas20.completed as r20_completed', 'egresado_muestra.egresado_id as es_muestra')
-            ->where(function($query) use ($partes_nombre) {
-                foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where('egresados.nombre', 'LIKE', "%{$parte}%")
-                                ->orWhere('egresados.paterno', 'LIKE', "%{$parte}%")
-                                ->orWhere('egresados.materno', 'LIKE', "%{$parte}%");
-                    });
-                }
-            })
-            ->get();
-
+        
         // --- 2. POSGRADO ---
         $egresados_posgrado = DB::table('egresados_posgrado')
             ->leftJoin('codigos', function($join){
@@ -305,10 +244,15 @@ $egresados_posgrado = DB::table('egresados_posgrado')
                 }
             })
             ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])
+            ->limit(50)
             ->get();
 
         
-            return view('resultado',compact('egresados','egresados_posgrado'));
+        return view('resultado', [
+            'egresados_posgrado' => $egresados_posgrado,
+            'nc' => null, 
+            'nombre_completo' => $request->nombre_completo 
+        ]);
     }
 
     public function enviar_aviso(Request $request){
