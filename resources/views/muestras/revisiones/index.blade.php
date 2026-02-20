@@ -21,13 +21,7 @@
   @endcan
 
     @can('ver_muestra_seguimiento')
-    <div>
-    <a href="{{route('muestras.seg20.revision')}}">
-    <button class='boton-muestras' >
-        <br><br>ENCUESTA DE SEGUIMIENTO 2020 <br><br><br>
-        <img src="{{ asset('img/encuesta.png') }}" alt="encuesta" class="icono-boton">
-    </button></a>
-    </div>
+    
     <div>
   <a href="{{route('muestras.seg20.revision22')}}">
   <button class='boton-muestras' >

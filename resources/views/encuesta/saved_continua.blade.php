@@ -5,7 +5,7 @@
     <div class="padding div" style="padding:30px;">
     <h1>Hola  {{Auth::user()->name }} </h1>   
     </div>
-    <center>
+    <center >
     <br><br>
        <h1> Encuesta guardada con exito </h1>
 <a href="{{route('encuestas.json',$Encuesta->cuenta)}}">
@@ -14,14 +14,15 @@
   </button></a>
 <br>
 
-<a href="{{route('posgrado.show',['SEARCH',$Encuesta->registro])}}">
-       <button class="boton-dorado"  type="button"  style=" color:white; padding:15px 30px; margin:15px;">
+  <a href="{{route('completar_encuesta_continua',[$Encuesta->registro])}}">
+       <button class="boton-dorado" type="button"  style=" color:white; padding:15px 30px; margin:15px;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
   </button></a>
   <br>
-<a href="{{route('muestrasposgrado.show', [$Egresado->programa,$Encuesta->plan])}}">
-  <button class="boton-dorado" type="button" style=" color:white; padding:15px 30px; margin:15px;"> 
-     <i class="fas fa-arrow-left fa-lg"></i> &nbsp;Regresar a la muestra</button></a>
+<a href="{{route('muestras_ed_continua.show',[$Encuesta->nbr2,$Encuesta->nbr3])}}">
+    <button class="boton-dorado" type="button" style=" color:white; padding:15px 30px; margin:15px;">  
+        <i class="fas fa-arrow-left fa-lg"></i> &nbsp; Regresar a la muestra</button></a>
+
    </center>
     </div>
 @endsection

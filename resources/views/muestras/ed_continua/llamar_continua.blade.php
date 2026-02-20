@@ -79,7 +79,7 @@
                     @include('recados.recado_form_content')
 
                        
-                    </div> 
+                     
                 </form>
                 <br><br>
                 <div class="row tel-contorno-div">
