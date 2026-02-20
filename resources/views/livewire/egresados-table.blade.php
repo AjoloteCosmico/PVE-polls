@@ -37,9 +37,11 @@
                     <td>{{$eg->nombre_plantel}}</td>
                     <td>
                         <div class="btn-group">
+                            @if($eg->muestra==5||$eg->act_suvery==1)
                             <button wire:click="seleccionarMuestra({{$eg->id}}, 'licenciatura')" class="boton-oscuro">
                                  LICENCIATURA
                             </button>
+                            @endif
                             @if($eg->es_muestra)
                             <button wire:click="seleccionarMuestra({{$eg->id}}, 'continua')" class="boton-oscuro">
                                  CONTINUA
