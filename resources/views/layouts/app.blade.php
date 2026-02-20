@@ -30,6 +30,7 @@
             }
         }
     </script>
+    @livewireStyles
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" >
     <div class="wrapper">
@@ -104,6 +105,7 @@
         </footer>
     </div>
     @stack('js')
+    @livewireScripts
 </body>
 </x-laravel-ui-adminlte::adminlte-layout>
 

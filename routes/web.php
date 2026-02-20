@@ -206,8 +206,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/2014_act', '2014_act')->name('2014_act');
         Route::get('/2019', 'encuesta_2019')->name('2019');
         Route::get('/buscar', 'buscar')->name('buscar');
-        Route::post('/resultado', 'resultado')->name('resultado');
-        Route::post('/resultado_fonetico', 'resultado_fonetico')->name('resultado_fonetico');
+        Route::any('/resultado', 'resultado')->name('resultado');
+        Route::any('/resultado_fonetico', 'resultado_fonetico')->name('resultado_fonetico');
         /**Avisos */
         Route::get('/aviso', 'aviso')->name('aviso');
         Route::post('/enviar_aviso', 'enviar_aviso')->name('enviar_aviso');
