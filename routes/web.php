@@ -26,6 +26,7 @@ use App\Http\Controllers\{
     ConfigController,
     EmpresasController,
     PosgradoController,
+    EspecialidadController,
     EncuestaContinuaController,
     UserController
 };
@@ -103,6 +104,15 @@ Route::group(['middleware' => ['auth']], function(){
 
 
         Route::get('muestra_posgrado/show/{programa}/{plan}','show_posgrado')->name('muestrasposgrado.show');
+        //encuesta de especialidad
+        Route::get('muestra_especialidad/programas/','programas_index')->name('especialidad.programas_index');
+
+        Route::get('showmuestra_especialidad/{programa}','index_especialidad')->name('muestras.especialidad.index');
+
+        Route::get('revision_especialidad', 'revision_especialidad')->name('muestras.especialidad.revision_especialidad');
+
+
+        Route::get('muestra_especialidad/show/{programa}/{plan}','show_especialidad')->name('muestras.especialidad.show');
 
         
         //encuetsa de seguimiento 2022
@@ -156,6 +166,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::controller(TelefonosController::class)->group(function(){
         Route::get('/agregar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'create')->name('agregar_telefono');
         Route::get('/agregar_telefono_posgrado/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'createPos')->name('agregar_telefono_pos');
+        
+        Route::get('/agregar_telefono_especialidad/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'createEsp')->name('agregar_telefono_especialidad');
         Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_telefono');
         Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}', 'store')->name('guardar_telefono');
         Route::post('/guardar_telefono_pos/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'storepos')->name('guardar_telefono_pos');
@@ -176,10 +188,12 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('recados', 'index')->name('recados.index');
         Route::delete('recados/delete/{id}', 'destroy')->name('recados.destroy');
         Route::delete('recados/posgrado/delete/{id}', 'destroyP')->name('recados.destroyP');
+        Route::delete('recados/especialidad/delete/{id}', 'destroyE')->name('recados.destroyE');
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
         Route::post('/encuestas/2014/marcar/{id}', 'marcar_14')->name('marcar_14');
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
         Route::post('/encuestaPosgrado/marcar/{telid}/{egid}', 'marcar_posgrado')->name('marcar_posgrado');
+        Route::post('/encuestaEspecialidad/marcar/{telid}/{egid}', 'marcar_especialidad')->name('marcar_especialidad');
         Route::post('/encuestas/continua/marcar/{telid}/{egid}', 'marcar_continua')->name('marcar_continua');
     });
 
@@ -191,6 +205,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
         Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
+        Route::get('especialidad_direct_send/{id}',  'especialidad_direct_send')->name('especialidad_direct_send');
     });
     
     /** Pantalla de inicio */
@@ -218,6 +233,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
         Route::post('/enviar_invitacion_posgrado', 'enviar_invitacion_posgrado')->name('enviar_invitacion_posgrado');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{posgrado?}', 'enviar_encuesta')->name('enviar_encuesta');
+        Route::post('/enviar_invitacion_especialidad', 'enviar_invitacion_especialidad')->name('enviar_invitacion_especialidad');
+        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{especialidad?}', 'enviar_encuesta')->name('enviar_encuesta_esp');
         
   });
 //comentario
@@ -252,9 +269,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
     Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
+    Route::get('/encuestas/llamar_especialidad/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
+    Route::get('/actualizar_especialidad/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
 
     Route::controller(UserController::class)->group(function(){
         Route::get('/users/give/{id}/{permission}', 'give_permission')->name('users.give');
@@ -269,7 +288,14 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('term_encuesta_posgrado/terminar/{id}', 'terminar')->name('posgrado.terminar');
         Route::get('encuesta_posgrado/{correo}/{cuenta}/{programa}', 'comenzar')->name('comenzar_encuesta_posgrado');
     });
-
+//Rutas para la encuesta de especialidad
+    Route::controller(especialidadController::class)->group(function(){
+       Route::get('/encuesta_especialidad/{section}/{id}', 'show')->name('especialidad.show');
+       Route::post('/update_especialidad/{section}/{id}', 'update')->name('especialidad.update');
+       Route::get('especialidad_completar_encuesta/{id}','completar_encuesta')->name('completar_encuesta_especialidad');
+        Route::get('term_encuesta_especialidad/terminar/{id}', 'terminar')->name('especialidad.terminar');
+        Route::get('encuesta_especialidad/{correo}/{cuenta}/{programa}', 'comenzar')->name('comenzar_encuesta_especialidad');
+    });
      Route::controller(EncuestaContinuaController::class)->group(function(){
         Route::get('/encuesta_continua/{id}', 'show')->name('continua.show');
         Route::post('/update_continua/{id}', 'update')->name('continua.update');
