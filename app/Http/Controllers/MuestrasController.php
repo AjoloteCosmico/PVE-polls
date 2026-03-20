@@ -321,8 +321,10 @@ public function index_22($id){
   return view('muestras.seg20.index22',compact('carreras','id'));
 }
 
+/*
+
+
 public function index_ed_continua($id){
- 
 
   $carreras=DB::table('egresados')
       ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
@@ -375,6 +377,81 @@ public function index_ed_continua($id){
   // $carreras=collect($carreras);
   return view('muestras.ed_continua.index',compact('carreras'));
 }
+*/
+
+//PRUEBAAAAAAA2222
+
+public function index_unificado($id,$muestra_id){
+
+  if (!in_array($muestra_id, [897, 898])) {
+        abort(404, 'Muestra no encontrada');
+      }
+
+  $carreras=DB::table('egresados')
+      ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+      ->where('egresado_muestra.muestra_id','=',$muestra_id) //ID de muestra de educación continua o encuesta verde
+      ->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+  })
+  ->where('carreras.clave_plantel',$id)
+  ->select('carreras.carrera','carreras.plantel','egresados.plantel as p','egresados.carrera as c')
+  ->distinct()
+  ->get();
+  if($id==0){
+    $carreras=DB::table('egresados')
+      ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+      ->where('egresado_muestra.muestra_id','=',$muestra_id) //ID de muestra de educación continua o encuesta verde
+      ->leftJoin('carreras', function($join){
+      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
+      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
+  })
+  ->select('carreras.carrera','carreras.plantel')
+  ->distinct()
+  ->get();
+  }
+
+  foreach($carreras as $c){
+    // Partes comunes de la consulta base
+    $queryBase = DB::table('egresados')
+    ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+    ->where('carrera', $c->c)
+    ->where('plantel', $c->p)
+    ->where('egresado_muestra.muestra_id', $muestra_id)
+    ->select('egresado_muestra.status')
+    ->get();
+
+    // Encuestas por teléfono
+    $c->nencuestas_tel = $queryBase
+    ->where('status', 1)
+    ->count();
+
+    // Encuestas por internet
+    $c->nencuestas_int = $queryBase
+    ->where('status', 2)
+    ->count();
+
+    // Encuestas requeridas
+    $c->requeridas = $queryBase
+    ->count();
+  }
+
+  $data = [
+    'carreras' => $carreras,
+    'id' => $id,
+    'muestra_id' => $muestra_id
+  ];
+
+  //return view('muestras.ed_continua.index', $data);
+
+  $vista = ($muestra_id == 897) ? 'muestras.ed_continua.index' : 'muestras.verde.index';
+  
+  return view($vista, $data);
+  
+}
+
+
+
 
 public function plantel_index($gen){
   
@@ -633,7 +710,7 @@ public function show_posgrado($programa, $plan){
   
   return view('muestras.posgrado.show', compact('muestra', 'programa', 'plan', 'Codigos'));
 }
-
+/* 
 public function ed_continua_plantel_index(){
   $Planteles=DB::table('egresados')
       ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
@@ -645,7 +722,48 @@ public function ed_continua_plantel_index(){
   return view('muestras.ed_continua.plantel_index',compact('Planteles'));
 }
 
+public function enc_verde_plantel_index(){
+  $Planteles=DB::table('egresados')
+      ->join('egresado_muestra','egresados.id','=','egresado_muestra.egresado_id')
+      ->where('muestra_id',898)//ID de muestra de encuesta verde
+      ->join('carreras','egresados.plantel','carreras.clave_plantel')
+      ->select('carreras.plantel','carreras.clave_plantel',)
+      ->distinct()->get();
+  
+  //return view('muestras.enc_verde.plantel_index',compact('Planteles'));
+  return view('muestras.ed_continua.plantel_index',compact('Planteles'));
+}
 
+*/
+//Prubeaaaaaa
+
+public function plantel_gen($muestra_id){
+  if (!in_array($muestra_id, [897, 898])) {
+        abort(404, 'Muestra no encontrada');
+      }
+
+  $Planteles = DB::table('egresados')
+        ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
+        ->where('muestra_id', $muestra_id)
+        ->join('carreras', 'egresados.plantel', 'carreras.clave_plantel')
+        ->select('carreras.plantel', 'carreras.clave_plantel')
+        ->distinct()
+        ->get();
+
+    // Determinamos la vista según el ID
+    //$view = ($muestra_id == 897) ? 'muestras.ed_continua.plantel_index' : 'muestras.enc_verde.plantel_index';
+
+  $data = [
+    'titulo' => ($muestra_id == 897) ? 'ENCUESTA DE EDUCACIÓN CONTINUA' : 'ENCUESTA DE EMPLEABILIDAD VERDE  ',
+    'Planteles' => $Planteles,
+    'muestra_id' => $muestra_id
+  ];
+
+    return view('muestras.ed_continua.plantel_index', $data);
+}
+
+
+/*
 
 public function show_continua($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
@@ -664,5 +782,49 @@ public function show_continua($carrera,$plantel){
   return view('muestras.ed_continua.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
   
 }
+*/
+
+public function show_unificado($carrera, $plantel, $muestra_id){
+  if (!in_array($muestra_id, [897, 898])) {
+        abort(404, 'Muestra no encontrada');
+      }
+
+  $Carrera = Carrera::where('clave_carrera', $carrera)
+      ->where('clave_plantel', $plantel)
+      ->first();
+
+  $muestra = DB::table('egresados')
+    ->where('egresados.carrera', '=', $carrera)
+    ->where('plantel', '=', $plantel)
+    ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
+    ->where('egresado_muestra.muestra_id', '=', $muestra_id) // ID de muestra específico
+
+    ->leftJoin('codigos', 'codigos.code', '=', 'egresado_muestra.status')
+    ->select(
+        'egresados.*',
+        'codigos.color_rgb',
+        'codigos.description',
+        'codigos.orden',
+        'egresado_muestra.llamadas as llamadas_continua', //LAMADAS VERDES
+        'codigos.code as codigo_status'
+    )
+    ->get();
+
+  $Codigos = DB::table('codigos')
+      ->where('internet', '=', 0)
+      ->orderBy('color')
+      ->get();
+
+  $vista = ($muestra_id == 897) 
+        ? 'muestras.ed_continua.show' 
+        : 'muestras.verde.show';
+
+  return view($vista, compact('muestra', 'Carrera', 'Codigos', 'carrera', 'plantel', 'muestra_id'));
+}
+
+
+
+
+
 
 }

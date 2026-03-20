@@ -45,9 +45,19 @@
     @endcan
 @can('ver_muestra_ed_continua')
        <div>
-        <a href="{{route('ed_continua.planteles') }}">
+        <a href="{{route('ed_continua.planteles', ['muestra_id' => 897]) }}">
           <button class='boton-muestras' >
             <br><br>ENCUESTA DE EDUCACIÓN CONTINUA <br><br><br>
+            <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton">
+          </button>
+        </a>
+      </div>
+      @endcan
+@can('ver_muestra_ed_continua')
+       <div>
+        <a href="{{route('enc_verde.planteles', ['muestra_id' => 898]) }}">
+          <button class='boton-muestras' >
+            <br><br>ENCUESTA VERDE <br><br><br>
             <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton">
           </button>
         </a>

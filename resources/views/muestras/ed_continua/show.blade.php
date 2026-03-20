@@ -9,7 +9,7 @@
     <h1 class="text-white-25" >{{$Carrera->plantel}} </h1> 
     </div>
       <div class='col'>
-          <a href="{{route('muestras_ed_continua.index',$plantel)}}">
+          <a href="{{route('muestras_ed_continua.index',[$plantel,$muestra_id])}}">
             <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>

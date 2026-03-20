@@ -72,10 +72,18 @@ Route::group(['middleware' => ['auth']], function(){
 
 
         //encuesta educación continua
-        Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
+        Route::get('muestras_ed_continua/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado');
+        //Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
+        //Route::get('muestras_verde/show/{carrera}/{plantel}', 'show_verde')->name('muestras_verde.show');
         Route::get('muestrasv_ed_continua/planteles','ed_continua_plantel_index')->name('muestras_ed_continua.plantel_index');
-        Route::get('planteles/ed_continua','ed_continua_plantel_index')->name('ed_continua.planteles');
-        Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
+        //Route::get('planteles/ed_continua','ed_continua_plantel_index')->name('ed_continua.planteles');
+        //Route::get('planteles/enc_verde', 'enc_verde_plantel_index')->name('enc_verde.planteles');
+        Route::get('planteles/ed_continua/{muestra_id}','plantel_gen')->name('ed_continua.planteles');
+        Route::get('planteles/enc_verde/{muestra_id}', 'plantel_gen')->name('enc_verde.planteles');
+        //Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
+        Route::get('index_ed_continua/{id}/{muestra_id}','index_unificado')->name('muestras_ed_continua.index');
+        Route::get('index_verde/{id}/{muestra_id}', 'index_unificado')->name('muestras_verde.index');
+
         Route::get('revision_continua', 'revision_continua')->name('muestras_ed_continua.revision');
 
 
