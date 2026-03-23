@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Egresado;
+use App\Models\EgresadoEspecialidad;
 use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
@@ -13,12 +14,19 @@ use Session;
 class CorreosController extends Controller
 {
     public function create($cuenta,$carrera,$encuesta,$telefono_id){
+        // dd($encuesta);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
         $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$carrera)->first();
         if($carrera==0){
+            if($encuesta=='especialidad'){
+                $Egresado=EgresadoEspecialidad::where('cuenta',$cuenta)->where('especialidad',Session::get('plan_especialidad'))->first();
+                $Carrera=$Egresado->especialidad;
+                $Plantel=$Egresado->plantel;
+
+            }else{
             $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('plan',Session::get('plan_posgrado'))->first();
             $Carrera=$Egresado->programa;
-            $Plantel=$Egresado->plan;
+            $Plantel=$Egresado->plan;}
         }else{
         $Carrera=Carrera::where('clave_carrera','=',$Egresado->carrera)->first()->carrera;
         $Plantel=Carrera::where('clave_plantel','=',$Egresado->plantel)->first()->plantel;
@@ -28,7 +36,7 @@ class CorreosController extends Controller
     }
 
     public function store(Request $request ,$cuenta,$carrera,$encuesta,$telefono_id){
-
+       
         //Validacion de que el correo no esté repetido
         $request->validate([
             'correo' => 'required|email|unique:correos,correo',
@@ -67,6 +75,7 @@ class CorreosController extends Controller
 
     protected function getRedirectUrl($Egresado, $encuesta, $telefono_id)
     {
+        dd($encuesta);
         if ($Egresado->carrera==0) {
             if ($encuesta == 'posgrado') {
                 return route('act_data_posgrado', [$Egresado->cuenta, $Egresado->programa,$Egresado->plan, $telefono_id]);
@@ -74,6 +83,7 @@ class CorreosController extends Controller
                 return route('posgrado.show', [ 'SEARCH',$encuesta]);
             }
         }
+        
         if($Egresado->act_suvery==1){
             if($encuesta == '2016'){
                 return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);

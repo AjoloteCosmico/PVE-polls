@@ -38,7 +38,17 @@
     <a href="{{route('posgrado.programas_index')}}">
     <button class='boton-muestras' >
       <br><br>ENCUESTA DE POSGRADO <br><br><br>
-      <img src="{{ asset('img/posgrado.png') }}" alt="actuaizacion" class="icono-boton">
+      <img src="{{ asset('img/posgrado.png') }}" alt="posgrado" class="icono-boton">
+    </button>
+    </a>
+    </div>
+    @endcan
+    @can('ver_muestra_posgrado')
+    <div>
+    <a href="{{route('especialidad.index')}}">
+    <button class='boton-muestras' >
+      <br><br>ENCUESTA DE ESPECIALIDADES <br><br><br>
+      <img src="{{ asset('img/posgrado.png') }}" alt="especialidad" class="icono-boton">
     </button>
     </a>
     </div>

@@ -28,54 +28,54 @@ class EspecialidadController extends Controller
      public function comenzar($correo, $cuenta, $plan)
     {
         $Correo = Correo::find($correo);
-        $Egresado = EgresadoPosgrado::where("cuenta", $cuenta)
-            ->where("plan", $plan)
+        $Egresado = EgresadoEspecialidad::where("cuenta", $cuenta)
+            ->where("especialidad", $plan)
             ->first();
 
-        if ($Correo->enviado == 0) {
-            $caminoalpoder = public_path();
-            $process = new Process([
-                env("PY_COMAND"),
-                $caminoalpoder . "/aviso.py",
-                $Egresado->nombre,
-                $Correo->correo,
-            ]);
-             $process->run();
+        // if ($Correo->enviado == 0) {
+        //     $caminoalpoder = public_path();
+        //     $process = new Process([
+        //         env("PY_COMAND"),
+        //         $caminoalpoder . "/aviso.py",
+        //         $Egresado->nombre,
+        //         $Correo->correo,
+        //     ]);
+        //      $process->run();
 
-            if (!$process->isSuccessful()) {
-                //TODO-future: return swal alert,
-                $Correo->enviado = 2;
-                $Correo->save();
-                throw new ProcessFailedException($process);
+        //     if (!$process->isSuccessful()) {
+        //         //TODO-future: return swal alert,
+        //         $Correo->enviado = 2;
+        //         $Correo->save();
+        //         throw new ProcessFailedException($process);
                 
-            } else {
-                $Correo->enviado = 1;
-                $Correo->save();
-            }
-            $data = $process->getOutput();
-        }
+        //     } else {
+        //         $Correo->enviado = 1;
+        //         $Correo->save();
+        //     }
+        //     $data = $process->getOutput();
+        // }
        
-        $Encuesta = respuestasPosgrado::where("cuenta", "=", $cuenta)
+        $Encuesta = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
 
         if ($Encuesta) {
-            return redirect()->route('posgrado.show', [
+            return redirect()->route('especialidad.show', [
                 'section' => 'SEARCH',
                 'id' => $Encuesta->registro
                 
             ]);
         } else {
-            $Encuesta = new respuestasPosgrado();
+            $Encuesta = new respuestasEspecialidad();
             $Encuesta->cuenta = $cuenta;
             $Encuesta->nombre = $Egresado->nombre;
             $Encuesta->paterno = $Egresado->paterno;
             $Encuesta->materno = $Egresado->materno;
-            $Encuesta->plan = $Egresado->plan;
+            $Encuesta->especialidad = $Egresado->especialidad;
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
-            return redirect()->route('posgrado.show', [
-                'section' => 'pA',
+            return redirect()->route('especialidad.show', [
+                'section' => 'espA',
                 'id' => $Encuesta->registro,                
             ]);
         }
@@ -83,108 +83,124 @@ class EspecialidadController extends Controller
 
      public function obtener_siguiente_seccion($current_section)
     {
-        $secciones = ["pA","pB" ,"pC", "pD","pE"];
+        $secciones = ["espA","espB" ,"espC", "espD"];
         $current_index = array_search($current_section, $secciones);
         if ($current_index !== false && isset($secciones[$current_index + 1])) {
             return $secciones[$current_index + 1];
         }
         return $current_section;
     }
+public function show($section, $id)
+{
+    // ── Carga base ──────────────────────────────────────────────────────────
+    $Encuesta = respuestasEspecialidad::findOrFail($id);
+    $Egresado = EgresadoEspecialidad::where('cuenta', $Encuesta->cuenta)->firstOrFail();
 
-    public function show($section,$id){
-        $Encuesta=respuestasPosgrado::find($id);
-        $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->first();
-        $cuenta = ltrim($Egresado->cuenta, "0"); 
-        Session::put('plan_posgrado',$Egresado->plan);
-        $Telefonos = Telefono::where("cuenta", $cuenta)->get();
-        $Correos = Correo::where("cuenta", $cuenta)->get();
-        if ($section == "SEARCH"){
-            foreach (["pA", "pB", "pC", "pD", "pE"] as $sec){
-                $format_field = "sec_" . strtolower($sec);
-                if ($Encuesta->$format_field != 1){
-                    $section = $sec;
-                    break;
-                }
-            }
-            if ($section == "SEARCH"){
-                $section = "pA"; //default section
+    Session::put('especialidad', $Egresado->especialidad);
+
+    // ── Sección activa ───────────────────────────────────────────────────────
+    if ($section === "SEARCH") {
+        $section = "espA"; // default
+        foreach (["espA", "espB", "espC", "espD"] as $sec) {
+            if ($Encuesta->{"sec_" . strtolower($sec)} != 1) {
+                $section = $sec;
+                break;
             }
         }
-
-        $Reactivos=Reactivo::where('section',$section)->get();
-          //Si No esta graduado
-            if($Egresado->grado=='NO'){
-                $Reactivos=Reactivo::where('section',$section)->whereNotIn('clave',['pbr1','pbr1otro','pbr2','pbr3','pbr4'])->orderBy('orden')->get();
-            }else{
-                //GRADUADO DE DOCTORADO
-                if(str_contains($Egresado->plan, 'DOCTORADO')){
-                    $Reactivos=Reactivo::where('section',$section)->whereNotIn('clave',['pbr5','pbr5otro','pbr6','pbr7'])->orderBy('orden')->get();
-               //GRADUADO DE MAESTRIA
-                }else{
-                    $Reactivos=Reactivo::where('section',$section)->whereNotIn('clave',['pbr3','pbr4','pbr5','pbr5otro','pbr6','pbr7'])->orderBy('orden')->get();
-           
-                }
-            
-            }
-            foreach($Reactivos as $reactivo){
-                if($reactivo->act_description){
-                    $reactivo->description=$reactivo->act_description;
-                }
-            }
-        $Opciones=Option::where('clave','like','%p%r')->get();
-        $Bloqueos=Bloqueo::where('clave_reactivo','like','p%')->get();
-        $ReactivoClaves = $Reactivos->pluck('clave');
-         
-        // Obtenemos TODOS los bloqueos que son disparados por *cualquier* reactivo de la sección actual.
-        // Esto es lo que necesita el JavaScript para la lógica dinámica de bloqueo/desbloqueo.
-        $BloqueosSeccion = Bloqueo::whereIn('clave_reactivo', $ReactivoClaves)->get();
-
-        $AllBloqueos = Bloqueo::all();
-        $AllAnswers = $Encuesta->toArray();
-
-        $BloqueosActivos = collect();
-        foreach ($AllBloqueos as $bloqueo) {
-            $reactivoBloqueante = Reactivo::where('clave', $bloqueo->clave_reactivo)->first();
-            if($reactivoBloqueante==null){dd($reactivoBloqueante,$bloqueo);}
-            if($reactivoBloqueante->section != $section){
-                if ($reactivoBloqueante && $reactivoBloqueante->type == 'multiple_option'){
-                    $answer = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
-                                                    ->where('reactivo', $bloqueo->clave_reactivo)
-                                                    ->where('clave_opcion', $bloqueo->valor)
-                                                    ->first();
-                    if ($answer) {
-                        $BloqueosActivos->push($bloqueo);
-                    }
-                } else {
-                    if (isset($AllAnswers[$bloqueo->clave_reactivo]) && $AllAnswers[$bloqueo->clave_reactivo] == $bloqueo->valor) {
-                        $BloqueosActivos->push($bloqueo);
-                    }
-                }
-            }
-        }
-        $Comentario = null;
-        if ($section == 'pE') {
-            $Comentario = Comentario::where("cuenta", $Egresado->cuenta)->first();
-            $Comentario = $Comentario ? $Comentario->comentario : '';
-        }
-        $next_section = $this->obtener_siguiente_seccion($section);
-        $Spoiler=Reactivo::where('section',$next_section)->orderBy('orden', 'asc')->paginate(5);
-       
-        // dd($Bloqueos->unique('valor')->pluck('valor'));
-        return view('posgrado.section', 
-                    compact('Egresado', 'Encuesta',
-                            'Telefonos','Correos',
-                            'Reactivos','Opciones','Bloqueos','BloqueosActivos','Comentario',
-                            'BloqueosSeccion','ReactivoClaves','Spoiler','section','next_section'));
     }
+
+    // ── Reactivos de la sección ──────────────────────────────────────────────
+    $Reactivos = Reactivo::where('section', $section)->get();
+    foreach ($Reactivos as $reactivo) {
+        if ($reactivo->act_description) {
+            $reactivo->description = $reactivo->act_description;
+        }
+    }
+    $ReactivoClaves = $Reactivos->pluck('clave');
+
+    // ── Opciones y teléfonos/correos ─────────────────────────────────────────
+    $cuenta       = $Egresado->cuenta;
+    $Telefonos    = Telefono::where('cuenta', $cuenta)->get();
+    $Correos      = Correo::where('cuenta', $cuenta)->get();
+    $Opciones     = Option::where('clave', 'like', '%p%r')->get();
+
+    // ── Múltiple opción ──────────────────────────────────────────────────────
+    $multiple_option_reactivos = $Reactivos->where('type', 'multiple_option')->pluck('clave');
+    $multiple_options          = Option::whereIn('reactivo', $multiple_option_reactivos)->get();
+    $multiple_option_answers   = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                                    ->whereIn('reactivo', $ReactivoClaves)
+                                    ->get();
+
+    // ── Bloqueos — UNA sola query, sin N+1 ──────────────────────────────────
+    // Traemos todos los bloqueos de una vez y los indexamos en memoria
+    $AllBloqueos     = Bloqueo::all();
+    $BloqueosSeccion = $AllBloqueos->whereIn('clave_reactivo', $ReactivoClaves->toArray());
+    $Bloqueos        = $AllBloqueos->where('clave_reactivo', 'LIKE', 'p%'); // filtro en colección
+
+    // Pre-cargamos reactivos bloqueantes en un mapa clave→reactivo (evita N+1)
+    $clavesReactivosBloqueantes = $AllBloqueos->pluck('clave_reactivo')->unique();
+    $reactivosBloqueantesMap    = Reactivo::whereIn('clave', $clavesReactivosBloqueantes)
+                                    ->get()
+                                    ->keyBy('clave'); // ['p1' => Reactivo, ...]
+
+    // Pre-cargamos respuestas múltiples que interesan para bloqueos externos
+    $clavesMultiple = $clavesReactivosBloqueantes->filter(function ($clave) use ($reactivosBloqueantesMap) {
+        return isset($reactivosBloqueantesMap[$clave]) &&
+               $reactivosBloqueantesMap[$clave]->type === 'multiple_option';
+    });
+
+    $answersMultipleMap = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+                            ->whereIn('reactivo', $clavesMultiple)
+                            ->get()
+                            ->groupBy('reactivo'); // ['nar3a' => Collection, ...]
+
+    $AllAnswers     = $Encuesta->toArray();
+    $BloqueosActivos = collect();
+
+    foreach ($AllBloqueos as $bloqueo) {
+        $reactivoBloqueante = $reactivosBloqueantesMap[$bloqueo->clave_reactivo] ?? null;
+        if (!$reactivoBloqueante) continue;
+        if ($reactivoBloqueante->section === $section) continue;
+
+        if ($reactivoBloqueante->type === 'multiple_option') {
+            $respuestasDelReactivo = $answersMultipleMap->get($bloqueo->clave_reactivo, collect());
+            if ($respuestasDelReactivo->where('clave_opcion', $bloqueo->valor)->isNotEmpty()) {
+                $BloqueosActivos->push($bloqueo);
+            }
+        } else {
+            if (($AllAnswers[$bloqueo->clave_reactivo] ?? null) == $bloqueo->valor) {
+                $BloqueosActivos->push($bloqueo);
+            }
+        }
+    }
+
+    // ── Comentario (solo espD) ───────────────────────────────────────────────
+    $Comentario = null;
+    if ($section === 'espD') {
+        $Comentario = Comentario::where('cuenta', $Egresado->cuenta)
+                        ->where('type', 'especialidad')
+                        ->value('comentario') ?? '';
+    }
+
+    // ── Spoiler siguiente sección ────────────────────────────────────────────
+    $next_section = $this->obtener_siguiente_seccion($section);
+    $Spoiler      = Reactivo::where('section', $next_section)->orderBy('orden')->paginate(5);
+
+    return view('especialidad.section', compact(
+        'Egresado', 'Encuesta', 'Telefonos', 'Correos',
+        'Reactivos', 'Opciones', 'Bloqueos', 'BloqueosActivos', 'Comentario',
+        'BloqueosSeccion', 'ReactivoClaves', 'Spoiler', 'section', 'next_section',
+        'multiple_option_answers', 'multiple_options'
+    ));
+}
 
 
     public function update(Request $request,  $section,$id)
     {
         // dd($request->all());
         // 1. Obtener los datos de la encuesta y el egresado
-        $Encuesta = respuestasPosgrado::where("registro", $id)->first();
-        $Egresado = EgresadoPosgrado::where("cuenta", $Encuesta->cuenta)
+        $Encuesta = respuestasEspecialidad::where("registro", $id)->first();
+        $Egresado = EgresadoEspecialidad::where("cuenta", $Encuesta->cuenta)
             ->first();
 
         // 2. Asignar datos básicos
@@ -240,9 +256,9 @@ class EspecialidadController extends Controller
     }
     
         // 7. Lógica específica para guardar el comentario de la sección G
-        if ($section === 'pE') {
+        if ($section === 'espD') {
             //TODO-future : AGREGAR LLAVE FORANEA A COMENTARIOS, MODEL AND ID 
-            $Comentario = Comentario::firstOrNew(['cuenta' => $Egresado->cuenta]);
+            $Comentario = Comentario::firstOrNew(['cuenta' => $Egresado->cuenta,'type'=>'especialidad']);
             $Comentario->comentario = $request->input('comentario', '');
             $Comentario->save();
         }
@@ -264,7 +280,7 @@ class EspecialidadController extends Controller
         // 9. Redirigir a la siguiente sección
         $next_section = $this->obtener_siguiente_seccion($section);
     
-        return redirect()->route('posgrado.show', [
+        return redirect()->route('especialidad.show', [
             'section' => $next_section,
             'id' => $Encuesta->registro
         ])->with('status', 'guardado');
@@ -398,11 +414,10 @@ class EspecialidadController extends Controller
     public function validar($Encuesta, $Egresado)
     {
 
-        if ($Encuesta->sec_pa == 1 &&
-            $Encuesta->sec_pb == 1 &&
-            $Encuesta->sec_pc == 1 &&
-            $Encuesta->sec_pd == 1 &&
-            $Encuesta->sec_pe == 1 
+        if ($Encuesta->sec_espa == 1 &&
+            $Encuesta->sec_espb == 1 &&
+            $Encuesta->sec_espc == 1 &&
+            $Encuesta->sec_espd == 1
             ) {
                 //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
                 if ($Encuesta->completed != 1){
@@ -434,8 +449,8 @@ class EspecialidadController extends Controller
     }
     public function terminar($id)
     {
-        $Encuesta = respuestasPosgrado::where("registro", $id)->first();
-        $Egresado = EgresadoPosgrado::where("cuenta", $Encuesta->cuenta)
+        $Encuesta = respuestasEspecialidad::where("registro", $id)->first();
+        $Egresado = EgresadoEspecialidad::where("cuenta", $Encuesta->cuenta)
             ->first();
         // $this->respaldar($Encuesta->registro);
         if ($Encuesta->completed == 1) {
@@ -444,9 +459,9 @@ class EspecialidadController extends Controller
 
             File::put($fileStorePath, json_encode($Encuesta));
 
-            return view("encuesta.saved_posgrado", compact("Encuesta",'Egresado'));
+            return view("encuesta.saved_especialidad", compact("Encuesta",'Egresado'));
         } else {
-            return redirect()->route("muestrasposgrado.show", [$Egresado->programa,$Encuesta->plan]);
+            return redirect()->route("muestrasespecialidad.show", [$Egresado->especialidad,$Encuesta->plan]);
         }
     }
 }
