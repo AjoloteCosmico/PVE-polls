@@ -24,7 +24,7 @@
                 $seleccionada = true;
             }
         @endphp
-        <option value="{{$opcion->clave}}" @if($seleccionada) selected @endif > {{$opcion->clave}} {{$opcion->descripcion}}</option>
+        <option value="{{$opcion->clave}}" @if($seleccionada) selected @endif > <p style="color: #6f6f6f !important;"> {{$opcion->clave}}</p> {{$opcion->descripcion}}</option>
     @endforeach
  
 </select>
