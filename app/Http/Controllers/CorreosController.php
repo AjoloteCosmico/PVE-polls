@@ -75,7 +75,7 @@ class CorreosController extends Controller
 
     protected function getRedirectUrl($Egresado, $encuesta, $telefono_id)
     {
-        dd($encuesta);
+        // dd($encuesta);
         if ($Egresado->carrera==0) {
             if ($encuesta == 'posgrado') {
                 return route('act_data_posgrado', [$Egresado->cuenta, $Egresado->programa,$Egresado->plan, $telefono_id]);
@@ -83,7 +83,7 @@ class CorreosController extends Controller
                 return route('posgrado.show', [ 'SEARCH',$encuesta]);
             }
         }
-        
+
         if($Egresado->act_suvery==1){
             if($encuesta == '2016'){
                 return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
