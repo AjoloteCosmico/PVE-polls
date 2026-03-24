@@ -7,24 +7,24 @@ use \App\Http\Controllers\ComponentController;
 
 @include('encuesta.seg20.modal_create_telefono')
 @include('encuesta.seg20.modal_create_correo')
-@include('empresas.modal_create', ['typeStudy' => 'ed_continua'])
+@include('empresas.modal_create', ['typeStudy' => 'encuesta_verde'])
 
 <div class="container-fluid">
     <br><br><br>
 <div>
     <div class="titulos">
-            <h1>ENCUESTA DE EDUCACION CONTINUA UNAM {{session('status') }}</h1>
+            <h1>ENCUESTA DE EMPLEABILIDAD VERDE UNAM {{session('status') }}</h1>
     </div>
     
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
-    <form action="{{ url('encuestas/continua/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+    <form action="" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
     <br>
 
     <div class="posgrado_reactivos">
     
-    @foreach($Reactivos->where('section', 'ed_continua')->sortBy('orden') as $reactivo)
+    @foreach($Reactivos->where('section', 'encuesta_verde')->sortBy('orden') as $reactivo)
     @php
         $field_presenter = $reactivo->clave;
         // Obtenemos las opciones base

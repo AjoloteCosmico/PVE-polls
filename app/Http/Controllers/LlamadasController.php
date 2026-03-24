@@ -8,6 +8,7 @@ use App\Models\respuestasPosgrado;
 use App\Models\respuestasEspecialidad;
 use App\Models\respuestas_continua;
 use App\Models\respuestas3;
+use App\Models\respuestas_verdes;
 use App\Models\respuestas16;
 use App\Models\Correo;
 use App\Models\Egresado;
@@ -93,6 +94,42 @@ class LlamadasController extends Controller
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
         return view('muestras.ed_continua.llamar_continua',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
+    }
+
+
+    public function llamar_unificado($gen,$id,$carrera,$muestra_id){
+
+        $Egresado=Egresado::where('cuenta','=',$id)
+        ->where('carrera',$carrera)
+        ->first();
+
+         $Carrera = Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
+
+         if($muestra_id == 897){
+            $Encuesta= respuestas_continua::where('cuenta','=',$Egresado->cuenta)->first();
+            $vista = 'muestras.ed_continua.llamar_continua';
+         } else {
+            $Encuesta= respuestas_verdes::where('cuenta','=',$Egresado->cuenta)->first();
+            $vista = 'muestras.verde.llamar_verde';
+         }
+        $Telefonos=DB::table('telefonos')->where('cuenta','=',$Egresado->cuenta)
+        ->leftJoin('codigos','codigos.code','=','telefonos.status')
+        ->select('telefonos.*','codigos.color_rgb','codigos.description')
+        ->get();
+        $Recados=DB::table('recados')->where('cuenta','=',$Egresado->cuenta)
+        ->orderBy('fecha','asc')
+        ->leftJoin('codigos','codigos.code','=','recados.status')
+        ->leftJoin('users','users.id','=','recados.user_id')
+        ->select('recados.*','codigos.color_rgb','codigos.description','users.name as user_name')
+        ->get();
+        $Codigos=DB::table('codigos')
+        ->where('internet','=',0)
+        ->orderBy('color')->get();
+        $Codigos_all=DB::table('codigos')
+        ->orderBy('color')->get();
+
+        return view($vista,compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen', 'muestra_id'));
+
     }
 
 
@@ -214,6 +251,49 @@ class LlamadasController extends Controller
             )
         );
     }
+
+
+    public function act_data_verde($cuenta, $carrera, $gen,$telefono_id){
+
+    Session::put('telefono_encuesta',$telefono_id);
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Egresado = Egresado::where("cuenta", $cuenta)
+            ->where("carrera", $carrera)
+            ->first();
+        $Telefonos = DB::table("telefonos")
+            ->where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
+            ->get();
+        $Correos = Correo::where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
+            ->get();
+        $Carrera = Carrera::where(
+            "clave_carrera",
+            "=",
+            $Egresado->carrera
+        )->first()->carrera;
+        $Plantel = Carrera::where(
+            "clave_plantel",
+            "=",
+            $Egresado->plantel
+        )->first()->plantel;
+    
+        return view(
+            "muestras.verde.actualizar_datos_verde",
+            compact(
+                "TelefonoEnLlamada",
+                "Egresado",
+                "Telefonos",
+                "Correos",
+                "Carrera",
+                "Plantel",
+                "gen"
+            )
+        );
+
+    }
+
+    
 
 
     public function act_data_posgrado($cuenta, $programa, $plan, $telefono_id)

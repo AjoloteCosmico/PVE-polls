@@ -19,7 +19,7 @@
                     <h4>{{$Carrera->plantel}}  </h4> 
                 </td>
                 <td>
-                    <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 897])}}">
+                    <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 898])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
@@ -84,7 +84,7 @@
                 <br><br>
                 <div class="row tel-contorno-div">
                     <div class="col tel-contorno-div">
-                         <a href="{{route('act_data_continua',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
+                         <a href="{{route('act_data_verde',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
@@ -94,7 +94,7 @@
                         <!-- TODO: hacer una ruta llamada completar encuesta -->
                     @if($Encuesta)
                         @can('aplicar_encuesta_continua')
-                        <a href="{{route('completar_encuesta_continua',[$Encuesta->registro])}}">
+                        <a href="">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
                             </button>
@@ -113,7 +113,7 @@
     
     <div class='row'>
         <div class='col'>
-            <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 897])}}">
+            <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel,898])}}">
                 <button type="button"  class="boton-oscuro">
                     <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>

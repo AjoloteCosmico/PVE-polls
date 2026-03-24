@@ -71,12 +71,20 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
 
-
         //encuesta educación continua
-        Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
+        Route::get('muestras_ed_continua/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado');
+        Route::get('muestras_verde/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado_verde');
+        //Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
+        //Route::get('muestras_verde/show/{carrera}/{plantel}', 'show_verde')->name('muestras_verde.show');
         Route::get('muestrasv_ed_continua/planteles','ed_continua_plantel_index')->name('muestras_ed_continua.plantel_index');
-        Route::get('planteles/ed_continua','ed_continua_plantel_index')->name('ed_continua.planteles');
-        Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
+        //Route::get('planteles/ed_continua','ed_continua_plantel_index')->name('ed_continua.planteles');
+        //Route::get('planteles/enc_verde', 'enc_verde_plantel_index')->name('enc_verde.planteles');
+        Route::get('planteles/ed_continua/{muestra_id}','plantel_gen')->name('ed_continua.planteles');
+        Route::get('planteles/enc_verde/{muestra_id}', 'plantel_gen')->name('enc_verde.planteles');
+        //Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
+        Route::get('index_ed_continua/{id}/{muestra_id}','index_unificado')->name('muestras_ed_continua.index');
+        Route::get('index_verde/{id}/{muestra_id}', 'index_unificado')->name('muestras_verde.index');
+
         Route::get('revision_continua', 'revision_continua')->name('muestras_ed_continua.revision');
 
 
@@ -194,7 +202,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
         Route::post('/encuestaPosgrado/marcar/{telid}/{egid}', 'marcar_posgrado')->name('marcar_posgrado');
         Route::post('/encuestaEspecialidad/marcar/{telid}/{egid}', 'marcar_especialidad')->name('marcar_especialidad');
-        Route::post('/encuestas/continua/marcar/{telid}/{egid}', 'marcar_continua')->name('marcar_continua');
+        // Route::post('/encuestas/continua/marcar/{telid}/{egid}', 'marcar_continua')->name('marcar_continua');
+        Route::post('/encuestas/continua/marcar/{telid}/{egid}/{muestra_id}', 'marcar_unificado')->name('marcar_continua');
     });
 
     /**Correos */
@@ -267,11 +276,16 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
-    Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
+    //Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
+    Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_continua');
+    //Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_verde'])->name('llamar_verde');
+    Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
+
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/encuestas/llamar_especialidad/{id}/{especialidad}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
+    Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
 
@@ -300,8 +314,11 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/encuesta_continua/{id}', 'show')->name('continua.show');
         Route::post('/update_continua/{id}', 'update')->name('continua.update');
         Route::get('encuesta_continua_completar_encuesta/{id}','edit')->name('completar_encuesta_continua');
+        Route::get('encuesta_verde_completar_encuesta/{id}','edit_verde')->name('completar_encuesta_verde');
         Route::post('/encuestas/continua/update/{id}', 'update')->name('encuesta_continua.update');
-         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_continua');
+        Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
+        Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
+        
     });
 
 
