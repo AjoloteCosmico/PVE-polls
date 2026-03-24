@@ -210,7 +210,7 @@ Route::group(['middleware' => ['auth']], function(){
     
     /** Pantalla de inicio */
     Route::controller(HomeController::class)->group(function(){
-        Route::get('/stats', 'stats')->name('stats');
+        Route::get('/stats', 'optimized_stats')->name('stats');
         Route::get('/links', 'links')->name('links');
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');
