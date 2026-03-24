@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\respuestas_continua;
+use App\Models\respuestas_verdes;
 use App\Models\Egresado;
 use App\Models\Empresas;
 use App\Models\Carrera;
@@ -27,7 +28,7 @@ class EncuestaContinuaController extends Controller
     
     
 
-    public function comenzar($correo, $cuenta, $carrera)
+    public function comenzar($correo, $cuenta, $carrera, $muestra_id)
     {
         $Correo = Correo::find($correo);
         $Egresado = Egresado::where("cuenta", $cuenta)
@@ -42,6 +43,7 @@ class EncuestaContinuaController extends Controller
                 $Correo->correo,
             ]);
             $process->run();
+
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
                 $Correo->save();
@@ -52,18 +54,27 @@ class EncuestaContinuaController extends Controller
             $data = $process->getOutput();
         }
 
-        $Encuesta = respuestas_continua::where("cuenta", $cuenta)
+        if($muestra_id == 897){
+            $res = respuestas_continua::class;
+            $ruta = 'completar_encuesta_continua';
+        } else {
+            $res = respuestas_verdes::class;
+            $ruta = 'completar_encuesta_verde';
+        }
+
+
+        $Encuesta = $res::where("cuenta", $cuenta)
             ->where("nbr2", $carrera)
             ->first();
+
         if (!$Encuesta) {
-            $Encuesta = new respuestas_continua();
+            $Encuesta = new $res();
             $Encuesta->cuenta = $cuenta;
             $Encuesta->paterno = $Egresado->paterno;
             $Encuesta->materno = $Egresado->materno;
             $Encuesta->nombre = $Egresado->nombre;
             $Encuesta->nbr2 = $carrera;
             $Encuesta->nbr3 = $Egresado->plantel;
-            
             $Encuesta->anio_egreso = $Egresado->anio_egreso;
             $Encuesta->carrera = Carrera::where(
                 "clave_carrera",
@@ -75,12 +86,13 @@ class EncuestaContinuaController extends Controller
             $Encuesta->completed = 0;
             $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
-                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->where('muestra_id',$muestra_id) //ID de muestra de educación continua
                 ->update(['status' => 10,
                 'updated_at'=>now()]);
+            $Encuesta->refresh();
             $Encuesta->save();
         }
-        return redirect()->route('completar_encuesta_continua', [$Encuesta->registro]);
+        return redirect()->route($ruta, ['id' => $Encuesta->getKey()]);
     }
 
 
@@ -123,6 +135,43 @@ class EncuestaContinuaController extends Controller
                                                                        'Correos','Reactivos','Opciones',
                                                                        'BloqueosSeccion','multiple_option_answers', 'multiple_options', 'RespuestasMultiples'));
 
+    }
+
+    public function edit_verde($id)
+    {
+        $Encuesta=respuestas_verdes::find($id);
+
+        $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
+            ->where("carrera", $Encuesta->nbr2)
+            ->first();
+        $Carrera = Carrera::where(
+            "clave_carrera",
+            "=",
+            $Egresado->carrera
+        )->first()->carrera;
+        $Plantel = Carrera::where(
+            "clave_plantel",
+            "=",
+            $Egresado->plantel
+        )->first()->plantel;
+        $Telefonos =Telefono::where("cuenta", $Egresado->cuenta)->get();
+        
+        $Correos = Correo::where("cuenta", $Egresado->cuenta)->get();
+        $Reactivos = Reactivo::where('section','encuesta_verde')->get();
+
+         $multiple_options = Option::whereIn('reactivo', $Reactivos->pluck('clave'))->get();
+        $multiple_option_answers = multiple_option_answer::where('encuesta_id', $Encuesta->id)->get();
+        $RespuestasMultiples = $multiple_option_answers->groupBy('reactivo');
+
+        $Opciones=Option::where('clave','like','%p%r')->get();
+
+        $ReactivoClaves = $Reactivos->pluck('clave');
+        $BloqueosSeccion = Bloqueo::whereIn('clave_reactivo', $ReactivoClaves)->get();
+
+        return view('muestras.verde.show_edit_verde',compact('Encuesta','Egresado',
+                                                                       'Carrera','Plantel','Telefonos',
+                                                                       'Correos','Reactivos','Opciones',
+                                                                       'BloqueosSeccion','multiple_option_answers', 'multiple_options', 'RespuestasMultiples'));
     }
 
     

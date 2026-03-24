@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth']], function(){
 
         //encuesta educación continua
         Route::get('muestras_ed_continua/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado');
+        Route::get('muestras_verde/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado_verde');
         //Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
         //Route::get('muestras_verde/show/{carrera}/{plantel}', 'show_verde')->name('muestras_verde.show');
         Route::get('muestrasv_ed_continua/planteles','ed_continua_plantel_index')->name('muestras_ed_continua.plantel_index');
@@ -188,7 +189,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/2014/marcar/{id}', 'marcar_14')->name('marcar_14');
         Route::post('/encuestas/2020/marcar/{telid}/{egid}', 'marcar_20')->name('marcar_20');
         Route::post('/encuestaPosgrado/marcar/{telid}/{egid}', 'marcar_posgrado')->name('marcar_posgrado');
-        Route::post('/encuestas/continua/marcar/{telid}/{egid}', 'marcar_continua')->name('marcar_continua');
+        Route::post('/encuestas/continua/marcar/{telid}/{egid}/{muestra_id}', 'marcar_unificado')->name('marcar_continua');
     });
 
     /**Correos */
@@ -258,10 +259,15 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
     Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
-    Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
+    //Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
+    Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_continua');
+    //Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_verde'])->name('llamar_verde');
+    Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
+
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
+    Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
 
     Route::controller(UserController::class)->group(function(){
@@ -282,8 +288,11 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/encuesta_continua/{id}', 'show')->name('continua.show');
         Route::post('/update_continua/{id}', 'update')->name('continua.update');
         Route::get('encuesta_continua_completar_encuesta/{id}','edit')->name('completar_encuesta_continua');
+        Route::get('encuesta_verde_completar_encuesta/{id}','edit_verde')->name('completar_encuesta_verde');
         Route::post('/encuestas/continua/update/{id}', 'update')->name('encuesta_continua.update');
-         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_continua');
+        Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
+        Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
+        
     });
 
 

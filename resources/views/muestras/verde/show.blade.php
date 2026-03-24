@@ -9,7 +9,7 @@
     <h1 class="text-white-25" >{{$Carrera->plantel}} </h1> 
     </div>
       <div class='col'>
-          <a href="{{route('muestras_ed_continua.index',[$plantel,$muestra_id])}}">
+          <a href="{{route('muestras_verde.index', [$plantel, $muestra_id])}}">
             <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>
@@ -66,7 +66,7 @@
                 <td> 
                 <p hidden> {{$e->orden}}</p>
                 <!-- generalizar el metodo de llamada :O -->
-                  <a href="{{route('llamar_continua',[$e->anio_egreso,$e->cuenta,$e->carrera,$muestra_id])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>             
+                  <a href="{{route('llamar_verde',[$e->anio_egreso,$e->cuenta,$e->carrera,$muestra_id])}}"> <button class="boton-oscuro"> <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR </button></a>             
               </td>
             </tr>
             @endforeach

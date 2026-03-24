@@ -209,7 +209,7 @@ class RecadosController extends Controller
 
 
 
-      public function marcar_continua(Request $request,$tel_id,$eg_id){
+      public function marcar_unificado(Request $request,$tel_id,$eg_id,$muestra_id){
 
         $Egresado=Egresado::find($eg_id);
         $telefono=Telefono::find($tel_id);
@@ -221,18 +221,21 @@ class RecadosController extends Controller
         $Recado->cuenta=$Egresado->cuenta;
         $Recado->user_id=Auth::user()->id;
         $Recado->fecha=now()->modify('-6 hours');
-        $Recado->type = 'cont';
+        $Recado->type = ($muestra_id == 897) ? 'cont' : 'verde';
         $Recado->save();
+
         $telefono->status=$request->code;
         $telefono->save();
 
         $Llamadas=$Recados=Recado::where('cuenta', '=',$Egresado->cuenta)
-        ->where('type', '=', 'cont')
-        ->get()->count();
+        ->where('type', $Recado->type)
+        ->count();
+
         $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
-                ->where('muestra_id',897) // ID de muestra de educación continua
+                ->where('muestra_id',$muestra_id) // ID de muestra de educación continua
                 ->update(['llamadas' => $Llamadas]);
+                
         if($Egresado->status!=1&&$Egresado->status!=2){
 
             if(($Recado->status == 6)||($Recado->status==11)){
@@ -243,19 +246,22 @@ class RecadosController extends Controller
                 if($flag==1){
                      $EgMuestra=DB::table('egresado_muestra')
                         ->where('egresado_id',$Egresado->id)
-                        ->where('muestra_id',897) //ID de muestra de educación continua
+                        ->where('muestra_id',$muestra_id) //ID de muestra de educación continua
                         ->update(['status' => $request->code]);
                   }
               }else{
                 $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
-                ->where('muestra_id',897) //ID de muestra de educación continua
+                ->where('muestra_id',$muestra_id) //ID de muestra de educación continua
                 ->update(['status' => $request->code]);
               }
         }
         //verificacion de telefonos
         $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
-        return redirect()->route('llamar_continua',[$Egresado->anio_egreso,$Egresado->cuenta,$Egresado->carrera]);
+
+        $nombreRuta = ($muestra_id == 897) ? 'llamar_continua' : 'llamar_verde';
+
+        return redirect()->route($nombreRuta,[$Egresado->anio_egreso,$Egresado->cuenta,$Egresado->carrera,$muestra_id]);
   }
 }
 
