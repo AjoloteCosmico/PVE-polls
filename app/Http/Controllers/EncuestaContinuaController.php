@@ -163,7 +163,9 @@ class EncuestaContinuaController extends Controller
         $multiple_option_answers = multiple_option_answer::where('encuesta_id', $Encuesta->id)->get();
         $RespuestasMultiples = $multiple_option_answers->groupBy('reactivo');
 
-        $Opciones=Option::where('clave','like','%p%r')->get();
+        $Opciones=Option::where('clave','like','%p%r')
+                   //->orWhereIn('reactivo', ['vr4', 'vr6', 'vr5', 'vr7'])
+                   ->get();
 
         $ReactivoClaves = $Reactivos->pluck('clave');
         $BloqueosSeccion = Bloqueo::whereIn('clave_reactivo', $ReactivoClaves)->get();
