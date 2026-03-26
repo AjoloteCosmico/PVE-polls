@@ -94,7 +94,7 @@
                         <!-- TODO: hacer una ruta llamada completar encuesta -->
                     @if($Encuesta)
                         @can('aplicar_encuesta_continua')
-                        <a href="">
+                        <a href="{{route('completar_encuesta_verde',[$Encuesta->id])}}">
                             <button class="boton-dorado" type="button" >
                                 Continuar encuesta Inconclusa
                             </button>

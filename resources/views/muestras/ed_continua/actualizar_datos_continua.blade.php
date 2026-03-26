@@ -33,7 +33,7 @@
   
   @if($Egresado->status==8)
     
-          <a href="{{route('completar_encuesta',$Egresado->id)}}">
+          <a href="{{route('completar_encuesta_continua',[$Egresado->id])}}">
               <button type="button"  class="boton-dorado">
                   <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
               </button>
@@ -97,7 +97,7 @@
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2020,$TelefonoEnLlamada->id])}}"> 
+            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>

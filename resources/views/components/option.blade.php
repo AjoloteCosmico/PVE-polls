@@ -24,7 +24,11 @@
                 $seleccionada = true;
             }
         @endphp
-        <option value="{{$opcion->clave}}" @if($seleccionada) selected @endif > {{$opcion->clave}} {{$opcion->descripcion}}</option>
+        <option value="{{$opcion->clave}}"
+                data-rules="{{$opcion->update_rules}}" 
+                @if($seleccionada) selected @endif > 
+                {{$opcion->clave}} {{$opcion->descripcion}}
+        </option>
     @endforeach
  
 </select>
