@@ -72,6 +72,18 @@
             {!! $weeklyChart->container() !!}
         </div>
     </div>
+  <div class="row">
+        
+        <div class="col cuadro-amarillo" style="font-color: white;">
+            {!! $weeklyChart_16->container() !!}
+        </div>
+        <div class="col cuadro-amarillo" style="font-color: white;">
+            {!! $weeklyChart_pos->container() !!}
+        </div>
+    </div>
+
+    
+
     
 </div>
 
@@ -99,4 +111,14 @@
 <script src="{{ $weeklyChart->cdn() }}"></script>
   
 {!! $weeklyChart->script() !!}
+    
+<script src="{{ $weeklyChart->cdn() }}"></script>
+  
+{!! $weeklyChart->script() !!}
+<script src="{{ $weeklyChart_16->cdn() }}"></script>
+  
+{!! $weeklyChart_16->script() !!}
+<script src="{{ $weeklyChart_pos->cdn() }}"></script>
+  
+{!! $weeklyChart_pos->script() !!}
  @endpush
