@@ -53,21 +53,21 @@ class HomeController extends Controller
 
     // 1. Optimización de Conteo por Encuestador (Generalizado)
     // Agrupamos por el ID del encuestador ('aplica') y contamos en una sola query.
-    $stats20 = Respuesta20::where('completed', 1)
+    $stats20 = respuestas20::where('completed', 1)
         ->where('gen_dgae', 2022)
         ->select('aplica', DB::raw('count(*) as total'))
         ->groupBy('aplica')
         ->pluck('total', 'aplica'); // Retorna un array [id_encuestador => total]
 
-    $stats16 = Respuesta16::where('completed', 1)
+    $stats16 = respuestas16::where('completed', 1)
         ->select('aplica', DB::raw('count(*) as total'))
         ->groupBy('aplica')
         ->pluck('total', 'aplica');
 
     // Mapeo de nombres (Esto podrías traerlo de una tabla 'users' o 'encuestadores' para que sea 100% dinámico)
     $nombresEncuestadores = [
-        '17' => 'Erendira', '22' => 'Elizabeth', '23' => 'Sandra', 
-        '25' => 'Amanda', '26' => 'Elizabeth Maldonado'
+        '17' => 'Erendira','26' => 'Elizabeth Maldonado',
+        '27' => 'Alondra','28' => 'Ana K','29' => 'Alejandro'
     ];
 
     $data20 = []; $data16 = []; $labels = [];
@@ -85,9 +85,9 @@ class HomeController extends Controller
 
     // 2. Nueva Gráfica: Encuestas por Semana (Año en curso)
     // Usamos YEARWEEK para agrupar fechas por semana de forma eficiente
-    $encuestasSemanales = Respuesta20::where('completed', 1)
+    $encuestasSemanales = respuestas20::where('completed', 1)
         ->whereYear('created_at', $currentYear)
-        ->select(DB::raw('WEEK(created_at) as semana'), DB::raw('count(*) as total'))
+        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
         ->groupBy('semana')
         ->orderBy('semana')
         ->pluck('total', 'semana');
@@ -98,12 +98,12 @@ class HomeController extends Controller
         ->setXAxis($encuestasSemanales->keys()->map(fn($s) => "Sem $s")->toArray());
 
     // 3. Totales y cálculos rápidos (Sin traer todos los modelos a memoria)
-    $total22 = Respuesta20::where('completed', 1)->count();
-    $total16 = Respuesta16::where('completed', 1)->count();
-    $internet22 = Respuesta20::where('completed', 1)->whereIn('aplica', ['111', '104', '20'])->count();
+    $total22 = respuestas20::where('completed', 1)->count();
+    $total16 = respuestas16::where('completed', 1)->count();
+    $internet22 = respuestas20::where('completed', 1)->whereIn('aplica', ['111', '104', '20'])->count();
     
     // Cálculo de requeridas optimizado (Haciendo el conteo en SQL, no en un loop de PHP)
-    $realizadasPorCarrera = Respuesta20::where('completed', 1)
+    $realizadasPorCarrera = respuestas20::where('completed', 1)
         ->where('gen_dgae', 2022)
         ->whereNull('aplica2')
         ->select('carrera', DB::raw('count(*) as total'))
@@ -116,10 +116,18 @@ class HomeController extends Controller
     });
 
     // ... (Repetir lógica similar para chart y chart16 con los nuevos totales)
-
+    $internet=respuestas20::whereIn('aplica',['111','104','20'])->where('gen_dgae', 2022)->count();
+    $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
+    $telefonicas=respuestas20::where('gen_dgae', 2022)->count()-$internet;
+    
+    $total22=respuestas20::where('completed', 1)->where('gen_dgae', 2022)->count();
+    $total16=respuestas16::where('completed', 1)->count();
+    $telefonicas16=$total16-$Internet16;
+    $Internet=respuestas20::where('completed','=',1)->where('gen_dgae', 2022)
+    ->where('aplica','=',111)->get()->count();
     return view('stats', compact(
         'aplica_chart', 'weeklyChart', 'total22', 'total16', 
-        'internet22', 'requeridas' // agrega las demás variables necesarias
+        'internet22', 'requeridas', 'internet', 'telefonicas','Internet16','telefonicas16','Internet'
     ));
 
     }

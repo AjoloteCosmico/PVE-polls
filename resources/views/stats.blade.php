@@ -68,15 +68,11 @@
         <div class="col cuadro-amarillo" style="font-color: white;">
             {!! $aplica_chart->container() !!}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5 cuadro-amarillo" >
-            {!! $chart->container() !!}
-        </div>
-        <div class="col-md-5 cuadro-amarillo">
-            {!! $chart16->container() !!}
+        <div class="col cuadro-amarillo" style="font-color: white;">
+            {!! $weeklyChart->container() !!}
         </div>
     </div>
+    
 </div>
 
 @endsection
@@ -89,20 +85,18 @@
 @push('js')
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
- 
   console.log('script jalando ¿?');
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
  </script>
 
-<script src="{{ $chart->cdn() }}"></script>
-{!! $chart->script() !!}
-
-<script src="{{ $chart16->cdn() }}"></script>
-{!! $chart16->script() !!}
 
 <script src="{{ $aplica_chart->cdn() }}"></script>
   
 {!! $aplica_chart->script() !!}
+
+<script src="{{ $weeklyChart->cdn() }}"></script>
+  
+{!! $weeklyChart->script() !!}
  @endpush
