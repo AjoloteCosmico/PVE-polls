@@ -20,7 +20,7 @@ class TelefonosController extends Controller
             $Egresado=EgresadoPosgrado::where('cuenta',$cuenta)->where('plan',Session::get('plan_posgrado'))->first();
         }
         return view('encuesta.seg20.create_telefono',compact('Egresado','encuesta','TelefonoEnLlamada'));
-    }
+    }  
 
     public function createPos($cuenta,$programa,$encuesta = null, $telefono_id = null){
 

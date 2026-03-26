@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid" >
-    <h1>ENCUESTA DE EDUCACIÓN CONTINUA</h1>
+    <h1>{{ $titulo }}</h1>
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl " id="myTable">
           <thead>
@@ -16,9 +16,12 @@
             @foreach($Planteles as $p)
             <tr >
                 <td>{{$p->plantel}} </td>
-              
-                <td><a href="{{route('muestras_ed_continua.index',$p->clave_plantel)}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
-               
+
+                @if($muestra_id == 897)
+                  <td><a href="{{route('muestras_ed_continua.index',[$p->clave_plantel,$muestra_id])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                @else
+                  <td><a href="{{route('muestras_verde.index',[$p->clave_plantel,$muestra_id])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                @endif
               </tr>
             @endforeach
           </tbody>

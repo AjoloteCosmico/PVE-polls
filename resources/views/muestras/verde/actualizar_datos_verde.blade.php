@@ -13,14 +13,14 @@
   </div>
   <div class="row">
     <div class="col">
-        <a href="{{ route('muestras.show_unificado', [$Egresado->carrera,$Egresado->plantel,897])}}">
+        <a href="{{ route('muestras.show_unificado', [$Egresado->carrera,$Egresado->plantel,898])}}">
             <button type="button"  class="boton-oscuro">
                 <i class="fas fa-table"></i> Ir a muestra Carrera 
             </button>
         </a>
     </div>
     <div class="col">
-      <a href="{{ route('llamar_continua', [$Egresado->anio_egreso, $Egresado->cuenta, $Egresado->carrera, 897])}}">
+      <a href="{{ route('llamar_verde', [$Egresado->anio_egreso, $Egresado->cuenta, $Egresado->carrera, 898])}}">
         <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>
@@ -33,7 +33,7 @@
   
   @if($Egresado->status==8)
     
-          <a href="{{route('completar_encuesta_continua',[$Egresado->id])}}">
+          <a href="{{route('completar_encuesta_verde',$Egresado->id)}}">
               <button type="button"  class="boton-dorado">
                   <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
               </button>
@@ -74,7 +74,7 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}">
+        <a href="">
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
@@ -105,7 +105,7 @@
           </td>
 
               <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
+                <a href=""> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
                     <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br> POR CORREO
                   </button>
@@ -113,7 +113,7 @@
               </td>
           
               <td>
-                <a href="{{route('comenzar_encuesta_continua',[$c->id,$Egresado->cuenta,$Egresado->carrera,897])}}"> 
+                <a href="{{route('comenzar_encuesta_verde',[$c->id,$Egresado->cuenta,$Egresado->carrera,898])}}"> 
                   <button class="boton-oscuro" > 
                     <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
                   </button>
