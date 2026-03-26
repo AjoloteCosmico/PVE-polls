@@ -8,6 +8,8 @@ use App\Models\respuestas16;
 
 use App\Models\respuestas20;
 use App\Models\respuestas14;
+
+use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
 use DB;
@@ -67,7 +69,8 @@ class HomeController extends Controller
     // Mapeo de nombres (Esto podrías traerlo de una tabla 'users' o 'encuestadores' para que sea 100% dinámico)
     $nombresEncuestadores = [
         '17' => 'Erendira','26' => 'Elizabeth Maldonado',
-        '27' => 'Alondra','28' => 'Ana K','29' => 'Alejandro'
+        '27' => 'Alondra','28' => 'Ana K','29' => 'Alejandro',
+        '23' => 'Sandra','25' => 'Amanda','22' => 'Elizabeth'
     ];
 
     $data20 = []; $data16 = []; $labels = [];
@@ -97,6 +100,29 @@ class HomeController extends Controller
         ->addData('Encuestas', $encuestasSemanales->values()->toArray())
         ->setXAxis($encuestasSemanales->keys()->map(fn($s) => "Sem $s")->toArray());
 
+     $encuestasSemanales_16 = respuestas16::where('completed', 1)
+        ->whereYear('created_at', $currentYear)
+        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
+        ->groupBy('semana')
+        ->orderBy('semana')
+        ->pluck('total', 'semana');
+
+    $weeklyChart_16 = LarapexChart::lineChart()
+        ->setTitle("Encuestas Totales por Semana - $currentYear")
+        ->addData('Encuestas', $encuestasSemanales_16->values()->toArray())
+        ->setXAxis($encuestasSemanales_16->keys()->map(fn($s) => "Sem $s")->toArray());
+
+         $encuestasSemanales_pos = respuestasPosgrado::where('completed', 1)
+        ->whereYear('created_at', $currentYear)
+        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
+        ->groupBy('semana')
+        ->orderBy('semana')
+        ->pluck('total', 'semana');
+
+    $weeklyChart_pos = LarapexChart::lineChart()
+        ->setTitle("Encuestas Totales por Semana - $currentYear")
+        ->addData('Encuestas', $encuestasSemanales_pos->values()->toArray())
+        ->setXAxis($encuestasSemanales_pos->keys()->map(fn($s) => "Sem $s")->toArray());
     // 3. Totales y cálculos rápidos (Sin traer todos los modelos a memoria)
     $total22 = respuestas20::where('completed', 1)->count();
     $total16 = respuestas16::where('completed', 1)->count();
