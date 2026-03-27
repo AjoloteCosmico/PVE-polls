@@ -290,6 +290,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('encuesta_continua_completar_encuesta/{id}','edit')->name('completar_encuesta_continua');
         Route::get('encuesta_verde_completar_encuesta/{id}','edit_verde')->name('completar_encuesta_verde');
         Route::post('/encuestas/continua/update/{id}', 'update')->name('encuesta_continua.update');
+        Route::post('/encuestas/verde/update/{id}', 'update_verde')->name('encuesta_verde.update');
         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
         Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
         
