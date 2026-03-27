@@ -74,7 +74,7 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="">
+        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}">
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
