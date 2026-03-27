@@ -542,6 +542,16 @@ class EncuestaContinuaController extends Controller
                 }
             }
         }
+
+        $Encuesta->fec_capt = now()->modify("-6 hours");
+        $Encuesta->aplica = Auth::user()->clave;
+        $EgMuestra = DB::table('egresado_muestra')
+                ->where('egresado_id', $Egresado->id)
+                ->where('muestra_id', 898) // ID Verde
+                ->update(['status' => 1, 'updated_at' => now()]);
+        $Encuesta->save();
+        Session::put('status', 'completa');
+        return true;
     }
     
 
