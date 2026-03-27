@@ -14,12 +14,12 @@
   </button></a>
 <br>
 
-  <a href="{{route('completar_encuesta_continua',[$Encuesta->registro])}}">
+  <a href="{{route('completar_encuesta_continua',[$Encuesta->id])}}">
        <button class="boton-dorado" type="button"  style=" color:white; padding:15px 30px; margin:15px;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar
   </button></a>
   <br>
-<a href="{{route('muestras.show_unificado',[$Encuesta->nbr2,$Encuesta->nbr3,897])}}">
+<a href="{{route('muestras.show_unificado_verde',[$Encuesta->nbr2,$Encuesta->nbr3,898])}}">
     <button class="boton-dorado" type="button" style=" color:white; padding:15px 30px; margin:15px;">  
         <i class="fas fa-arrow-left fa-lg"></i> &nbsp; Regresar a la muestra</button></a>
 
