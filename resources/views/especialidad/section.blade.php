@@ -66,7 +66,6 @@ use \App\Http\Controllers\ComponentController;
                                 'Opciones' => $opciones_reactivo,
                                 'respuestas_anteriores' => $respuestas_reactivo
                             ])
-
                         
                         @else
                             {{-- Consulta para otros reactivos --}}

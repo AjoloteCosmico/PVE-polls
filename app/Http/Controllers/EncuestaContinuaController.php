@@ -75,22 +75,21 @@ class EncuestaContinuaController extends Controller
             $Encuesta->nombre = $Egresado->nombre;
             $Encuesta->nbr2 = $carrera;
             $Encuesta->nbr3 = $Egresado->plantel;
-            $Encuesta->anio_egreso = $Egresado->anio_egreso;
-            $Encuesta->carrera = Carrera::where(
-                "clave_carrera",
-                "=",
-                $Egresado->carrera
-            )
-                ->first()
-                ->carrera;
-            $Encuesta->completed = 0;
+            if ($res == respuestas_continua::class) {
+                $Encuesta->anio_egreso = $Egresado->anio_egreso;
+                $Encuesta->completed = 0;
+                $carrera_obj = Carrera::where("clave_carrera", $Egresado->carrera)->first();
+                if ($carrera_obj) {
+                    $Encuesta->carrera = $carrera_obj->carrera;
+                }
+            }
             $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
                 ->where('muestra_id',$muestra_id) //ID de muestra de educación continua
                 ->update(['status' => 10,
                 'updated_at'=>now()]);
-            $Encuesta->refresh();
             $Encuesta->save();
+            $Encuesta->refresh();
         }
         return redirect()->route($ruta, ['id' => $Encuesta->getKey()]);
     }
@@ -283,6 +282,102 @@ class EncuestaContinuaController extends Controller
 
     }
 
+    //VERDE
+    public function update_verde(Request $request, $id)
+    {
+        $Encuesta = respuestas_verdes::find($id);
+        $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
+            ->where("carrera", $Encuesta->nbr2)
+            ->first();
+
+        //$Encuesta->aplica = Auth::user()->clave;
+        $Encuesta->update($request->except(['_token', 'btn_pressed', 'aplica', 'completed']));
+
+        $reactivos_multiples = Reactivo::where('type', 'multiple_option')
+                                   ->where('section', 'encuesta_verde')
+                                   ->get();
+        
+        foreach ($reactivos_multiples as $r) {
+        $clave = $r->clave;
+        multiple_option_answer::where('encuesta_id', $Encuesta->id) 
+            ->where('reactivo', $clave)
+            ->delete();
+
+        foreach ($request->all() as $key => $value) {
+            if (str_starts_with($key, $clave . 'opcion')) {
+                $valor_opcion = str_replace($clave . 'opcion', '', $key);
+
+                if (!empty($valor_opcion)) {
+                    $answer = new multiple_option_answer();
+                    $answer->encuesta_id = $Encuesta->id; 
+                    $answer->reactivo = $clave;
+                    $answer->clave_opcion = $valor_opcion;
+                    $answer->save();
+                }
+            }
+        }
+        }
+        $estaRespondida = !is_null($Encuesta->vr1) && $Encuesta->vr1 !== '';
+
+        if($request->btn_pressed === 'guardar'){
+            $this->validar_verde($Encuesta);
+ 
+            if(!$estaRespondida){
+                $Encuesta->save();
+                $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',898) //ID de muestra de encuesta verde
+                        ->update(['status' => 10,'updated_at'=>now()]);
+            }else{
+                 $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',898) //ID de muestra de encuesta verde
+                        ->update(['status' => 1,'updated_at'=>now()]);
+           
+            }
+            return back();
+        }
+
+        if($this->validar_verde($Encuesta)){
+            
+            $Encuesta->fec_capt = now()->modify("-6 hours");
+            $Encuesta->aplica=Auth::user()->clave;
+            $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',898) //ID de muestra de encuesta verde
+                ->update(['status' => $request->code,'updated_at'=>now()]);
+            $Encuesta->save();
+            $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',898) //ID de muestra de encuesta verde
+                        ->update(['status' => 1,'updated_at'=>now()]);
+            $fileName = $Encuesta->cuenta . ".json";
+            $fileStorePath = public_path("storage/json/" . $fileName);
+            File::put($fileStorePath, json_encode($Encuesta));
+
+            return view("encuesta.saved_verde", compact("Encuesta"));
+            return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
+        } else {
+          
+        
+            $Encuesta->save();
+                
+            if($request->btn_pressed == "inconclusa"){
+                $EgMuestra=DB::table('egresado_muestra')
+                        ->where('egresado_id',$Egresado->id)
+                        ->where('muestra_id',898) //ID de muestra de encuesta verde
+                        ->update(['status' => 10,'updated_at'=>now()]);
+                return redirect()->route('llamar_verde',['2016',$Egresado->cuenta,$Egresado->carrera]);
+            }
+            return back();
+
+        }
+    }
+
+
+
+
+
     public function validar($Encuesta)
     {
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
@@ -375,7 +470,79 @@ class EncuestaContinuaController extends Controller
         Session::put('status', 'completa');
         return true;
        
-    } 
+    }
+
+    public function validar_verde($Encuesta)
+    {
+        $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
+                        ->where("carrera", $Encuesta->nbr2)
+                        ->first();
+        $logs = "";
+        $Reactivos = Reactivo::where('section', 'encuesta_verde')->get();
+    
+
+        $Bloqueos = DB::table('bloqueos')
+            ->join('reactivos', 'reactivos.clave', '=', 'bloqueos.clave_reactivo')
+            ->where('reactivos.section', 'encuesta_verde')
+            ->select('bloqueos.*')
+            ->get();
+
+        $RespuestasMultiples = multiple_option_answer::where('encuesta_id', $Encuesta->id)->get();
+
+        foreach ($Reactivos->sortBy('order')->where('type', '!=', 'label') as $reactivo){
+            $bloqueado = false;
+            $field_presenter = $reactivo->clave;
+            $logs .= "Checando el reactivo: " . $field_presenter . "<br>";
+
+            $tieneValor = false;
+            if ($reactivo->type == 'multiple_option') {
+                $tieneValor = $RespuestasMultiples->where('reactivo', $field_presenter)->count() > 0;
+            } else {
+                $tieneValor = !empty($Encuesta->$field_presenter);
+            }
+
+            if(!$tieneValor){
+                $logs .= "       no hay valor unu <br>";
+                $ThisBloqueos = $Bloqueos->where('bloqueado', $field_presenter);
+
+                foreach ($ThisBloqueos->unique('clave_reactivo')->pluck('clave_reactivo') as $r_block) {
+                $OpcionesBloquen = $ThisBloqueos->where('clave_reactivo', $r_block)->pluck('valor');
+                $logs .= '               revisando reactivo bloqueante: ' . $r_block . " <br> ";
+
+                $reactivoQueBloquea = $Reactivos->where('clave', $r_block)->first();
+
+                if ($reactivoQueBloquea && $reactivoQueBloquea->type == 'multiple_option') {
+                        
+                        $respuestasDadas = $RespuestasMultiples->where('reactivo', $r_block)->pluck('clave_opcion');
+                        $interseccion = array_intersect($respuestasDadas->toArray(), $OpcionesBloquen->toArray());
+                    
+                        if (!empty($interseccion)) {
+                            $logs .= ' Si estaba bloqueado por opción múltiple';
+                            $bloqueado = true;
+                        }
+                    } else {
+                        if (in_array($Encuesta->$r_block, $OpcionesBloquen->toArray())) {
+                            $logs .= ' Si estaba bloqueado';
+                            $bloqueado = true;
+                        }
+                    }
+                }
+
+                if (!$bloqueado){
+                    Session::put('logs', $logs);
+                    Session::put('falta', $field_presenter);
+                    Session::put('status', 'incompleta');
+
+                    $Encuesta->save();
+                    $EgMuestra = DB::table('egresado_muestra')
+                        ->where('egresado_id', $Egresado->id)
+                        ->where('muestra_id', 898) // ID Verde
+                        ->update(['status' => 10, 'updated_at' => now()]);
+                    return false;
+                }
+            }
+        }
+    }
     
 
     /**

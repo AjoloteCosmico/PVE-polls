@@ -64,6 +64,7 @@
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col cuadro-amarillo" style="font-color: white;">
             {!! $aplica_chart->container() !!}
