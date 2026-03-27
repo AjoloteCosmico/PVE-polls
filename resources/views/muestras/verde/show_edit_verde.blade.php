@@ -17,7 +17,7 @@ use \App\Http\Controllers\ComponentController;
     </div>
     
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
-    <form action="" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+    <form action="{{ route('encuesta_verde.update', $Encuesta->id) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
     <br>
