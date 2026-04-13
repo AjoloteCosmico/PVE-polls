@@ -258,7 +258,7 @@ use \App\Http\Controllers\ComponentController;
         background-color: #750dbaff; 
         border: none; 
         border-radius: 6px; 
-        color: white; 
+        color: white;  
         font-size: 14px; 
         font-weight: 800; 
         padding: 6px; 
@@ -327,6 +327,7 @@ use \App\Http\Controllers\ComponentController;
         margin: 10px; 
         background-color: white; 
     }
+    
     select { 
         border-radius: 6px; 
         border: none; 
@@ -729,9 +730,6 @@ use \App\Http\Controllers\ComponentController;
     document.getElementById('{{session('falta')}}').focus();
 </script>
 @endif
-
-
-
 
 <script>
    

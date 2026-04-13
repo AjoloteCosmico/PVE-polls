@@ -7,8 +7,9 @@
 
 <div class="rating-stars-container" id="{{$Reactivo->clave}}">
     
-    @foreach($Opciones->sortByDesc('clave') as $index => $opcion)
+    @foreach($Opciones->sortBy('orden') as $opcion)
         @php
+            $index =$Opciones->count() - $loop->index;
             // La clave única para el radio button
             $id_radio = $Reactivo->clave . '_' . $opcion->clave;
             
@@ -17,11 +18,9 @@
             
             // Calculamos el tamaño progresivo. Usamos el índice (+1) para escalar el tamaño.
             // Esto se usará en el CSS para hacer las estrellas más grandes.
-            $size_class = 'star-size-' . (6-($index + 1));
+            $size_class = 'star-size-' . (6-($index));
             
-            // Revertir el orden si quieres que la estrella más grande sea la última opción (mayor valor)
-            // $total_opciones = $Opciones->count();
-            // $size_class = 'star-size-' . ($total_opciones - $index); 
+         
 
         @endphp
 
@@ -49,7 +48,7 @@
 
             {{-- 3. La Descripción Debajo de la Estrella --}}
             <span class="rating-description">
-                {{ $opcion->descripcion }}
+                {{ $opcion->descripcion }} 
             </span>
         </div>
     @endforeach
