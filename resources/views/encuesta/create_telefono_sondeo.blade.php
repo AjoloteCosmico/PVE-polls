@@ -3,15 +3,8 @@
 @section('content')
 
 @php
-    // Si el objeto tiene 'programa', sabemos que es de posgrado
-    $esPosgrado = isset($Egresado->programa);  
-    
-    // Definimos la ruta y el identificador
-    $rutaDestino = $esPosgrado ? 'guardar_telefono_pos' : 'guardar_telefono';
-    $identificador = $esPosgrado ? $Egresado->programa : $Egresado->carrera;
+    $muestra_id = request()->route('muestra_id'); // Obtener el parámetro de la ruta
 @endphp
-
-
 
 <div class="numero_telefonico">
     Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
@@ -26,7 +19,7 @@
     <br><br>
 
     <center>
-        <form action="{{ route($rutaDestino, [$Egresado->cuenta, $identificador, $encuesta, $TelefonoEnLlamada->id])}}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('guardar_telefono', [$Egresado->cuenta, $Egresado->carrera, $encuesta, $TelefonoEnLlamada->id, $muestra_id])}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="exampleInputEmail1" style="color:white">Ingrese el nuevo teléfono (10 dígitos solo números)</label>
