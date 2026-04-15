@@ -1,0 +1,55 @@
+@extends('layouts.app')
+
+@section('content')
+
+@php
+    $muestra_id = request()->route('muestra_id'); // Obtener el parámetro de la ruta
+@endphp
+
+<div class="numero_telefonico">
+    Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
+  </div>
+<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+    <div class="padding div" >
+    <h1>Editar Correo para {{$Egresado->nombre }} </h1>
+    <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
+        <h1 style="color:white">{{$Egresado->cuenta}}   </h1>
+        <h1 style="color:white">{{ $Egresado->carrera }} {{$Egresado->plantel}}   </h1>
+    </div>
+    <center>
+    <br><br>
+    <form action="{{ route('actualizar_correo',[$Correo->id,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id, $muestra_id])}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label style="color: white;" for="exampleInputEmail1">Correo</label>
+            <input  style="width:50%" type="email" class="form-control" value="{{$Correo->correo}}" name="correo" aria-describedby="emailHelp" >
+        </div>
+        <div class="form-group"> 
+            <label style="color: white;" for="exampleInputEmail1">Status</label>
+            <select style="width:50%" class="form-control" name="status" aria-describedby="emailHelp" placeholder="Enter email">
+                <option value="13" @if($Correo->status == '13') selected @endif> En Uso</option>   
+                <option value="14" @if($Correo->status == '14') selected @endif> Sin usar</option>   
+            </select>
+        <br>
+        <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">    <i class="fas fa-store"></i> Guardar</button>
+    </form>
+   </center>
+</div>
+   <br><br>
+@if ($errors->any())
+        <div class="alert alert-danger">
+
+            <ul>
+
+                @foreach ($errors->all() as $error)
+
+                    <li>{{ $error }}</li>
+
+                @endforeach
+
+            </ul>
+
+        </div>
+
+    @endif
+@endsection

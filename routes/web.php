@@ -168,9 +168,13 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/agregar_telefono_verde/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'create_unificado')->name('agregar_telefono_verde');
         Route::get('/agregar_telefono_posgrado/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'createPos')->name('agregar_telefono_pos');
         Route::get('/editar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_telefono');
+
+        Route::get('/editar_telefono_continua/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'edit_unificado')->name('editar_telefono_continua');
+        Route::get('/editar_telefono_verde/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'edit_unificado')->name('editar_telefono_verde');
+    
         Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'store')->name('guardar_telefono');
         Route::post('/guardar_telefono_pos/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'storepos')->name('guardar_telefono_pos');
-        Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'update')->name('actualizar_telefono');
+        Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'update')->name('actualizar_telefono');
     });
 
     /**Encuestas */ //Qué tipo de encuestas? 2014/2019?
@@ -200,8 +204,13 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/agregar_correo_continua/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'create_unificado')->name('agregar_correo_continua');
         Route::get('/agregar_correo_verde/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'create_unificado')->name('agregar_correo_verde');
         Route::get('/editar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}', 'edit')->name('editar_correo');
+
+        Route::get('/editar_correo_continua/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'edit_unificado')->name('editar_correo_continua');
+        Route::get('/editar_correo_verde/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'edit_unificado')->name('editar_correo_verde');
+
+
         Route::post('/guardar_correo/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'store')->name('guardar_correo');
-        Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}',  'update')->name('actualizar_correo');
+        Route::post('/actualizar_correo/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}',  'update')->name('actualizar_correo');
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
         Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
     });

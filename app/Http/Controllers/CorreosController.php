@@ -132,8 +132,19 @@ class CorreosController extends Controller
         return view('encuesta.seg20.editar_correo',compact('Egresado','Correo','Carrera','Plantel','encuesta','TelefonoEnLlamada'));
     }
 
+    public function edit_unificado($id,$carrera,$encuesta,$telefono_id, $muestra_id = null){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Correo=Correo::find($id);
+        $Egresado = Egresado::where('cuenta', $Correo->cuenta)->where('carrera', $carrera)->first();
+        if ($muestra_id == 897){
+            return view('encuesta.edit_correo_sondeo', compact('Egresado','Correo','encuesta','TelefonoEnLlamada' ));
+        } else {
+            return view('encuesta.edit_correo_sondeo', compact('Egresado','Correo','encuesta','TelefonoEnLlamada' ));
+        }
+    }
 
-    public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
+
+    public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id, $muestra_id = null){
 
         //Validacion de que el correo no esté repetido
 
@@ -156,7 +167,7 @@ class CorreosController extends Controller
         $Correo->save();
         
 
-        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
 
         return redirect($redirectUrl);
        
