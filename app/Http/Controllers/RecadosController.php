@@ -7,6 +7,7 @@ use App\Models\respuestas3;
 use App\Models\respuestas14;
 use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
+use App\Models\EgresadoEspecialidad;
 use App\Models\Carrera;
 use App\Models\Comentario;
 use App\Models\Recado;
@@ -263,6 +264,45 @@ class RecadosController extends Controller
 
         return redirect()->route($nombreRuta,[$Egresado->anio_egreso,$Egresado->cuenta,$Egresado->carrera,$muestra_id]);
   }
+
+
+   public function marcar_especialidad(Request $request,$tel_id,$eg_id){
+
+        $EgresadoEsp=EgresadoEspecialidad::find($eg_id);
+        $telefono=Telefono::find($tel_id);
+
+        $Recado= new Recado();
+        $Recado->recado=$request->recado;
+        $Recado->status=$request->code;
+        $Recado->tel_id=$telefono->id;
+        $Recado->cuenta=$EgresadoEsp->cuenta;
+        $Recado->user_id=Auth::user()->id;
+        $Recado->fecha=now()->modify('-6 hours');
+        $Recado->type = 'esp';
+        $Recado->save();
+        $telefono->status=$request->code;
+        $telefono->save();
+        $EgresadoEsp->llamadas=$Recados=Recado::where('cuenta', '=',$EgresadoEsp->cuenta)->get()->count();
+        if($EgresadoEsp->status!=1&&$EgresadoEsp->status!=2){
+            if(($Recado->status == 6)||($Recado->status==11)){
+                $Telefonos=Telefono::where('cuenta',$EgresadoEsp->cuenta)->get();
+                $flag=1;
+                foreach( $Telefonos as $r){ if($r->status != 6&&$r->status != 11){$flag=0;}}
+                if($flag==1){
+                    $EgresadoEsp->status=$request->code; 
+                    $EgresadoEsp->save(); 
+                  }
+              }else{
+                $EgresadoEsp->status=$request->code; 
+                $EgresadoEsp->save();
+              }
+        }
+        //verificacion de telefonos
+        $Telefonos=Telefono::where('cuenta',$EgresadoEsp->cuenta);
+        return redirect()->route('llamar_especialidad',[$EgresadoEsp->cuenta,$EgresadoEsp->especialidad]);
+
+      }
+
 }
 
         

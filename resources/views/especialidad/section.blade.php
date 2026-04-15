@@ -17,7 +17,7 @@ use \App\Http\Controllers\ComponentController;
 
     {{-- Sección de datos personales --}}
     <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 200;">
-        @include('posgrado.personal_data')
+        @include('especialidad.personal_data')
     </div>
     <br>
     <br>
@@ -26,7 +26,7 @@ use \App\Http\Controllers\ComponentController;
     <h1>Sección {{ $section }}</h1>
     <br>
 
-    <form action="{{ route('posgrado.update', [ 'section'=>$section,'id' => $Encuesta->registro]) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+    <form action="{{ route('especialidad.update', [ 'section'=>$section,'id' => $Encuesta->registro]) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
         @csrf
         <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
 
@@ -66,7 +66,6 @@ use \App\Http\Controllers\ComponentController;
                                 'Opciones' => $opciones_reactivo,
                                 'respuestas_anteriores' => $respuestas_reactivo
                             ])
-
                         
                         @else
                             {{-- Consulta para otros reactivos --}}
@@ -100,7 +99,7 @@ use \App\Http\Controllers\ComponentController;
         <br><br>
         @foreach($Spoiler as $r)
          <div class="label_container" >
-                        <h3>{{$r->act_description}}  </h3>
+                        <h3>{{$r->description}}  </h3>
                     </div>
                     <br>
         @endforeach
@@ -259,7 +258,7 @@ use \App\Http\Controllers\ComponentController;
         background-color: #750dbaff; 
         border: none; 
         border-radius: 6px; 
-        color: white; 
+        color: white;  
         font-size: 14px; 
         font-weight: 800; 
         padding: 6px; 
@@ -328,6 +327,7 @@ use \App\Http\Controllers\ComponentController;
         margin: 10px; 
         background-color: white; 
     }
+    
     select { 
         border-radius: 6px; 
         border: none; 
@@ -596,7 +596,7 @@ use \App\Http\Controllers\ComponentController;
     }
     .react_container { 
         padding: 0.7vw; 
-        max-width: 50%; 
+        max-width: 40%; 
         margin: 0.7vw; 
         border: 2px solid white; 
         border-radius: 20px; 
@@ -730,20 +730,6 @@ use \App\Http\Controllers\ComponentController;
     document.getElementById('{{session('falta')}}').focus();
 </script>
 @endif
-
-@if($section=='pD')
-<script>
-    // 1. Localizamos el select por su ID
-const selectPdr11 = document.getElementById('pdr11');
-
-// 2. Creamos la nueva opción: new Option("Texto a mostrar", "valor")
-const nuevaOpcion = new Option("9 No deseo contestar", "9");
-
-// 3. La añadimos al final del select
-selectPdr11.add(nuevaOpcion);
-</script>
-@endif
-
 
 <script>
    

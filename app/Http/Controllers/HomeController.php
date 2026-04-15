@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\respuestas16;
 
 use App\Models\respuestas20;
 use App\Models\respuestas14;
+
+use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
 use DB;
@@ -42,7 +45,118 @@ class HomeController extends Controller
         return view('home',compact('nuevos_datos'));
     }
     
+    public function optimized_stats(){
+        
+    if (!auth()->user()->can('ver_graficas')) {
+        return redirect()->route('home')->with('error', 'No tienes acceso.');
+    }
+
+    $currentYear = Carbon::now()->year;
+
+    // 1. Optimización de Conteo por Encuestador (Generalizado)
+    // Agrupamos por el ID del encuestador ('aplica') y contamos en una sola query.
+    $stats20 = respuestas20::where('completed', 1)
+        ->where('gen_dgae', 2022)
+        ->select('aplica', DB::raw('count(*) as total'))
+        ->groupBy('aplica')
+        ->pluck('total', 'aplica'); // Retorna un array [id_encuestador => total]
+
+    $stats16 = respuestas16::where('completed', 1)
+        ->select('aplica', DB::raw('count(*) as total'))
+        ->groupBy('aplica')
+        ->pluck('total', 'aplica');
+
+    // Mapeo de nombres (Esto podrías traerlo de una tabla 'users' o 'encuestadores' para que sea 100% dinámico)
+    $nombresEncuestadores = [
+        '17' => 'Erendira','26' => 'Elizabeth Maldonado',
+        '27' => 'Alondra','28' => 'Ana K','29' => 'Alejandro',
+        '23' => 'Sandra','25' => 'Amanda','22' => 'Elizabeth'
+    ];
+
+    $data20 = []; $data16 = []; $labels = [];
+    foreach ($nombresEncuestadores as $id => $nombre) {
+        $labels[] = $nombre;
+        $data20[] = $stats20[$id] ?? 0;
+        $data16[] = $stats16[$id] ?? 0;
+    }
+
+    $aplica_chart = LarapexChart::barChart()
+        ->setTitle('Conteo por encuestador')
+        ->addData('2022', $data20)
+        ->addData('2016', $data16)
+        ->setXAxis($labels);
+
+    // 2. Nueva Gráfica: Encuestas por Semana (Año en curso)
+    // Usamos YEARWEEK para agrupar fechas por semana de forma eficiente
+    $encuestasSemanales = respuestas20::where('completed', 1)
+        ->whereYear('created_at', $currentYear)
+        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
+        ->groupBy('semana')
+        ->orderBy('semana')
+        ->pluck('total', 'semana');
+
+    $weeklyChart = LarapexChart::lineChart()
+        ->setTitle("Encuestas Totales por Semana - $currentYear")
+        ->addData('Encuestas', $encuestasSemanales->values()->toArray())
+        ->setXAxis($encuestasSemanales->keys()->map(fn($s) => "Sem $s")->toArray());
+
+     $encuestasSemanales_16 = respuestas16::where('completed', 1)
+        ->whereYear('created_at', $currentYear)
+        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
+        ->groupBy('semana')
+        ->orderBy('semana')
+        ->pluck('total', 'semana');
+
+    $weeklyChart_16 = LarapexChart::lineChart()
+        ->setTitle("Encuestas Totales por Semana - $currentYear")
+        ->addData('Encuestas', $encuestasSemanales_16->values()->toArray())
+        ->setXAxis($encuestasSemanales_16->keys()->map(fn($s) => "Sem $s")->toArray());
+
+         $encuestasSemanales_pos = respuestasPosgrado::where('completed', 1)
+        ->whereYear('created_at', $currentYear)
+        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
+        ->groupBy('semana')
+        ->orderBy('semana')
+        ->pluck('total', 'semana');
+
+    $weeklyChart_pos = LarapexChart::lineChart()
+        ->setTitle("Encuestas Totales por Semana - $currentYear")
+        ->addData('Encuestas', $encuestasSemanales_pos->values()->toArray())
+        ->setXAxis($encuestasSemanales_pos->keys()->map(fn($s) => "Sem $s")->toArray());
+    // 3. Totales y cálculos rápidos (Sin traer todos los modelos a memoria)
+    $total22 = respuestas20::where('completed', 1)->count();
+    $total16 = respuestas16::where('completed', 1)->count();
+    $internet22 = respuestas20::where('completed', 1)->whereIn('aplica', ['111', '104', '20'])->count();
     
+    // Cálculo de requeridas optimizado (Haciendo el conteo en SQL, no en un loop de PHP)
+    $realizadasPorCarrera = respuestas20::where('completed', 1)
+        ->where('gen_dgae', 2022)
+        ->whereNull('aplica2')
+        ->select('carrera', DB::raw('count(*) as total'))
+        ->groupBy('carrera')
+        ->pluck('total', 'carrera');
+
+    $metas = DB::table('muestras')->where('estudio_id', '5')->get();
+    $requeridas = $metas->sum(function($m) use ($realizadasPorCarrera) {
+        return max(0, $m->requeridas_5 - ($realizadasPorCarrera[$m->carrera_id] ?? 0));
+    });
+
+    // ... (Repetir lógica similar para chart y chart16 con los nuevos totales)
+    $internet=respuestas20::whereIn('aplica',['111','104','20'])->where('gen_dgae', 2022)->count();
+    $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
+    $telefonicas=respuestas20::where('gen_dgae', 2022)->count()-$internet;
+    
+    $total22=respuestas20::where('completed', 1)->where('gen_dgae', 2022)->count();
+    $total16=respuestas16::where('completed', 1)->count();
+    $telefonicas16=$total16-$Internet16;
+    $Internet=respuestas20::where('completed','=',1)->where('gen_dgae', 2022)
+    ->where('aplica','=',111)->get()->count();
+    return view('stats', compact(
+        'aplica_chart', 'weeklyChart', 'total22', 'total16', 
+        'internet22', 'requeridas', 'internet', 'telefonicas','Internet16','telefonicas16','Internet'
+    ));
+
+    }
     public function stats()
     {
         if (!auth()->user()->can('ver_graficas')) {
@@ -130,8 +244,6 @@ class HomeController extends Controller
         $eli16=respuestas16::where('aplica', '=' ,'22')->count();
         $sandy16=respuestas16::where('aplica', '=' ,'23')->count();
         $amanda16=respuestas16::where('aplica', '=' ,'25')->count();
-        
-    
         
         $aplica_chart = LarapexChart::barChart()
         ->setTitle('Conteo por encuestador')

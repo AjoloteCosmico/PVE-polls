@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 use App\Models\respuestas20;
 use App\Models\respuestasPosgrado;
+use App\Models\respuestasEspecialidad;
 use App\Models\respuestas_continua;
 use App\Models\respuestas3;
 use App\Models\respuestas_verdes;
@@ -12,6 +13,7 @@ use App\Models\respuestas16;
 use App\Models\Correo;
 use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
+use App\Models\EgresadoEspecialidad;
 use App\Models\Carrera;
 use App\Models\Comentario;
 use App\Models\Telefono;
@@ -335,5 +337,76 @@ class LlamadasController extends Controller
         );
     }
 
+public function llamar_egresadosEspecialidad($id,$especialidad){
 
-}
+        if (!auth()->user()->can('ver_muestra_posgrado')) {
+            return redirect()->back()->with('error', 'No tienes permisos para la muestra de posgrado');
+        }
+
+        $EgresadoEsp=EgresadoEspecialidad::where('cuenta', '=',$id)
+        ->where('especialidad',$especialidad)
+        ->first();
+
+        $EncuestaEsp=respuestasEspecialidad::where('cuenta','=',$EgresadoEsp->cuenta)->where('especialidad',$EgresadoEsp->especialidad)->first();
+
+        $Telefonos=DB::table('telefonos')->where('cuenta','=',$EgresadoEsp->cuenta)
+        ->leftJoin('codigos','codigos.code','=','telefonos.status')
+        ->select('telefonos.*','codigos.color_rgb','codigos.description')
+        ->get();
+        
+        $Recados=DB::table('recados')->where('cuenta','=',$EgresadoEsp->cuenta)
+        ->orderBy('fecha','asc')
+        ->leftJoin('codigos','codigos.code','=','recados.status')
+        ->leftJoin('users','users.id','=','recados.user_id')
+        ->select('recados.*','codigos.color_rgb','codigos.description','users.name as user_name')
+        ->get();
+        $Codigos=DB::table('codigos')
+        ->where('internet','=',0)
+        ->orderBy('color')->get();
+        $Codigos_all=DB::table('codigos')
+        ->orderBy('color')->get();
+        return view('muestras.especialidad.llamar_especialidad',compact('EgresadoEsp',
+        'Telefonos','Recados','Codigos','Codigos_all','EncuestaEsp','especialidad'));
+    }
+
+    public function act_data_especialidad($cuenta, $especialidad, $telefono_id)
+    {
+        if (!auth()->user()->can('aplicar_encuesta_posgrado')) {
+            return redirect()->back()->with('error', 'No tienes permisos para aplicar la encuesta de posgrado');
+        }
+
+        Session::put('telefono_encuesta',$telefono_id);
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+
+        $EgresadoEsp = EgresadoEspecialidad::where("cuenta", $cuenta)
+            ->where("especialidad", $especialidad)
+            ->first();
+        
+        if (!$EgresadoEsp) {
+            $EgresadoPos = EgresadoPosgrado::where("cuenta", $cuenta)->firstOrFail();
+        }
+
+        Session::put('plan_especialidad',$EgresadoEsp->especialidad);
+        $Telefonos = DB::table("telefonos")
+            ->where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
+            ->get();
+        $Correos = Correo::where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
+            ->get();
+        $EncuestaInconclusa = respuestasEspecialidad::where("cuenta", "=", $cuenta)
+            ->first();
+        return view(
+            "muestras.especialidad.actualizar_datos_especialidad",
+            compact(
+                "TelefonoEnLlamada",
+                "EgresadoEsp",
+                "Telefonos",
+                "Correos",
+                "especialidad","EncuestaInconclusa"
+            )
+        );
+    }
+
+
+    }

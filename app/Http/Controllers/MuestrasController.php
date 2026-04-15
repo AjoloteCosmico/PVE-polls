@@ -11,6 +11,7 @@ use App\Models\Carrera;
 use DB;
 use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
+use App\Models\EgresadoEspecialidad;
 use App\Models\respuestas_continua;
 use App\Models\respuestas2;
 
@@ -826,5 +827,55 @@ public function show_unificado($carrera, $plantel, $muestra_id){
 
 
 
+
+
+public function especialidad_index(){
+
+  $planes = EgresadoEspecialidad::whereIn('anio_egreso', [2022, 2023, 2024, 2025])
+    ->select('especialidad')
+    ->distinct()
+    ->get();
+  foreach ($planes as $p) {
+    $queryBase = EgresadoEspecialidad::where('especialidad', $p->especialidad)
+      ->whereIn('anio_egreso', [2022, 2023, 2024, 2025]);
+
+    // Encuestas por teléfono
+    $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();
+
+    // Encuestas por internet
+    $p->nencuestas_int = (clone $queryBase)->where('status', 2)->count();
+
+    // Encuestas requeridas
+    $p->requeridas = (clone $queryBase)->count();
+  }
+  // dd($planes);
+  return view('muestras.especialidad.index', compact('planes'));
+
+}
+
+
+    public function show_especialidad($especialidad){
+      
+    $muestra = DB::table('egresados_especialidad')
+      ->where('especialidad', '=', $especialidad)
+      ->whereIn('anio_egreso', [2022,2023,2024,2025])
+      ->leftJoin('codigos',function($join){
+        $join->on(
+              // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
+              DB::raw('CAST(codigos.code AS INTEGER)'), // Columna de texto
+              '=',
+              'egresados_especialidad.status'
+          );
+      })
+    ->select('egresados_especialidad.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden')
+    ->get();
+
+  $Codigos = DB::table('codigos')
+    ->where('internet', '=', 0)
+    ->orderBy('color')
+    ->get();
+  
+  return view('muestras.especialidad.show', compact('muestra', 'especialidad', 'Codigos'));
+}
 
 }

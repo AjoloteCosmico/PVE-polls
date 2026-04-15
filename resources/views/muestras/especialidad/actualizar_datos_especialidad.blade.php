@@ -1,26 +1,25 @@
 @extends('layouts.app')
 @section('content')
 <div class="numero_telefonico">
-  Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}  
+  Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
   <div >
     <h1 style="color:white"> DATOS DE CONTACTO PARA EL EGRESADO </h1>
-    <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
-    <h1 style="color:white">{{$Egresado->cuenta}}   </h1>
-    <h1 style="color:white">{{$Carrera}} {{$Plantel}}   </h1>
-    <h2 style="color:white"> Muestra: {{$Egresado->anio_egreso}} </h2> 
+    <h1 style="color:white">{{$EgresadoEsp->nombre}} {{$EgresadoEsp->paterno}} {{$EgresadoEsp->materno}}   </h1>
+    <h1 style="color:white">{{$EgresadoEsp->cuenta}}   </h1>
+    <h1 style="color:white">ESP. EN DERECHO {{$especialidad}}  </h1>
   </div>
   <div class="row">
     <div class="col">
-        <a href="{{ route('muestras.show_unificado', [$Egresado->carrera,$Egresado->plantel,898])}}">
+        <a href="{{route('muestras.especialidad.show',[$EgresadoEsp->especialidad])}}">
             <button type="button"  class="boton-oscuro">
-                <i class="fas fa-table"></i> Ir a muestra Carrera 
+                <i class="fas fa-table"></i> Ir a muestra Programa 
             </button>
         </a>
     </div>
     <div class="col">
-      <a href="{{ route('llamar_verde', [$Egresado->anio_egreso, $Egresado->cuenta, $Egresado->carrera, 898])}}">
+      <a href="{{route('llamar_especialidad',[$EgresadoEsp->cuenta,$EgresadoEsp->especialidad])}}">
         <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>
@@ -29,19 +28,21 @@
     <div class="col"> 
     </div>
   </div>
-  <div class="col-6 col-lg-12 table-responsive">  
+  <div class="col-6 col-lg-12 table-responsive">    
   
-  @if($Egresado->status==8)
-    
-          <a href="{{route('completar_encuesta_verde',$Egresado->id)}}">
+  @if($EgresadoEsp->status==8||$EgresadoEsp->status==10)
+  
+      @if($EncuestaInconclusa )
+          <a href="{{route('especialidad.show',['SEARCH',$EncuestaInconclusa->registro])}}">
               <button type="button"  class="boton-dorado">
                   <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
               </button>
           </a>
+          @endif
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono_verde',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id, 898])}}">
+      <a href="{{ route('agregar_telefono_pos',[$EgresadoEsp->cuenta,$EgresadoEsp->especialidad, '0',$TelefonoEnLlamada->id])}}">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
@@ -65,8 +66,7 @@
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono_verde',[$t->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,898])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
-          </td>
+            <td> <a href="{{route('editar_telefono',[$t->id,$EgresadoEsp->carrera,'especialidad',$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
         </tr>
         @endforeach
       </tbody>
@@ -74,7 +74,7 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo_verde',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,898])}}">
+        <a href="{{ route('agregar_correo',[$EgresadoEsp->cuenta,$EgresadoEsp->carrera,'especialidad',$TelefonoEnLlamada->id])}}">
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
@@ -97,29 +97,28 @@
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo_verde',[$c->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,898])}}"> 
+            <a href="{{route('editar_correo',[$c->id,$EgresadoEsp->carrera,'posgrado',$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
             </a>
           </td>
-
-              <td>
-                <a href=""> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br> POR CORREO
+            <td>
+                <a href="{{route('enviar_encuesta',[$c->id,$EgresadoEsp->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
+                  <button class="boton-oscuro" > 
+                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA POR CORREO
                   </button>
                 </a>
               </td>
-          
+              @can('aplicar_encuesta_posgrado')
               <td>
-                <a href="{{route('comenzar_encuesta_verde',[$c->id,$Egresado->cuenta,$Egresado->carrera,898])}}"> 
+                <a href="{{route('comenzar_encuesta_especialidad',[$c->id,$EgresadoEsp->cuenta,$EgresadoEsp->especialidad])}}"> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="boton-oscuro" > 
                     <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
                   </button>
                 </a>
               </td>
-      
+              @endcan
         </tr>
         @endforeach
       </tbody>
@@ -151,7 +150,7 @@
 
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
-  console.log('script jalando ¿?');
+  console.log('script funcionando');
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
