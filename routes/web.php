@@ -332,7 +332,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/encuestas/verde/update/{id}', 'update_verde')->name('encuesta_verde.update');
         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
         Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
-        
     });
 
 
