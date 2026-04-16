@@ -82,8 +82,7 @@ class Encuesta22Controller extends Controller
                 'section' => 'A'
             ]);
         }
-    }
-
+    } 
     public function edit_22($id, $section)
     {
         $Encuesta = respuestas20::where("registro", $id)->first();

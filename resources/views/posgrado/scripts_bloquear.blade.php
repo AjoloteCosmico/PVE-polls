@@ -18,6 +18,23 @@ array_bloqueos={
        },
        @endforeach
       };
+@php
+use \App\Models\Option; 
+@endphp
+update_rules={
+    @foreach($Reactivos as $reactivo)
+        @if($reactivo->update_rules)
+            '{{$reactivo->clave}}': {
+                                    'target': '{{$reactivo->update_rules}}',
+                                    @foreach( Option::where('reactivo', $reactivo->clave)->get() as $option)
+                                        '{{$option->clave}}':[{{$option->update_rules}}],
+                                    @endforeach 
+        }, 
+        @endif
+    @endforeach
+}
+
+
     // Función de bloqueo 
 function checkBloqueos(reactive, isInitialLoad = false) {
     console.log('---CHANGE: ' + reactive + ' Ha cambiado');
@@ -28,6 +45,14 @@ function checkBloqueos(reactive, isInitialLoad = false) {
     
     if (elemento && elemento.tagName === 'SELECT') {
         if (elemento.value) selected_values.push(elemento.value);
+        if(update_rules[reactive]){
+            const target_select_id = update_rules[reactive].target;
+            const target_select = document.getElementById(target_select_id);
+            if(target_select){
+                const visible_options = update_rules[reactive][elemento.value] || [];
+                updateOptions(target_select_id, visible_options);
+            }
+        }
     } else {
         const checkboxes = document.querySelectorAll(`[id^="${reactive}-"]:checked`);
         checkboxes.forEach(checkbox => {
@@ -163,8 +188,55 @@ function checkBloqueos(reactive, isInitialLoad = false) {
         reactivos_disparadores.forEach(reactive => {
             checkBloqueos(reactive, true); 
         });
+
+
+
     });
 
+// function updateOptions(target,visible_options){
+//     console.log('Actualizando opciones de ' + target + ' para mostrar solo: ' + visible_options);
+//     //buscar el select con id target
+//     const select = document.getElementById(target);
+//     if(!select) return console.log('No se encontró el select con id ' + target);
+//     //recorrer las opciones del select y ocultar las que no estén en visible_options
+//     for(let i=0; i<select.options.length; i++){
+//         const option = select.options[i];
+//         if(visible_options.includes(parseInt(option.value))){
+//             option.style.display = 'block';
+//         } else {
+//             console.log('Ocultando opción ' + option.value + ' porque no está en ' + visible_options);
+//             option.hide = 'hidden';
+//         }
+//     }
+// }
+
+// FUNCION USANDO SELECT2
+
+function updateOptions(target, visible_options) {
+    //asegurarse que visible_options es un array de enteros
+   
+    const $select = $('#' + target); // Select2 requiere jQuery
+    if (!$select.length) return;
+    console.log('Actualizando opciones de ' + target + ' para mostrar solo: ' + visible_options);
+    // cambiar el valor del select a '' 
+    // $select.val('').trigger('change'); // Resetea el valor seleccionado
+    // 2. Filtrar las opciones en el select original
+    $select.find('option').each(function() {
+        const val = parseInt($(this).val());
+        
+        if (visible_options.includes(val)) {
+            console.log('Mostrando opción ' + val + ' porque está en ' + visible_options);
+            $(this).prop('disabled', false); // Habilitar
+            $(this).show();                  // Mostrar (para selects normales)
+        } else {
+            $(this).prop('disabled', true);  // Deshabilitar (Select2 lo respeta)
+            $(this).hide();                  // Ocultar
+        }
+    });
+
+    // 3. Volver a inicializar
+    // $select.select2();
+}
 
 
 

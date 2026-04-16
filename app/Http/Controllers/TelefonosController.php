@@ -32,6 +32,18 @@ class TelefonosController extends Controller
 
     }
 
+    public function create_unificado($cuenta,$carrera,$programa,$encuesta = null, $telefono_id = null, $muestra_id = null){
+
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Egresado = Egresado::where('cuenta', $cuenta)->where('carrera', $carrera)->first();
+        if ($muestra_id == 897){
+                return view('encuesta.create_telefono_sondeo', compact('Egresado','encuesta','TelefonoEnLlamada'));
+        } else {
+            return view('encuesta.create_telefono_sondeo', compact('Egresado','encuesta','TelefonoEnLlamada'));
+        }
+
+    }
+
 
 
     public function storepos(Request $request ,$cuenta,$programa,$encuesta=0,$telefono_id){
@@ -73,7 +85,7 @@ class TelefonosController extends Controller
     
 
 
-    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id, $muestra_id = null){
 
         //Validacion de que el telefono no esté repetido
         $request->validate([
@@ -98,7 +110,7 @@ class TelefonosController extends Controller
 
         $Telefono->save();
 
-        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
@@ -109,13 +121,20 @@ class TelefonosController extends Controller
             ]);
         }
         
-        return redirect($redirectUrl);
+        return redirect($redirectUrl);  
     }
 
 
 
-    protected function getRedirectUrl($egresado, $encuesta, $telefono_id)
+    protected function getRedirectUrl($egresado, $encuesta, $telefono_id, $muestra_id=null)
     {
+
+        if($muestra_id == 897){
+            return route('act_data_continua', [$egresado->cuenta, $egresado->carrera, $encuesta, $telefono_id]);
+        }
+        if($muestra_id == 898){
+            return route('act_data_verde', [$egresado->cuenta, $egresado->carrera, $encuesta, $telefono_id]);
+        }
 
         $identificador = isset($egresado->programa) ? $egresado->programa : $egresado->carrera;
 

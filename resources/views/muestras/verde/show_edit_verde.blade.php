@@ -379,6 +379,10 @@ option{
         font-weight: 800; 
         color: black; 
     }
+/* Oculta las opciones deshabilitadas dentro del desplegable de Select2 */
+.select2-results__option[aria-disabled=true] {
+    display: none;
+}
 /* --- Estilos para el Componente Rating de Estrellas --- */
 
 .rating-stars-container {

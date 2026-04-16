@@ -1,0 +1,50 @@
+@extends('layouts.app')
+
+@section('content')
+
+@php
+    $muestra_id = request()->route('muestra_id'); // Obtener el parámetro de la ruta
+@endphp
+
+<div class="numero_telefonico">
+    Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
+  </div>
+<div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
+    <div class="padding div" >
+    <h1>Agregar otro correo  para </h1>
+    <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
+        <h1 style="color:white">{{$Egresado->cuenta}}   </h1>
+        <h1 style="color:white">{{ $Egresado->carrera }} {{ $Egresado->plantel }}   </h1>
+        <h1></h1>
+    </div>
+    <br><br>
+    <center>
+    <form action="{{ route('guardar_correo',[$Egresado->cuenta,$Egresado->carrera,$encuesta,$TelefonoEnLlamada->id, $muestra_id])}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label for="exampleInputEmail1">Ingrese el nuevo correo</label>
+            <input  style="width:50%" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <br>
+        <button type="submit" style="color:rgb({{Auth::user()->color}})" class="btn btn-primary btn-lg">  <i class="fas fa-store"></i> Guardar</button>
+    </form>
+    </center>
+</div>
+    <br><br>
+@if ($errors->any())
+        <div class="alert alert-danger">
+
+            <ul>
+
+                @foreach ($errors->all() as $error)
+
+                    <li>{{ $error }}</li>
+
+                @endforeach
+
+            </ul>
+
+        </div>
+
+    @endif
+@endsection

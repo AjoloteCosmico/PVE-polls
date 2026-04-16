@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="numero_telefonico">
-  Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
+  Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}  
 </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
   <div >
@@ -41,7 +41,7 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id])}}">
+      <a href="{{ route('agregar_telefono_verde',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id, 898])}}">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
@@ -74,7 +74,7 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}">
+        <a href="{{ route('agregar_correo_verde',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,898])}}">
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
