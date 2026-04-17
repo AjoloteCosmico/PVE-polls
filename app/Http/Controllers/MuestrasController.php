@@ -691,9 +691,9 @@ public function show_posgrado($programa, $plan){
   
   $muestra = DB::table('egresados_posgrado')
     ->where('programa', '=', $programa)
-    ->where('plan', '=', $plan)
+    // ->where('plan', '=', $plan)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
-    ->where('fuente', '!=', 'internet')
+    ->where('fuente',  '=', 'base original')
     ->leftJoin('codigos',function($join){
       $join->on(
             // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
@@ -709,7 +709,7 @@ public function show_posgrado($programa, $plan){
     ->where('internet', '=', 0)
     ->orderBy('color')
     ->get();
-  
+  //mostrar unicos en la columna de fuent
   return view('muestras.posgrado.show', compact('muestra', 'programa', 'plan', 'Codigos'));
 }
 /* 
