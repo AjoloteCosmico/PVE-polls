@@ -116,7 +116,7 @@
                             
                         @elseif($tipo == 'continua')
                              @if(in_array($eg->estado_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
-                                <a href="{{route('llamar_continua',[$eg->anio_egreso,$eg->cuenta,$eg->carrera])}}">
+                                <a href="{{route('llamar_continua',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 897])}}" >
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                                     </button>

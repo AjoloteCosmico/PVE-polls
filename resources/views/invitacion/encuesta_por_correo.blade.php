@@ -73,8 +73,16 @@
 </div>
 <center>
     <br><br>
-    <form action="{{route('enviar_invitacion')}}" method="POST" enctype="multipart/form-data">
+    @php
+        // Si hay muestra_id, usamos la ruta de conteo, si no, la normal
+        $rutaAction = ($muestra_id) ? route('enviar_invitacion_conteo') : route('enviar_invitacion');
+    @endphp
+    <form action="{{$rutaAction}}" method="POST" enctype="multipart/form-data">
         @csrf
+        {{-- Campo extra para enviar el ID de la muestra al controlador final --}}
+        @if($muestra_id)
+            <input type="hidden" name="muestra_id" value="{{ $muestra_id }}">
+        @endif
         <div class="form-group" style="color:rgb(22, 24, 112);">
         <label style="color: rgb(231, 231, 231);" for="exampleInputEmail1">Email address</label>
         <input  style="background-color: rgb(22, 24, 112), color: rgb(171, 171, 196);" type="email" class="form-control" name="correo" aria-describedby="emailHelp" placeholder="Enter email" value="{{$Correo->correo}}" readonly="readonly">
@@ -85,6 +93,7 @@
         <input  type="text" name="plantel" class="form-control" hidden value="{{$Carrera->plantel}}">
         <input  type="number" name="anio" class="form-control" hidden value="{{$Egresado->anio_egreso}}">
         <input  type="text" name="telefono" class="form-control" hidden value="{{$telefono}}">
+        </div>
         <br>
         <button type="submit" class="btn btn-primary btn-lg">  <i class="fas fa-paper-plane"></i> Enviar</button>
     </form>
