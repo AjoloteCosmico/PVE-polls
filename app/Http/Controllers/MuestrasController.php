@@ -680,7 +680,10 @@ public function index_posgrado($programa){
     $p->nencuestas_int = (clone $queryBase)->where('status', 2)->count();
 
     // Encuestas requeridas
-    $p->requeridas = (clone $queryBase)->count();
+    $p->requeridas = Muestra::where('estudio_id', 7)
+      ->where('programa', $programa)
+      ->where('plan', $p->plan)
+      ->value('requeridas_5');
   }
 
   return view('muestras.posgrado.index', compact('planes', 'programa'));

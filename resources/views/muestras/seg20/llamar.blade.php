@@ -44,7 +44,10 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                @php
+                        $codigoStatus = $Codigos_all->where('code',$Egresado->status)->first();
+                    @endphp
+                <td style="{{$codigoStatus ? 'background-color: '.$codigoStatus->color_rgb : ' '}}">
                     <h5>Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h5> 
                 </td>
                 
