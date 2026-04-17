@@ -65,7 +65,7 @@
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
+            <td> <a href="{{route('editar_telefono_verde',[$t->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,898])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
           </td>
         </tr>
         @endforeach
@@ -97,7 +97,7 @@
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}"> 
+            <a href="{{route('editar_correo_verde',[$c->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,898])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>

@@ -27,10 +27,11 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    @php
+                 @php
                         $codigoStatus = $Codigos_all->where('code',$EgresadoPos->status)->first();
                     @endphp
+                <td style="{{$codigoStatus ? 'background-color: '.$codigoStatus->color_rgb : ' '}}">
+                   
 
                     <h5>Status: {{ $codigoStatus ? $codigoStatus->description : 'Sin código' }}</h5>
                 </td>

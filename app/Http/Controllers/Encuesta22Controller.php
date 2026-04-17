@@ -140,6 +140,7 @@ class Encuesta22Controller extends Controller
 
         //Modificacion 1
 
+        // TODO: CARGAR SOLOR EACTIVOS DE LAS SECCIONES DE SEGUIMIENTO LICENCIATURA Y NO TODA LA TABLA
         $AllBloqueos = Bloqueo::all();
         $AllAnswers = $Encuesta->toArray();
 

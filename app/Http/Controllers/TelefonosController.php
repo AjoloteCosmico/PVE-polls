@@ -188,9 +188,20 @@ class TelefonosController extends Controller
         return view('encuesta.seg20.editar_telefono',compact('Egresado','Telefono','encuesta','TelefonoEnLlamada'));
     }
 
+    public function edit_unificado($id,$carrera,$programa,$encuesta=0,$telefono_id, $muestra_id = null){
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Telefono=Telefono::find($id);
+        $Egresado = Egresado::where('cuenta', $Telefono->cuenta)->where('carrera', $carrera)->first();
+        if($muestra_id == 897){
+            return view('encuesta.edit_telefono_sondeo', compact('Egresado','Telefono','encuesta','TelefonoEnLlamada', ));
+        } else {
+            return view('encuesta.edit_telefono_sondeo', compact('Egresado','Telefono','encuesta','TelefonoEnLlamada'));
+        }
+    }
 
 
-    public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id){
+
+    public function update(Request $request ,$id,$carrera,$encuesta,$telefono_id, $muestra_id = null){
 
         //Validacion de que el telefono no esté repetido
         $request->validate([
@@ -211,7 +222,7 @@ class TelefonosController extends Controller
         $Telefono->descripcion=$request->description;
         // $Telefono->status=0;
         $Telefono->save();
-        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
+        $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
         return redirect($redirectUrl);
     }
 }
