@@ -695,6 +695,7 @@ public function show_posgrado($programa, $plan){
   $muestra = DB::table('egresados_posgrado')
     ->where('programa', '=', $programa)
     ->where('plan', '=', $plan)
+    ->where('muestra', '=', 7)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
     ->where('fuente',  '=', 'base original')
     ->leftJoin('codigos',function($join){
