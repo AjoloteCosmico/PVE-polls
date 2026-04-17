@@ -693,6 +693,7 @@ public function show_posgrado($programa, $plan){
     ->where('programa', '=', $programa)
     ->where('plan', '=', $plan)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->where('fuente', '!=', 'internet')
     ->leftJoin('codigos',function($join){
       $join->on(
             // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
