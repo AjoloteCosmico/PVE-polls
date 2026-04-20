@@ -657,7 +657,9 @@ public function completar_encuesta($id){
 
 //funciones para posgrado
 public function programas_index(){
-  $Programas=EgresadoPosgrado::whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])->distinct()->get(['programa']);
+  $Programas=EgresadoPosgrado::whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->distinct()
+    ->get(['programa']);
    return view('muestras.posgrado.programas_index',compact('Programas'));
 }
 
@@ -671,7 +673,9 @@ public function index_posgrado($programa){
   
   foreach ($planes as $p) {
     $queryBase = EgresadoPosgrado::where('programa', $programa)
-      ->where('plan', $p->plan)->whereIn('anio_egreso', ['2019', '2020', '2021', '2022']);
+      ->where('plan', $p->plan)
+      ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+      ->where('fuente', 'base original');
 
     // Encuestas por teléfono
     $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();
@@ -680,7 +684,10 @@ public function index_posgrado($programa){
     $p->nencuestas_int = (clone $queryBase)->where('status', 2)->count();
 
     // Encuestas requeridas
-    $p->requeridas = (clone $queryBase)->count();
+    $p->requeridas = Muestra::where('estudio_id', 7)
+      ->where('programa', $programa)
+      ->where('plan', $p->plan)
+      ->value('requeridas_5');
   }
 
   return view('muestras.posgrado.index', compact('planes', 'programa'));
@@ -692,6 +699,7 @@ public function show_posgrado($programa, $plan){
   $muestra = DB::table('egresados_posgrado')
     ->where('programa', '=', $programa)
     ->where('plan', '=', $plan)
+    ->where('muestra', '=', 7)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
     ->where('fuente',  '=', 'base original')
     ->leftJoin('codigos',function($join){

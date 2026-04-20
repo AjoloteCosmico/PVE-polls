@@ -70,21 +70,29 @@
           </tbody>
         </table>
         </div>
-        <div class='col'>
-        <table>
-          <thead> 
-            <tr> 
-              <th>Codigos</th>
-            </tr>         
-          </thead>
-          <tbody>
-            @foreach($Codigos as $c)
-            <tr>
-            <td style="background-color:{{$c->color_rgb}}"> {{$c->description}}</td>
-            </tr> @endforeach
-          </tbody>
-        </table>
-      </div>
+        <div class="row">
+           <div class='col'>
+            <table>
+              <thead> 
+                <tr> 
+                  <th>Codigos</th>
+                </tr>         
+              </thead>
+              <tbody>
+                @foreach($Codigos as $c)
+                <tr>
+                <td style="background-color:{{$c->color_rgb}}"> {{$c->description}}</td>
+                </tr> @endforeach
+              </tbody>
+            </table>
+          </div>
+          <!-- TODO: boton de TERMINÉ LA VUELTA (pide confirmación)  enviará los correos a quienes no contestarón y aumenta el num de vuelta-->
+           <!-- <div class="col">
+                <button class="boton-oscuro" onclick="confirmarTerminarVuelta()"><i class="fa fa-check" aria-hidden="true"> </i> TERMINÉ LA VUELTA</button>
+           </div>
+           -->
+        </div>
+       
     
 </div>
 @stop
@@ -114,9 +122,9 @@
     sorting: [[6, 'asc'],[1, 'asc'],[2,'asc']],
     });
 </script>
-
-@if(session('encuesta') == 'ok')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if(session('encuesta') == 'ok')
+
 <script type="text/javascript">
   Swal.fire({
   title: "Encuesta realizada",
@@ -124,6 +132,30 @@
   icon: "success",
 });
 </script>
+
 @endif
  
+<script>
+  function confirmarTerminarVuelta() {
+    Swal.fire({
+      title: '¿Estás seguro de que quieres terminar la vuelta?',
+      html: " <p style='color: #ffffff;'> Esto enviará correos a quienes no contestaron y aumentará el número de vuelta.</p>",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, terminar la vuelta',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Aquí puedes agregar la lógica para enviar los correos y aumentar el número de vuelta
+        Swal.fire(
+          '¡Vuelta terminada!',
+          'Los correos han sido programados y el número de vuelta ha sido actualizado.',
+          'success'
+        )
+      }
+    })
+  }
+</script>
 @endpush
