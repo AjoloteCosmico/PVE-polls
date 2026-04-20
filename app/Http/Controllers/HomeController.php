@@ -444,12 +444,12 @@ class HomeController extends Controller
 
     public function enviar_invitacion_conteo(Request $request) {
         $links_conteo = [
-            897 => "https://encuestas.pveaju.unam.mx/encuesta_continua/2026", // Ejemplo
-            898 => "https://encuestas.pveaju.unam.mx/encuesta_verde/v1",      // Ejemplo
+            897 => "https://encuestas.pveaju.unam.mx/encuesta_continua/inicio", 
+            898 => "https://encuestas.pveaju.unam.mx/pveaju/resource/enc_verde_correo",     
         ];
 
         $scripts_conteo = [
-            897 => 'invitacion_conteo.py',
+            897 => 'invitacion_continiua.py',
             898 => 'invitacion_verde.py',
         ];
 
@@ -459,7 +459,7 @@ class HomeController extends Controller
         return redirect()->back()->with('swal_warning', true);
     }
 
-    $scriptPath = public_path($scripts_conteo[$muestra_id] ?? 'invitacion_conteo_generica.py');
+    $scriptPath = public_path($scripts_conteo[$muestra_id]);
     $link = $links_conteo[$muestra_id];
     $python = env('PY_COMAND');
 
@@ -480,6 +480,20 @@ class HomeController extends Controller
 
     if (!$process->isSuccessful()) {
         throw new ProcessFailedException($process);
+    }
+    $params = [
+        $request->cuenta,
+        $request->carrera_clave,
+        $request->anio,
+        $request->telefono
+    ];
+
+    if ($muestra_id == 898) {
+        return redirect()->route('act_data_verde', $params);
+    } 
+    
+    if ($muestra_id == 897) {
+        return redirect()->route('act_data_continua', $params);
     }
 }
 
