@@ -90,8 +90,13 @@
                             </button>
                         </a>
                     </div>
+                     <!--
                     <div class="col tel-contorno-div"> 
-                        <!-- TODO: hacer una ruta llamada completar encuesta -->
+                     TODO: hacer una ruta llamada completar encuesta ujsjs
+                         cerramos la parte de inconclusa solamente
+
+                     
+
                     @if($Encuesta)
                         @can('aplicar_encuesta_continua')
                         <a href="{{route('completar_encuesta_verde',[$Encuesta->id])}}">
@@ -102,7 +107,7 @@
                         @endcan
                     @endif
                     </div>
-
+                                -->
                 </div>
             </div>
         </div>
