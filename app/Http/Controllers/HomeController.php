@@ -442,6 +442,61 @@ class HomeController extends Controller
         ]);
     }
 
+    public function enviar_invitacion_conteo(Request $request) {
+        $links_conteo = [
+            897 => "https://encuestas.pveaju.unam.mx/encuesta_continua/inicio", 
+            898 => "https://encuestas.pveaju.unam.mx/pveaju/resource/enc_verde_correo",     
+        ];
+
+        $scripts_conteo = [
+            897 => 'invitacion_continiua.py',
+            898 => 'invitacion_verde.py',
+        ];
+
+        $muestra_id = $request->muestra_id;
+
+        if (!isset($links_conteo[$muestra_id])) {
+        return redirect()->back()->with('swal_warning', true);
+    }
+
+    $scriptPath = public_path($scripts_conteo[$muestra_id]);
+    $link = $links_conteo[$muestra_id];
+    $python = env('PY_COMAND');
+
+    // 3. Ejecutar el proceso de Python
+    // Nota: Pasamos los mismos datos, pero el $link ya es el de la muestra de conteo
+    $process = new Process([
+        $python,
+        $scriptPath,
+        $request->nombre,
+        $request->correo,
+        $request->cuenta,
+        $request->carrera,
+        $request->plantel,
+        $link
+    ]);
+
+    $process->run();
+
+    if (!$process->isSuccessful()) {
+        throw new ProcessFailedException($process);
+    }
+    $params = [
+        $request->cuenta,
+        $request->carrera_clave,
+        $request->anio,
+        $request->telefono
+    ];
+
+    if ($muestra_id == 898) {
+        return redirect()->route('act_data_verde', $params);
+    } 
+    
+    if ($muestra_id == 897) {
+        return redirect()->route('act_data_continua', $params);
+    }
+}
+
  public function enviar_invitacion_posgrado(Request $request){
         
         $link =  "https://encuestas.pveaju.unam.mx/encuesta_posgrado";
@@ -484,7 +539,10 @@ class HomeController extends Controller
 
     }
 
-    public function enviar_encuesta($id_correo, $id_egresado,$telefono,$posgrado=null){
+    public function enviar_encuesta($id_correo, $id_egresado,$telefono, $extra = null){
+        $posgrado = ($extra === 'posgrado') ? 'posgrado' : null;
+        $muestra_id = (is_numeric($extra)) ? $extra : null;
+        
         if($posgrado!='posgrado'){
             $Egresado=Egresado::find($id_egresado);   
             $Correo=Correo::find($id_correo);
@@ -498,8 +556,9 @@ class HomeController extends Controller
             $Carrera = '';
 
         }
+        //$vista = ($muestra_id) ? 'invitacion.encuesta_por_correo_conteo' : 'invitacion.encuesta_por_correo';
        
-        return view('invitacion.encuesta_por_correo',compact('Egresado','Correo','Carrera','telefono','posgrado'));
+        return view('invitacion.encuesta_por_correo', compact('Egresado', 'Correo', 'Carrera', 'telefono', 'posgrado', 'muestra_id'));
     }
 }
 

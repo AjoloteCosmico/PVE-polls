@@ -49,17 +49,27 @@ class EgresadosTable extends Component
                 $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
                 $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                                           
             })
-            ->leftJoin('codigos', function($join){
-                $join->on('codigos.code', '=', 'egresados.status');
-                
+            ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+
+            //continua 
+            ->leftJoin('egresado_muestra as em_continua', function($join) {
+                $join->on('em_continua.egresado_id', '=', 'egresados.id')
+                     ->where('em_continua.muestra_id', '=', 897);
             })
+            ->leftJoin('codigos as c_continua', 'c_continua.code', '=', 'em_continua.status')
+
+            //VERDE
+            ->leftJoin('egresado_muestra as em_verde', function($join) {
+                $join->on('em_verde.egresado_id', '=', 'egresados.id')
+                    ->where('em_verde.muestra_id', '=', 898);
+            })
+            ->leftJoin('codigos as c_verde', 'c_verde.code', '=', 'em_verde.status')
+
             ->leftJoin('respuestas16', 'respuestas16.cuenta', '=', 'egresados.cuenta')
             ->leftJoin('users as u16', 'u16.clave', '=', 'respuestas16.aplica')
             ->leftJoin('respuestas20', 'respuestas20.cuenta', '=', 'egresados.cuenta')
             ->leftJoin('users as u20', 'u20.clave', '=', 'respuestas20.aplica')
-            ->leftJoin('egresado_muestra', 'egresado_muestra.egresado_id', '=', 'egresados.id')
-            //para continua
-            ->leftJoin('codigos as c_continua', 'c_continua.code', '=', 'egresado_muestra.status')
+            //->leftJoin('egresado_muestra', 'egresado_muestra.egresado_id', '=', 'egresados.id')
             ->select(
                 'egresados.*',
                 'carreras.carrera as nombre_carrera',
@@ -67,9 +77,23 @@ class EgresadosTable extends Component
                 'codigos.description as estado_lic',
                 'codigos.color_rgb as color_codigo',
                 //campos continua
-                'egresado_muestra.status as estado_continua',
-                'c_continua.description as descripcion_continua',
+                //'egresado_muestra.status as estado_continua',
+                //'c_continua.description as descripcion_continua',
+                //'c_continua.color_rgb as color_continua',
+                // Campos Muestra Continua
+                'em_continua.status as status_continua',
+                'c_continua.description as desc_continua',
                 'c_continua.color_rgb as color_continua',
+                'em_continua.egresado_id as es_continua',
+
+                // Campos Muestra Verde
+                'em_verde.status as status_verde',
+                'c_verde.description as desc_verde',
+                'c_verde.color_rgb as color_verde',
+                'em_verde.egresado_id as es_verde',
+
+
+
                 'respuestas16.updated_at as fecha_16', 
                 'respuestas16.fec_capt as fechaFinal_16',
                 'respuestas20.fec_capt as fechaFinal_20', 
@@ -80,7 +104,6 @@ class EgresadosTable extends Component
                 'respuestas20.nbr2 as r20_nbr2', 
                 'respuestas16.completed as r16_completed', 
                 'respuestas20.completed as r20_completed', 
-                'egresado_muestra.egresado_id as es_muestra'
             );
 
             //2 metodos de busqueda

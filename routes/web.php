@@ -253,8 +253,11 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/invitacion14/{registro}', 'invitacion')->name('invitacion14');
         Route::get('/invitacion19/{id}', 'invitacion19')->name('invitacion19');
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
+        Route::post('/enviar_invitacion_conteo', 'enviar_invitacion_conteo')->name('enviar_invitacion_conteo');
         Route::post('/enviar_invitacion_posgrado', 'enviar_invitacion_posgrado')->name('enviar_invitacion_posgrado');
-        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{posgrado?}', 'enviar_encuesta')->name('enviar_encuesta');
+        Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{extra?}', 'enviar_encuesta')->name('enviar_encuesta');
+        //Route::get('/enviar_encuesta_continua/{id_correo}/{id_egresado}/{telefono}/{muestra_id?}', 'enviar_encuesta')->name('enviar_encuesta_continua');
+        //Route::get('/enviar_encuesta_verde/{id_correo}/{id_egresado}/{telefono}/{muestra_id?}', 'enviar_encuesta')->name('enviar_encuesta_verde');
         Route::post('/enviar_invitacion_especialidad', 'enviar_invitacion_especialidad')->name('enviar_invitacion_especialidad');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{especialidad?}', 'enviar_encuesta')->name('enviar_encuesta_esp');
         

@@ -19,7 +19,7 @@
                     <h4>{{$Carrera->plantel}}  </h4> 
                 </td>
                 <td>
-                    <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 898])}}">
+                    <a href="{{route('muestras.show_unificado_verde',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 898])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
@@ -27,7 +27,10 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                @php 
+                    $codigoStatus=$Codigos_all->where('code',$Egresado->status)->first();
+                @endphp
+                <td style="{{$codigoStatus ? 'background-color: '.$codigoStatus->color_rgb : ' '}}">
                     <h5>Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h5> 
                 </td>
                 
@@ -44,10 +47,10 @@
 
             @endif
             @if($Encuesta)
-            @if($Encuesta->completed==0)
+            @if(isset($Encuesta->vr1))
             <tr>
                 <td colspan="2">
-                 Hay una encuesta inconclusa  
+                 Hay una encuesta existente
                 </td>
             </tr>
             @endif
@@ -90,8 +93,13 @@
                             </button>
                         </a>
                     </div>
+                     <!--
                     <div class="col tel-contorno-div"> 
-                        <!-- TODO: hacer una ruta llamada completar encuesta -->
+                     TODO: hacer una ruta llamada completar encuesta ujsjs
+                         cerramos la parte de inconclusa solamente
+
+                     
+
                     @if($Encuesta)
                         @can('aplicar_encuesta_continua')
                         <a href="{{route('completar_encuesta_verde',[$Encuesta->id])}}">
@@ -102,7 +110,7 @@
                         @endcan
                     @endif
                     </div>
-
+                                -->
                 </div>
             </div>
         </div>
@@ -113,7 +121,7 @@
     
     <div class='row'>
         <div class='col'>
-            <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel,898])}}">
+            <a href="{{route('muestras.show_unificado_verde',[$Egresado->carrera,$Egresado->plantel,898])}}">
                 <button type="button"  class="boton-oscuro">
                     <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>
