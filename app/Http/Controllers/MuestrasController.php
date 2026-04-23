@@ -667,6 +667,7 @@ public function index_posgrado($programa){
   $programa = urldecode($programa);
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->where('fuente','base original')
     ->select('plan')
     ->distinct()
     ->get();
