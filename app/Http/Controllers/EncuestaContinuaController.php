@@ -371,7 +371,6 @@ class EncuestaContinuaController extends Controller
 
 
 
-
     public function validar($Encuesta)
     {
         $Egresado = Egresado::where("cuenta", $Encuesta->cuenta)
