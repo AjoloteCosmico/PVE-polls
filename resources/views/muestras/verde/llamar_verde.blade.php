@@ -19,7 +19,7 @@
                     <h4>{{$Carrera->plantel}}  </h4> 
                 </td>
                 <td>
-                    <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 898])}}">
+                    <a href="{{route('muestras.show_unificado_verde',[$Egresado->carrera,$Egresado->plantel, 'muestra_id' => 898])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
@@ -47,10 +47,10 @@
 
             @endif
             @if($Encuesta)
-            @if($Encuesta->completed==0)
+            @if(isset($Encuesta->vr1))
             <tr>
                 <td colspan="2">
-                 Hay una encuesta inconclusa  
+                 Hay una encuesta existente
                 </td>
             </tr>
             @endif
@@ -121,7 +121,7 @@
     
     <div class='row'>
         <div class='col'>
-            <a href="{{route('muestras.show_unificado',[$Egresado->carrera,$Egresado->plantel,898])}}">
+            <a href="{{route('muestras.show_unificado_verde',[$Egresado->carrera,$Egresado->plantel,898])}}">
                 <button type="button"  class="boton-oscuro">
                     <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>
