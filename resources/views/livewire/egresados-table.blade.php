@@ -98,9 +98,7 @@
                                     <small><strong>Fecha:</strong> {{ $eg->fecha_22 ?? 'N/A' }}</small><br>
                                     <small><strong>Aplicador:</strong> {{ $eg->aplicador22 ?? 'N/A' }}</small>
                                     <br>
-                                    @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                    @endif
+                                    
                             @endif
                             <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                             @if($eg->muestra==5 && in_array($eg->status,[1,2], false))
@@ -118,9 +116,7 @@
                                     <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
                                     <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
                                     <br>
-                                    @if($eg->r16_nbr2 != null && $eg->r16_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                    @endif
+                                    
                             @endif
                             <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                             @if($eg->act_suvery==1 && in_array($eg->status,[1,2], false))
@@ -139,11 +135,7 @@
                                     <small><strong>Fecha:</strong></small><br>
                                     <small><strong>Aplicador:</strong></small>
                                     <br>
-                                    <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
-                                    @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                
-                                    @endif
+                                    
                             @endif
 
                         @elseif($tipo == 'verde')
@@ -157,11 +149,7 @@
                                     <small><strong>Fecha:</strong></small><br>
                                     <small><strong>Aplicador:</strong></small>
                                     <br>
-                                    <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
-                                    @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                
-                                    @endif
+                                    
                             @endif
                         @endif
                     </td>

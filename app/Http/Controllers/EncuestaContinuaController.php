@@ -362,13 +362,7 @@ class EncuestaContinuaController extends Controller
         
             $Encuesta->save();
                 
-            if($request->btn_pressed == "inconclusa"){
-                $EgMuestra=DB::table('egresado_muestra')
-                        ->where('egresado_id',$Egresado->id)
-                        ->where('muestra_id',898) //ID de muestra de encuesta verde
-                        ->update(['status' => 10,'updated_at'=>now()]);
-                return redirect()->route('llamar_verde',['2016',$Egresado->cuenta,$Egresado->carrera]);
-            }
+         
             return back();
 
         }

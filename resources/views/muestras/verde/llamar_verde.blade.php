@@ -28,10 +28,11 @@
             </tr>
             <tr>
                 @php 
-                    $codigoStatus=$Codigos_all->where('code',$Egresado->status)->first();
+    
+                    $codigoStatus = $Codigos_all->where('code', $Egresado->status_de_muestra)->first();
                 @endphp
-                <td style="{{$codigoStatus ? 'background-color: '.$codigoStatus->color_rgb : ' '}}">
-                    <h5>Status: {{$Codigos_all->where('code',$Egresado->status)->first()->description}}  </h5> 
+                <td style="{{ $codigoStatus ? 'background-color: ' . $codigoStatus->color_rgb : '' }}">
+                    <h5>Status: {{$Codigos_all->where('code',$Egresado->status_de_muestra)->first()->description}}</h5> 
                 </td>
                 
                 <td>
