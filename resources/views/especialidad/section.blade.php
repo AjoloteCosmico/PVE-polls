@@ -3,6 +3,7 @@
 @section('content')
 @php
 use \App\Http\Controllers\ComponentController;
+$reactivosEnTablas=array();
 @endphp
 {{-- {{session('logs')}} --}}
 
@@ -33,10 +34,11 @@ use \App\Http\Controllers\ComponentController;
         <div class="posgrado_reactivos">
             {{-- Renderizado dinámico de los reactivos de la sección actual --}}
             @foreach($Reactivos->sortBy('orden') as $reactivo)
+                  
+                @if(!in_array($reactivo->clave,$reactivosEnTablas))
                 @php
                     // 1. Verificar si el reactivo actual está bloqueado por una respuesta anterior.
                     $is_bloqueado_inicialmente = $BloqueosActivos->contains('bloqueado', $reactivo->clave);
-        
                 @endphp
                 
                 @if($reactivo->type == 'label')
@@ -45,6 +47,35 @@ use \App\Http\Controllers\ComponentController;
                         <h3>{{$reactivo->description}}  </h3>
                     </div>
                     <br>
+                @elseif($reactivo->type == 'table')
+                    @php
+                        $tableConfig = json_decode(strval($reactivo->rules), true);
+                        $columns     = $tableConfig['columns'] ?? [];
+                        $rows        = $tableConfig['rows']    ?? [];
+
+                        // Normalizar: si rows es plano, convertir a arreglo de arreglos
+                        $rows_normalized = [];
+                        foreach ($rows as $row) {
+                            $rows_normalized[] = is_array($row) ? $row : [$row];
+                        }
+
+                        // Precargar todos los reactivos necesarios de una sola vez
+                        $all_claves = collect($rows_normalized)->flatten()->unique()->values();
+                        $reactivos_tabla = \App\Models\Reactivo::whereIn('clave', $all_claves)->get()->keyBy('clave');
+                       $reactivosEnTablas= array_merge($reactivosEnTablas,$reactivos_tabla->pluck('clave')->toArray());
+                       
+                    @endphp
+
+                    @include('components.table', [
+                        'Reactivo'        => $reactivo,
+                        'Columns'         => $columns,
+                        'RowsNormalized'  => $rows_normalized,
+                        'ReactivosTabla'  => $reactivos_tabla,
+                        'Encuesta'        => $Encuesta,
+                        'BloqueosActivos' => $BloqueosActivos,
+                    ])
+                    
+
                 @else
                     <div class="react_container @if($reactivo->breakline==1) column_react @endif @if($is_bloqueado_inicialmente) bloqueado_inicialmente @endif" id="{{'container'.$reactivo->clave}}">
 
@@ -84,6 +115,7 @@ use \App\Http\Controllers\ComponentController;
                 <div class="resultados-div" id="resultados"></div>
                 </div>
                 @endif
+            @endif
             @endforeach
         </div>
 
@@ -615,10 +647,62 @@ use \App\Http\Controllers\ComponentController;
         bold: bolder; 
     }
 
+    /* estilos extra para las tablas de reactivos */
+    .table_container {
+        width: 92%;
+        margin: 0.7vw;
+        padding: 0.7vw;
+        border: 2px solid white;
+        border-radius: 20px;
+    }
+
+    .table_title {
+        margin-bottom: 0.5em;
+    }
+
+    .table_wrapper {
+        overflow-x: auto; /* scroll horizontal en pantallas chicas */
+    }
+
+    .reactivo_table {
+        width: 100%;
+        border-collapse: collapse;
+        color: white;
+        
+        font-size: 24px; 
+    }
+
+    .reactivo_table th {
+        background-color: rgba(14, 21, 68, 1);
+        padding: 0.6em 1em;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.2);
+        font-weight: bold;
+
+    }
+
+    .reactivo_table td {
+        padding: 0.5em 0.8em;
+        border: 1px solid rgba(255,255,255,0.15);
+        vertical-align: middle;
+        background-color: rgb(24, 40, 129)
+    }
+
+    .reactivo_table tr:nth-child(even) td {
+        background-color: rgb(1, 9, 53);
+    }
+
+    .reactivo_table tr:hover td {
+        background-color: rgba(14, 21, 68, 0.5);
+    }
+
+    .table_description {
+        font-weight: 500;
+    }
+
    .fade{
         background-color: rgba(14, 21, 68, 0.6) !important;  
    }
-
 
     .label_container { 
         padding: 0.7vw; 

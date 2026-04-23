@@ -83,7 +83,7 @@ class EspecialidadController extends Controller
 
      public function obtener_siguiente_seccion($current_section)
     {
-        $secciones = ["espA","espB" ,"espC", "espD"];
+        $secciones = ["espA","espF", "espE" ,"espC", "espG"];
         $current_index = array_search($current_section, $secciones);
         if ($current_index !== false && isset($secciones[$current_index + 1])) {
             return $secciones[$current_index + 1];

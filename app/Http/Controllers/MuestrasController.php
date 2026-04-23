@@ -657,7 +657,9 @@ public function completar_encuesta($id){
 
 //funciones para posgrado
 public function programas_index(){
-  $Programas=EgresadoPosgrado::whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])->distinct()->get(['programa']);
+  $Programas=EgresadoPosgrado::whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->distinct()
+    ->get(['programa']);
    return view('muestras.posgrado.programas_index',compact('Programas'));
 }
 
@@ -665,13 +667,16 @@ public function index_posgrado($programa){
   $programa = urldecode($programa);
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->where('fuente','base original')
     ->select('plan')
     ->distinct()
     ->get();
   
   foreach ($planes as $p) {
     $queryBase = EgresadoPosgrado::where('programa', $programa)
-      ->where('plan', $p->plan)->whereIn('anio_egreso', ['2019', '2020', '2021', '2022']);
+      ->where('plan', $p->plan)
+      ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+      ->where('fuente', 'base original');
 
     // Encuestas por teléfono
     $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();

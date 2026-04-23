@@ -42,9 +42,14 @@
                                  LICENCIATURA
                             </button>
                             @endif
-                            @if($eg->es_muestra)
+                            @if($eg->es_continua)
                             <button wire:click="seleccionarMuestra({{$eg->id}}, 'continua')" class="boton-oscuro">
                                  CONTINUA
+                            </button>
+                            @endif
+                            @if($eg->es_verde)
+                            <button wire:click="seleccionarMuestra({{$eg->id}}, 'verde')" class="boton-oscuro">
+                                 VERDE
                             </button>
                             @endif
                             
@@ -52,19 +57,28 @@
                     </td>
 
                     @php 
-                        $tipo = $selecciones[$eg->id] ?? null; 
+                        $tipo = $selecciones[$eg->id] ?? null;
+                        
+                        // Determinar color de fondo
+                        $bgColor = 'transparent';
+                        if($tipo == 'licenciatura') $bgColor = $eg->color_codigo;
+                        elseif($tipo == 'continua') $bgColor = $eg->color_continua;
+                        elseif($tipo == 'verde') $bgColor = $eg->color_verde;
                     @endphp
 
                     {{-- Status Dinámico --}}
-                    <td style="background-color: {{ $tipo == 'licenciatura' ? $eg->color_codigo : ($tipo == 'continua' ? $eg->color_continua : 'transparent') }};">
+                    <td style="background-color: {{ $bgColor }};">
                         @if($tipo == 'licenciatura')
                             {{-- Muestra el estado que viene de la tabla 'codigos' --}}
                              {{ $eg->estado_lic ?? '---' }}
 
                         @elseif($tipo == 'continua')
                             {{-- Muestra el estado que viene de la tabla 'egresado_muestra' --}}
-                            {{ $eg->descripcion_continua ?? '-----' }}
+                            {{ $eg->desc_continua ?? '-----' }}
         
+                        @elseif($tipo == 'verde')
+                            {{-- Muestra el estado que viene de la tabla 'egresado_muestra' --}}
+                            {{ $eg->desc_verde ?? '-----' }}
                         @else
                             <span class="text-muted small">Seleccione una muestra</span>
                         @endif
@@ -84,9 +98,7 @@
                                     <small><strong>Fecha:</strong> {{ $eg->fecha_22 ?? 'N/A' }}</small><br>
                                     <small><strong>Aplicador:</strong> {{ $eg->aplicador22 ?? 'N/A' }}</small>
                                     <br>
-                                    @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                    @endif
+                                    
                             @endif
                             <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                             @if($eg->muestra==5 && in_array($eg->status,[1,2], false))
@@ -104,9 +116,7 @@
                                     <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
                                     <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
                                     <br>
-                                    @if($eg->r16_nbr2 != null && $eg->r16_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                    @endif
+                                    
                             @endif
                             <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                             @if($eg->act_suvery==1 && in_array($eg->status,[1,2], false))
@@ -115,8 +125,8 @@
                             @endif
                             
                         @elseif($tipo == 'continua')
-                             @if(in_array($eg->estado_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
-                                <a href="{{route('llamar_continua',[$eg->anio_egreso,$eg->cuenta,$eg->carrera])}}">
+                             @if(in_array($eg->status_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
+                                <a href="{{route('llamar_continua',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 897])}}" >
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                                     </button>
@@ -125,13 +135,22 @@
                                     <small><strong>Fecha:</strong></small><br>
                                     <small><strong>Aplicador:</strong></small>
                                     <br>
-                                    <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
-                                    @if($eg->r20_nbr2 != null && $eg->r20_completed != 1)
-                                        <small><strong>Encuesta Inconclusa</strong></small>
-                                
-                                    @endif
+                                    
                             @endif
 
+                        @elseif($tipo == 'verde')
+                            @if(in_array($eg->status_verde,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
+                                <a href="{{route('llamar_verde',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 898])}}" >
+                                    <button class="boton-oscuro">
+                                        <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
+                                    </button>
+                                </a>
+                                <br>
+                                    <small><strong>Fecha:</strong></small><br>
+                                    <small><strong>Aplicador:</strong></small>
+                                    <br>
+                                    
+                            @endif
                         @endif
                     </td>
                 </tr>

@@ -1,0 +1,4 @@
+verde limon: #8DAF00
+azul clarito: #3373BB
+azul recio: #283C9D
+dorado: #FF9710

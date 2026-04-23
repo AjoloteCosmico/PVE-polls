@@ -101,6 +101,11 @@ class LlamadasController extends Controller
 
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
+        ->leftJoin ('egresado_muestra' , function($join) use ($muestra_id){
+            $join->on('egresado_muestra.egresado_id', '=', 'egresados.id')
+                 ->where('egresado_muestra.muestra_id', '=', $muestra_id);
+        })
+        ->select('egresados.*', 'egresado_muestra.status as status_de_muestra')
         ->first();
 
          $Carrera = Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();

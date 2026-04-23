@@ -16,7 +16,7 @@ use \App\Http\Controllers\ComponentController;
             <h1>ENCUESTA DE EMPLEABILIDAD VERDE UNAM {{session('status') }}</h1>
     </div>
     
-    <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
+    <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_conteo') </div>
     <form action="{{ route('encuesta_verde.update', $Encuesta->id) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">

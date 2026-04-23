@@ -90,8 +90,9 @@
                             </button>
                         </a>
                     </div>
+                        <!--
                     <div class="col tel-contorno-div"> 
-                        <!-- TODO: hacer una ruta llamada completar encuesta -->
+                             TODO: hacer una ruta llamada completar encuesta
                     @if($Encuesta)
                         @can('aplicar_encuesta_continua')
                         <a href="{{route('completar_encuesta_continua',[$Encuesta->registro])}}">
@@ -102,7 +103,7 @@
                         @endcan
                     @endif
                     </div>
-
+-->
                 </div>
             </div>
         </div>
