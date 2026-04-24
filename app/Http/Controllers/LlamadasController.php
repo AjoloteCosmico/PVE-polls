@@ -17,14 +17,18 @@ use App\Models\EgresadoEspecialidad;
 use App\Models\Carrera;
 use App\Models\Comentario;
 use App\Models\Telefono;
+use App\Traits\LogEvents;
 use DB;
 use App\Models\Recado;
 use Session;
 class LlamadasController extends Controller
 {
+    use LogEvents;
     public function llamar($gen,$id,$carrera){
 
         if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
+            
+            $this->recordEvent($id, 'unautorized_attempt_llamar', 'gen'.$gen);
             return redirect()->back()->with('error', 'No tienes permisos para la muestra ' . $gen);
         }
 
@@ -59,6 +63,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+        $this->recordEvent($id, 'llamar', 'gen'.$gen.' carr'.$carrera);
         return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
 
     }
@@ -132,7 +137,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
-
+         
         return view($vista,compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen', 'muestra_id'));
 
     }

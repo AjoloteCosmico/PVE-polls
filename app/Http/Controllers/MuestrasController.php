@@ -21,9 +21,12 @@ use App\Models\respuestas16;
 use App\Models\respuestas14;
 use App\Models\respuestasPosgrado;
 
+use App\Traits\LogEvents;
+
 use Illuminate\Support\Facades\Auth;
 class MuestrasController extends Controller
 {
+  use LogEvents;
   public function index(){
     //  $Muestras2019=Muestra::where('enc_id','=',Auth::user()->id)
     $Muestras2019=DB::table('muestras')
@@ -50,6 +53,7 @@ public function plantel_index_16(){
       ->join('carreras','egresados.plantel','carreras.clave_plantel')
       ->select('carreras.plantel','carreras.clave_plantel',)
       ->distinct()->get();
+  
   // dd($planteles);
   return view('muestras.act16.plantel_index',compact('Planteles'));
 }
@@ -456,6 +460,7 @@ public function index_unificado($id,$muestra_id){
 
 public function plantel_index($gen){
   
+  $this->recordEvent(0, 'plantel_index', 'gen'.$gen);
   $Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
    if ($gen==20){
     return view('muestras.plantel_index',compact('Planteles', 'gen'));
@@ -482,6 +487,7 @@ public function show_20($carrera,$plantel){
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
   
+  $this->recordEvent(0, 'muestra_20', 'gen 2020 '.$carrera.'-'.$plantel);
   return view('muestras.seg20.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
 }
 
@@ -513,6 +519,7 @@ public function show_22($carrera,$plantel){
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
   
+  $this->recordEvent(0, 'muestra_20', 'gen 2022 '.$carrera.'-'.$plantel);
   return view('muestras.seg20.show22',compact('muestra','Carrera','Codigos','carrera','plantel'));
 
 }

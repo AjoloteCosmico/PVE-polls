@@ -112,7 +112,7 @@ class EncuestaContinuaController extends Controller
             "clave_plantel",
             "=",
             $Egresado->plantel
-        )->first()->plantel;
+            )->first()->plantel;
         $Telefonos =Telefono::where("cuenta", $Egresado->cuenta)->get();
         
         $Correos = Correo::where("cuenta", $Egresado->cuenta)->get();
@@ -333,7 +333,6 @@ class EncuestaContinuaController extends Controller
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',898) //ID de muestra de encuesta verde
                         ->update(['status' => 1,'updated_at'=>now()]);
-  
             }
             return back();
         }
