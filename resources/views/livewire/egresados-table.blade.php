@@ -12,6 +12,13 @@
                    class="form-control" 
                    placeholder="Buscar por nombre">
         </div>
+
+        <div class="col-md-50">
+            <div wire:loading class="spinner-border text-primary text-sm" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+
     </div>  
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl">
@@ -158,15 +165,6 @@
             </tbody>
         </table>
 
-    </div>
-</div>
-
-@push('js')
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable();
+    </div> 
         
-    } );
-</script>
-@endpush
+</div>
