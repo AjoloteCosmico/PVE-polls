@@ -509,7 +509,6 @@ public function show_16($carrera,$plantel){
 
 
 public function show_22($carrera,$plantel){
-
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
   $muestra=DB::table('egresados')->where('muestra','=','5')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
     ->leftJoin('codigos','codigos.code','=','egresados.status')
