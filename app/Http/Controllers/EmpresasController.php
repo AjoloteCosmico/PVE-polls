@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Empresas;
 use App\Models\EncuestaEmpresa;
 use DB;
-
+use App\Traits\LogEvents;
 use Illuminate\Support\Facades\Auth;
 class EmpresasController extends Controller
 {
+    use LogEvents;
     public function search(Request $request)
     {
         $term = $request->query('q'); // Obtener el término de búsqueda
