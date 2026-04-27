@@ -25,7 +25,7 @@ class LlamadasController extends Controller
 {
     use LogEvents;
     public function llamar($gen,$id,$carrera){
-
+    
         if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
             
             $this->recordEvent($id, 'unautorized_attempt_llamar', 'gen'.$gen);
@@ -63,8 +63,40 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+        // 1. Replicamos el mismo query que usas en el index (o show)
+            $query = DB::table('egresados')
+                ->where('muestra', '=', '5')
+                ->where('egresados.carrera', '=', $carrera)
+                ->whereNotIn('egresados.status',['1','2'])
+                ->where('plantel', '=', $Egresado->plantel) // Asegúrate de tener esta variable disponible
+                ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+                ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
+
+            // 2. Aplicamos exactamente el mismo orden que tu DataTables
+            if ($carrera == 136) {
+                $query->orderBy('codigos.orden', 'asc') // Columna 7 en tu JS
+                    ->orderBy('egresados.paterno', 'asc')
+                    ->orderBy('egresados.materno', 'asc');
+            } else {
+                $query->orderBy('codigos.orden', 'asc') // Columna 6 en tu JS
+                    ->orderBy('egresados.paterno', 'asc')
+                    ->orderBy('egresados.materno', 'asc');
+            }
+
+            $todos_los_egresados = $query->get();
+            $cuenta=$Egresado->cuenta;
+            // 3. Buscamos el índice del egresado actual
+            $index = $todos_los_egresados->search(function ($item) use ($cuenta) {
+                return $item->cuenta == $cuenta;
+            });
+
+            // 4. Determinamos el siguiente
+            $siguiente = null;
+            if ($index !== false && isset($todos_los_egresados[$index + 1])) {
+                $siguiente = $todos_los_egresados[$index + 1];
+            }
         $this->recordEvent($id, 'llamar', 'gen'.$gen.' carr'.$carrera);
-        return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
+        return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen','siguiente'));
 
     }
 

@@ -99,7 +99,7 @@ public function show($section, $id)
     $Encuesta = respuestasEspecialidad::findOrFail($id);
     $Egresado = EgresadoEspecialidad::where('cuenta', $Encuesta->cuenta)->firstOrFail();
 
-    // $this->recordEvent($Encuesta->registro, 'show_section_esp', $section);
+    $this->recordEvent($Encuesta->registro, 'show_section_esp', $section);
     Session::put('especialidad', $Egresado->especialidad);
 
     // ── Sección activa ───────────────────────────────────────────────────────
