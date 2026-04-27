@@ -11,8 +11,12 @@ use Illuminate\Http\Request;
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
 use Session;
+
+use App\Traits\LogEvents;
 class CorreosController extends Controller
 {
+    
+use  LogEvents;
     public function create($cuenta,$carrera,$encuesta,$telefono_id){
         // dd($encuesta);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
