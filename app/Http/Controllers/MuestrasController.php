@@ -501,7 +501,7 @@ public function show_16($carrera,$plantel){
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
-  
+  $this->recordEvent(0, 'muestra_16', 'gen 2016 '.$carrera.'-'.$plantel);
   return view('muestras.act16.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
   
 }
@@ -697,7 +697,7 @@ public function index_posgrado($programa){
       ->where('plan', $p->plan)
       ->value('requeridas_5');
   }
-
+  $this->recordEvent(0, 'muestra_posgrado', 'posgrado'.$programa);
   return view('muestras.posgrado.index', compact('planes', 'programa'));
 
 }
@@ -725,6 +725,8 @@ public function show_posgrado($programa, $plan){
     ->where('internet', '=', 0)
     ->orderBy('color')
     ->get();
+    
+  $this->recordEvent(0, 'muestra_posgrado', 'posgrado: '.$programa.' '.$plan);
   //mostrar unicos en la columna de fuent
   return view('muestras.posgrado.show', compact('muestra', 'programa', 'plan', 'Codigos'));
 }
@@ -837,6 +839,7 @@ public function show_unificado($carrera, $plantel, $muestra_id){
         ? 'muestras.ed_continua.show' 
         : 'muestras.verde.show';
 
+  $this->recordEvent($muestra_id, 'show_unificado', ' '.$carrera.' '.$plantel);
   return view($vista, compact('muestra', 'Carrera', 'Codigos', 'carrera', 'plantel', 'muestra_id'));
 }
 

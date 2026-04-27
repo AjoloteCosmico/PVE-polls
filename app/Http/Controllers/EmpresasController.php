@@ -104,7 +104,7 @@ class EmpresasController extends Controller
         ]);
         // Crear una nueva empresa
         Empresas::create($request->all());
-
+        $this->recordEvent($Encuesta->registro, 'update_incomplete_act16', ' ');
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa creada exitosamente.');
         }
@@ -166,6 +166,7 @@ class EmpresasController extends Controller
         $empresa->sector = $request->sector;
         $empresa->usuario=Auth::user()->clave;
         $empresa->save();
+        $this->recordEvent($empresa->id, 'update_empresa', ' ');
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa actualizada exitosamente.');
     }
@@ -173,6 +174,7 @@ class EmpresasController extends Controller
     // Eliminar una empresa de la base de datos
     public function destroy($id){
         $empresa = Empresas::findOrFail($id);
+        $this->recordEvent($empresa->id, 'delete_empresa', ' ');
         $empresa->delete();
 
         // Redireccionar a la lista de empresas con un mensaje de éxito

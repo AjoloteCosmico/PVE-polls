@@ -66,7 +66,7 @@ class TelefonosController extends Controller
         $Telefono->descripcion = $request->description;
         $Telefono->status = 0;
         $Telefono->save();
-
+        $this->recordEvent($Telefono->id, 'create_telefono_pos', ' ');
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id);
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -109,7 +109,7 @@ class TelefonosController extends Controller
         $Telefono->status=0;
 
         $Telefono->save();
-
+        $this->recordEvent($Telefono->id, 'create_telefono', ' ');
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -222,6 +222,7 @@ class TelefonosController extends Controller
         $Telefono->descripcion=$request->description;
         // $Telefono->status=0;
         $Telefono->save();
+        $this->recordEvent($Telefono->id, 'update_telefono', ' ');
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
         return redirect($redirectUrl);
     }

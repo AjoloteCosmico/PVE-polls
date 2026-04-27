@@ -76,7 +76,7 @@ class EspecialidadController extends Controller
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
-            $this->recordEvent($Encuesta->registro, 'create_resp_esp', ' ');
+            $this->recordEvent($Encuesta->registro, 'create_enc_esp', ' ');
             return redirect()->route('especialidad.show', [
                 'section' => 'espA',
                 'id' => $Encuesta->registro,                
@@ -99,7 +99,7 @@ public function show($section, $id)
     $Encuesta = respuestasEspecialidad::findOrFail($id);
     $Egresado = EgresadoEspecialidad::where('cuenta', $Encuesta->cuenta)->firstOrFail();
 
-    $this->recordEvent($Encuesta->registro, 'show_section_esp', $section);
+    // $this->recordEvent($Encuesta->registro, 'show_section_esp', $section);
     Session::put('especialidad', $Egresado->especialidad);
 
     // ── Sección activa ───────────────────────────────────────────────────────
@@ -272,9 +272,12 @@ public function show($section, $id)
         if ($this->validar_seccion($Encuesta, $Egresado,$section,$request)) {
             $Encuesta->$section_field = 1;
             $Encuesta->save();
+            $this->recordEvent($Encuesta->registro, 'update_section_complete_esp', $section);
         } else {
             $Encuesta->$section_field = 0;
             $Encuesta->save();
+            
+            $this->recordEvent($Encuesta->registro, 'update_section_incomplete_esp', $section);
             return back()->with('error', 'true');
         }
         
@@ -283,7 +286,7 @@ public function show($section, $id)
         
         // 9. Redirigir a la siguiente sección
         $next_section = $this->obtener_siguiente_seccion($section);
-    
+        $this->recordEvent($Encuesta->registro, 'update_section_complete_esp', $section);
         return redirect()->route('especialidad.show', [
             'section' => $next_section,
             'id' => $Encuesta->registro
@@ -307,25 +310,12 @@ public function show($section, $id)
         //FILTRAR REACTIVOS
 
         //Si No esta graduado
-        if($Egresado->grado=='NO'){
-            $ReactivosAValidar=Reactivo::where('section',$section)->whereNotIn('clave',['pbr1','pbr1otro','pbr2','pbr3','pbr4'])
-                                        ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-        }else{
-            //GRADUADO DE DOCTORADO
-            if(str_contains($Egresado->plan, 'DOCTORADO')){
-                $ReactivosAValidar=Reactivo::where('section',$section)
-                                    ->whereNotIn('clave',['pbr5','pbr5otro','pbr6','pbr7'])
-                                    ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-            //GRADUADO DE MAESTRIA
-            }else{
-                $ReactivosAValidar=Reactivo::where('section',$section)
-                                    ->whereNotIn('clave',['pbr3','pbr4','pbr5','pbr5otro','pbr6','pbr7'])
-                                    ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-            }
-        
-        }
-        
-        
+    
+        $ReactivosAValidar=Reactivo::where('section',$section)
+                                    ->whereNotIn('type', ['label', 'multiple_option','table'])
+                                    ->orderBy('orden')->get();
+                                    
+
         foreach ($ReactivosAValidar as $reactivo) {
             $bloqueado = false;
             $field_presenter = $reactivo->clave;
@@ -438,7 +428,7 @@ public function show($section, $id)
 
             $Encuesta->save();
             $Egresado->save();
-
+            $this->recordEvent($Encuesta->registro, 'completed_esp', 'Se validó como completa esta encuesta');
             Session::put('status', 'completa');
             return true;
         } else {

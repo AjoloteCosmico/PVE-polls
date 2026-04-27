@@ -141,7 +141,7 @@ class RecadosController extends Controller
 
         $Egresado=Egresado::where('cuenta',$Recado->cuenta)->first();
         $Telefono=Telefono::find($Recado->tel_id);
-        
+        $this->recordEvent($id, 'delete_recado', ' ');
         Recado::destroy($id);
         $Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get();
         $Egresado->llamadas=$Recados->count();
@@ -159,6 +159,7 @@ class RecadosController extends Controller
         
         $EgresadoPos=EgresadoPosgrado::where('cuenta',$Recadop->cuenta)->first();
         $Telefono=Telefono::find($Recadop->tel_id);
+        $this->recordEvent($id, 'delete_redado_pos', ' ');
         Recado::destroy($id);
         $Recados=Recado::where('cuenta','=',$EgresadoPos->cuenta)->get();
         $EgresadoPos->llamadas=$Recados->count();
