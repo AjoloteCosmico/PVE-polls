@@ -104,7 +104,7 @@ class EmpresasController extends Controller
         ]);
         // Crear una nueva empresa
         Empresas::create($request->all());
-        $this->recordEvent($Encuesta->registro, 'update_incomplete_act16', ' ');
+        $this->recordEvent(0, 'creo empresa', ' ');
         // Redireccionar a la lista de empresas con un mensaje de éxito
         return redirect()->route('empresas.index')->with('success', 'Empresa creada exitosamente.');
         }
