@@ -62,6 +62,9 @@ class Enc16ActController extends Controller
             $Encuesta->nbr3 = $Egresado->plantel;
             $Encuesta->completed = 0;
             $Encuesta->save();
+            $this->recordEvent($Encuesta->registro, 'create_enc_act16', ' ');
+        }else{
+            $this->recordEvent($Encuesta->registro, 'continue_act16', 'comienza encuesta desde registro existente');
         }
         return redirect()->route('edit_16',$Encuesta->registro);
     }
@@ -221,7 +224,7 @@ class Enc16ActController extends Controller
             $Encuesta->save();
             $Egresado->status=1;
             $Egresado->save();
-        
+            $this->recordEvent($Encuesta->registro, 'update_complete_act16', ' ');
             //guardar los datos de la empresa si es necesario
             // $Empresa=Empresas::where('nombre',$Encuesta->ncr2)->first();
             // if(!$Empresa){
@@ -254,6 +257,7 @@ class Enc16ActController extends Controller
               }
             $Egresado->status=10;
             $Egresado->save();
+            $this->recordEvent($Encuesta->registro, 'update_incomplete_act16', ' ');
             if($request->btn_pressed == "inconclusa"){
                 return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
             }

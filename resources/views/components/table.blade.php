@@ -99,13 +99,15 @@
                                     @endphp
 
                                     {{-- Llamar RenderReactive igual que en section.blade --}}
+                                    <div id="container{{$reactivo_celda->clave}}">
+                                        {{$reactivo_celda->clave}}
                                     {{ \App\Http\Controllers\ComponentController::RenderReactive(
                                         $reactivo_celda,
                                         collect(),        // RenderReactive recarga opciones internamente
                                         $valor_guardado,
                                         $is_bloqueado
                                     ) }}
-
+                                    </div>
                                 @endif
                             </td>
                         @endforeach

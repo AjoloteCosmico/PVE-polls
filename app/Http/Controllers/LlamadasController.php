@@ -98,6 +98,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+         $this->recordEvent($id, 'llamar_continua', 'gen'.$gen.' carr'.$carrera);
         return view('muestras.ed_continua.llamar_continua',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
     }
 
@@ -137,7 +138,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
-         
+        $this->recordEvent($id, 'llamar_unificado', 'gen'.$gen.' carr'.$carrera);
         return view($vista,compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen', 'muestra_id'));
 
     }
@@ -172,6 +173,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+         $this->recordEvent($id, 'llamar_posgrado', $programa);
         return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos',
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
@@ -204,7 +206,7 @@ class LlamadasController extends Controller
             "=",
             $Egresado->plantel
         )->first()->plantel;
-    
+        $this->recordEvent($telefono_id, 'act_data', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "encuesta.seg20.actualizar_datos",
             compact(
@@ -248,6 +250,7 @@ class LlamadasController extends Controller
             $Egresado->plantel
         )->first()->plantel;
     
+        $this->recordEvent($telefono_id, 'act_data_continua', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "muestras.ed_continua.actualizar_datos_continua",
             compact(
@@ -287,7 +290,7 @@ class LlamadasController extends Controller
             "=",
             $Egresado->plantel
         )->first()->plantel;
-    
+        $this->recordEvent($telefono_id, 'act_data_verde', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "muestras.verde.actualizar_datos_verde",
             compact(
@@ -334,6 +337,7 @@ class LlamadasController extends Controller
             ->get();
         $EncuestaInconclusa = respuestasPosgrado::where("cuenta", "=", $cuenta)
             ->first();
+        $this->recordEvent($telefono_id, 'act_data_posgrado', 'cuenta'.$cuenta.' plan'.$plan);
         return view(
             "muestras.posgrado.actualizar_datos_posgrado",
             compact(
@@ -375,6 +379,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+        $this->recordEvent($id, 'llamar_esp', $especialidad);
         return view('muestras.especialidad.llamar_especialidad',compact('EgresadoEsp',
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaEsp','especialidad'));
     }
@@ -406,6 +411,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
             ->get();
         $EncuestaInconclusa = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
+        $this->recordEvent($telefono_id, 'act_data_esp', 'cuenta'.$cuenta.' carr'.$especialidad);
         return view(
             "muestras.especialidad.actualizar_datos_especialidad",
             compact(
