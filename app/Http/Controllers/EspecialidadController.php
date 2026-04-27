@@ -32,7 +32,6 @@ class EspecialidadController extends Controller
         $Egresado = EgresadoEspecialidad::where("cuenta", $cuenta)
             ->where("especialidad", $plan)
             ->first();
-
         // if ($Correo->enviado == 0) {
         //     $caminoalpoder = public_path();
         //     $process = new Process([
