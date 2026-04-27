@@ -19,8 +19,12 @@ use File;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Traits\LogEvents;
+
+
 class Enc16ActController extends Controller
 {
+    use LogEvents;
 
     public function comenzar($correo, $cuenta, $carrera)
     {

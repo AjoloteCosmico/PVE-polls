@@ -22,9 +22,11 @@ use File;
 use Session;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Traits\LogEvents;
 
 class Encuesta22Controller extends Controller
 {
+    use LogEvents;
 
      public function comenzar($correo, $cuenta, $carrera)
     {
@@ -87,6 +89,7 @@ class Encuesta22Controller extends Controller
     } 
     public function edit_22($id, $section)
     {
+        $this->recordEvent($id, 'edit_22', $section);
         $Encuesta = respuestas20::where("registro", $id)->first();
         $Egresado = Egresado::where('anio_egreso',2022)
                     ->orWhere("muestra", 5)
