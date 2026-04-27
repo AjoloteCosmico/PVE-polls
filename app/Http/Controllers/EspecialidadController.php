@@ -19,13 +19,14 @@ use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 use File;
 use Session;
+use App\Traits\LogEvents;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class EspecialidadController extends Controller
 {
-    
-     public function comenzar($correo, $cuenta, $plan)
+    use LogEvents;
+    public function comenzar($correo, $cuenta, $plan)
     {
         $Correo = Correo::find($correo);
         $Egresado = EgresadoEspecialidad::where("cuenta", $cuenta)
@@ -57,8 +58,9 @@ class EspecialidadController extends Controller
        
         $Encuesta = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
-
+         $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente');
         if ($Encuesta) {
+            
             return redirect()->route('especialidad.show', [
                 'section' => 'SEARCH',
                 'id' => $Encuesta->registro
@@ -74,6 +76,7 @@ class EspecialidadController extends Controller
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
+            $this->recordEvent($Encuesta->registro, 'create_resp_esp', ' ');
             return redirect()->route('especialidad.show', [
                 'section' => 'espA',
                 'id' => $Encuesta->registro,                
@@ -96,6 +99,7 @@ public function show($section, $id)
     $Encuesta = respuestasEspecialidad::findOrFail($id);
     $Egresado = EgresadoEspecialidad::where('cuenta', $Encuesta->cuenta)->firstOrFail();
 
+    $this->recordEvent($Encuesta->registro, 'show_section_esp', $section);
     Session::put('especialidad', $Egresado->especialidad);
 
     // ── Sección activa ───────────────────────────────────────────────────────
