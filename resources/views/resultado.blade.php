@@ -68,9 +68,7 @@
                             <small><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
                             <br>
                             <!-- checa si el egresado tiene una encuesta inconclusa y lo muestra -->
-                            @if($egp->rpos20_completed != 1)
-                                <small><strong>Encuesta Inconclusa</strong></small>
-                            @endif
+                          
                         @endif
                         <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
                         @if(in_array($egp->status,[1,2], false))

@@ -3,10 +3,12 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 
 class EgresadosTable extends Component
 {
+    use WithPagination;
     
     public $selecciones = [];
 
@@ -16,15 +18,29 @@ class EgresadosTable extends Component
     //nombre completo
     public $nombre_completo = '';
 
+    //nueva funcionalidad filtro por estado
+    public $filtro_status = '';
+
+    protected $paginationTheme = 'bootstrap';
+
     // Agregamos esto para asegurar que el componente reaccione al buscador
     //protected $queryString = ['nc'];
 
     protected $queryString = [
         'nc' => ['except' => ''],
-        'nombre_completo' => ['except' => '']
+        'nombre_completo' => ['except' => ''],
+        'filtro_status' => ['except' => '']
     ];
 
+    public function updatingNc()
+    {
+        $this->resetPage();
+    }
 
+    public function updatingNombreCompleto()
+    {
+        $this->resetPage();
+    }
 
     public function mount($nc =null, $nombre_completo = null)
     {
@@ -38,7 +54,6 @@ class EgresadosTable extends Component
     {
         $this->selecciones[$id] = $tipo;
     }
-
 
 
 
@@ -127,6 +142,10 @@ class EgresadosTable extends Component
                 });
             }
             
+            // --- NUEVA FUNCIONALIDAD: Filtro por Status ---
+            if (!empty($this->filtro_status)) {
+                $query->where('egresados.status', $this->filtro_status);
+            }
             
 
 
@@ -138,8 +157,7 @@ class EgresadosTable extends Component
 
             return view('livewire.egresados-table', [
                 'egresados' => $query->orderBy('egresados.id', 'asc')
-                                      ->limit(100)
-                                      ->get()
+                                      ->paginate(15)
         ]);
     }
 }

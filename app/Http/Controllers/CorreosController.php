@@ -69,7 +69,7 @@ class CorreosController extends Controller
         $Correo->enviado=0;   
 
         $Correo->save();
-
+        $this->recordEvent($Correo->id, 'create_correo', ' ');
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -177,7 +177,8 @@ class CorreosController extends Controller
         
 
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
-
+        
+        $this->recordEvent($Correo->id, 'update_correo', ' ');
         return redirect($redirectUrl);
        
    }
@@ -195,7 +196,8 @@ class CorreosController extends Controller
             $Correo->save();
         }
         $data = $process->getOutput();
-
+        
+        $this->recordEvent($Correo->id, 'direct_send', ' ');
         return redirect()->back();
  
  }
@@ -214,6 +216,7 @@ class CorreosController extends Controller
         }
         $data = $process->getOutput();
 
+        $this->recordEvent($Correo->id, 'direct_send_pos', ' ');
         return redirect()->back();
  
  }

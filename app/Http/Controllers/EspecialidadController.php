@@ -19,19 +19,19 @@ use App\Models\Comentario;
 use Illuminate\Support\Facades\Auth;
 use File;
 use Session;
+use App\Traits\LogEvents;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class EspecialidadController extends Controller
 {
-    
-     public function comenzar($correo, $cuenta, $plan)
+    use LogEvents;
+    public function comenzar($correo, $cuenta, $plan)
     {
         $Correo = Correo::find($correo);
         $Egresado = EgresadoEspecialidad::where("cuenta", $cuenta)
             ->where("especialidad", $plan)
             ->first();
-
         // if ($Correo->enviado == 0) {
         //     $caminoalpoder = public_path();
         //     $process = new Process([
@@ -57,8 +57,9 @@ class EspecialidadController extends Controller
        
         $Encuesta = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
-
+         $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente');
         if ($Encuesta) {
+            
             return redirect()->route('especialidad.show', [
                 'section' => 'SEARCH',
                 'id' => $Encuesta->registro
@@ -74,6 +75,7 @@ class EspecialidadController extends Controller
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
+            $this->recordEvent($Encuesta->registro, 'create_enc_esp', ' ');
             return redirect()->route('especialidad.show', [
                 'section' => 'espA',
                 'id' => $Encuesta->registro,                
@@ -96,6 +98,7 @@ public function show($section, $id)
     $Encuesta = respuestasEspecialidad::findOrFail($id);
     $Egresado = EgresadoEspecialidad::where('cuenta', $Encuesta->cuenta)->firstOrFail();
 
+    $this->recordEvent($Encuesta->registro, 'show_section_esp', $section);
     Session::put('especialidad', $Egresado->especialidad);
 
     // ── Sección activa ───────────────────────────────────────────────────────
@@ -268,9 +271,12 @@ public function show($section, $id)
         if ($this->validar_seccion($Encuesta, $Egresado,$section,$request)) {
             $Encuesta->$section_field = 1;
             $Encuesta->save();
+            $this->recordEvent($Encuesta->registro, 'update_section_complete_esp', $section);
         } else {
             $Encuesta->$section_field = 0;
             $Encuesta->save();
+            
+            $this->recordEvent($Encuesta->registro, 'update_section_incomplete_esp', $section);
             return back()->with('error', 'true');
         }
         
@@ -279,7 +285,7 @@ public function show($section, $id)
         
         // 9. Redirigir a la siguiente sección
         $next_section = $this->obtener_siguiente_seccion($section);
-    
+        $this->recordEvent($Encuesta->registro, 'update_section_complete_esp', $section);
         return redirect()->route('especialidad.show', [
             'section' => $next_section,
             'id' => $Encuesta->registro
@@ -303,25 +309,12 @@ public function show($section, $id)
         //FILTRAR REACTIVOS
 
         //Si No esta graduado
-        if($Egresado->grado=='NO'){
-            $ReactivosAValidar=Reactivo::where('section',$section)->whereNotIn('clave',['pbr1','pbr1otro','pbr2','pbr3','pbr4'])
-                                        ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-        }else{
-            //GRADUADO DE DOCTORADO
-            if(str_contains($Egresado->plan, 'DOCTORADO')){
-                $ReactivosAValidar=Reactivo::where('section',$section)
-                                    ->whereNotIn('clave',['pbr5','pbr5otro','pbr6','pbr7'])
-                                    ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-            //GRADUADO DE MAESTRIA
-            }else{
-                $ReactivosAValidar=Reactivo::where('section',$section)
-                                    ->whereNotIn('clave',['pbr3','pbr4','pbr5','pbr5otro','pbr6','pbr7'])
-                                    ->whereNotIn('type', ['label', 'multiple_option'])->orderBy('orden')->get();
-            }
-        
-        }
-        
-        
+    
+        $ReactivosAValidar=Reactivo::where('section',$section)
+                                    ->whereNotIn('type', ['label', 'multiple_option','table'])
+                                    ->orderBy('orden')->get();
+                                    
+
         foreach ($ReactivosAValidar as $reactivo) {
             $bloqueado = false;
             $field_presenter = $reactivo->clave;
@@ -434,7 +427,7 @@ public function show($section, $id)
 
             $Encuesta->save();
             $Egresado->save();
-
+            $this->recordEvent($Encuesta->registro, 'completed_esp', 'Se validó como completa esta encuesta');
             Session::put('status', 'completa');
             return true;
         } else {

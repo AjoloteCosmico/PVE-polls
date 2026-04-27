@@ -22,9 +22,11 @@ use File;
 use Session;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Traits\LogEvents;
 
 class Encuesta22Controller extends Controller
 {
+    use LogEvents;
 
      public function comenzar($correo, $cuenta, $carrera)
     {
@@ -60,6 +62,7 @@ class Encuesta22Controller extends Controller
             ->first();
 
         if ($Encuesta) {
+            $this->recordEvent($Encuesta->registro, 'continue_seg22', 'comineza enceusta desde un reg existente');
             return redirect()->route('edit_22', [
                 'id' => $Encuesta->registro,
                 'section' => 'SEARCH'
@@ -77,6 +80,7 @@ class Encuesta22Controller extends Controller
             $Encuesta->gen_dgae =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
+            $this->recordEvent($Encuesta->registro, 'create_continue_seg22', 'Crea el registro de encuesta');
             return redirect()->route('edit_22', [
                 'id' => $Encuesta->registro,
                 'section' => 'A'
@@ -85,6 +89,7 @@ class Encuesta22Controller extends Controller
     } 
     public function edit_22($id, $section)
     {
+        $this->recordEvent($id, 'edit_22', $section);
         $Encuesta = respuestas20::where("registro", $id)->first();
         $Egresado = Egresado::where('anio_egreso',2022)
                     ->orWhere("muestra", 5)
@@ -277,8 +282,10 @@ class Encuesta22Controller extends Controller
         $section_field = "sec_" . strtolower($section);
         if ($this->validar_seccion($Encuesta, $section,$request)) {
             $Encuesta->$section_field = 1;
+            $this->recordEvent($Encuesta->registro, 'update_completa_seg22', ' ');
         } else {
             $Encuesta->$section_field = 0;
+            $this->recordEvent($Encuesta->registro, 'update_incompleta_seg22', ' ');
             return back()->with('error', 'true');
         }
         $Encuesta->save();
@@ -323,7 +330,7 @@ class Encuesta22Controller extends Controller
 
             $Encuesta->save();
             $Egresado->save();
-
+            $this->recordEvent($Encuesta->registro, 'complete_seg22', ' ');
             Session::put('status', 'completa');
             return true;
         } else {

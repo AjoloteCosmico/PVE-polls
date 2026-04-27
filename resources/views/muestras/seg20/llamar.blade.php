@@ -73,6 +73,7 @@
             @endif
             @endif
         </table>   
+        
     </div>
 
     <div id="contaider-telefonos">
@@ -162,11 +163,31 @@
             </a>
             @endif
             @if($gen==2022)
-                    <a href="{{route('muestras22.show22',[$Egresado->carrera,$Egresado->plantel])}}">
+            <div class="row">
+                <div class="col"><a href="{{route('muestras22.show22',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
                     </a>
+                </div>
+                <div class="col">
+                    @if($siguiente)
+                        <div class="text-center my-4">
+                            <a href="{{ route('llamar', [2022, $siguiente->cuenta, $siguiente->carrera]) }}" 
+                            class="btn-siguiente-egresado" 
+                            style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                                Siguiente Egresado: {{ $siguiente->nombre }} {{ $siguiente->paterno }}
+                            </a>
+                        </div>
+                    @else
+                        <div class="alert alert-info">
+                            Has llegado al final de la lista de esta muestra.
+                        </div>
+                    @endif
+                </div>
+            </div>
+                    
             @endif
             @if($gen==2016)
             <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">

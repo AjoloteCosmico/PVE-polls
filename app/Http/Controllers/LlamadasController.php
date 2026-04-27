@@ -17,14 +17,18 @@ use App\Models\EgresadoEspecialidad;
 use App\Models\Carrera;
 use App\Models\Comentario;
 use App\Models\Telefono;
+use App\Traits\LogEvents;
 use DB;
 use App\Models\Recado;
 use Session;
 class LlamadasController extends Controller
 {
+    use LogEvents;
     public function llamar($gen,$id,$carrera){
-
+    
         if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
+            
+            $this->recordEvent($id, 'unautorized_attempt_llamar', 'gen'.$gen);
             return redirect()->back()->with('error', 'No tienes permisos para la muestra ' . $gen);
         }
 
@@ -59,7 +63,40 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
-        return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
+        // 1. Replicamos el mismo query que usas en el index (o show)
+            $query = DB::table('egresados')
+                ->where('muestra', '=', '5')
+                ->where('egresados.carrera', '=', $carrera)
+                ->whereNotIn('egresados.status',['1','2'])
+                ->where('plantel', '=', $Egresado->plantel) // Asegúrate de tener esta variable disponible
+                ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+                ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
+
+            // 2. Aplicamos exactamente el mismo orden que tu DataTables
+            if ($carrera == 136) {
+                $query->orderBy('codigos.orden', 'asc') // Columna 7 en tu JS
+                    ->orderBy('egresados.paterno', 'asc')
+                    ->orderBy('egresados.materno', 'asc');
+            } else {
+                $query->orderBy('codigos.orden', 'asc') // Columna 6 en tu JS
+                    ->orderBy('egresados.paterno', 'asc')
+                    ->orderBy('egresados.materno', 'asc');
+            }
+
+            $todos_los_egresados = $query->get();
+            $cuenta=$Egresado->cuenta;
+            // 3. Buscamos el índice del egresado actual
+            $index = $todos_los_egresados->search(function ($item) use ($cuenta) {
+                return $item->cuenta == $cuenta;
+            });
+
+            // 4. Determinamos el siguiente
+            $siguiente = null;
+            if ($index !== false && isset($todos_los_egresados[$index + 1])) {
+                $siguiente = $todos_los_egresados[$index + 1];
+            }
+        $this->recordEvent($id, 'llamar', 'gen'.$gen.' carr'.$carrera);
+        return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen','siguiente'));
 
     }
 
@@ -93,6 +130,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+         $this->recordEvent($id, 'llamar_continua', 'gen'.$gen.' carr'.$carrera);
         return view('muestras.ed_continua.llamar_continua',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen'));
     }
 
@@ -132,7 +170,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
-
+        $this->recordEvent($id, 'llamar_unificado', 'gen'.$gen.' carr'.$carrera);
         return view($vista,compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen', 'muestra_id'));
 
     }
@@ -167,6 +205,7 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+         $this->recordEvent($id, 'llamar_posgrado', $programa);
         return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos',
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
@@ -199,7 +238,7 @@ class LlamadasController extends Controller
             "=",
             $Egresado->plantel
         )->first()->plantel;
-    
+        $this->recordEvent($telefono_id, 'act_data', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "encuesta.seg20.actualizar_datos",
             compact(
@@ -243,6 +282,7 @@ class LlamadasController extends Controller
             $Egresado->plantel
         )->first()->plantel;
     
+        $this->recordEvent($telefono_id, 'act_data_continua', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "muestras.ed_continua.actualizar_datos_continua",
             compact(
@@ -282,7 +322,7 @@ class LlamadasController extends Controller
             "=",
             $Egresado->plantel
         )->first()->plantel;
-    
+        $this->recordEvent($telefono_id, 'act_data_verde', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "muestras.verde.actualizar_datos_verde",
             compact(
@@ -329,6 +369,7 @@ class LlamadasController extends Controller
             ->get();
         $EncuestaInconclusa = respuestasPosgrado::where("cuenta", "=", $cuenta)
             ->first();
+        $this->recordEvent($telefono_id, 'act_data_posgrado', 'cuenta'.$cuenta.' plan'.$plan);
         return view(
             "muestras.posgrado.actualizar_datos_posgrado",
             compact(
@@ -370,6 +411,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
+        $this->recordEvent($id, 'llamar_esp', $especialidad);
         return view('muestras.especialidad.llamar_especialidad',compact('EgresadoEsp',
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaEsp','especialidad'));
     }
@@ -401,6 +443,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
             ->get();
         $EncuestaInconclusa = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
+        $this->recordEvent($telefono_id, 'act_data_esp', 'cuenta'.$cuenta.' carr'.$especialidad);
         return view(
             "muestras.especialidad.actualizar_datos_especialidad",
             compact(
