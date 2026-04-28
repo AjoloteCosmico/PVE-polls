@@ -8,10 +8,14 @@ use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
 use App\Models\Carrera;
 use App\Models\Telefono;
+
+use App\Traits\LogEvents;
 use Session;
 class TelefonosController extends Controller
 
 {
+    
+use  LogEvents;
     public function create($cuenta,$carrera,$encuesta = null, $telefono_id = null){
 
         $TelefonoEnLlamada=Telefono::find($telefono_id);
