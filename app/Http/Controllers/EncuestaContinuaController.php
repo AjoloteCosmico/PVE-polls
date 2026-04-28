@@ -28,7 +28,6 @@ class EncuestaContinuaController extends Controller
     
 use  LogEvents;
     
-
     public function comenzar($correo, $cuenta, $carrera, $muestra_id)
     {
         $Correo = Correo::find($correo);
