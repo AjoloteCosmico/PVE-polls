@@ -21,11 +21,12 @@ use File;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-
+use App\Traits\LogEvents;
 
 class EncuestaContinuaController extends Controller
 {
     
+use  LogEvents;
     
 
     public function comenzar($correo, $cuenta, $carrera, $muestra_id)
@@ -68,6 +69,7 @@ class EncuestaContinuaController extends Controller
             ->first();
 
         if (!$Encuesta) {
+            $this->recordEvent($Encuesta->registro, 'create_sondeo','muestra' . $muestra_id);
             $Encuesta = new $res();
             $Encuesta->cuenta = $cuenta;
             $Encuesta->paterno = $Egresado->paterno;
@@ -90,6 +92,8 @@ class EncuestaContinuaController extends Controller
                 'updated_at'=>now()]);
             $Encuesta->save();
             $Encuesta->refresh();
+        }else{
+            $this->recordEvent($Encuesta->registro, 'continue_sondeo', 'comineza enceusta desde un reg existente muestra: ' . $muestra_id);
         }
         return redirect()->route($ruta, ['id' => $Encuesta->getKey()]);
     }
@@ -255,7 +259,7 @@ class EncuestaContinuaController extends Controller
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
-
+            $this->recordEvent($Encuesta->registro, 'complete_continua',' ');
             return view("encuesta.saved_continua", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
@@ -353,7 +357,8 @@ class EncuestaContinuaController extends Controller
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
-
+            $this->recordEvent($Encuesta->registro, 'complete_verde',' ');
+      
             return view("encuesta.saved_verde", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
