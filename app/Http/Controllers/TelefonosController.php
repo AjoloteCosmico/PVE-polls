@@ -89,7 +89,7 @@ use  LogEvents;
     
 
 
-    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id, $muestra_id = null){
+    public function store(Request $request ,$cuenta,$carrera,$encuesta=0,$telefono_id=0, $muestra_id = null){
 
         //Validacion de que el telefono no esté repetido
         $request->validate([

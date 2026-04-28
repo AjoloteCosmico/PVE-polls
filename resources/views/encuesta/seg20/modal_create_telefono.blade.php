@@ -44,7 +44,7 @@
 
 
 <script>
-const URL_GUARDAR = "{{ route('guardar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro,$TelefonoEnLlamada->id ?? 0])}}";
+const URL_GUARDAR = "{{ route('guardar_telefono',[$Egresado->cuenta,$Egresado->carrera,$Encuesta->registro ?? 0 ,$TelefonoEnLlamada->id ?? 0, $muestra_id ?? '']) }}";
 // Lógica para enviar el formulario vía AJAX
 $(document).ready(function() {
     $('#formPhone').on('submit', function(e) {
