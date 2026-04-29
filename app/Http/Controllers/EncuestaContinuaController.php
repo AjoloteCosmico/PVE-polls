@@ -356,7 +356,7 @@ use  LogEvents;
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
-            $this->recordEvent($Encuesta->registro, 'complete_verde',' ');
+            $this->recordEvent((int)$Encuesta->registro, 'complete_verde',' ');
       
             return view("encuesta.saved_verde", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
