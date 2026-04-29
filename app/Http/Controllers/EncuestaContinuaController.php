@@ -68,7 +68,6 @@ use  LogEvents;
             ->first();
 
         if (!$Encuesta) {
-            $this->recordEvent($Encuesta->registro, 'create_sondeo','muestra' . $muestra_id);
             $Encuesta = new $res();
             $Encuesta->cuenta = $cuenta;
             $Encuesta->paterno = $Egresado->paterno;
@@ -90,9 +89,10 @@ use  LogEvents;
                 ->update(['status' => 10,
                 'updated_at'=>now()]);
             $Encuesta->save();
+            $this->recordEvent($Encuesta->getKey(), 'create_sondeo','muestra' . $muestra_id);
             $Encuesta->refresh();
         }else{
-            $this->recordEvent($Encuesta->registro, 'continue_sondeo', 'comineza enceusta desde un reg existente muestra: ' . $muestra_id);
+            $this->recordEvent($Encuesta->getKey(), 'continue_sondeo', 'comineza enceusta desde un reg existente muestra: ' .$muestra_id);
         }
         return redirect()->route($ruta, ['id' => $Encuesta->getKey()]);
     }
