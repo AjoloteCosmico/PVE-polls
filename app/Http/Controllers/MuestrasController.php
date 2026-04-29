@@ -673,6 +673,7 @@ public function index_posgrado($programa){
   $programa = urldecode($programa);
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->where('muestra', '=', 7)
     ->where('fuente','base original')
     ->select('plan')
     ->distinct()
@@ -682,6 +683,7 @@ public function index_posgrado($programa){
     $queryBase = EgresadoPosgrado::where('programa', $programa)
       ->where('plan', $p->plan)
       ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+      ->where('muestra', '=', 7)
       ->where('fuente', 'base original');
 
     // Encuestas por teléfono
