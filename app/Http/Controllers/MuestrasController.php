@@ -660,7 +660,6 @@ public function completar_encuesta($id){
 }
 
 
-
 //funciones para posgrado
 public function programas_index(){
   $Programas=EgresadoPosgrado::whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
