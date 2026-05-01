@@ -104,7 +104,7 @@ public function show($section, $id)
     // ── Sección activa ───────────────────────────────────────────────────────
     if ($section === "SEARCH") {
         $section = "espA"; // default
-        foreach (["espA", "espB", "espC", "espD"] as $sec) {
+        foreach (["espA", "espF", "espE", "espC","espG"] as $sec) {
             if ($Encuesta->{"sec_" . strtolower($sec)} != 1) {
                 $section = $sec;
                 break;

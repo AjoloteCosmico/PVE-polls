@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+ @include('components.create_phone', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp'
+                    ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
@@ -42,11 +47,10 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono_pos',[$EgresadoEsp->cuenta,$EgresadoEsp->especialidad, '0',$TelefonoEnLlamada->id])}}">
-        <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
+      <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw" data-toggle="modal" data-target="#phoneModal">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
-      </a>
+     
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       

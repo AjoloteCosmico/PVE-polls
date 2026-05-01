@@ -186,6 +186,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'store')->name('guardar_telefono');
         Route::post('/guardar_telefono_pos/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'storepos')->name('guardar_telefono_pos');
         Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'update')->name('actualizar_telefono');
+
+        //TODO: COLAPSAR TODAS LAS RUTAS DE GUARDAR TELEFONOS A ESTA
+        Route::post('/telefonos_store/', 'store_async')->name('telefonos.store');
+        
     });
 
     /**Encuestas */ //Qué tipo de encuestas? 2014/2019?
