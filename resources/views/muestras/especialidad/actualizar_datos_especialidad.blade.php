@@ -3,7 +3,17 @@
  @include('components.create_phone', [
                         'cuenta'        => $EgresadoEsp->cuenta,
                         'respuestasKey'         => 0,
-                        'typeStudy'  => 'esp'
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                        'telefonoEnLlamadaId' => $TelefonoEnLlamada->id,
+                        'editarTelefonoUrl' => route('editar_telefono', ['id' => '__ID__', 'carrera' => $EgresadoEsp->carrera, 'type' => 'especialidad', 'telefonoEnLlamadaId' => $TelefonoEnLlamada->id])
+                    ])
+@include('components.create_email', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                        'editarCorreoUrl' => route('editar_correo', ['id' => '__ID__', 'carrera' => $EgresadoEsp->carrera, 'type' => 'especialidad', 'telefonoEnLlamadaId' => $TelefonoEnLlamada->id])
                     ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
@@ -63,7 +73,7 @@
           <th> </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="telefonos-tbody">
         @foreach($Telefonos as $t)
         <tr>
             <td>{{$t->cuenta}} </td>
@@ -78,10 +88,10 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$EgresadoEsp->cuenta,$EgresadoEsp->carrera,'especialidad',$TelefonoEnLlamada->id])}}">
-          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
+    
+          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;" data-toggle="modal" data-target="#emailModal"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
-        </a>
+   
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
@@ -94,7 +104,7 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="correos-tbody">
         @foreach($Correos as $c)
         <tr>
           <td>{{$c->cuenta}} </td>
@@ -158,6 +168,34 @@
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
+$(document).on('phoneAdded', function(event, data) {
+    let telefono = data.telefono;
+    let editarUrl = data.editarUrl;
+    let row = `
+        <tr>
+            <td>${telefono.cuenta}</td>
+            <td style="width:40%; word-wrap: break-word">${telefono.telefono}</td>
+            <td>${telefono.descripcion}</td>
+            <td>${data.status}</td>
+            <td> <a href="${editarUrl}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
+        </tr>
+    `;
+    $('#telefonos-tbody').append(row);
+});
+$(document).on('emailAdded', function(event, data) {
+    let correo = data.correo;
+    let editarUrl = data.editarUrl;
+    let row = `
+        <tr>
+            <td>${correo.cuenta}</td>
+            <td style="width:40%; word-wrap: break-word">${correo.correo}</td>
+            <td>${correo.descripcion}</td>
+            <td>${correo.status}</td>
+            <td> <a href="${editarUrl}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
+        </tr>
+    `;
+    $('#correos-tbody').append(row);
+});
  </script>
  
 @endpush 

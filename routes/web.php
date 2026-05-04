@@ -232,6 +232,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
         Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
         Route::get('especialidad_direct_send/{id}',  'especialidad_direct_send')->name('especialidad_direct_send');
+         //TODO: COLAPSAR TODAS LAS RUTAS DE GUARDAR CORREOS A ESTA
+        Route::post('/correos_store/', 'store_async')->name('correos.store');
     });
     
     /** Pantalla de inicio */

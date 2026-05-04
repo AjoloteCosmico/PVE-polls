@@ -256,10 +256,10 @@ use  LogEvents;
 
         $Telefono->save();
         $this->recordEvent($Telefono->id, 'create_telefono', $request->type.' encuestaKey: '. $request->encuesta_id);
-        
        
             return response()->json([
                 'success' => true, 
+                'status' => 'sin datos',
                 'message' => 'Teléfono agregado correctamente',
                 'telefono' => $Telefono,
             ]);

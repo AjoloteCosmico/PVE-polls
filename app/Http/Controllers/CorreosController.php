@@ -225,6 +225,38 @@ use  LogEvents;
  
  }
 
+  public function store_async(Request $request ){
+
+        //Validacion de que el telefono no esté repetido
+        $request->validate([
+            'correo' => 'required|string|max:20|unique:correos,correo',
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'correo.required' => 'El campo correo es obligatorio.',
+            'correo.unique' => 'Este correo ya está registrado.',
+        ]);
+
+
+        $Correo=new Correo();
+        $Correo->cuenta=$request->cuenta;
+        $Correo->correo=$request->correo;
+        $Correo->descripcion=$request->description;
+        //ABAJO EL ESTATUS NO DEBE´RIA SER 0 PORK NO ES SIN DATOS, SABEMOS Q SI LO USA EL EGRESADO
+        $Correo->status=0;
+
+        $Correo->save();
+        $this->recordEvent($Correo->id, 'create_correo', $request->type.' encuestaKey: '. $request->encuesta_id);
+        
+       
+            return response()->json([
+                'success' => true, 
+                'status' => 'sin datos',
+                'message' => 'Correo agregado correctamente',
+                'correo' => $Correo,
+            ]);
+        
+        
+    }
  
 }
 
