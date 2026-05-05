@@ -454,7 +454,7 @@ public function show($section, $id)
 
             return view("encuesta.saved_especialidad", compact("Encuesta",'Egresado'));
         } else {
-            return redirect()->route("muestrasespecialidad.show", [$Egresado->especialidad,$Encuesta->plan]);
+            return redirect()->route("muestras.especialidad.show", [$Egresado->especialidad,$Encuesta->plan]);
         }
     }
 }

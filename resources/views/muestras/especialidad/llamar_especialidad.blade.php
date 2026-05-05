@@ -91,7 +91,7 @@
                                   @if($EncuestaEsp)
                         @if($EncuestaEsp->completed==0)
                         @can('aplicar_encuesta_posgrado')
-                            <a href="{{route('posgrado.show',['SEARCH',$EncuestaEsp->registro])}}">
+                            <a href="{{route('especialidad.show',['SEARCH',$EncuestaEsp->registro])}}">
                                 <button type="button" class="boton-dorado">
                                     <i class="fas fa-edit"></i> Continuar encuesta inconclusa
                                 </button>
