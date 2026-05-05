@@ -93,7 +93,7 @@ class PosgradoController extends Controller
 
     public function show($section,$id){
         $Encuesta=respuestasPosgrado::find($id);
-        $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->first();
+        $Egresado=EgresadoPosgrado::where('cuenta',$Encuesta->cuenta)->where('plan',$Encuesta->plan)->first();
         $cuenta = ltrim($Egresado->cuenta, "0"); 
         Session::put('plan_posgrado',$Egresado->plan);
         $Telefonos = Telefono::where("cuenta", $cuenta)->get();
