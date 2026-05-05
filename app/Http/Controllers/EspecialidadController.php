@@ -57,9 +57,9 @@ class EspecialidadController extends Controller
        
         $Encuesta = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
-         $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente');
+         
         if ($Encuesta) {
-            
+            $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente');
             return redirect()->route('especialidad.show', [
                 'section' => 'SEARCH',
                 'id' => $Encuesta->registro
