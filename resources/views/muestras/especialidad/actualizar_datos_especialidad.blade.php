@@ -5,15 +5,12 @@
                         'respuestasKey'         => 0,
                         'typeStudy'  => 'esp',
                         'carrera' => $EgresadoEsp->carrera,
-                        'telefonoEnLlamadaId' => $TelefonoEnLlamada->id,
-                        'editarTelefonoUrl' => route('editar_telefono', ['id' => '__ID__', 'carrera' => $EgresadoEsp->carrera, 'type' => 'especialidad', 'telefonoEnLlamadaId' => $TelefonoEnLlamada->id])
-                    ])
+                   ])
 @include('components.create_email', [
                         'cuenta'        => $EgresadoEsp->cuenta,
                         'respuestasKey'         => 0,
                         'typeStudy'  => 'esp',
                         'carrera' => $EgresadoEsp->carrera,
-                        'editarCorreoUrl' => route('editar_correo', ['id' => '__ID__', 'carrera' => $EgresadoEsp->carrera, 'type' => 'especialidad', 'telefonoEnLlamadaId' => $TelefonoEnLlamada->id])
                     ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
@@ -170,28 +167,26 @@
 } );
 $(document).on('phoneAdded', function(event, data) {
     let telefono = data.telefono;
-    let editarUrl = data.editarUrl;
     let row = `
         <tr>
             <td>${telefono.cuenta}</td>
             <td style="width:40%; word-wrap: break-word">${telefono.telefono}</td>
             <td>${telefono.descripcion}</td>
             <td>${data.status}</td>
-            <td> <a href="${editarUrl}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
+            <td> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
         </tr>
     `;
     $('#telefonos-tbody').append(row);
 });
 $(document).on('emailAdded', function(event, data) {
     let correo = data.correo;
-    let editarUrl = data.editarUrl;
     let row = `
         <tr>
             <td>${correo.cuenta}</td>
             <td style="width:40%; word-wrap: break-word">${correo.correo}</td>
             <td>${correo.descripcion}</td>
             <td>${correo.status}</td>
-            <td> <a href="${editarUrl}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
+            <td>  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
         </tr>
     `;
     $('#correos-tbody').append(row);

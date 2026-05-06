@@ -59,11 +59,10 @@ class EspecialidadController extends Controller
             ->first();
          
         if ($Encuesta) {
-            $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente');
+            $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente tel_id:'.Session::get('telefono_encuesta'));
             return redirect()->route('especialidad.show', [
                 'section' => 'SEARCH',
                 'id' => $Encuesta->registro
-                
             ]);
         } else {
             $Encuesta = new respuestasEspecialidad();
@@ -75,7 +74,7 @@ class EspecialidadController extends Controller
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
-            $this->recordEvent($Encuesta->registro, 'create_enc_esp', ' ');
+            $this->recordEvent($Encuesta->registro, 'create_enc_esp', 'tel_id:'.Session::get('telefono_encuesta'));
             return redirect()->route('especialidad.show', [
                 'section' => 'espA',
                 'id' => $Encuesta->registro,                

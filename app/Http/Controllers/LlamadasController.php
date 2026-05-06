@@ -423,6 +423,8 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         }
 
         Session::put('telefono_encuesta',$telefono_id);
+        $this->recordEvent($telefono_id, 'actualizar_desde_llamada', 'se actualizan datos personales en este tel');
+           
         $TelefonoEnLlamada=Telefono::find($telefono_id);
 
         $EgresadoEsp = EgresadoEspecialidad::where("cuenta", $cuenta)

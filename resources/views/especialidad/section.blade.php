@@ -9,8 +9,18 @@ $reactivosEnTablas=array();
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
 @include('empresas.modal_create', ['typeStudy' => 'posgrado'])
-@include('encuesta.seg20.modal_create_telefono')
-@include('encuesta.seg20.modal_create_correo')
+@include('components.create_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                   ])
+@include('components.create_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                   ])
 <div>
     <div class="titulos">
         <h1>ENCUESTA DE SEGUIMIENTO GEN 2022 UNAM</h1>
@@ -62,7 +72,7 @@ $reactivosEnTablas=array();
                         // Precargar todos los reactivos necesarios de una sola vez
                         $all_claves = collect($rows_normalized)->flatten()->unique()->values();
                         $reactivos_tabla = \App\Models\Reactivo::whereIn('clave', $all_claves)->get()->keyBy('clave');
-                       $reactivosEnTablas= array_merge($reactivosEnTablas,$reactivos_tabla->pluck('clave')->toArray());
+                        $reactivosEnTablas= array_merge($reactivosEnTablas,$reactivos_tabla->pluck('clave')->toArray());
                        
                     @endphp
 
