@@ -11,13 +11,13 @@ $reactivosEnTablas=array();
 @include('empresas.modal_create', ['typeStudy' => 'posgrado'])
 @include('components.create_phone', [
                         'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => 0,
+                        'respuestasKey'         => $Encuesta->registro,
                         'typeStudy'  => 'esp',
                         'carrera' => $Egresado->carrera,
                    ])
 @include('components.create_email', [
                         'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => 0,
+                        'respuestasKey'         => $Encuesta->registro,
                         'typeStudy'  => 'esp',
                         'carrera' => $Egresado->carrera,
                    ])
@@ -935,6 +935,13 @@ $reactivosEnTablas=array();
     $(document).ready(function() {
     // 1. Obtener el número de opciones
    
+            @if($section === 'espC')
+                const espc12Select = $('select[name="espc12"]');
+                if (espc12Select.length && !espc12Select.find('option[value="9"]').length) {
+                    espc12Select.append(new Option('9 No deseo dar esa información', '9'));
+                }
+            @endif
+
             // 3. Inicializar Select2 en el select deseado
              $('.select2-searchable').select2({
                 // Opciones opcionales de Select2, por ejemplo, el placeholder:
