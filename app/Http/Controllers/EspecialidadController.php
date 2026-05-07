@@ -32,28 +32,28 @@ class EspecialidadController extends Controller
         $Egresado = EgresadoEspecialidad::where("cuenta", $cuenta)
             ->where("especialidad", $plan)
             ->first();
-        // if ($Correo->enviado == 0) {
-        //     $caminoalpoder = public_path();
-        //     $process = new Process([
-        //         env("PY_COMAND"),
-        //         $caminoalpoder . "/aviso.py",
-        //         $Egresado->nombre,
-        //         $Correo->correo,
-        //     ]);
-        //      $process->run();
+        if ($Correo->enviado == 0) {
+            $caminoalpoder = public_path();
+            $process = new Process([
+                env("PY_COMAND"),
+                $caminoalpoder . "/aviso.py",
+                $Egresado->nombre,
+                $Correo->correo,
+            ]);
+             $process->run();
 
-        //     if (!$process->isSuccessful()) {
-        //         //TODO-future: return swal alert,
-        //         $Correo->enviado = 2;
-        //         $Correo->save();
-        //         throw new ProcessFailedException($process);
+            if (!$process->isSuccessful()) {
+                //TODO-future: return swal alert,
+                $Correo->enviado = 2;
+                $Correo->save();
+                throw new ProcessFailedException($process);
                 
-        //     } else {
-        //         $Correo->enviado = 1;
-        //         $Correo->save();
-        //     }
-        //     $data = $process->getOutput();
-        // }
+            } else {
+                $Correo->enviado = 1;
+                $Correo->save();
+            }
+            $data = $process->getOutput();
+        }
        
         $Encuesta = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
