@@ -229,7 +229,7 @@ use  LogEvents;
 
         //Validacion de que el telefono no esté repetido
         $request->validate([
-            'correo' => 'required|string|max:20|unique:correos,correo',
+            'correo' => 'required|string|max:40|unique:correos,correo',
             'descripcion' => 'nullable|string|max:255',
         ], [
             'correo.required' => 'El campo correo es obligatorio.',
