@@ -59,7 +59,7 @@
                 </div>
                 <div class="col">
                   @if($Encuesta->sec_espe==1)
-                         <a class="btn boton-verde" id="btn-espE" href="{{route('especialidad.show',['espE',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
+                         <a class="btn boton-verde" id="btn-espE" href="{{route('especialidad.show',['espE',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección E </a>
                
                     @else
                          <a class="btn boton-dorado" id="btn-espE" href="{{route('especialidad.show',['espE',$Encuesta->registro])}}">Sección E</a>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col">
                   @if($Encuesta->sec_espg==1)
-                         <a class="btn boton-verde" id="btn-espG" href="{{route('especialidad.show',['espG',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
+                         <a class="btn boton-verde" id="btn-espG" href="{{route('especialidad.show',['espG',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección G </a>
                
                     @else
                          <a class="btn boton-dorado" id="btn-espG" href="{{route('especialidad.show',['espG',$Encuesta->registro])}}">Sección G</a>
