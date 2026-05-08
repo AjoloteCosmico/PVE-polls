@@ -851,13 +851,14 @@ public function show_unificado($carrera, $plantel, $muestra_id){
 
 public function especialidad_index(){
 
-  $planes = EgresadoEspecialidad::whereIn('anio_egreso', [2022, 2023, 2024, 2025])
+  $planes = EgresadoEspecialidad::whereIn('anio_egreso', [2020, 2021, 2022, 2023])
+    ->where('created_at','<','2026-05-01')
     ->select('especialidad')
     ->distinct()
     ->get();
   foreach ($planes as $p) {
     $queryBase = EgresadoEspecialidad::where('especialidad', $p->especialidad)
-      ->whereIn('anio_egreso', [2022, 2023, 2024, 2025]);
+      ->whereIn('anio_egreso', [2020, 2021, 2022, 2023]);
 
     // Encuestas por teléfono
     $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();
@@ -878,7 +879,8 @@ public function especialidad_index(){
       
     $muestra = DB::table('egresados_especialidad')
       ->where('especialidad', '=', $especialidad)
-      ->whereIn('anio_egreso', [2022,2023,2024,2025])
+      ->whereIn('anio_egreso', [2020,2021,2022,2023])
+      ->where('created_at','<','2026-05-01')
       ->leftJoin('codigos',function($join){
         $join->on(
               // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
