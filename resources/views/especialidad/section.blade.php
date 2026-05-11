@@ -20,6 +20,7 @@ $reactivosEnTablas=array();
                         'respuestasKey'         => $Encuesta->registro,
                         'typeStudy'  => 'esp',
                         'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
                    ])
 <div>
     <div class="titulos">
@@ -875,7 +876,7 @@ $reactivosEnTablas=array();
     }
 
     function update_empresa_form() {
-        nombre = document.getElementById('name_empresa').value;
+        nombre = document.getElementById('espc4').value;
         document.getElementById('nombre_empresa').value = nombre;
          
         sector = document.getElementById('espc3').value;

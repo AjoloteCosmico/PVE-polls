@@ -5,6 +5,7 @@
         $cuenta -> la cuenta del egresado
         $respuestasKey -> id de la tabla de respuestas
         $typeStudy -> recibe 'pos' o 'seg' o 'act' o 'esp' o 'verde' o 'cont'
+        $EgName ->nombre del egresado para ver sus apellidos
 --}}
 
 <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"  style="background: #131931;">
@@ -22,6 +23,7 @@
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$respuestasKey}}">
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
+        <h1> {{$EgName}}</h1>
         <div class="mb-3">
           <label style="color:white;">Correo</label>
           <input type="text" name="correo" id="correo" class="form-control modal-input" style=" font-size: 120%;">

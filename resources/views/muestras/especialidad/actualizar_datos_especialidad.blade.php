@@ -11,6 +11,7 @@
                         'respuestasKey'         => 0,
                         'typeStudy'  => 'esp',
                         'carrera' => $EgresadoEsp->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
                     ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
