@@ -13,6 +13,7 @@ use App\Models\Reactivo;
 use App\Models\Option;
 use App\Models\multiple_option_answer;
 use DB;
+use App\Traits\LogEvents;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use App\Models\Comentario;
@@ -24,7 +25,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class PosgradoController extends Controller
 {
-    
+    use  LogEvents;
      public function comenzar($correo, $cuenta, $plan)
     {
         $Correo = Correo::find($correo);

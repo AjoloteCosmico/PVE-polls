@@ -407,9 +407,10 @@ public function show($section, $id)
     {
 
         if ($Encuesta->sec_espa == 1 &&
-            $Encuesta->sec_espb == 1 &&
+            $Encuesta->sec_espf == 1 &&
+            $Encuesta->sec_espe == 1 &&
             $Encuesta->sec_espc == 1 &&
-            $Encuesta->sec_espd == 1
+            $Encuesta->sec_espg == 1
             ) {
                 //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
                 if ($Encuesta->completed != 1){

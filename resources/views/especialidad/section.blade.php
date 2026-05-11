@@ -86,7 +86,17 @@ $reactivosEnTablas=array();
                     ])
                     
 
+                @elseif($reactivo->clave=='espc4')
+                <div class="react_container">
+                    espc4
+                    <h3>50.- ¿Cuál es el nombre de la empresa donde trabaja?</h3>
+                    <input type="text" id="espc4" name="espc4" value="{{$Encuesta->empresa}}">
+                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
+                <div class="resultados-div" id="resultados"></div>
+                </div>
                 @else
+
+
                     <div class="react_container @if($reactivo->breakline==1) column_react @endif @if($is_bloqueado_inicialmente) bloqueado_inicialmente @endif" id="{{'container'.$reactivo->clave}}">
 
                        {{$reactivo->clave}} / {{$reactivo->reference}}   
@@ -117,14 +127,8 @@ $reactivosEnTablas=array();
                     </div>
                 @endif
               
-                @if($reactivo->clave=='pdr2')
-                <div class="react_container">
-                    <h3>¿Cuál es el nombre de la empresa donde trabaja?</h3>
-                    <input type="text" id="name_empresa" name="empresa" value="{{$Encuesta->empresa}}">
-                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
-                <div class="resultados-div" id="resultados"></div>
-                </div>
-                @endif
+                
+                
             @endif
             @endforeach
         </div>
@@ -834,8 +838,8 @@ $reactivosEnTablas=array();
         element.value = value;
         element.classList.add('highlight');
     }
- @if($section=='pD')
-    const searchBox = document.getElementById('name_empresa');
+ @if($section=='espC')
+    const searchBox = document.getElementById('espc4');
     const resultadosDiv = document.getElementById('resultados');
 
     searchBox.addEventListener('input', function(e) {
@@ -851,15 +855,21 @@ $reactivosEnTablas=array();
                 resultadosDiv.innerHTML = '';
                 data.forEach(item => {
                     const nombre = item.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
+                    resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
                 });
             })
             .catch(error => console.error('Error:', error));
     });
     
-    function rellenar_empresa(nombre, sector, giro, giro_esp) {
-        setValueWithEffect(document.getElementById('name_empresa'), nombre);
-        
+    function rellenar_empresa(nombre, sector, giro) {
+        setValueWithEffect(document.getElementById('espc4'), nombre);
+        setValueWithEffect(document.getElementById('espc3'), sector);
+        setValueWithEffect(document.getElementById('espc5'), giro);
+        //cambiar en el container visible del select2 espc5
+            const select2_espc5 = document.querySelector('#espc5 + .select2 .select2-selection__rendered');
+            if (select2_espc5) {
+                select2_espc5.textContent = giro;
+            }
         console.log('se ha seleccionado una empresa', sector, giro);
         resultadosDiv.innerHTML = '';
     }
@@ -867,6 +877,12 @@ $reactivosEnTablas=array();
     function update_empresa_form() {
         nombre = document.getElementById('name_empresa').value;
         document.getElementById('nombre_empresa').value = nombre;
+         
+        sector = document.getElementById('espc3').value;
+        rama = document.getElementById('espc5').value;
+        document.getElementById('nombre_empresa').value = nombre;
+        document.getElementById('rama').value = rama;
+        document.getElementById('sector').value = sector;
     }
     @endif
 
