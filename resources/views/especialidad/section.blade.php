@@ -15,6 +15,19 @@ $reactivosEnTablas=array();
                         'typeStudy'  => 'esp',
                         'carrera' => $Egresado->carrera,
                    ])
+@include('components.edit_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                   ])
+                   @include('components.edit_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                   ])
 @include('components.create_email', [
                         'cuenta'        => $Egresado->cuenta,
                         'respuestasKey'         => $Encuesta->registro,
@@ -91,7 +104,7 @@ $reactivosEnTablas=array();
                 <div class="react_container">
                     espc4
                     <h3>50.- ¿Cuál es el nombre de la empresa donde trabaja?</h3>
-                    <input type="text" id="espc4" name="espc4" value="{{$Encuesta->empresa}}">
+                    <input type="text" id="espc4" name="espc4" value="{{$Encuesta->espc4}}" >
                     <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
                 <div class="resultados-div" id="resultados"></div>
                 </div>
@@ -163,7 +176,7 @@ $reactivosEnTablas=array();
 {{-- Incluye aquí los estilos CSS y los scripts JS que proporcionaste --}}
 @push('css')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">

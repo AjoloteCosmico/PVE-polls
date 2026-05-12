@@ -7,7 +7,7 @@
         $typeStudy -> recibe 'pos' o 'seg' o 'act' o 'esp' o 'verde' o 'cont'
 --}}
 
-<div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel" aria-hidden="true"  style="background: #131931;">
+<div class="modal fade" id="phoneEditModal" tabindex="-1" aria-labelledby="phoneEditModalLabel" aria-hidden="true"  style="background: #131931;">
   <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
     <form id="formTel" class="modal-content">
       <div class="modal-header">
@@ -31,7 +31,7 @@
           <input type="text" name="description" id="description" class="form-control modal-input" style=" font-size: 120%;">
         </div>
          <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
     
         </div>
       

@@ -31,7 +31,7 @@
           <input type="text" name="description" id="description" class="form-control modal-input" style=" font-size: 120%;">
         </div>
          <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
     
         </div>
       

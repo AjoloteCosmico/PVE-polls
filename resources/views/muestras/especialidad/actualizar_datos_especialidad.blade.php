@@ -1,12 +1,25 @@
 @extends('layouts.app')
 @section('content')
- @include('components.create_phone', [
+@include('components.create_phone', [
                         'cuenta'        => $EgresadoEsp->cuenta,
                         'respuestasKey'         => 0,
                         'typeStudy'  => 'esp',
                         'carrera' => $EgresadoEsp->carrera,
                    ])
 @include('components.create_email', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                        'EgName'=> $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
+                    ])
+@include('components.edit_phone', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                   ])
+@include('components.edit_email', [
                         'cuenta'        => $EgresadoEsp->cuenta,
                         'respuestasKey'         => 0,
                         'typeStudy'  => 'esp',
@@ -104,16 +117,16 @@
       </thead>
       <tbody id="correos-tbody">
         @foreach($Correos as $c)
-        <tr>
+        <tr data-id="{{$c->id}}">
           <td>{{$c->cuenta}} </td>
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo',[$c->id,$EgresadoEsp->carrera,'posgrado',$TelefonoEnLlamada->id])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+            
+              <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
-            </a>
+
           </td>
             <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$EgresadoEsp->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
@@ -166,31 +179,51 @@
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 $(document).on('phoneAdded', function(event, data) {
     let telefono = data.telefono;
     let row = `
         <tr>
             <td>${telefono.cuenta}</td>
-            <td style="width:40%; word-wrap: break-word">${telefono.telefono}</td>
-            <td>${telefono.descripcion}</td>
-            <td>${data.status}</td>
+            <td style="width:40%; word-wrap: break-word">${escapeHtml(telefono.telefono)}</td>
+            <td>${escapeHtml(telefono.descripcion)}</td>
+            <td>${escapeHtml(data.status)}</td>
             <td> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
         </tr>
     `;
     $('#telefonos-tbody').append(row);
 });
+
+$(document).on('click', '.edit-email-btn', function() {
+    let btn = $(this);
+    editEmail(btn.data('id'), btn.data('correo'), btn.data('description'), btn.data('status'));
+});
+
 $(document).on('emailAdded', function(event, data) {
     let correo = data.correo;
     let row = `
-        <tr>
-            <td>${correo.cuenta}</td>
-            <td style="width:40%; word-wrap: break-word">${correo.correo}</td>
-            <td>${correo.descripcion}</td>
-            <td>${correo.status}</td>
-            <td>  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
+        <tr data-id="${correo.id}">
+            <td>${escapeHtml(correo.cuenta)}</td>
+            <td style="width:40%; word-wrap: break-word">${escapeHtml(correo.correo)}</td>
+            <td>${escapeHtml(correo.description)}</td>
+            <td>  <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="${escapeHtml(correo.id)}" data-correo="${escapeHtml(correo.correo)}" data-description="${escapeHtml(correo.description)}" data-status="${escapeHtml(correo.status || 13)}"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
         </tr>
     `;
     $('#correos-tbody').append(row);
+});
+$(document).on('emailUpdated', function(event, data) {
+    let correo = data.correo;
+    let row = $('tr[data-id="' + correo.id + '"]');
+    row.find('td').eq(1).text(correo.correo);
+    row.find('td').eq(2).text(correo.description);
 });
  </script>
  

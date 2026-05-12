@@ -9,7 +9,7 @@
 --}}
 
 <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"  style="background: #131931;">
-  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
+  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1999">
     <form id="formCorreo" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"  style="color:white;">Nuevo Correo</h5>
@@ -25,15 +25,15 @@
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
         <h1> {{$EgName}}</h1>
         <div class="mb-3">
-          <label style="color:white;">Correo</label>
+          <label for="correo" style="color:white;">Correo</label>
           <input type="text" name="correo" id="correo" class="form-control modal-input" style=" font-size: 120%;">
         </div>
         <div class="mb-3">
-          <label style="color:white;">Description</label>
+          <label for="description" style="color:white;">Description</label>
           <input type="text" name="description" id="description" class="form-control modal-input" style=" font-size: 120%;">
         </div>
          <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
     
         </div>
       

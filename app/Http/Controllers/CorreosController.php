@@ -242,7 +242,7 @@ use  LogEvents;
         $Correo->correo=$request->correo;
         $Correo->descripcion=$request->description;
         //ABAJO EL ESTATUS NO DEBE´RIA SER 0 PORK NO ES SIN DATOS, SABEMOS Q SI LO USA EL EGRESADO
-        $Correo->status=0;
+        $Correo->status=13;
 
         $Correo->save();
         $this->recordEvent($Correo->id, 'create_correo', $request->type.' encuestaKey: '. $request->encuesta_id);
@@ -252,6 +252,29 @@ use  LogEvents;
                 'success' => true, 
                 'status' => 'sin datos',
                 'message' => 'Correo agregado correctamente',
+                'correo' => $Correo,
+            ]);
+        
+        
+    }
+  public function update_async(Request $request ){
+
+        //Validacion de que el telefono no esté repetido
+       
+
+
+        $Correo=Correo::find($request->correo_id);
+        $Correo->correo=$request->correo;
+        $Correo->descripcion=$request->description;
+        $Correo->status=$request->status;
+
+        $Correo->save();
+        $this->recordEvent($Correo->id, 'update_correo', $request->type.' encuestaKey: '. $request->encuesta_id);
+
+            return response()->json([
+                'success' => true, 
+                'status' => $request->status,
+                'message' => 'Correo Editado correctamente',
                 'correo' => $Correo,
             ]);
         

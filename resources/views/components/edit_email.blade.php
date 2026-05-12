@@ -7,31 +7,41 @@
         $typeStudy -> recibe 'pos' o 'seg' o 'act' o 'esp' o 'verde' o 'cont'
 --}}
 
-<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"  style="background: #131931;">
+<div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true"  style="background: #131931;">
   <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
-    <form id="formCorreo" class="modal-content">
+    <form id="formEditCorreo" class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"  style="color:white;">Nuevo Correo</h5>
+        <h5 id="editEmailModalLabel" class="modal-title"  style="color:white;">Editar Correo</h5>
         <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
          <button type="button" class="close btn btn-danger" style="background-color:red;" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times fa-xl" aria-hidden="true"></i>
          </button>
       </div>
       <div class="modal-body">
+        <h1>{{$EgName}}</h1>
         @csrf
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$respuestasKey}}">
+        
+        <input type="hidden" id="correo_id" name="correo_id" value="">
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
         <div class="mb-3">
-          <label style="color:white;">Correo</label>
-          <input type="text" name="correo" id="correo" class="form-control modal-input" style=" font-size: 120%;">
+          <label for="correo_edit" style="color:white;">Correo</label>
+          <input type="text" name="correo" id="correo_edit" class="form-control modal-input" style=" font-size: 120%;">
         </div>
         <div class="mb-3">
-          <label style="color:white;">Description</label>
-          <input type="text" name="description" id="description" class="form-control modal-input" style=" font-size: 120%;">
+           <label for="email_status" style="color: white;">Status</label>
+            <select style="width:50%" class="form-control" id="email_status" name="status" aria-describedby="emailHelp" placeholder="Enter email">
+                <option value="13"> En Uso</option>   
+                <option value="14"> Sin usar</option>   
+            </select>
+        </div>
+        <div class="mb-3">
+          <label for="description_edit" style="color:white;">Anotaciones (opcional)</label>
+          <input type="text" name="description" id="description_edit" class="form-control modal-input" style=" font-size: 120%;">
         </div>
          <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
     
         </div>
       
@@ -40,26 +50,43 @@
 </div>
 
 <script>
+  window.editEmail = function(id, correo, description, status) {
+    // Ensure any other modal is hidden before opening the edit modal.
+    $('#phoneModal').modal('hide');
+    $('#emailModal').modal('hide');
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
+
+    $('#correo_id').val(id);
+    $('#correo_edit').val(correo);
+    $('#description_edit').val(description);
+    $('#email_status').val(status || '13');
+    
+    $('#editEmailModal').modal('show');
+  }
 $(document).ready(function() {
-    $('#formCorreo').on('submit', function(e) {
+    $('#formEditCorreo').on('submit', function(e) {
         e.preventDefault();
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "{{ route('correos.store') }}",
+            url: "{{ route('correos.update') }}",
             method: "POST",
             data: formData,
             success: function(response) {
-                $('#emailModal').modal('hide');
-                $('#formCorreo')[0].reset();
+                $('#editEmailModal').modal('hide');
+                $('#formEditCorreo')[0].reset();
                 // Trigger event with phone data
                 let correo = response.correo;
-                $(document).trigger('emailAdded', {correo: correo});
+                $(document).trigger('emailUpdated', {correo: correo});
                 // alert('Empresa agregada correctamente');
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Correo guardado correctamente",
+                    title: "Correo editado correctamente",
                     showConfirmButton: false,
                     timer: 1500
                     });
