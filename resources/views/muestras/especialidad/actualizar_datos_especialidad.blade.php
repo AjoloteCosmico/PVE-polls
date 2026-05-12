@@ -90,8 +90,9 @@
             <td>{{$t->cuenta}} </td>
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
-            <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono',[$t->id,$EgresadoEsp->carrera,'especialidad',$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
+            <td>{{$t->status_description}} </td>
+            <td> <button class="btn edit-phone-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-telefono_id="{{$t->id}}" data-telefono="{{ $t->telefono }}" data-description="{{ $t->descripcion }}" >
+               <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
         </tr>
         @endforeach
       </tbody>
@@ -189,41 +190,51 @@ function escapeHtml(text) {
 }
 
 $(document).on('phoneAdded', function(event, data) {
-    let telefono = data.telefono;
-    let row = `
-        <tr>
-            <td>${telefono.cuenta}</td>
-            <td style="width:40%; word-wrap: break-word">${escapeHtml(telefono.telefono)}</td>
-            <td>${escapeHtml(telefono.descripcion)}</td>
-            <td>${escapeHtml(data.status)}</td>
-            <td> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
-        </tr>
-    `;
-    $('#telefonos-tbody').append(row);
+    // let telefono = data.telefono;
+    // let row = `
+    //     <tr>
+    //         <td>${telefono.cuenta}</td>
+    //         <td style="width:40%; word-wrap: break-word">${escapeHtml(telefono.telefono)}</td>
+    //         <td>${escapeHtml(telefono.descripcion)}</td>
+    //         <td>${escapeHtml(data.status)}</td>
+    //         <td> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
+    //     </tr>
+    // `;
+    // $('#telefonos-tbody').append(row);
+    location.reload();
 });
 
 $(document).on('click', '.edit-email-btn', function() {
     let btn = $(this);
-    editEmail(btn.data('id'), btn.data('correo'), btn.data('description'), btn.data('status'));
+    editEmail(btn.data('id'), btn.data('correo'), btn.data('description'));
+});
+
+$(document).on('click', '.edit-phone-btn', function() {
+    let btn = $(this);
+    editPhone(btn.data('telefono_id'), btn.data('telefono'), btn.data('description'));
 });
 
 $(document).on('emailAdded', function(event, data) {
-    let correo = data.correo;
-    let row = `
-        <tr data-id="${correo.id}">
-            <td>${escapeHtml(correo.cuenta)}</td>
-            <td style="width:40%; word-wrap: break-word">${escapeHtml(correo.correo)}</td>
-            <td>${escapeHtml(correo.description)}</td>
-            <td>  <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="${escapeHtml(correo.id)}" data-correo="${escapeHtml(correo.correo)}" data-description="${escapeHtml(correo.description)}" data-status="${escapeHtml(correo.status || 13)}"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
-        </tr>
-    `;
-    $('#correos-tbody').append(row);
+    // let correo = data.correo;
+    // let row = `
+    //     <tr data-id="${correo.id}">
+    //         <td>${escapeHtml(correo.cuenta)}</td>
+    //         <td style="width:40%; word-wrap: break-word">${escapeHtml(correo.correo)}</td>
+    //         <td>${escapeHtml(correo.description)}</td>
+    //         <td>  <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="${escapeHtml(correo.id)}" data-correo="${escapeHtml(correo.correo)}" data-description="${escapeHtml(correo.description)}" data-status="${escapeHtml(correo.status || 13)}"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
+    //     </tr>
+    // `;
+    // $('#correos-tbody').append(row);
+
+    //Actualizar la pagina mejor 
+    location.reload();
 });
 $(document).on('emailUpdated', function(event, data) {
-    let correo = data.correo;
-    let row = $('tr[data-id="' + correo.id + '"]');
-    row.find('td').eq(1).text(correo.correo);
-    row.find('td').eq(2).text(correo.description);
+
+    location.reload();
+});
+$(document).on('phoneUpdated', function(event, data) {
+    location.reload();
 });
  </script>
  

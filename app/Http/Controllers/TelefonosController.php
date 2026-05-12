@@ -266,5 +266,32 @@ use  LogEvents;
         
         
     }
+    public function async_update(Request $request ){
+        //TODO: Configurar validaciones para edicion
+        // //Validacion de que el telefono no esté repetido
+        // $request->validate([
+        //     'telefono' => 'required|string|max:20|unique:telefonos,telefono',
+        //     'descripcion' => 'nullable|string|max:255',
+        // ], [
+        //     'telefono.required' => 'El campo teléfono es obligatorio.',
+        //     'telefono.unique' => 'Este número ya está registrado.',
+        // ]);
+
+
+        $Telefono= Telefono::find((int)$request->telefono_id);
+        $Telefono->telefono=$request->telefono;
+        $Telefono->descripcion=$request->description;
+        $Telefono->save();
+        $this->recordEvent($Telefono->id, 'update_telefono', $request->type.' encuestaKey: '. $request->encuesta_id);
+       
+            return response()->json([
+                'success' => true, 
+                'status' => 'sin datos',
+                'message' => 'Teléfono editado correctamente',
+                'telefono' => $Telefono,
+            ]);
+        
+        
+    }
 
 }

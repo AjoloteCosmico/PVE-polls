@@ -437,6 +437,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
 
         Session::put('plan_especialidad',$EgresadoEsp->especialidad);
         $Telefonos = DB::table("telefonos")
+        ->select('telefonos.*','codigos.color_rgb','codigos.description as status_description')
             ->where("cuenta", "=", $cuenta)
             ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
             ->get();

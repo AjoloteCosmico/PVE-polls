@@ -21,7 +21,6 @@
         <h1>{{$EgName}}</h1>
         @csrf
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$respuestasKey}}">
-        
         <input type="hidden" id="correo_id" name="correo_id" value="">
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
@@ -64,7 +63,6 @@
     $('#correo_edit').val(correo);
     $('#description_edit').val(description);
     $('#email_status').val(status || '13');
-    
     $('#editEmailModal').modal('show');
   }
 $(document).ready(function() {
@@ -73,7 +71,7 @@ $(document).ready(function() {
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "{{ route('correos.update') }}",
+            url: "{{ route('correos.update_async') }}",
             method: "POST",
             data: formData,
             success: function(response) {

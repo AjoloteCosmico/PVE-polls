@@ -188,7 +188,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'update')->name('actualizar_telefono');
 
         //TODO: COLAPSAR TODAS LAS RUTAS DE GUARDAR TELEFONOS A ESTA
-        Route::post('/telefonos_store/', 'store_async')->name('telefonos.store');
+        Route::post('/telefonos_store/', 'store_async')->name('telefonos.store_async');
+        Route::post('/update_async_telefono/', 'async_update')->name('telefonos.async_update');
         
     });
 
@@ -233,8 +234,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
         Route::get('especialidad_direct_send/{id}',  'especialidad_direct_send')->name('especialidad_direct_send');
          //TODO: COLAPSAR TODAS LAS RUTAS DE GUARDAR CORREOS A ESTA
-        Route::post('/correos_store/', 'store_async')->name('correos.store');
-        Route::post('/correos_update/', 'update_async')->name('correos.update');
+        Route::post('/correos_store/', 'store_async')->name('correos.store_async');
+        Route::post('/correos_update/', 'update_async')->name('correos.update_async');
     });
     
     /** Pantalla de inicio */

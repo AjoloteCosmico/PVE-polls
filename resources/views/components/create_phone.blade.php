@@ -46,7 +46,7 @@ $(document).ready(function() {
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "{{ route('telefonos.store') }}",
+            url: "{{ route('telefonos.store_async') }}",
             method: "POST",
             data: formData,
             success: function(response) {

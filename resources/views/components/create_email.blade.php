@@ -48,7 +48,7 @@ $(document).ready(function() {
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "{{ route('correos.store') }}",
+            url: "{{ route('correos.store_async') }}",
             method: "POST",
             data: formData,
             success: function(response) {
