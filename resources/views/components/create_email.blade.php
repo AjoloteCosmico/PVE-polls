@@ -9,7 +9,7 @@
 --}}
 
 <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"  style="background: #131931;">
-  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1999">
+  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
     <form id="formCorreo" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"  style="color:white;">Nuevo Correo</h5>

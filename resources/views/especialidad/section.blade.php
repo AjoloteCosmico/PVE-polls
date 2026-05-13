@@ -8,7 +8,7 @@ $reactivosEnTablas=array();
 {{-- {{session('logs')}} --}}
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
-@include('empresas.modal_create', ['typeStudy' => 'posgrado'])
+@include('empresas.modal_create', ['typeStudy' => 'esp'])
 @include('components.create_phone', [
                         'cuenta'        => $Egresado->cuenta,
                         'respuestasKey'         => $Encuesta->registro,
@@ -41,7 +41,7 @@ $reactivosEnTablas=array();
     </div>
 
     {{-- Sección de datos personales --}}
-    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 200;">
+    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 1000;">
         @include('especialidad.personal_data')
     </div>
     <br>

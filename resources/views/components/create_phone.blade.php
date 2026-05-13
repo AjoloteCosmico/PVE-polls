@@ -8,7 +8,7 @@
 --}}
 
 <div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="phoneModalLabel" aria-hidden="true"  style="background: #131931;">
-  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
+  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
     <form id="formTel" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"  style="color:white;">Nuevo Telefono</h5>

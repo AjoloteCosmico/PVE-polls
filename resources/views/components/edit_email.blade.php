@@ -8,7 +8,7 @@
 --}}
 
 <div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true"  style="background: #131931;">
-  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
+  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
     <form id="formEditCorreo" class="modal-content">
       <div class="modal-header">
         <h5 id="editEmailModalLabel" class="modal-title"  style="color:white;">Editar Correo</h5>

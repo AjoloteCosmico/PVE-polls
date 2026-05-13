@@ -9,7 +9,7 @@
         <th>Teléfonos: <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#phoneModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button> </th>
         <td style="width:25vw">
             @foreach($Telefonos as $t)
-                <button class="contact_data" style="color: #002b7a;" onclick="editPhone({{$t->id}}, '{{$t->telefono}}', '{{$t->descripcion}}','{{$t->status}}')"> {{ $t->telefono }} </button>, &nbsp;
+                <button class="contact_data" style="color: #002b7a;" onclick="editPhone({{$t->id}}, '{{$t->telefono}}', '{{$t->descripcion}}')"> {{ $t->telefono }} </button>, &nbsp;
             @endforeach
         </td>
 

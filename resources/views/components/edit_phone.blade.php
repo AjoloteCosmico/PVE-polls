@@ -8,7 +8,7 @@
 --}}
 
 <div class="modal fade" id="phoneEditModal" tabindex="-1" aria-labelledby="phoneEditModalLabel" aria-hidden="true"  style="background: #131931;">
-  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:999">
+  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
     <form id="formEditTel" class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title"  style="color:white;">Nuevo Telefono</h5>
@@ -20,7 +20,7 @@
       <div class="modal-body">
         @csrf
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$respuestasKey}}">
-        <input  id="telefono_id" name="telefono_id" value="">
+        <input type="hidden" id="telefono_id" name="telefono_id" value="">
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
         <div class="mb-3">

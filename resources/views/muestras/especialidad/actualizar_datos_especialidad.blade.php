@@ -190,17 +190,7 @@ function escapeHtml(text) {
 }
 
 $(document).on('phoneAdded', function(event, data) {
-    // let telefono = data.telefono;
-    // let row = `
-    //     <tr>
-    //         <td>${telefono.cuenta}</td>
-    //         <td style="width:40%; word-wrap: break-word">${escapeHtml(telefono.telefono)}</td>
-    //         <td>${escapeHtml(telefono.descripcion)}</td>
-    //         <td>${escapeHtml(data.status)}</td>
-    //         <td> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
-    //     </tr>
-    // `;
-    // $('#telefonos-tbody').append(row);
+   
     location.reload();
 });
 
@@ -215,17 +205,6 @@ $(document).on('click', '.edit-phone-btn', function() {
 });
 
 $(document).on('emailAdded', function(event, data) {
-    // let correo = data.correo;
-    // let row = `
-    //     <tr data-id="${correo.id}">
-    //         <td>${escapeHtml(correo.cuenta)}</td>
-    //         <td style="width:40%; word-wrap: break-word">${escapeHtml(correo.correo)}</td>
-    //         <td>${escapeHtml(correo.description)}</td>
-    //         <td>  <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="${escapeHtml(correo.id)}" data-correo="${escapeHtml(correo.correo)}" data-description="${escapeHtml(correo.description)}" data-status="${escapeHtml(correo.status || 13)}"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
-    //     </tr>
-    // `;
-    // $('#correos-tbody').append(row);
-
     //Actualizar la pagina mejor 
     location.reload();
 });
