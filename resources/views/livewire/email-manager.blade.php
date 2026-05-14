@@ -6,7 +6,7 @@
     
     <!-- Modal -->
     @if($showModal)
-        <div class="modal fade show" style="display: block; background: rgba(0,0,0,0.5);" tabindex="-1" role="dialog">
+        <div class="modal fade show" style="display: block; background: rgba(0,0,0,0.5); z-index:1500;" tabindex="-1" role="dialog" >
             <div class="modal-dialog" style="font-size: 150%;">
                 <div class="modal-content" style="background: #131931;">
                     <div class="modal-header" style="border-bottom: 1px solid #444;">

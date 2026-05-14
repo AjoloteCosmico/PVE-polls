@@ -15,10 +15,12 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Telefono;
 use Illuminate\Http\Request;
+use App\Traits\LogEvents;
 
 class RecadosController extends Controller
 {
 
+use LogEvents;
   public function index(){
     if(auth()->user()->can('ver_mis_recados')){
       $Recados=DB::table('recados')

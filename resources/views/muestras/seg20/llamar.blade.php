@@ -171,20 +171,49 @@
                     </a>
                 </div>
                 <div class="col">
-                    @if($siguiente)
-                        <div class="text-center my-4">
-                            <a href="{{ route('llamar', [2022, $siguiente->cuenta, $siguiente->carrera]) }}" 
-                            class="btn-siguiente-egresado" 
-                            style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i> 
-                                Siguiente Egresado: {{ $siguiente->nombre }} {{ $siguiente->paterno }}
-                            </a>
-                        </div>
-                    @else
-                        <div class="alert alert-info">
-                            Has llegado al final de la lista de esta muestra.
-                        </div>
-                    @endif
+                  <div id="next-egresado-container" class="text-center my-4">
+    <!-- Aquí se cargará dinámicamente el botón o el mensaje -->
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando siguiente egresado...</span>
+        </div>
+    </div>
+</div>
+
+<script>
+// Asumiendo que la variable $egresado->cuenta está disponible (la del actual)
+const cuentaActual = {{ $Egresado->cuenta }};
+
+fetch(`/egresado/siguiente/${cuentaActual}`)
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('next-egresado-container');
+        if (data.siguiente) {
+            container.innerHTML = `
+                <a href="${data.url}" 
+                   class="btn-siguiente-egresado" 
+                   style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                    Siguiente Egresado: ${data.nombre_completo}
+                </a>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="alert alert-info">
+                    ${data.mensaje}
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener el siguiente egresado:', error);
+        document.getElementById('next-egresado-container').innerHTML = `
+            <div class="alert alert-danger">
+                Error al cargar el siguiente egresado. Intente de nuevo.
+            </div>
+        `;
+    });
+</script>
                 </div>
             </div>
                     
