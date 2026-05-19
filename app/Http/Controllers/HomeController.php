@@ -321,51 +321,6 @@ class HomeController extends Controller
 
 
 
-    public function resultado_fonetico(Request $request){
-        $nombre_completo = mb_strtoupper($request->nombre_completo, 'UTF-8');
-        //$partes_nombre = explode(' ', $nombre_completo);  // Divide el nombre completo en palabras
-        $partes_nombre = array_filter(explode(' ', $nombre_completo));
-
-        // Obtener las partes necesarias
-        $nombre = isset($partes_nombre[0]) ? $partes_nombre[0] : null;
-        $segundo_nombre = isset($partes_nombre[1]) ? $partes_nombre[1] : null;
-        $paterno = isset($partes_nombre[count($partes_nombre) - 2]) ? $partes_nombre[count($partes_nombre) - 2] : null;
-        $materno = isset($partes_nombre[count($partes_nombre) - 1]) ? $partes_nombre[count($partes_nombre) - 1] : null;
-
-        // Consulta para la tabla `egresados`
-        
-        // --- 2. POSGRADO ---
-        $egresados_posgrado = DB::table('egresados_posgrado')
-            ->leftJoin('codigos', function($join){
-                $join->on(DB::raw('CAST(codigos.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
-            })
-            ->leftJoin('respuestas_posgrado', function($join){
-                $join->on(DB::raw('CAST(respuestas_posgrado.cuenta AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'));
-            })
-            ->leftJoin('users as u_posgrado', function($join){
-                $join->on(DB::raw('CAST(u_posgrado.clave AS TEXT)'), '=', DB::raw('CAST(respuestas_posgrado.aplica AS TEXT)'));
-            })
-            ->select('egresados_posgrado.*', 'egresados_posgrado.cuenta as cuenta_posgrado', 'egresados_posgrado.programa as programa_posgrado', 'egresados_posgrado.plan as plan_posgrado', 'codigos.description as estado', 'codigos.color_rgb as color_codigo', 'respuestas_posgrado.updated_at as fecha_posgrado', 'respuestas_posgrado.fec_capt as fechaFinal_posgrado', 'respuestas_posgrado.completed as rpos20_completed', 'u_posgrado.name as aplicador_posgrado')
-            ->where(function($query) use ($partes_nombre) {
-                foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where('egresados_posgrado.nombre', 'LIKE', "%{$parte}%")
-                                ->orWhere('egresados_posgrado.paterno', 'LIKE', "%{$parte}%")
-                                ->orWhere('egresados_posgrado.materno', 'LIKE', "%{$parte}%");
-                    });
-                }
-            })
-            ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])
-            ->limit(50)
-            ->get();
-
-        
-        return view('resultado', [
-            'egresados_posgrado' => $egresados_posgrado,
-            'nc' => null, 
-            'nombre_completo' => $request->nombre_completo 
-        ]);
-    }
 
     public function enviar_aviso(Request $request){
       

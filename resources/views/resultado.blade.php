@@ -13,7 +13,7 @@
     
     <h1>Egresados</h1>
     <br>
-    <h3>¿Deseas hacer una nueva encuesta? </h3>
+    <h3>Buscar un nombre o numero de cuenta </h3>
     <br>
     <div class="col-6 col-sm-12 table-responsive">
 
