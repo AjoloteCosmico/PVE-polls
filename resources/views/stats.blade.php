@@ -79,6 +79,20 @@
             </div>
         </div>
     </div>
+     <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie16" 
+                    type="doughnut" 
+                    title="Avance del estudio act 2016" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$Internet16,$telefonicas16, $requeridas16-$Internet16-$telefonicas16]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
     <div class="col-12 col-md-6 mb-4">
         <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
             <div class="chart-wrapper-fixed">
@@ -92,6 +106,7 @@
             </div>
         </div>
     </div>
+    
      <div class="col-12 col-md-6 mb-4">
         <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
             <div class="chart-wrapper-fixed">

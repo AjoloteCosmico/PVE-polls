@@ -24,14 +24,15 @@
                                 <td> {{$r->fecha}} </td>
                                 <td> {{substr($r->user_name,0,10)}} </td>
                                 <td > 
-                                    @can('borrar_recado')
+                                    <!-- TODO: resolver que hacer para eg esp y eg posgrado -->
+                                    @if(auth()->user()->can('borrar_recado') || $r->user_id === auth()->user()->id)
                                     <form method="POST"  class="DeleteReg" action="{{ route('recados.destroy', $r->id) }}">
                                         @csrf
                                         <input name="_method" type="hidden" value="DELETE">
 
                                         <button type="submit" class="btn btn-danger btn-lg"  title='Delete'> <i class="fa fa-trash" aria-hidden="true"></i> </button>
                                     </form>  
-                                    @endcan
+                                @endif
                                 </td>
                             </tr>
                             @endif

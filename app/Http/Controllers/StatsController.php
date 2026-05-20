@@ -87,7 +87,7 @@ class StatsController extends Controller
     $requeridas = $metas->sum(function ($m) use ($realizadasPorCarrera) {
         return max(0, $m->requeridas_5 - ($realizadasPorCarrera[$m->carrera_id] ?? 0));
     });
-
+    $requeridas16=Egresado::where('act_suvery',1)->count();
     // ========== 3. Gráfica apilada por encuestador (migrada al trait) ==========
     $query16Enc = DB::table('respuestas16')
         ->join('users', 'aplica', 'clave')
@@ -169,7 +169,7 @@ class StatsController extends Controller
     $telefonicas=$total22-$internet22;
     return view('stats', compact(
         'chartName22','telefonicas','requeridas',
-        'total22', 'total16', 'Internet','Internet16',
+        'total22', 'total16', 'Internet','Internet16','requeridas16',
         'internet22', 'internet16', 'telefonicas22', 'telefonicas16', 'internetTotal',
         'requeridas',
         'stackedEnc',        // Contiene ['labels' => [...], 'datasets' => [...]]

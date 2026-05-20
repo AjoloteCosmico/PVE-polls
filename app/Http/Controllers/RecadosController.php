@@ -74,7 +74,7 @@ use LogEvents;
 
 
     }
-        
+        /**marcar 20 recibe: request,  telefono, y egresado, calcula a donde debe llamar guarda el sig egresado prev calculado */
     public function marcar_20(Request $request,$tel_id,$eg_id){
 
       $Egresado=Egresado::find($eg_id);
@@ -119,7 +119,7 @@ use LogEvents;
      
          if(($Recado->status == 6)||($Recado->status==11)){
             
-
+             //verificar si todos los telefonos no existen (egresado ilocalizable)
              $Telefonos=Telefono::where('cuenta',$Egresado->cuenta)->get();
           
              $flag=1;
@@ -133,11 +133,10 @@ use LogEvents;
             $Egresado->save(); 
            }
     }
-      //verificar si todos los telefonos no existen (egresado ilocalizable)
-      $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
+      //verificar si cambio el status, si cambio, ya no se calcula un sig eg
       
 
-      return redirect()->route('llamar',[$gen,$Egresado->cuenta,$Egresado->carrera]);
+      return redirect()->route('llamar',[$gen,$Egresado->cuenta,$Egresado->carrera,$request->input_siguiente]);
     }
 
       public function destroy($id){
@@ -180,7 +179,7 @@ use LogEvents;
 
 
       public function marcar_posgrado(Request $request,$tel_id,$eg_id){
-
+        
         $EgresadoPos=EgresadoPosgrado::find($eg_id);
         $telefono=Telefono::find($tel_id);
 
@@ -212,7 +211,7 @@ use LogEvents;
         }
         //verificacion de telefonos
         $Telefonos=Telefono::where('cuenta',$EgresadoPos->cuenta);
-        return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa]);
+        return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa,$request->input_siguiente]);
 
       }
 

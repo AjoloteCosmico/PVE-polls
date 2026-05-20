@@ -1,3 +1,4 @@
+<input type="hidden" value="0" id="input_siguiente" name="input_siguiente">
 <div class="recado-form-div">
     <div class="form-group titulos recado-form-div"> <h3 >Deja un recado al num {{$telefono->telefono}}</h3></div>
         <div class="form-group recado-form-div">
