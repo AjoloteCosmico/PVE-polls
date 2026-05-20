@@ -28,7 +28,8 @@ use App\Http\Controllers\{
     PosgradoController,
     EspecialidadController,
     EncuestaContinuaController,
-    UserController
+    UserController,    
+    StatsController
 };
 
 Route::get('/', function () {
@@ -243,7 +244,7 @@ Route::group(['middleware' => ['auth']], function(){
     
     /** Pantalla de inicio */
     Route::controller(HomeController::class)->group(function(){
-        Route::get('/stats', 'optimized_stats')->name('stats');
+        // Route::get('/stats', 'optimized_stats')->name('stats');
         Route::get('/links', 'links')->name('links');
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');
@@ -298,7 +299,8 @@ Route::group(['middleware' => ['auth']], function(){
     
     /**Dark Mode */
     Route::get('/switch', [ConfigController::class, 'switch_mode'])->name('switch_mode');
-
+    /**Conteo estadístico bueno */
+    Route::get('/stats', [StatsController::class,'optimized_stats'])->name('stats');
     /** Reactivos, Opciones y Llamadas */
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
