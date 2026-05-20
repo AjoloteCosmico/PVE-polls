@@ -98,10 +98,11 @@ class StatsController extends Controller
         ->where('completed', 1)
         ->where('gen_dgae', 2022);
     $queryPosEnc = DB::table('respuestas_posgrado')
-        ->join('users', 'CAST(aplica as varchar)', 'clave')
-        ->where('completed', '1')
-        ->whereIn('gen_dgae', [2019,2020,2021,2022]);
-
+    ->join('users', function ($join) {
+        $join->on(DB::raw('CAST(respuestas_posgrado.aplica AS varchar)'), '=', 'users.clave');
+    })
+    ->where('respuestas_posgrado.completed', '1')
+    ->whereIn('respuestas_posgrado.anio_egreso', [2019, 2020, 2021, 2022]);
     $paletaColores = [
         ['rgba(243, 156, 18, 0.7)', 'rgba(243, 156, 18, 1)'],
         ['rgba(5, 63, 102, 0.7)', 'rgba(5, 63, 102, 1)'],
