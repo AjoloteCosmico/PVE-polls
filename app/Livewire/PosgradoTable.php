@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 
 class PosgradoTable extends Component
@@ -31,6 +32,21 @@ class PosgradoTable extends Component
         'nombre_completo' => ['except' => ''],
         'filtro_status' => ['except' => '']
     ];
+
+    // --- ESCUCHADORES DE EVENTOS GLOBALES ---
+    #[On('filtrarPorCuenta')]
+    public function aplicarFiltroCuenta($nc)
+    {
+        $this->nc = $nc;
+        $this->resetPage();
+    }
+
+    #[On('filtrarPorNombre')]
+    public function aplicarFiltroNombre($nombre_completo)
+    {
+        $this->nombre_completo = $nombre_completo;
+        $this->resetPage();
+    }
 
     public function updatingNc()
     {

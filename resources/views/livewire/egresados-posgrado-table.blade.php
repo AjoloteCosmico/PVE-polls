@@ -1,6 +1,6 @@
-<div> {{-- ÚNICA ETIQUETA RAÍZ COMPONENTE --}}
+<div>
     
-    {{-- Buscadores locales e indicador de carga --}}
+    {{-- Buscadores locales e indicador de carga 
     <div class="row mb-3 align-items-center">
         <div class="col-md-4">
             <input type="text" 
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>  
-
+--}}
     {{-- Renderizado de la tabla estructurada --}}
     @if($egresados_posgrado && $egresados_posgrado->count())
         <div class="table-responsive">

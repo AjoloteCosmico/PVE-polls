@@ -1,4 +1,5 @@
 <div>
+     {{-- Buscadores locales e indicador de carga 
     <div class="row mb-3">
         <div class="col-md-4">
             <input type="text" 
@@ -20,6 +21,7 @@
         </div>
 
     </div>  
+    --}}
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl">
             <thead>
