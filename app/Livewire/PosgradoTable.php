@@ -99,28 +99,30 @@ class PosgradoTable extends Component
 
             //2 metodos de busqueda
 
-            if (!empty($this->nc)){
-                $query->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', substr($this->nc, 0, 6) . '%');
-            }
-
-            if (!empty($this->nombre_completo)) {
-                $nombre_alto = mb_strtoupper($this->nombre_completo, 'UTF-8');
+            if (!empty($this->nc)) {
+                $query->where(DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'), 'LIKE', trim($this->nc) . '%');
+            } 
+            elseif (!empty($this->nombre_completo)) {
+                $nombre_alto = mb_strtoupper(trim($this->nombre_completo), 'UTF-8');
                 $partes_nombre = array_filter(explode(' ', $nombre_alto));
+                
+                if (count($partes_nombre) > 0) {
+                    $query->where(function($q) use ($partes_nombre) {
+                        foreach ($partes_nombre as $parte) {
+                            $q->where(function($subQuery) use ($parte) {
+                                $subQuery->where('egresados_posgrado.nombre', 'LIKE', "%{$parte}%")
+                                         ->orWhere('egresados_posgrado.paterno', 'LIKE', "%{$parte}%")
+                                         ->orWhere('egresados_posgrado.materno', 'LIKE', "%{$parte}%");
+                                });
+                            }
+                    });
+                }
+            }           
 
-                $query->where(function($q) use ($partes_nombre) {
-                    foreach ($partes_nombre as $parte) {
-                        $q->where(function($subQuery) use ($parte) {
-                            $subQuery->where('egresados_posgrado.nombre', 'LIKE', "%{$parte}%")
-                                    ->orWhere('egresados_posgrado.paterno', 'LIKE', "%{$parte}%")
-                                    ->orWhere('egresados_posgrado.materno', 'LIKE', "%{$parte}%");
-                        });
-                    }
-                });
-            }
             return view('livewire.egresados-posgrado-table', [
                 'egresados_posgrado' => $query->orderBy('egresados_posgrado.id', 'asc')->paginate(10)
             ]);
 
 
     }
-}
+}   
