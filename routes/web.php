@@ -50,7 +50,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('options', OpcionesController::class);
     Route::resource('encuestas', EncuestasController::class);
     Route::resource('correos', CorreosController::class);
-
+    Route::resource('notifications', NotificationsController::class);
+    Route::get('/notificaciones/{notification}/read', 
+        [NotificationController::class, 'markAsReadAndRedirect'])
+        ->name('notifications.read');
     /**Rutas relacionadas con encuestas 
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
@@ -312,6 +315,13 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
+    //ruta para cargar sig egresado con ajax, aja aja ajax
+    Route::get('/egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
+    //TODO: hacer funcionar las  rutas asincronas para sig eg (generalziar a una sola si es posible)
+    Route::get('/act_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguienteAct'])->name('llamadas.siguiente_act');
+    Route::get('/pos_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguientePos'])->name('llamadas.siguiente_pos');
+    Route::get('/esp_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguienteEsp'])->name('llamadas.siguiente_esp');
+    Route::get('/sondeo_egresado/siguiente/{cuenta}/{muestra_id}', [LlamadasController::class, 'getSiguienteSondeo'])->name('llamadas.siguiente_sondeo');
 
     Route::controller(UserController::class)->group(function(){
         Route::get('/users/give/{id}/{permission}', 'give_permission')->name('users.give');

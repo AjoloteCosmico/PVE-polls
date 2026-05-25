@@ -9,6 +9,8 @@
                     <option style="background-color: {{$code->color_rgb}};color: white; font-size: 20px;" value="{{$code->code}}" @if($telefono->status == $code->code) selected @endif>{{$code->description}}</option>
                 @endforeach
             </select>
+            <br>
+            <input type="datetime-local" name="fecha_programada" id="fecha-prog{{$telefono->id}}" style="display:none">
         </div>
         <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
     
