@@ -15,10 +15,12 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Telefono;
 use Illuminate\Http\Request;
+use App\Traits\LogEvents;
 
 class RecadosController extends Controller
 {
 
+use LogEvents;
   public function index(){
     if(auth()->user()->can('ver_mis_recados')){
       $Recados=DB::table('recados')
@@ -90,7 +92,9 @@ class RecadosController extends Controller
 
       $type = ($gen == 2016) ? 'act' : 'seg';
 
-
+       if($request->code == 3){
+        Auth::user()->notify(new \App\Notifications\CallSpecificTime($Egresado,$request->fecha_programada,$request->recado));
+      }
       // dd($Egresado);
       $Recado= new Recado();
       $Recado->recado=$request->recado;
@@ -101,7 +105,8 @@ class RecadosController extends Controller
       $Recado->fecha=now()->modify('-6 hours');
       $Recado->type=$type;
       $Recado->save();
-
+      //Notificar si es horario especifico
+     
       $telefono->status=$request->code;
       $telefono->save();
 
@@ -143,7 +148,9 @@ class RecadosController extends Controller
         $Telefono=Telefono::find($Recado->tel_id);
         $this->recordEvent($id, 'delete_recado', ' ');
         Recado::destroy($id);
-        $Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get();
+        $Recados=Recado::where('cuenta','=',$Egresado->cuenta)
+        ->where('type','!=','cont')
+        ->get();
         $Egresado->llamadas=$Recados->count();
         $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
         $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;

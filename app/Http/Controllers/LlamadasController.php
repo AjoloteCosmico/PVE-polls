@@ -58,6 +58,7 @@ class LlamadasController extends Controller
         ->leftJoin('users','users.id','=','recados.user_id')
         ->select('recados.*','codigos.color_rgb','codigos.description','users.name as user_name')
         ->get();
+
         $Codigos=DB::table('codigos')
         ->where('internet','=',0)
         ->orderBy('color')->get();
@@ -459,5 +460,61 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         );
     }
 
+
+
+    public function getSiguiente($cuenta){
+// Obtener el egresado actual
+    $egresadoActual = DB::table('egresados')->where('cuenta', $cuenta)->first();
+    
+    if (!$egresadoActual) {
+        return response()->json(['error' => 'Egresado no encontrado'], 404);
+    }
+
+    // Replicar exactamente la misma query que usas en el index/show
+    $query = DB::table('egresados')
+        ->where('muestra', '=', '5')
+        ->where('egresados.carrera', '=', $egresadoActual->carrera)
+        ->whereNotIn('egresados.status', ['1', '2'])
+        ->where('plantel', '=', $egresadoActual->plantel)
+        ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+        ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
+
+    // Aplicar el mismo orden según la carrera
+    if ($egresadoActual->carrera == 136) {
+        $query->orderBy('codigos.orden', 'asc')
+              ->orderBy('egresados.paterno', 'asc')
+              ->orderBy('egresados.materno', 'asc');
+    } else {
+        $query->orderBy('codigos.orden', 'asc')
+              ->orderBy('egresados.paterno', 'asc')
+              ->orderBy('egresados.materno', 'asc');
+    }
+
+    $todos = $query->get();
+    $index = $todos->search(function ($item) use ($cuenta) {
+        return $item->cuenta == $cuenta;
+    });
+
+    $siguiente = null;
+    if ($index !== false && isset($todos[$index + 1])) {
+        $siguiente = $todos[$index + 1];
+    }
+
+    // Devolver los datos necesarios para el botón (o un mensaje si no hay)
+    if ($siguiente) {
+        return response()->json([
+            'siguiente' => true,
+            'cuenta' => $siguiente->cuenta,
+            'carrera' => $siguiente->carrera,
+            'nombre_completo' => $siguiente->nombre . ' ' . $siguiente->paterno,
+            'url' => route('llamar', [2022, $siguiente->cuenta, $siguiente->carrera])
+        ]);
+    } else {
+        return response()->json([
+            'siguiente' => false,
+            'mensaje' => 'Has llegado al final de la lista de esta muestra.'
+        ]);
+    }
+    }
 
     }

@@ -63,14 +63,7 @@
   </div>
   <div class="col-6 col-lg-12 table-responsive">  
   
-  @if($Egresado->status==8)
-    
-          <a href="{{route('completar_encuesta',$Egresado->id)}}">
-              <button type="button"  class="boton-dorado">
-                  <i class="fas fa-pen fa-xl"></i> COMPLETAR ENCUESTA INCONCLUSA
-              </button>
-          </a>
-    @endif
+ 
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
       <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id])}}">

@@ -235,14 +235,15 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 # the HTML message, is best and preferred.
     msg.attach(part1)
     msg.attach(part2)
+
 # Send the message via local SMTP server.
-    mail = smtplib.SMTP('smtp.gmail.com', 587)
+    mail = smtplib.SMTP('exalumno.pve.unam.mx', 587)
 
     mail.ehlo()
 
     mail.starttls()
 
-    mail.login('vinculacionexalumnos@exalumno.unam.mx', 'mfdd bsjr yiku wahf')
+    mail.login('vinculacionexalumnos@exalumno.pve.unam.mx', 'programa')
     mail.sendmail(me, you, msg.as_string())
     mail.quit()
     # Send con el nuevbo metodo

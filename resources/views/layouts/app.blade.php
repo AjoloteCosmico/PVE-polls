@@ -1,14 +1,15 @@
 <x-laravel-ui-adminlte::adminlte-layout>
 <head>
     <link rel="shortcut icon" type="image/png" href="{{ asset('img/logoPVE.png') }}"> 
-    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
-    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <!-- <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -48,12 +49,39 @@
                         <i style="color:white" class="fa fa-expand"></i>
                     </button>
                 </li>
-                 <!-- <li class="nav-item">
-                    <span class="fa-layers fa-fw" style="background:transparent">
-                        <i class="fas fa-bell fa-xl" style="color:white" ></i>
-                        <span class="fa-layers-counter " style="background:Tomato">14</span>
-                    </span>`
-                </li>  -->
+                 
+                <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    @if(auth()->user()->unreadNotifications->count())
+                        <span class="badge badge-warning navbar-badge">
+                            {{ auth()->user()->unreadNotifications->count() }}
+                        </span>
+                    @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-header">
+                        {{ auth()->user()->unreadNotifications->count() }} Notificaciones
+                    </span>
+                    <div class="dropdown-divider"></div>
+                    
+                    @foreach(auth()->user()->unreadNotifications->take(5) as $notification)
+                        <a href="{{ $notification->data['action_url'] ?? '#' }}" 
+                        class="dropdown-item">
+                            <i class="{{ $notification->data['icon'] ?? 'fas fa-bell' }} mr-2"></i>
+                            {{ $notification->data['message'] }}
+                            <span class="float-right text-muted text-sm">
+                                {{ $notification->created_at->diffForHumans() }}
+                            </span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    @endforeach
+                    
+                    <a href="{{ route('notifications.index') }}" class="dropdown-item dropdown-footer">
+                        Ver todas las notificaciones
+                    </a>
+                </div>
+            </li> 
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                         <img src="{{asset('img/logoPVE.png')}}" class="user-image img-circle elevation-2" alt="User Image">
@@ -96,8 +124,8 @@
         </div>
 
         <!-- Main Footer -->
-        <footer >
-            <div class="float-right d-none d-sm-block" >
+        <footer class="main-footer">
+            <div class="float-right  >
                 <b>Version</b> 3.1.0
             </div>
             <strong>Copyright &copy; 2024-2025 <a href="https://www.pveaju.unam.mx/">PVEAJU-UNAM</a>.</strong> All rights
