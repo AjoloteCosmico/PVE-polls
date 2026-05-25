@@ -649,7 +649,7 @@ public function completar_encuesta($id){
       return redirect()->back();
     }
   }
-  if($Egresado->muestra==3){
+  if($Egresado->muestra==5){
     $Encuesta=respuestas20::where('cuenta',$Egresado->cuenta)->first();
     if($Encuesta){
       return redirect()->route('edit_20',[$Encuesta->registro,'SEARCH']);
@@ -657,6 +657,7 @@ public function completar_encuesta($id){
       return redirect()->back();
     }
   }
+  return redirect()->back();
 }
 
 
