@@ -72,8 +72,8 @@ class PosgradoTable extends Component
     public function render()
     {
         $query = DB::table('egresados_posgrado')
-            ->leftJoin('codigos', function($join){
-                $join->on(DB::raw('CAST(codigos.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
+            ->leftJoin('codigos as c_posgrado', function($join){
+                $join->on(DB::raw('CAST(c_posgrado.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
             })
             ->leftJoin('respuestas_posgrado', function($join){
                 $join->on(DB::raw('CAST(respuestas_posgrado.cuenta AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'));
@@ -81,17 +81,42 @@ class PosgradoTable extends Component
             ->leftJoin('users as u_posgrado', function($join){
                 $join->on(DB::raw('CAST(u_posgrado.clave AS TEXT)'), '=', DB::raw('CAST(respuestas_posgrado.aplica AS TEXT)'));
             })
+            // --- RELACIONES PARA ESPECIALIDAD ---
+            ->leftJoin('egresados_especialidad', function($join){
+                $join->on(DB::raw('CAST(egresados_especialidad.cuenta AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'));
+            })
+            ->leftJoin('codigos as c_especialidad', function($join){
+                $join->on(DB::raw('CAST(c_especialidad.code AS TEXT)'), '=', DB::raw('CAST(egresados_especialidad.status AS TEXT)'));
+            })
             ->select(
                 'egresados_posgrado.*', 
                 'egresados_posgrado.cuenta as cuenta_posgrado', 
                 'egresados_posgrado.programa as programa_posgrado', 
                 'egresados_posgrado.plan as plan_posgrado', 
+
+                /*
                 'codigos.description as estado', 
                 'codigos.color_rgb as color_codigo', 
                 'respuestas_posgrado.updated_at as fecha_posgrado', 
                 'respuestas_posgrado.fec_capt as fechaFinal_posgrado', 
                 'respuestas_posgrado.completed as rpos20_completed', 
                 'u_posgrado.name as aplicador_posgrado'
+                */
+                // Campos de respuesta y estatus: POSGRADO
+                'c_posgrado.description as estado_posgrado', 
+                'c_posgrado.color_rgb as color_posgrado', 
+                'respuestas_posgrado.updated_at as fecha_posgrado', 
+                'respuestas_posgrado.fec_capt as fechaFinal_posgrado', 
+                'respuestas_posgrado.completed as rpos20_completed', 
+                'u_posgrado.name as aplicador_posgrado',
+
+                // Campos de respuesta y estatus: ESPECIALIDAD
+                'egresados_especialidad.id as es_especialidad',
+                'egresados_especialidad.status as status_especialidad_num',
+                'egresados_especialidad.especialidad as programa_especialidad',
+                'egresados_especialidad.car_carrer as plan_especialidad'    ,
+                'c_especialidad.description as estado_especialidad',
+                'c_especialidad.color_rgb as color_especialidad'
             )
             ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022]
             );

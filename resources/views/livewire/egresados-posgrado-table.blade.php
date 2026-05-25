@@ -1,26 +1,5 @@
 <div>
     
-    {{-- Buscadores locales e indicador de carga 
-    <div class="row mb-3 align-items-center">
-        <div class="col-md-4">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="nc" 
-                   class="form-control" 
-                   placeholder="Buscar por número de cuenta (Posgrado)">
-        </div>
-        <div class="col-md-4">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="nombre_completo" 
-                   class="form-control" 
-                   placeholder="Buscar por nombre (Posgrado)">
-        </div>
-        <div class="col-md-4">
-            <div wire:loading class="spinner-border text-primary spinner-border-sm" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-        </div>
-    </div>  
---}}
     {{-- Renderizado de la tabla estructurada --}}
     @if($egresados_posgrado && $egresados_posgrado->count())
         <div class="table-responsive">
@@ -30,8 +9,8 @@
                         <th>Egresado</th>
                         <th>Cuenta</th>
                         <th>Generación</th>
-                        <th>Programa</th>
-                        <th>Plan</th>
+                        <th>Programa / Plan </th> 
+                        <th>Muestra</th>
                         <th>Status</th>
                         <th>Acción</th>
                     </tr>
@@ -42,33 +21,99 @@
                             <td>{{ $egp->nombre }} {{ $egp->paterno }} {{ $egp->materno }}</td>
                             <td>{{ $egp->cuenta }}</td>
                             <td>{{ $egp->anio_egreso }}</td>
-                            <td>{{ $egp->programa }}</td>     
-                            <td>{{ $egp->plan }}</td>
-                            
-                            {{-- Color de fondo dinámico según el código de estatus --}}
-                            <td style="background-color: {{ $egp->color_codigo ?? 'transparent' }}; font-weight: bold;">
-                                {{ $egp->estado ?? 'SIN STATUS' }}
+
+                            {{-- Evaluación dinámica de Programa y Plan dependiendo el botón activo --}}
+                            @php 
+                                $tipo = $selecciones[$egp->id] ?? null;
+                                
+                                // Variables dinámicas por defecto
+                                $bgColor = 'transparent';
+                                $estadoTexto = 'Seleccione Muestra';
+                                $programaActivo = '---';
+                                $planActivo = '---';
+
+                                if($tipo == 'posgrado') {
+                                    $bgColor = $egp->color_posgrado ?? 'transparent';
+                                    $estadoTexto = $egp->estado_posgrado ?? 'SIN STATUS';
+                                    $programaActivo = $egp->programa_posgrado;
+                                    $planActivo = $egp->plan_posgrado;
+                                } 
+                                elseif($tipo == 'especialidad') {
+                                    $bgColor = $egp->color_especialidad ?? 'transparent';
+                                    $estadoTexto = $egp->estado_especialidad ?? 'SIN STATUS';
+                                    $programaActivo = $egp->programa_especialidad ?? 'N/A';
+                                    $planActivo = $egp->plan_especialidad ?? 'N/A';
+                                }
+                            @endphp
+
+                            <td>
+                                {{ $programaActivo }}
+                                <small> Plan: {{ $planActivo }}</small> 
                             </td>
                             
+                            {{-- Columna de Selección de Muestra (Botones de control) --}}
                             <td>
-                                {{-- Condición 1: Estatus pendientes, parciales o nulos --}}
-                                @if(in_array($egp->status, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
-                                    @can('ver_muestra_posgrado')
-                                        <a href="{{ route('llamar_posgrado', [$egp->cuenta, $egp->plan, $egp->programa]) }}">
-                                            <button class="boton-oscuro mb-2">
-                                                <i class="fa fa-phone" aria-hidden="true"></i> &nbsp; LLAMAR 
-                                            </button>
-                                        </a>
-                                    @endcan
-                                    <br>
-                                    <small class="d-block"><strong>Fecha:</strong> {{ $egp->fecha_posgrado ?? 'N/A' }}</small>
-                                    <small class="d-block"><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
-                                @endif
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" 
+                                            wire:click="seleccionarMuestra({{ $egp->id }}, 'posgrado')" 
+                                            class="btn {{ $tipo == 'posgrado' ? 'btn-primary' : 'btn-outline-primary' }}">
+                                        Posgrado
+                                    </button>
+                                    
+                                    {{-- El botón de especialidad se puede deshabilitar o marcar si el alumno no cuenta con registro de especialidad --}}
+                                    <button type="button" 
+                                            wire:click="seleccionarMuestra({{ $egp->id }}, 'especialidad')" 
+                                            class="btn {{ $tipo == 'especialidad' ? 'btn-success' : 'btn-outline-success' }}"
+                                            {{ !$egp->es_especialidad ? 'title=No_registrado' : '' }}>
+                                        Especialidad
+                                    </button>
+                                </div>
+                            </td>
+                            
+                            {{-- Color de fondo dinámico según el código de estatus --}}
+                            <td style="background-color: {{ $bgColor }}; font-weight: bold; min-width: 140px;">
+                                <span class="p-1 rounded">{{ $estadoTexto }}</span>
+                            </td>
+                            
+                            {{-- Acciones Dinámicas dependiendo del origen de datos seleccionado --}}
+                            <td>
+                                @if($tipo == 'posgrado')
+                                    {{-- Lógica de Llamadas para Posgrado --}}
+                                    @if(in_array($egp->status, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
+                                        @can('ver_muestra_posgrado')
+                                            <a href="{{ route('llamar_posgrado', [$egp->cuenta, $egp->plan_posgrado, $egp->programa_posgrado]) }}">
+                                                <button class="boton-oscuro mb-1">
+                                                    <i class="fa fa-phone"></i> LLAMAR 
+                                                </button>
+                                            </a>
+                                        @endcan
+                                        <small class="d-block text-muted"><strong>Fecha:</strong> {{ $egp->fecha_posgrado ?? 'N/A' }}</small>
+                                        <small class="d-block text-muted"><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
+                                    @endif
 
-                                {{-- Condición 2: Ya encuestados exitosamente --}}
-                                @if(in_array($egp->status, [1, 2], false))
-                                    <small class="d-block"><strong>Fecha:</strong> {{ $egp->fechaFinal_posgrado ?? 'N/A' }}</small>
-                                    <small class="d-block"><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
+                                    @if(in_array($egp->status, [1, 2], false))
+                                        <small class="d-block text-success"><strong>Finalizado:</strong> {{ $egp->fechaFinal_posgrado ?? 'N/A' }}</small>
+                                        <small class="d-block text-muted"><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
+                                    @endif
+
+                                @elseif($tipo == 'especialidad')
+                                    {{-- Lógica de Llamadas para Especialidad --}}
+                                    @if($egp->es_especialidad)
+                                        @if(in_array($egp->status_especialidad_num, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
+                                            {{-- Ajusta la ruta 'llamar_especialidad' si cuentas con ella en tu Web.php --}}
+                                            <a href="{{ route('llamar_posgrado', [$egp->cuenta, $egp->plan_especialidad, $egp->programa_especialidad]) }}">
+                                                <button class="btn btn-sm btn-dark mb-1">
+                                                    <i class="fa fa-phone"></i> LLAMAR ESP
+                                                </button>
+                                            </a>
+                                        @else
+                                            <small class="text-success d-block">Encuesta Completada</small>
+                                        @endif
+                                    @else
+                                        <span class="text-muted small">Sin datos de Especialidad</span>
+                                    @endif
+                                @else
+                                    <span class="text-secondary small"><i class="fa fa-arrow-left"></i> Elija una opción</span>
                                 @endif
                             </td>
                         </tr>
