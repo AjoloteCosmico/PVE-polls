@@ -258,7 +258,7 @@ function codigo(tel_id){
     change_color('{{$code->color_rgb}}',tel_id);
     @if($code->code==3)
         document.getElementById('fecha-prog'+tel_id).style.display='block';
-    @endif
+    @endif 
     break;
    @endforeach
   
