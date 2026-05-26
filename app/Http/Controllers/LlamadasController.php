@@ -24,7 +24,7 @@ use Session;
 class LlamadasController extends Controller
 {
     use LogEvents;
-    public function llamar($gen,$id,$carrera){
+    public function llamar($gen,$id,$carrera,$siguiente=0){
     
         if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
             
@@ -64,40 +64,16 @@ class LlamadasController extends Controller
         ->orderBy('color')->get();
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
-        // 1. Replicamos el mismo query que usas en el index (o show)
-            $query = DB::table('egresados')
-                ->where('muestra', '=', '5')
-                ->where('egresados.carrera', '=', $carrera)
-                ->whereNotIn('egresados.status',['1','2'])
-                ->where('plantel', '=', $Egresado->plantel) // Asegúrate de tener esta variable disponible
-                ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
-                ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
-
-            // 2. Aplicamos exactamente el mismo orden que tu DataTables
-            if ($carrera == 136) {
-                $query->orderBy('codigos.orden', 'asc') // Columna 7 en tu JS
-                    ->orderBy('egresados.paterno', 'asc')
-                    ->orderBy('egresados.materno', 'asc');
-            } else {
-                $query->orderBy('codigos.orden', 'asc') // Columna 6 en tu JS
-                    ->orderBy('egresados.paterno', 'asc')
-                    ->orderBy('egresados.materno', 'asc');
-            }
-
-            $todos_los_egresados = $query->get();
-            $cuenta=$Egresado->cuenta;
-            // 3. Buscamos el índice del egresado actual
-            $index = $todos_los_egresados->search(function ($item) use ($cuenta) {
-                return $item->cuenta == $cuenta;
-            });
-
-            // 4. Determinamos el siguiente
-            $siguiente = null;
-            if ($index !== false && isset($todos_los_egresados[$index + 1])) {
-                $siguiente = $todos_los_egresados[$index + 1];
-            }
+       
         $this->recordEvent($id, 'llamar', 'gen'.$gen.' carr'.$carrera);
-        return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen','siguiente'));
+        //si ya habia un egresado siguiente calculado, regresar sus datos
+        if($siguiente!=0){
+            $EgSiguiente=Egresado::find($siguiente);
+        }else{
+            $EgSiguiente=null;
+        }
+        return view('muestras.seg20.llamar',compact('Egresado','Telefonos','Recados',
+        'Carrera','Codigos','Codigos_all','Encuesta','gen','siguiente','EgSiguiente'));
 
     }
 
@@ -177,8 +153,8 @@ class LlamadasController extends Controller
     }
 
 
-    public function llamar_egresadosPosgrado($id,$plan,$programa){
-
+    public function llamar_egresadosPosgrado($id,$plan,$programa,$siguiente=0){
+      
         if (!auth()->user()->can('ver_muestra_posgrado')) {
             return redirect()->back()->with('error', 'No tienes permisos para la muestra de posgrado');
         }
@@ -207,7 +183,13 @@ class LlamadasController extends Controller
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
          $this->recordEvent($id, 'llamar_posgrado', $programa);
-        return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos',
+          //si ya habia un egresado siguiente calculado, regresar sus datos
+        if($siguiente!=0){
+            $EgSiguiente=EgresadoPosgrado::find($siguiente);
+        }else{
+            $EgSiguiente=null;
+        }
+        return view('muestras.posgrado.llamar_posgrado',compact('EgresadoPos','EgSiguiente',
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
 
@@ -462,33 +444,47 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
 
 
 
-    public function getSiguiente($cuenta){
+    public function getSiguiente($cuenta,$gen){
 // Obtener el egresado actual
     $egresadoActual = DB::table('egresados')->where('cuenta', $cuenta)->first();
     
     if (!$egresadoActual) {
         return response()->json(['error' => 'Egresado no encontrado'], 404);
     }
-
-    // Replicar exactamente la misma query que usas en el index/show
-    $query = DB::table('egresados')
-        ->where('muestra', '=', '5')
-        ->where('egresados.carrera', '=', $egresadoActual->carrera)
-        ->whereNotIn('egresados.status', ['1', '2'])
-        ->where('plantel', '=', $egresadoActual->plantel)
-        ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
-        ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
-
-    // Aplicar el mismo orden según la carrera
-    if ($egresadoActual->carrera == 136) {
+    if($gen==2022){
+        // Replicar exactamente la misma query que usas en el index/show
+        $query = DB::table('egresados')
+            ->where('muestra', '=', '5')
+            ->where('egresados.carrera', '=', $egresadoActual->carrera)
+            ->whereNotIn('egresados.status', ['1', '2'])
+            ->where('plantel', '=', $egresadoActual->plantel)
+            ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+            ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
+        
+        // Aplicar el mismo orden según la carrera
+        if ($egresadoActual->carrera == 136) {
+            $query->orderBy('codigos.orden', 'asc')
+                ->orderBy('egresados.paterno', 'asc')
+                ->orderBy('egresados.materno', 'asc');
+        } else {
+            $query->orderBy('codigos.orden', 'asc')
+                ->orderBy('egresados.paterno', 'asc')
+                ->orderBy('egresados.materno', 'asc');
+        } 
+    }else{
+         $query = DB::table('egresados')
+            ->where('act_suvery', '=', '1')
+            ->where('egresados.carrera', '=', $egresadoActual->carrera)
+            ->whereNotIn('egresados.status', ['1', '2'])
+            ->where('plantel', '=', $egresadoActual->plantel)
+            ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+            ->select('egresados.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
         $query->orderBy('codigos.orden', 'asc')
-              ->orderBy('egresados.paterno', 'asc')
-              ->orderBy('egresados.materno', 'asc');
-    } else {
-        $query->orderBy('codigos.orden', 'asc')
-              ->orderBy('egresados.paterno', 'asc')
-              ->orderBy('egresados.materno', 'asc');
+                ->orderBy('egresados.paterno', 'asc')
+                ->orderBy('egresados.materno', 'asc');
+        
     }
+
 
     $todos = $query->get();
     $index = $todos->search(function ($item) use ($cuenta) {
@@ -504,15 +500,80 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
     if ($siguiente) {
         return response()->json([
             'siguiente' => true,
+            'eg_id' => $siguiente->id,
             'cuenta' => $siguiente->cuenta,
             'carrera' => $siguiente->carrera,
             'nombre_completo' => $siguiente->nombre . ' ' . $siguiente->paterno,
-            'url' => route('llamar', [2022, $siguiente->cuenta, $siguiente->carrera])
+            'url' => route('llamar', [$gen, $siguiente->cuenta, $siguiente->carrera])
         ]);
     } else {
         return response()->json([
             'siguiente' => false,
             'mensaje' => 'Has llegado al final de la lista de esta muestra.'
+        ]);
+    }
+    }
+
+
+    public function getSiguiente_posgrado($cuenta,$plan){
+// Obtener el egresado actual
+    $egresadoActual = DB::table('egresados_posgrado')->where('cuenta', $cuenta)
+    ->where('plan',$plan)->first();
+    
+    if (!$egresadoActual) {
+        return response()->json(['error' => 'Egresado no encontrado'], 404);
+    }
+   
+        // Replicar exactamente la misma query que usas en el index/show
+        $query = DB::table('egresados_posgrado')
+             ->where('programa', '=', $egresadoActual->programa)
+            ->where('plan', '=', $egresadoActual->plan)
+            ->where('muestra', '=', 7)
+            ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+            ->where('fuente',  '=', 'base original')
+            ->whereNotIn('egresados_posgrado.status', ['1', '2'])
+            ->leftJoin('codigos',function($join){
+      $join->on(
+            // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
+            DB::raw('CAST(codigos.code AS INTEGER)'), // Columna de texto
+            '=',
+            'egresados_posgrado.status'
+        );
+    })
+            ->select('egresados_posgrado.*', 'codigos.color_rgb', 'codigos.description', 'codigos.orden');
+        
+        
+            $query->orderBy('codigos.orden', 'asc')
+                ->orderBy('egresados_posgrado.paterno', 'asc')
+                ->orderBy('egresados_posgrado.materno', 'asc');
+        
+    
+
+
+    $todos = $query->get();
+    $index = $todos->search(function ($item) use ($cuenta) {
+        return $item->cuenta == $cuenta;
+    });
+
+    $siguiente = null;
+    if ($index !== false && isset($todos[$index + 1])) {
+        $siguiente = $todos[$index + 1];
+    }
+
+    // Devolver los datos necesarios para el botón (o un mensaje si no hay)
+    if ($siguiente) {
+        return response()->json([
+            'siguiente' => true,
+            'eg_id' => $siguiente->id,
+            'cuenta' => $siguiente->cuenta,
+            'plan' => $siguiente->plan,
+            'nombre_completo' => $siguiente->nombre . ' ' . $siguiente->paterno,
+            'url' => route('llamar_posgrado', [ $siguiente->cuenta, $siguiente->plan,$siguiente->programa])
+        ]);
+    } else {
+        return response()->json([
+            'siguiente' => false,
+            'mensaje' => 'Has llegado al final de la lista de esta muestra.'.$todos->count()
         ]);
     }
     }
