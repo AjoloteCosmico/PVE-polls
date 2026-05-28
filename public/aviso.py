@@ -9,7 +9,8 @@ import base64
 from requests import HTTPError
 import os
 def AvisoPrivacidad(nombre,you):
-    me = "vinculacionexalumnos@exalumno.unam.mx"
+    #me = "vinculacionexalumnos@exalumno.unam.mx"
+    me = "vinculacionexalumnos@exalumno.pve.unam.mx"
 # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
     msg['Subject'] = "Aviso de privacidad UNAM"
