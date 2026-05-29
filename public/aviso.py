@@ -1,23 +1,21 @@
 import smtplib
-
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import sys
 import base64
-# from google_auth_oauthlib.flow import InstalledAppFlow
-# from googleapiclient.discovery import build
 from requests import HTTPError
 import os
-def AvisoPrivacidad(nombre,you):
-    #me = "vinculacionexalumnos@exalumno.unam.mx"
+
+def AvisoPrivacidad(nombre, you, tracking_id):
     me = "vinculacionexalumnos@exalumno.pve.unam.mx"
-# Create message container - the correct MIME type is multipart/alternative.
+    
+    # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
     msg['Subject'] = "Aviso de privacidad UNAM"
     msg['From'] = me
     msg['To'] = you
 
-   # Create the body of the message (a plain-text and an HTML version).
+    # Create the body of the message (a plain-text and an HTML version).
     text = ""
     html = """\
 <html><head><title>Registro al Programa de Vinculacion con los Egresados y Academicos Jubilados</title>
@@ -128,22 +126,22 @@ Tales datos son: </P>
 <P>Esta &aacute;rea universitaria no realiza transferencias de sus datos personales a  
 terceros. </P>
 <P ><STRONG>Fundamento  para el tratamiento de datos personales</STRONG></P>
-<P ALIGN="justify">  Los art&iacute;culos 6º, Base A y 16, segundo p&aacute;rrafo, de la Constituci&oacute;n  
+<P ALIGN="justify"> Los art&iacute;culos 6º, Base A y 16, segundo p&aacute;rrafo, de la Constituci&oacute;n  
 Pol&iacute;tica de los Estados Unidos Mexicanos; el 3º, fracci&oacute;n XXXIII, 4º, 16, 17,  
 18, 20, 21, 22, 23, 26, 27 y 28 de la Ley  General de Protecci&oacute;n de Datos 
 Personales en Posesi&oacute;n de Sujetos Obligados, as&iacute;  como los numerales del 5 al 19 
 de los Lineamientos para la Protecci&oacute;n de Datos Personales  en Posesi&oacute;n de la 
 Universidad Nacional Aut&oacute;noma de M&eacute;xico, publicados en la  Gaceta UNAM el 25 de 
 febrero de 2019. <BR><STRONG><EM>Cookies</EM></STRONG><STRONG> y <EM>Web 
-Beacons</EM></STRONG> <BR>  La p&aacute;gina web utiliza <EM>cookies</EM> y <EM>web 
+Beacons</EM></STRONG> <BR> La p&aacute;gina web utiliza <EM>cookies</EM> y <EM>web 
 beacons </EM>a trav&eacute;s de los cuales es  posible generar informaci&oacute;n estad&iacute;stica. 
-<BR>  Las <EM>cookies</EM> son archivos de texto  que son descargados 
+<BR> Las <EM>cookies</EM> son archivos de texto  que son descargados 
 autom&aacute;ticamente y almacenados en el disco duro del equipo  de c&oacute;mputo del 
 usuario al navegar en una p&aacute;gina de Internet espec&iacute;fica, que  permiten recordar 
 al servidor de Internet algunos datos sobre este usuario, entre  ellos, sus 
 preferencias para la visualizaci&oacute;n de las p&aacute;ginas en ese servidor,  nombre y 
 contrase&ntilde;a. Asimismo, el sitio web contiene anuncios publicitarios que  pueden 
-enviar <EM>cookies </EM>de nuestros  usuarios. <BR>  Las <EM>web beacons</EM> 
+enviar <EM>cookies </EM>de nuestros  usuarios. <BR> Las <EM>web beacons</EM> 
 son im&aacute;genes  insertadas en una p&aacute;gina de Internet o correo electr&oacute;nico, que 
 puede ser  utilizado para monitorear el comportamiento de un visitante, como 
 almacenar  informaci&oacute;n sobre la direcci&oacute;n IP del usuario, duraci&oacute;n del tiempo de 
@@ -175,21 +173,21 @@ notifique cuando recibe una nueva cookie o c&oacute;mo deshabilitar todas las
 <EM>cookies</EM>.</P>
 <P><STRONG>Ejercicio de derechos ARCO (A</STRONG><STRONG>cceso, rectificaci&oacute;n, 
 cancelaci&oacute;n u oposici&oacute;n al uso de sus  datos personales) </STRONG></P>
-<P ALIGN="justify">  Tiene derecho a conocer  qu&eacute; datos personales tenemos de usted, para qu&eacute; 
+<P ALIGN="justify"> Tiene derecho a conocer  qu&eacute; datos personales tenemos de usted, para qu&eacute; 
 los utilizamos y las  condiciones del uso que les damos (Acceso). Asimismo, es 
 su derecho a solicitar  la correcci&oacute;n de su informaci&oacute;n personal en caso de que 
 est&eacute; desactualizada,  sea inexacta o incompleta (Rectificaci&oacute;n); que la 
 eliminemos de nuestros  registros o bases de datos cuando considere que la misma 
 no est&aacute; siendo  utilizada adecuadamente (Cancelaci&oacute;n); as&iacute; como oponerse al uso 
 de sus datos  personales para fines espec&iacute;ficos (Oposici&oacute;n). Estos derechos se 
-conocen como  derechos ARCO.<BR>  Para ejercer sus derechos de acceso,  
+conocen como  derechos ARCO.<BR> Para ejercer sus derechos de acceso,  
 rectificaci&oacute;n, cancelaci&oacute;n y oposici&oacute;n puede acudir a la o bien por medio de la 
 Plataforma  Nacional de Transparencia (<A href="http://www.plataformadetransparencia.org.mx/" 
-target="_blank">http://www.plataformadetransparencia.org.mx/</A>).<BR>  La 
+target="_blank">http://www.plataformadetransparencia.org.mx/</A>).<BR> La 
 determinaci&oacute;n  adoptada, se le comunicar&aacute; en un plazo m&aacute;ximo de veinte d&iacute;as 
 h&aacute;biles contados  desde la fecha en que se recibi&oacute; la solicitud, a efecto de 
 que, si resulta  procedente, haga efectiva la misma dentro de los quince d&iacute;as 
-h&aacute;biles siguientes  a que se comunique la respuesta.<BR>  Puede revocar el  
+h&aacute;biles siguientes  a que se comunique la respuesta.<BR> Puede revocar el  
 consentimiento que, en su caso, nos haya otorgado para el tratamiento de sus  
 datos personales. Sin embargo, es importante que tenga en cuenta que no en  
 todos los casos podremos atender su solicitud o concluir el uso de forma  
@@ -199,11 +197,11 @@ ciertos fines, la revocaci&oacute;n de su consentimiento implicar&aacute; que no
 seguir prestando el servicio del sistema en l&iacute;nea que nos solicit&oacute;, o la  
 conclusi&oacute;n de su relaci&oacute;n con nosotros.</P>
 <P><STRONG>Limitar el env&iacute;o de informaci&oacute;n</STRONG></P>
-<P>  Usted puede dejar de recibir los mensajes informativos visitando 
+<P> Usted puede dejar de recibir los mensajes informativos visitando 
 <U>www.pveaju.unam.mx/tools/unsucribe.php</U> e ingresando su direcci&oacute;n de 
 correo.</P>
 <P><STRONG>Modificaciones al Aviso de  Privacidad</STRONG></P>
-<P>  El presente aviso de privacidad puede sufrir modificaciones o 
+<P> El presente aviso de privacidad puede sufrir modificaciones o 
 actualizaciones.  Dichas actualizaciones o modificaciones estar&aacute;n disponibles al 
 p&uacute;blico, por lo  que el Titular podr&aacute; consultarlas en el sitio web, en la 
 secci&oacute;n Aviso de  Privacidad. Se recomienda y requiere al Titular consultar el 
@@ -217,41 +215,32 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 <p>      Tramita tu credencial de egresado en: <a href="https://www.pveaju.unam.mx/credencial/"> https://www.pveaju.unam.mx/credencial/ </a> </p>
 <p>Informes a los tel&eacute;fonos:  5622-6057, 5622-6186  y 5622-6181 Fax: 5622-6058</p>
 </div>
+<img src="https://encuestas.pveaju.unam.mx/track/""" + tracking_id + """" alt="" width="1" height="1" style="display:none; width:1px; height:1px;">
 </div></body></html>
 """
-#usar las credenciales de OAuth2 de gugul
-#     SCOPES = [
-#             "https://www.googleapis.com/auth/gmail.send"
-#         ]
-#     flow = InstalledAppFlow.from_client_secrets_file(
-#                 'credentials.json', SCOPES)
-#     creds = flow.creds = flow.run_console()
-#     service = build('gmail', 'v1', credentials=creds)
-# Record the MIME types of both parts - text/plain and text/html.
+
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
 
-# Attach parts into message container.
-# According to RFC 2046, the last part of a multipart message, in this case
-# the HTML message, is best and preferred.
     msg.attach(part1)
     msg.attach(part2)
 
-# Send the message via local SMTP server.
     mail = smtplib.SMTP('exalumno.pve.unam.mx', 587)
-
     mail.ehlo()
-
     mail.starttls()
-
     mail.login('vinculacionexalumnos@exalumno.pve.unam.mx', 'programa')
     mail.sendmail(me, you, msg.as_string())
     mail.quit()
-    # Send con el nuevbo metodo
-    # create_message = {'raw': base64.urlsafe_b64encode(msg.as_bytes()).decode()}
-    # message = (service.users().messages().send(userId="me", body=create_message).execute())
 
-nombre=str(sys.argv[1])
-email=str(sys.argv[2])
+# --- EJECUCIÓN DEL SCRIPT POR CONSOLA ---
+if __name__ == '__main__':
+    # Asegura que se pasen los 3 parámetros necesarios por terminal
+    if len(sys.argv) < 4:
+        print("Error: Faltan argumentos. Uso: python script.py 'Nombre' 'correo@correo.com' 'tracking_id'")
+        sys.exit(1)
 
-AvisoPrivacidad(nombre,email)
+    nombre = str(sys.argv[1])
+    email = str(sys.argv[2])
+    tracking_id = str(sys.argv[3])
+
+    AvisoPrivacidad(nombre, email, tracking_id)
