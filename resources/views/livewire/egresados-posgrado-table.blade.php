@@ -1,7 +1,5 @@
 <div>
-    
-    {{-- Renderizado de la tabla estructurada --}}
-    @if($egresados_posgrado && $egresados_posgrado->count())
+    @if($egresados && $egresados->count())
         <div class="table-responsive">
             <table class="table text-xl" id="myTablePosgrado">
                 <thead>
@@ -9,116 +7,136 @@
                         <th>Egresado</th>
                         <th>Cuenta</th>
                         <th>Generación</th>
-                        <th>Programa / Plan </th> 
+                        <th>Programa / Plan / Especialidad </th> 
                         <th>Muestra</th>
                         <th>Status</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($egresados_posgrado as $egp)
-                        <tr wire:key="egr-{{ $egp->universo_origen }}-{{ $egp->id_original }}">
-                            <td>{{ $egp->nombre }} {{ $egp->paterno }} {{ $egp->materno }}</td>
-                            <td>{{ $egp->cuenta }}</td>
-                            <td>{{ $egp->anio_egreso ?? 'N/A' }}</td>
+                    @foreach($egresados as $eg)
+                        <tr wire:key="egr-{{ $eg->cuenta }}">
+                            <td>{{ $eg->nombre }} {{ $eg->paterno }} {{ $eg->materno }}</td>
+                            <td>{{ $eg->cuenta }}</td>
 
-                            {{-- Evaluación dinámica de Programa y Plan dependiendo el botón activo --}}
+                            {{-- Evaluación DINÁMICA basada en la CUENTA del alumno --}}
                             @php 
-                                // ID compuesto único para el estado de selección de Livewire
-                            $idFila = $egp->universo_origen . '-' . $egp->id_original;
-                            
-                            // Si el usuario no ha hecho click, definimos el botón activo según su origen real
-                            $tipo = $selecciones[$idFila] ?? $egp->universo_origen;
-                            
-                            $bgColor = 'transparent';
-                            $estadoTexto = 'Seleccione Muestra';
-                            $programaActivo = '---';
-                            $planActivo = '---';
+                                // Si el usuario presionó un botón, tomamos ese tipo; si no, el asignado por defecto
+                                $tipo = $selecciones[$eg->cuenta] ?? $eg->universo_origen;
+                                
+                                $anioActivo = '---';
+                                $programaActivo = '---';
+                                $planActivo = '---';
+                                $bgColor = 'transparent';
 
-                            if($tipo == 'posgrado') {
-                                $bgColor = $egp->color_posgrado ?? 'transparent';
-                                $estadoTexto = $egp->estado_posgrado ?? 'SIN STATUS / NO REGISTRADO';
-                                $programaActivo = $egp->programa_posgrado ?? 'No inscrito en Posgrado';
-                                $planActivo = $egp->plan_posgrado ?? '---';
-                            } 
-                            elseif($tipo == 'especialidad') {
-                                $bgColor = $egp->color_especialidad ?? 'transparent';
-                                $estadoTexto = $egp->estado_especialidad ?? 'SIN STATUS / NO REGISTRADO';
-                                $programaActivo = $egp->programa_especialidad ?? 'No inscrito en Especialidad';
-                                $planActivo = $egp->plan_especialidad ?? '---';
-                            }
+                                if($tipo == 'posgrado') {
+                                    $anioActivo = $eg->anio_posgrado ?? 'N/A';
+                                    $programaActivo = $eg->programa_posgrado ?? 'No inscrito en Posgrado';
+                                    $planActivo = $eg->plan_posgrado ?? '---';
+                                    $bgColor = $eg->color_posgrado ?? 'transparent';
+                                } 
+                                elseif($tipo == 'especialidad') {
+                                    $anioActivo = $eg->anio_especialidad ?? 'N/A';
+                                    $programaActivo = $eg->programa_especialidad ?? 'No inscrito en Especialidad';
+                                    $planActivo = $eg->plan_especialidad ?? '---';
+                                    $bgColor = $eg->color_especialidad ?? 'transparent';
+                                }
                             @endphp
 
+                            {{-- Generación Dinámica --}}
+                            <td>{{ $anioActivo }}</td>
+
+                            {{-- Programa / Plan / Especialidad Dinámica --}}
                             <td>
-                                {{ $programaActivo }}
+                                <strong>{{ $programaActivo }}</strong>
                                 <br>
-                                <small> Plan: {{ $planActivo }}</small> 
+                                <small class="text-muted">Plan: {{ $planActivo }}</small> 
                             </td>
                             
-                            {{-- Columna de Selección de Muestra (Botones de control) --}}
+                            {{-- Botones de Control (Muestra) basados en la cuenta --}}
                             <td>
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <button type="button" 
-                                            wire:click="seleccionarMuestra('{{ $idFila }}', 'posgrado')" 
-                                            class="btn {{ $tipo == 'posgrado' ? 'btn-primary' : 'btn-outline-primary' }}"
-                                            {{ is_null($egp->status_posgrado_num) && is_null($egp->estado_posgrado) ? 'disabled title=Sin_registro_de_posgrado' : '' }}>
-                                        Posgrado
-                                    </button>
+                                <div class="btn-group" role="group">
+                                    {{-- Solo se muestra el botón de Posgrado si el alumno tiene registro en esa tabla --}}
+                                    @if(!is_null($eg->id_posgrado))
+                                        <button type="button" 
+                                                wire:click="seleccionarMuestra('{{ $eg->cuenta }}', 'posgrado')" 
+                                                class="boton-oscuro {{ $tipo == 'posgrado' ? 'active bg-primary border-primary' : '' }}">
+                                            POSGRADO
+                                        </button>
+                                    @endif
                                     
-                                    {{-- El botón de especialidad se puede deshabilitar o marcar si el alumno no cuenta con registro de especialidad --}}
-                                    <button type="button" 
-                                            wire:click="seleccionarMuestra('{{ $idFila }}', 'especialidad')" 
-                                            class="btn {{ $tipo == 'especialidad' ? 'btn-success' : 'btn-outline-success' }}"
-                                            {{ is_null($egp->id_especialidad) ? 'disabled title=Sin_registro_de_especialidad' : '' }}>
-                                        Especialidad
-                                    </button>
+                                    {{-- Solo se muestra el botón de Especialidad si el alumno tiene registro en esa tabla --}}
+                                    @if(!is_null($eg->id_especialidad))
+                                        <button type="button" 
+                                                wire:click="seleccionarMuestra('{{ $eg->cuenta }}', 'especialidad')" 
+                                                class="boton-oscuro {{ $tipo == 'especialidad' ? 'active bg-success border-success' : '' }}">
+                                            ESPECIALIDAD
+                                        </button>
+                                    @endif
                                 </div>
                             </td>
                             
-                            {{-- Color de fondo dinámico según el código de estatus --}}
-                            <td style="background-color: {{ $bgColor }}; font-weight: bold; min-width: 140px;">
-                                <span class="p-1 rounded">{{ $estadoTexto }}</span>
+                            {{-- Status Dinámico --}}
+                            <td style="background-color: {{ $bgColor }}; font-weight: bold; min-width: 150px; text-align: center; vertical-align: middle;">
+                                @if($tipo == 'posgrado')
+                                    <span style="text-shadow: 1px 1px 2px #000; color: #fff;">
+                                        {{ $eg->estado_posgrado ?? 'SIN STATUS / NO REGISTRADO' }}
+                                    </span>
+                                @elseif($tipo == 'especialidad')
+                                    <span style="text-shadow: 1px 1px 2px #000; color: #fff;">
+                                        {{ $eg->estado_especialidad ?? 'SIN STATUS / NO REGISTRADO' }}
+                                    </span>
+                                @else
+                                    <span class="text-muted small">Seleccione una muestra</span>
+                                @endif
                             </td>
                             
-                            {{-- Acciones Dinámicas dependiendo del origen de datos seleccionado --}}
-                            <td>
-                                @if($tipo == 'posgrado' && !is_null($egp->status_posgrado_num))
-                                    {{-- Lógica de Llamadas para Posgrado --}}
-                                    @if(in_array($egp->status_posgrado_num, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
-                                        @can('ver_muestra_posgrado')
-                                            <a href="">
-                                                <button class="boton-oscuro mb-1">
-                                                    <i class="fa fa-phone"></i> LLAMAR 
+                            {{-- Acciones Dinámicas --}}
+                            <td style="vertical-align: middle;">
+                                @if($tipo == 'posgrado' && !is_null($eg->id_posgrado))
+                                    @if(!is_null($eg->plan_posgrado) && !is_null($eg->programa_posgrado))
+                                        
+                                        @if(in_array($eg->status_posgrado_num, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
+                                            <a href="{{ route('llamar_posgrado', [$eg->cuenta, $eg->plan_posgrado, $eg->programa_posgrado]) }}">
+                                                <button class="boton-oscuro">
+                                                    <i class="fa fa-phone" aria-hidden="true"></i> LLAMAR POS
                                                 </button>
                                             </a>
-                                        @endcan
-                                        <small class="d-block text-muted"><strong>Fecha:</strong> {{ $egp->fecha_posgrado ?? 'N/A' }}</small>
-                                        <small class="d-block text-muted"><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
-                                    @endif
-
-                                    @if(in_array($egp->status_posgrado_num, [1, 2], false))
-                                        <small class="d-block text-success"><strong>Finalizado:</strong> {{ $egp->fechaFinal_posgrado ?? 'N/A' }}</small>
-                                        <small class="d-block text-muted"><strong>Aplicador:</strong> {{ $egp->aplicador_posgrado ?? 'N/A' }}</small>
-                                    @endif
-
-                                @elseif($tipo == 'especialidad' && !is_null($egp->id_especialidad))
-                                    {{-- Lógica de Llamadas para Especialidad --}}
-                                    @if($egp->id_especialidad)
-                                        @if(in_array($egp->status_especialidad_num, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
-                                            {{-- Ajusta la ruta 'llamar_especialidad' si cuentas con ella en tu Web.php --}}
-                                            <a href="">
-                                                <button class="btn btn-sm btn-dark mb-1">
-                                                    <i class="fa fa-phone"></i> LLAMAR ESP
-                                                </button>
-                                            </a>
-                                        @else
-                                            <small class="text-success d-block">Encuesta Completada</small>
+                                            <br>
+                                            <small><strong>Fecha:</strong> {{ $eg->fecha_posgrado ?? 'N/A' }}</small><br>
+                                            <small><strong>Aplicador:</strong> {{ $eg->aplicador_posgrado ?? 'N/A' }}</small>
                                         @endif
-                                    @else
-                                        <span class="text-muted small">Sin datos de Especialidad</span>
+
+                                        @if(in_array($eg->status_posgrado_num, [1, 2], false))
+                                            <small class="text-success"><strong><i class="fa fa-check-circle"></i> Finalizado:</strong> {{ $eg->fechaFinal_posgrado ?? 'N/A' }}</small><br>
+                                            <small><strong>Aplicador:</strong> {{ $eg->aplicador_posgrado ?? 'N/A' }}</small>
+                                        @endif
+
+                                
+                                        
+                                    @endif
+
+                                @elseif($tipo == 'especialidad' && !is_null($eg->id_especialidad))
+                                    @if(!is_null($eg->plan_especialidad) && !is_null($eg->programa_especialidad))
+                                        
+                                        @if(in_array($eg->status_especialidad_num, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
+                                            <a href="{{ route('llamar_especialidad', [$eg->cuenta, $eg->programa_especialidad]) }}">
+                                                <button class="boton-oscuro">
+                                                    <i class="fa fa-phone" aria-hidden="true"></i> LLAMAR 
+                                                </button>
+                                            </a>
+                                            <br>
+                                            <small class="text-muted">Especialidad Pendiente</small>
+                                        @endif
+
+                                        @if(in_array($eg->status_especialidad_num, [1, 2], false))
+                                            <small class="text-success d-block"><strong><i class="fa fa-check-circle"></i> Encuesta Completada</strong></small>
+                                        @endif
+                                        
+                                    
                                     @endif
                                 @else
-                                    <span class="text-secondary small"><i class="fa fa-arrow-left"></i> Elija una opción</span>
+                                    <span class="text-secondary small">No cuenta con esta opción</span>
                                 @endif
                             </td>
                         </tr>
@@ -126,12 +144,13 @@
                 </tbody>
             </table>
         </div>
-
         
+        <div class="mt-3">
+            {{ $egresados->links() }}
+        </div>
     @else
         <div class="alert alert-info text-center mt-3">
-            No se encontraron egresados de posgrado con los criterios de búsqueda especificados.
+            No se encontraron egresados con los criterios de búsqueda especificados.
         </div>
     @endif
-
-</div> 
+</div>
