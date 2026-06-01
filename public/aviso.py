@@ -6,7 +6,7 @@ import base64
 from requests import HTTPError
 import os
 
-def AvisoPrivacidad(nombre, you, tracking_id):
+def AvisoPrivacidad(nombre, you, tracking_uuid):
     me = "vinculacionexalumnos@exalumno.pve.unam.mx"
     
     # Create message container - the correct MIME type is multipart/alternative.
@@ -215,7 +215,7 @@ condiciones y t&eacute;rminos de este. <U></U></P>
 <p>      Tramita tu credencial de egresado en: <a href="https://www.pveaju.unam.mx/credencial/"> https://www.pveaju.unam.mx/credencial/ </a> </p>
 <p>Informes a los tel&eacute;fonos:  5622-6057, 5622-6186  y 5622-6181 Fax: 5622-6058</p>
 </div>
-<img src="https://encuestas.pveaju.unam.mx/track/""" + tracking_id + """" alt="" width="1" height="1" style="display:none; width:1px; height:1px;">
+<img src="https://encuestas.pveaju.unam.mx/track/""" + tracking_uuid + """" alt="" width="1" height="1" style="display:none; width:1px; height:1px;">
 </div></body></html>
 """
 
@@ -241,6 +241,6 @@ if __name__ == '__main__':
 
     nombre = str(sys.argv[1])
     email = str(sys.argv[2])
-    tracking_id = str(sys.argv[3])
+    tracking_uuid_args = str(sys.argv[3])
 
-    AvisoPrivacidad(nombre, email, tracking_id)
+    AvisoPrivacidad(nombre, email, tracking_uuid_args)

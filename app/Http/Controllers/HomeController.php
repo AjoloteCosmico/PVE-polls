@@ -323,15 +323,53 @@ class HomeController extends Controller
 
 
     public function enviar_aviso(Request $request){
-      
+            
+        $correoBD = DB::table('correos')->where('correo', $request->correo)->first();
+
+        if ($correoBD) {
+            $emailId = $correoBD->id; // Encontró el registro, tomamos su ID (int4)
+        } else {
+            // OPCIÓN A: Si el correo no existe en el sistema, detenemos el proceso con un error
+            return redirect()->back()->with('error', 'El correo ingresado no está registrado en el sistema.');
+            
+            // OPCIÓN B: Si prefieres que se envíe de todos modos aunque no exista en tu catálogo, 
+            // puedes asignarle un ID genérico/falso temporal (por ejemplo, 0) descomentando la siguiente línea:
+            // $emailId = 0; 
+        }
+
+        $this->enviarAviso($emailId, $request->correo, $request->nombre);
+        return redirect()->route('aviso'); 
+            
+        
+       /* 
+            $tracking_id = (string) \Str::uuid();
+            $ahora = now();
+            
+            DB::table('email_tracking')->insert([
+                'email_id' => $emailId,
+                'recipient_email' => $request->correo,
+                'tracking_uuid' => $tracking_id,
+                'type' => 'aviso',
+                'created_at' => $ahora,
+                'sended_at' => $ahora,
+                'updated_at' => $ahora,
+            ]);
            $caminoalpoder=public_path();
-           $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$request->nombre,$request->correo]);
+           $process = new Process([
+                env('PY_COMAND'),
+                $caminoalpoder.'/aviso.py',
+                $request->nombre,
+                $request->correo,
+                $tracking_id
+            ]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
            }
            $data = $process->getOutput();
            return redirect()->route('aviso');
+
+        */
     
     }
     

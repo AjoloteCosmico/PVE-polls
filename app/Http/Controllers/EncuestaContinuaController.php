@@ -35,23 +35,20 @@ use  LogEvents;
             ->where("carrera", $carrera)
             ->first();
         if ($Correo->enviado == 0) {
-            $caminoalpoder = public_path();
-            $process = new Process([
-                env("PY_COMAND"),
-                $caminoalpoder . "/aviso.py",
-                $Egresado->nombre,
-                $Correo->correo,
-            ]);
-            $process->run();
+            try {
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
 
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-                $Correo->save();
-            } else {
                 $Correo->enviado = 1;
                 $Correo->save();
-            }
-            $data = $process->getOutput();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+            
+                throw $e; 
+        }
         }
 
         if($muestra_id == 897){
