@@ -77,7 +77,7 @@
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>
-                @include('recados.recados_tabla')
+                @include('recados.recados_tabla', ['plan_car' => $Egresado->carrera])
                 <form action="/encuestas/continua/marcar/{{$telefono->id}}/{{$Egresado->id}}/{{$muestra_id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                 @csrf
                     @include('recados.recado_form_content')
@@ -158,6 +158,11 @@ function codigo(tel_id){
         @foreach($Codigos as $code)
   case '{{$code->code}}':
     change_color('{{$code->color_rgb}}',tel_id);
+    @if($code->code==3)
+        document.getElementById('fecha-prog'+tel_id).style.display='block';
+    @else
+        document.getElementById('fecha-prog'+tel_id).style.display='none';
+    @endif
     break;
    @endforeach
   
@@ -214,5 +219,24 @@ function codigo(tel_id){
           })
         }
     }
+</script>
+<script>
+    $('.DeleteReg').submit(function(e) {
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Estás seguro de querer eliminar el RECADO?',
+        html: " <p style='background-color: white; font-size: 16px;'>¡No podrás revertir esto!</p>",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '¡Sí, eliminar Registro!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // document.getElementById('loader').style.display = 'flex';
+            this.submit();
+        }
+    })
+});
 </script>
 @endpush

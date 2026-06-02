@@ -11,7 +11,7 @@
                 @endforeach
             </select>
             <br>
-            <input type="datetime-local" name="fecha_programada" id="fecha-prog{{$telefono->id}}" style="display:none">
+            <input type="datetime-local" name="fecha_programada" id="fecha-prog{{$telefono->id}}" @if($telefono->status != 3) style="display:none" @endif>
         </div>
         <input type="text" name="recado" class="form-control input" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Escribe informacion util para localizar a este egresado" >
     

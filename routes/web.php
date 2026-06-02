@@ -29,7 +29,8 @@ use App\Http\Controllers\{
     EspecialidadController,
     EncuestaContinuaController,
     UserController,    
-    StatsController
+    StatsController,
+    NotificationController
 };
 
 Route::get('/', function () {
@@ -55,7 +56,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/notificaciones/{notification}/read', 
         [NotificationController::class, 'markAsReadAndRedirect'])
         ->name('notifications.read');
-    /**Rutas relacionadas con encuestas 
+    /**Rutas relacionadas con encuestas
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
     Route::controller(MuestrasController::class)->group(function(){
@@ -209,7 +210,7 @@ Route::group(['middleware' => ['auth']], function(){
     /** Recados */
     Route::controller(RecadosController::class)->group(function(){
         Route::get('recados', 'index')->name('recados.index');
-        Route::delete('recados/delete/{id}', 'destroy')->name('recados.destroy');
+        Route::delete('recados/delete/{id}/{plan_car}', 'destroy')->name('recados.destroy');
         Route::delete('recados/posgrado/delete/{id}', 'destroyP')->name('recados.destroyP');
         Route::delete('recados/especialidad/delete/{id}', 'destroyE')->name('recados.destroyE');
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
@@ -318,7 +319,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
     //ruta para cargar sig egresado con ajax, aja aja ajax
-    Route::get('/egresado/siguiente/{cuenta}/{gen}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
+    Route::get('/egresado/siguiente/{id}/{gen}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
     
     Route::get('/egresado/siguiente_posgrado/{cuenta}/{plan}', [LlamadasController::class, 'getSiguiente_posgrado'])->name('llamadas.siguiente_eg_posgrado');
     //TODO: hacer funcionar las  rutas asincronas para sig eg (generalziar a una sola si es posible)

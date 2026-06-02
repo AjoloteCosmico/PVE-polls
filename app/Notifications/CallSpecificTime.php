@@ -14,11 +14,12 @@ class CallSpecificTime extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($Egresado, $horario_programado,$recado)
+    public function __construct($Egresado, $horario_programado,$recado,$TypeStudy='seg')
     {
         $this->Egresado = $Egresado;
         $this->horario_programado = $horario_programado;
         $this->recado = $recado;
+        $this->TypeStudy = $TypeStudy;
     }
 
     /**
@@ -49,11 +50,31 @@ class CallSpecificTime extends Notification
      */
     public function toDatabase(object $notifiable): array
     {
-        if($this->egresado->act_suvery='1'){
-            $url=route('llamar',['gen'=>2016,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera]);
+        switch($this->TypeStudy){
+            case 'act':
+                $url=route('llamar',['gen'=>2016,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera]);
+                break;
+            case 'seg':
+                $url=route('llamar',['gen'=>2022,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera]);
+                break;
+            case 'pos':
+                $url=route('llamar_posgrado',['id'=>$this->Egresado->cuenta,'plan'=>$this->Egresado->plan,'programa'=>$this->Egresado->programa]);
+                break;
+            case 'esp':
+                $url=route('llamar',['gen'=>2020,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera]);
+                break;
+            case 'verde':
+                $url=route('llamar_verde',['gen'=>$this->Egresado->anio_egreso,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera,'muestra_id'=>898]);
+                break;
+            case 'cont':
+                $url=route('llamar_continua',['gen'=>$this->Egresado->anio_egreso,'id'=>$this->Egresado->cuenta,'carrera'=>$this->Egresado->carrera,'muestra_id'=>897]);
+             
+                break;
+            default:
+                $url=route('dashboard');
         }
         return [
-            'message' => 'Llamada programada para el egresado: '.$this->Egresado->nombre.' '.$this->Egresado->paterno.' '.$this->Egresado->materno,
+            'message' => 'Llamada programada'.$this->horario_programado.' para: '.$this->Egresado->nombre.' '.$this->Egresado->paterno.' '.$this->Egresado->materno,
             'cuenta'=>$this->Egresado->cuenta,
             'horario_programado'=>$this->horario_programado,
             'recado'=>$this->recado,

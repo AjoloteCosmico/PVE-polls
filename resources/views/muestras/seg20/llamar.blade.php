@@ -94,7 +94,7 @@
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno" >
                 <br>
-                @include('recados.recados_tabla')
+                @include('recados.recados_tabla', ['plan_car' => $Egresado->carrera])
                 <form action="/encuestas/2020/marcar/{{$telefono->id}}/{{$Egresado->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                     @csrf
                     @include('recados.recado_form_content')
@@ -187,9 +187,9 @@
 
 <script>
 
-const cuentaActual = {{ $Egresado->cuenta }};
+const idActual = {{ $Egresado->id }};
 @if(!$EgSiguiente)
-fetch(`/egresado/siguiente/${cuentaActual}/{{$gen}}`)
+fetch(`/egresado/siguiente/${idActual}/{{$gen}}`)
     .then(response => response.json())
     .then(data => {
         const container = document.getElementById('next-egresado-container');
@@ -270,11 +270,11 @@ function codigo(tel_id){
     switch (valor) {
         @foreach($Codigos as $code)
   case '{{$code->code}}':
-    change_color('{{$code->color_rgb}}',tel_id);
+    change_color('{{$code->color_rgb}}',tel_id); 
     @if($code->code==3)
         document.getElementById('fecha-prog'+tel_id).style.display='block';
      @else
-            document.getElementById('fecha-prog'+tel_id).style.display='none';
+        document.getElementById('fecha-prog'+tel_id).style.display='none';
     @endif
     break;
    @endforeach
@@ -338,7 +338,7 @@ function codigo(tel_id){
     e.preventDefault();
     Swal.fire({
         title: '¿Estás seguro de querer eliminar el RECADO?',
-        html: " <p style='color: white;'>¡No podrás revertir esto!</p>",
+        html: " <p style='background-color: white; font-size: 16px;'>¡No podrás revertir esto!</p>",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',

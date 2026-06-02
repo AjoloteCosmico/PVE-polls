@@ -444,10 +444,10 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
 
 
 
-    public function getSiguiente($cuenta,$gen){
+    public function getSiguiente($id,$gen){
 // Obtener el egresado actual
-    $egresadoActual = DB::table('egresados')->where('cuenta', $cuenta)->first();
-    
+    $egresadoActual = DB::table('egresados')->where('id', $id)->first();
+    $cuenta=$egresadoActual->cuenta;
     if (!$egresadoActual) {
         return response()->json(['error' => 'Egresado no encontrado'], 404);
     }
