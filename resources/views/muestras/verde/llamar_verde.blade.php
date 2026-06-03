@@ -65,7 +65,7 @@
         </div>
         @foreach($Telefonos as $telefono)
         <center>
-        <div class="elementos-centrados ">
+        <div class="elementos-centrados  tel">
             <button type="button" 
                 class="btn btn-info" 
                 id="{{'tel_button'.$telefono->id}}"
@@ -112,9 +112,16 @@
                     @endif
                     </div>
                                 -->
+
+             
+                    
+                            
+
+                
+                </div>
                 </div>
             </div>
-        </div>
+      
         </center>
         <br> 
         @endforeach
@@ -128,6 +135,68 @@
                 </button>
             </a>
         </div>
+         <div class="col">
+                <div id="next-egresado-container" class="text-center my-4">
+                    <!-- Aquí se cargará dinámicamente el botón o el mensaje -->
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando siguiente egresado...</span>
+                        </div>
+                    </div>
+                </div>
+
+        <script>
+
+        const idActual = {{ $Egresado->id }};
+        const muestra_id = {{$muestra_id}};
+        @if(!$EgSiguiente)
+        fetch(`/verde/siguiente/${idActual}/${muestra_id}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('next-egresado-container');
+                const input_siguiente=document.getElementById('input_siguiente');
+                if (data.siguiente) {
+                    container.innerHTML = `
+                        <a href="${data.url}" 
+                        class="btn-siguiente-egresado" 
+                        style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                            Siguiente Egresado: ${data.nombre_completo}
+                        </a>
+                    `;
+                    input_siguiente.value=data.eg_id;
+                } else {
+                    container.innerHTML = `
+                        <div class="alert alert-info">
+                            ${data.mensaje}
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener el siguiente egresado:', error);
+                document.getElementById('next-egresado-container').innerHTML = `
+                    <div class="alert alert-danger">
+                        Error al cargar el siguiente egresado. Intente de nuevo.
+                    </div>
+                `;
+            });
+        @else
+        const container = document.getElementById('next-egresado-container');
+        const input_siguiente=document.getElementById('input_siguiente');
+            
+        container.innerHTML = `
+                        <a href="{{route('llama_verde', [$gen, $EgSiguiente->cuenta, $EgSiguiente->carrera,898])}}" 
+                        class="btn-siguiente-egresado" 
+                        style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                            Siguiente Egresado: {{$EgSiguiente->nombre}} {{$EgSiguiente->paterno}}
+                        </a>
+                    `;
+                    input_siguiente.value={{$EgSiguiente->id}};
+        @endif
+        </script>
+                        </div>
     </div>
 </div>
 @stop

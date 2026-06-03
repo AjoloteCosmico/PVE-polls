@@ -112,7 +112,7 @@ class LlamadasController extends Controller
     }
 
 
-    public function llamar_unificado($gen,$id,$carrera,$muestra_id){
+    public function llamar_unificado($gen,$id,$carrera,$muestra_id,$siguiente=0){
 
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
@@ -148,7 +148,14 @@ class LlamadasController extends Controller
         $Codigos_all=DB::table('codigos')
         ->orderBy('color')->get();
         $this->recordEvent($id, 'llamar_unificado', 'gen'.$gen.' carr'.$carrera);
-        return view($vista,compact('Egresado','Telefonos','Recados','Carrera','Codigos','Codigos_all','Encuesta','gen', 'muestra_id'));
+         if($siguiente!=0){
+            $EgSiguiente=Egresado::find($siguiente);
+        }else{
+            $EgSiguiente=null;
+        }
+        return view($vista,compact('Egresado','Telefonos','Recados','Carrera',
+                                    'Codigos','Codigos_all','Encuesta','gen', 
+                                    'muestra_id','EgSiguiente'));
 
     }
 
@@ -574,6 +581,67 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         return response()->json([
             'siguiente' => false,
             'mensaje' => 'Has llegado al final de la lista de esta muestra.'.$todos->count()
+        ]);
+    }
+    }
+
+
+
+
+    public function getSiguienteVerde($id,$muestra_id){
+    // Obtener el egresado actual
+    $egresadoActual = DB::table('egresados')->where('id', $id)->first();
+    $cuenta=$egresadoActual->cuenta;
+    if (!$egresadoActual) {
+        return response()->json(['error' => 'Egresado no encontrado'], 404);
+    }
+        // Replicar exactamente la misma query que usas en el index/show
+        $query = Egresado::where('egresados.carrera', '=', $egresadoActual->carrera)
+            ->where('plantel', '=', $egresadoActual->plantel)
+            ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
+            ->where('egresado_muestra.muestra_id', '=', $muestra_id) // ID de muestra específico
+            ->leftJoin('codigos', 'codigos.code', '=', 'egresado_muestra.status')
+            ->select(
+                'egresados.*',
+                'codigos.color_rgb',
+                'codigos.description',
+                'codigos.orden',
+                'egresado_muestra.llamadas as llamadas_continua', //LAMADAS VERDES
+                'codigos.code as codigo_status'
+            );
+        
+        $query->orderBy('codigos.orden', 'asc')
+                ->orderBy('egresados.paterno', 'asc')
+                ->orderBy('egresados.materno', 'asc');
+        
+    
+
+
+    $todos = $query->get();
+
+    $index = $todos->search(function ($item) use ($cuenta) {
+        return $item->cuenta == $cuenta;
+    });
+
+    $siguiente = null;
+    if ($index !== false && isset($todos[$index + 1])) {
+        $siguiente = $todos[$index + 1];
+    }
+
+    // Devolver los datos necesarios para el botón (o un mensaje si no hay)
+    if ($siguiente) {
+        return response()->json([
+            'siguiente' => true,
+            'eg_id' => $siguiente->id,
+            'cuenta' => $siguiente->cuenta,
+            'carrera' => $siguiente->carrera,
+            'nombre_completo' => $siguiente->nombre . ' ' . $siguiente->paterno,
+            'url' => route('llamar_verde', [$siguiente->anio_egreso, $siguiente->cuenta, $siguiente->carrera, $muestra_id])
+        ]);
+    } else {
+        return response()->json([
+            'siguiente' => false,
+            'mensaje' => 'Has llegado al final de la lista de esta muestra.'
         ]);
     }
     }
