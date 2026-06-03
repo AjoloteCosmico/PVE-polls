@@ -351,62 +351,55 @@ public function stats()
 
 
 
-    public function resultado_fonetico(Request $request){
-        $nombre_completo = mb_strtoupper($request->nombre_completo, 'UTF-8');
-        //$partes_nombre = explode(' ', $nombre_completo);  // Divide el nombre completo en palabras
-        $partes_nombre = array_filter(explode(' ', $nombre_completo));
-
-        // Obtener las partes necesarias
-        $nombre = isset($partes_nombre[0]) ? $partes_nombre[0] : null;
-        $segundo_nombre = isset($partes_nombre[1]) ? $partes_nombre[1] : null;
-        $paterno = isset($partes_nombre[count($partes_nombre) - 2]) ? $partes_nombre[count($partes_nombre) - 2] : null;
-        $materno = isset($partes_nombre[count($partes_nombre) - 1]) ? $partes_nombre[count($partes_nombre) - 1] : null;
-
-        // Consulta para la tabla `egresados`
-        
-        // --- 2. POSGRADO ---
-        $egresados_posgrado = DB::table('egresados_posgrado')
-            ->leftJoin('codigos', function($join){
-                $join->on(DB::raw('CAST(codigos.code AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.status AS TEXT)'));
-            })
-            ->leftJoin('respuestas_posgrado', function($join){
-                $join->on(DB::raw('CAST(respuestas_posgrado.cuenta AS TEXT)'), '=', DB::raw('CAST(egresados_posgrado.cuenta AS TEXT)'));
-            })
-            ->leftJoin('users as u_posgrado', function($join){
-                $join->on(DB::raw('CAST(u_posgrado.clave AS TEXT)'), '=', DB::raw('CAST(respuestas_posgrado.aplica AS TEXT)'));
-            })
-            ->select('egresados_posgrado.*', 'egresados_posgrado.cuenta as cuenta_posgrado', 'egresados_posgrado.programa as programa_posgrado', 'egresados_posgrado.plan as plan_posgrado', 'codigos.description as estado', 'codigos.color_rgb as color_codigo', 'respuestas_posgrado.updated_at as fecha_posgrado', 'respuestas_posgrado.fec_capt as fechaFinal_posgrado', 'respuestas_posgrado.completed as rpos20_completed', 'u_posgrado.name as aplicador_posgrado')
-            ->where(function($query) use ($partes_nombre) {
-                foreach ($partes_nombre as $parte) {
-                    $query->where(function($subQuery) use ($parte) {
-                        $subQuery->where('egresados_posgrado.nombre', 'LIKE', "%{$parte}%")
-                                ->orWhere('egresados_posgrado.paterno', 'LIKE', "%{$parte}%")
-                                ->orWhere('egresados_posgrado.materno', 'LIKE', "%{$parte}%");
-                    });
-                }
-            })
-            ->whereBetween('egresados_posgrado.anio_egreso', [2019, 2022])
-            ->limit(50)
-            ->get();
-
-        
-        return view('resultado', [
-            'egresados_posgrado' => $egresados_posgrado,
-            'nc' => null, 
-            'nombre_completo' => $request->nombre_completo 
-        ]);
-    }
 
     public function enviar_aviso(Request $request){
-      
+            
+        $correoBD = DB::table('correos')->where('correo', $request->correo)->first();
+
+        if ($correoBD) {
+            $emailId = $correoBD->id; // Encontró el registro, tomamos su ID (int4)
+        } else {
+            // OPCIÓN A: Si el correo no existe en el sistema, detenemos el proceso con un error
+            return redirect()->back()->with('error', 'El correo ingresado no está registrado en el sistema.');
+            
+            // OPCIÓN B: Si prefieres que se envíe de todos modos aunque no exista en tu catálogo, 
+            // puedes asignarle un ID genérico/falso temporal (por ejemplo, 0) descomentando la siguiente línea:
+            // $emailId = 0; 
+        }
+
+        $this->enviarAviso($emailId, $request->correo, $request->nombre);
+        return redirect()->route('aviso'); 
+            
+        
+       /* 
+            $tracking_id = (string) \Str::uuid();
+            $ahora = now();
+            
+            DB::table('email_tracking')->insert([
+                'email_id' => $emailId,
+                'recipient_email' => $request->correo,
+                'tracking_uuid' => $tracking_id,
+                'type' => 'aviso',
+                'created_at' => $ahora,
+                'sended_at' => $ahora,
+                'updated_at' => $ahora,
+            ]);
            $caminoalpoder=public_path();
-           $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$request->nombre,$request->correo]);
+           $process = new Process([
+                env('PY_COMAND'),
+                $caminoalpoder.'/aviso.py',
+                $request->nombre,
+                $request->correo,
+                $tracking_id
+            ]);
            $process->run();
            if (!$process->isSuccessful()) {
                throw new ProcessFailedException($process);
            }
            $data = $process->getOutput();
            return redirect()->route('aviso');
+
+        */
     
     }
     

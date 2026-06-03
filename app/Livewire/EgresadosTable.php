@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 
 class EgresadosTable extends Component
@@ -31,6 +32,21 @@ class EgresadosTable extends Component
         'nombre_completo' => ['except' => ''],
         'filtro_status' => ['except' => '']
     ];
+
+    // --- ESCUCHADORES DE EVENTOS GLOBALES ---
+    #[On('filtrarPorCuenta')]
+    public function aplicarFiltroCuenta($nc)
+    {
+        $this->nc = $nc;
+        $this->resetPage();
+    }
+
+    #[On('filtrarPorNombre')]
+    public function aplicarFiltroNombre($nombre_completo)
+    {
+        $this->nombre_completo = $nombre_completo;
+        $this->resetPage();
+    }
 
     public function updatingNc()
     {
@@ -123,23 +139,25 @@ class EgresadosTable extends Component
 
             //2 metodos de busqueda
 
-            if(!empty($this->nc)){
-                $query->where('egresados.cuenta', 'LIKE', '%' . $this->nc . '%');
-            }
-            if (!empty($this->nombre_completo)) {
-                $partes = explode(' ', mb_strtoupper($this->nombre_completo, 'UTF-8'));
-                $query->where(function($q) use ($partes) {
+            if (!empty($this->nc)) {
+                // Buscamos que comience con el número introducido
+                $query->where('egresados.cuenta', 'LIKE', trim($this->nc) . '%');
+            } 
+            // Usamos un 'elseif' para que si se está buscando por cuenta, no intente buscar el número dentro de los nombres
+            elseif (!empty($this->nombre_completo)) {
+                $partes = array_filter(explode(' ', mb_strtoupper(trim($this->nombre_completo), 'UTF-8')));
+    
+                if (count($partes) > 0) {
+                    $query->where(function($q) use ($partes) {
                     foreach ($partes as $parte) {
-                        $p = trim($parte);
-                        if($p != "") {
-                            $q->where(function($sub) use ($p) {
-                                $sub->where('egresados.nombre', 'LIKE', "%{$p}%")
-                                    ->orWhere('egresados.paterno', 'LIKE', "%{$p}%")
-                                    ->orWhere('egresados.materno', 'LIKE', "%{$p}%");
-                            });
-                        }
-                    }
-                });
+                        $q->where(function($sub) use ($parte) {
+                        $sub->where('egresados.nombre', 'LIKE', "%{$parte}%")
+                            ->orWhere('egresados.paterno', 'LIKE', "%{$parte}%")
+                            ->orWhere('egresados.materno', 'LIKE', "%{$parte}%");
+                    });
+                }
+                    });
+                }
             }
             
             // --- NUEVA FUNCIONALIDAD: Filtro por Status ---

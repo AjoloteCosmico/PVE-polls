@@ -34,26 +34,22 @@ class PosgradoController extends Controller
             ->first();
 
         if ($Correo->enviado == 0) {
-            $caminoalpoder = public_path();
-            $process = new Process([
-                env("PY_COMAND"),
-                $caminoalpoder . "/aviso.py",
-                $Egresado->nombre,
-                $Correo->correo,
-            ]);
-             $process->run();
-
-            if (!$process->isSuccessful()) {
-                //TODO-future: return swal alert,
-                $Correo->enviado = 2;
-                $Correo->save();
-                throw new ProcessFailedException($process);
+            try {
                 
-            } else {
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
+
+                
                 $Correo->enviado = 1;
                 $Correo->save();
-            }
-            $data = $process->getOutput();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+            
+                throw $e; 
+        }
         }
        
         $Encuesta = respuestasPosgrado::where("cuenta", "=", $cuenta)

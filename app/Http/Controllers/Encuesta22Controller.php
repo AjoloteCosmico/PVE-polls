@@ -36,6 +36,25 @@ class Encuesta22Controller extends Controller
             ->first();
 
         if ($Correo->enviado == 0) {
+            try {
+               
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
+
+                
+                $Correo->enviado = 1;
+                $Correo->save();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+                
+                throw $e; 
+        }
+    }
+/*
+        if ($Correo->enviado == 0) {
             $caminoalpoder = public_path();
             $process = new Process([
                 env("PY_COMAND"),
@@ -55,7 +74,7 @@ class Encuesta22Controller extends Controller
             }
             $data = $process->getOutput();
         }
-       
+  */     
         //  dd('hasta aki');
         $Encuesta = respuestas20::where("cuenta", "=", $cuenta)
             ->where("nbr2", "=", $carrera)

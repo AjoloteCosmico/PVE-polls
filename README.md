@@ -7,19 +7,23 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Acerca del Proyecto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este sistema es una aplicación web desarrollada sobre el framework **Laravel**, aprovechando su sintaxis elegante y expresiva para construir una herramienta robusta, escalable y de alto rendimiento.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Actualizaciones Recientes
+
+### Integración Global de Livewire
+Tras evaluar las iteraciones anteriores, realizar pruebas de rendimiento y analizar el uso de los módulos del sistema, se determinó la **integración total de Livewire** en todos los componentes de la aplicación. Esta decisión estratégica se traduce en las siguientes mejoras clave:
+
+* **Optimización de Componentes de Muestras:** Se reestructuraron los módulos de visualización y manejo de muestras, logrando un código más limpio, reactivo y fácil de mantener.
+* **Eficiencia en Base de Datos:** Se optimizaron las consultas (queries) realizadas a la base de datos, reduciendo la carga del servidor y evitando peticiones innecesarias.
+* **Comportamientos Asíncronos:** La implementación de procesos asíncronos ha permitido acelerar sustancialmente los tiempos de carga de la interfaz, eliminando las recargas completas de página.
+* **Experiencia de Usuario (UX) Mejorada:** Gracias a la reactividad en tiempo real de Livewire, los usuarios experimentan una interfaz mucho más fluida, intuitiva y dinámica.
+
+---
 
 ## Learning Laravel
 

@@ -1,25 +1,5 @@
 <div>
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="nc" 
-                   class="form-control" 
-                   placeholder="Buscar por número de cuenta">
-        </div>
-        <div class="col-md-4">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="nombre_completo" 
-                   class="form-control" 
-                   placeholder="Buscar por nombre">
-        </div>
-
-        <div class="col-md-50">
-            <div wire:loading class="spinner-border text-primary text-sm" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-        </div>
-
-    </div>  
+    
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl">
             <thead>
