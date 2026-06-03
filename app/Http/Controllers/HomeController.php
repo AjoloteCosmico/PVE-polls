@@ -22,6 +22,7 @@ use App\Models\Muestra;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
+use App\Traits\ChartDataProcessor;
 
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
@@ -29,6 +30,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class HomeController extends Controller
 {
+use ChartDataProcessor;
     
     public function index()
     {
@@ -68,9 +70,10 @@ class HomeController extends Controller
 
     // Mapeo de nombres (Esto podrías traerlo de una tabla 'users' o 'encuestadores' para que sea 100% dinámico)
     $nombresEncuestadores = [
-        '17' => 'Erendira','26' => 'Elizabeth Maldonado',
+        '17' => 'Erendira','26' => 'Eli Maldonado',
         '27' => 'Alondra','28' => 'Ana K','29' => 'Alejandro',
-        '23' => 'Sandra','25' => 'Amanda','22' => 'Elizabeth'
+        '23' => 'Sandra','25' => 'Amanda','22' => 'Eli Vazquez',
+        '30' => 'Susana'
     ];
 
     $data20 = []; $data16 = []; $labels = [];
@@ -80,53 +83,17 @@ class HomeController extends Controller
         $data16[] = $stats16[$id] ?? 0;
     }
 
-    $aplica_chart = LarapexChart::barChart()
-        ->setTitle('Conteo por encuestador')
-        ->addData('2022', $data20)
-        ->addData('2016', $data16)
-        ->setXAxis($labels);
 
-    // 2. Nueva Gráfica: Encuestas por Semana (Año en curso)
-    // Usamos YEARWEEK para agrupar fechas por semana de forma eficiente
-    $encuestasSemanales = respuestas20::where('completed', 1)
-        ->whereYear('created_at', $currentYear)
-        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
-        ->groupBy('semana')
-        ->orderBy('semana')
-        ->pluck('total', 'semana');
 
-    $weeklyChart = LarapexChart::lineChart()
-        ->setTitle("Encuestas Totales por Semana - $currentYear")
-        ->addData('Encuestas', $encuestasSemanales->values()->toArray())
-        ->setXAxis($encuestasSemanales->keys()->map(fn($s) => "Sem $s")->toArray());
-
-     $encuestasSemanales_16 = respuestas16::where('completed', 1)
-        ->whereYear('created_at', $currentYear)
-        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
-        ->groupBy('semana')
-        ->orderBy('semana')
-        ->pluck('total', 'semana');
-
-    $weeklyChart_16 = LarapexChart::lineChart()
-        ->setTitle("Encuestas Totales por Semana - $currentYear")
-        ->addData('Encuestas', $encuestasSemanales_16->values()->toArray())
-        ->setXAxis($encuestasSemanales_16->keys()->map(fn($s) => "Sem $s")->toArray());
-
-         $encuestasSemanales_pos = respuestasPosgrado::where('completed', 1)
-        ->whereYear('created_at', $currentYear)
-        ->select(DB::raw('DATE_TRUNC(\'week\', updated_at) as semana'), DB::raw('count(*) as total'))
-        ->groupBy('semana')
-        ->orderBy('semana')
-        ->pluck('total', 'semana');
-
-    $weeklyChart_pos = LarapexChart::lineChart()
-        ->setTitle("Encuestas Totales por Semana - $currentYear")
-        ->addData('Encuestas', $encuestasSemanales_pos->values()->toArray())
-        ->setXAxis($encuestasSemanales_pos->keys()->map(fn($s) => "Sem $s")->toArray());
     // 3. Totales y cálculos rápidos (Sin traer todos los modelos a memoria)
-    $total22 = respuestas20::where('completed', 1)->count();
+    $total22 = respuestas20::where('completed', 1)->whereNull('aplica2')->where('gen_dgae', 2022)->count();
+    
     $total16 = respuestas16::where('completed', 1)->count();
-    $internet22 = respuestas20::where('completed', 1)->whereIn('aplica', ['111', '104', '20'])->count();
+    $internet22 = respuestas20::where('completed', 1)
+            ->whereNull('aplica2')
+            ->where('gen_dgae', 2022)
+            ->whereIn('aplica', ['111', '104', '20'])
+            ->get()->count();
     
     // Cálculo de requeridas optimizado (Haciendo el conteo en SQL, no en un loop de PHP)
     $realizadasPorCarrera = respuestas20::where('completed', 1)
@@ -135,29 +102,92 @@ class HomeController extends Controller
         ->select('carrera', DB::raw('count(*) as total'))
         ->groupBy('carrera')
         ->pluck('total', 'carrera');
-
     $metas = DB::table('muestras')->where('estudio_id', '5')->get();
     $requeridas = $metas->sum(function($m) use ($realizadasPorCarrera) {
         return max(0, $m->requeridas_5 - ($realizadasPorCarrera[$m->carrera_id] ?? 0));
     });
+   
 
     // ... (Repetir lógica similar para chart y chart16 con los nuevos totales)
-    $internet=respuestas20::whereIn('aplica',['111','104','20'])->where('gen_dgae', 2022)->count();
+    $internet=respuestas20::whereIn('aplica',['111','104','20'])->whereNull('aplica2')->where('gen_dgae', 2022)->count();
     $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
-    $telefonicas=respuestas20::where('gen_dgae', 2022)->count()-$internet;
+    $telefonicas=$total22-$internet22;
     
-    $total22=respuestas20::where('completed', 1)->where('gen_dgae', 2022)->count();
-    $total16=respuestas16::where('completed', 1)->count();
     $telefonicas16=$total16-$Internet16;
     $Internet=respuestas20::where('completed','=',1)->where('gen_dgae', 2022)
     ->where('aplica','=',111)->get()->count();
+    $queryBase = respuestas20::join('users','aplica','clave')
+        ->where('completed','=',1)
+        ->whereNull('aplica2')
+        ->where('gen_dgae',2022);
+
+    $chartName22 = $this->generateChartData($queryBase->whereNotIn('aplica',['104','105','20','30','31']), 'name', 'name');
+    
+    // GRAFICA DE STAKET DABRS POR ENCUESTADOR
+    $labels = ['Act 2016', 'Seg 2022'];
+
+    // Consultas de ejemplo: Obtener los totales agrupados por encuestador en cada periodo
+    $encuestadores16 = DB::table('respuestas16')->join('users','aplica','clave')->where('completed', '=', 1)
+                        ->select('name', DB::raw('count(*) as total'))->groupBy('name')->get();
+    $encuestadores22 = DB::table('respuestas20')->join('users','aplica','clave')->whereNull('aplica2')
+    ->where('completed', '=', 1)->where('gen_dgae', 2022)
+    ->select('name', DB::raw('count(*) as total'))->groupBy('name')->get();
+
+    // Unificamos los nombres de todos los encuestadores únicos involucrados
+    $todosLosEncuestadores = $encuestadores16->pluck('name')
+        ->merge($encuestadores22->pluck('name'))
+        ->unique();
+
+    $datasets = [];
+    $paletaColores = [
+        ['rgba(243, 156, 18, 0.7)', 'rgba(243, 156, 18, 1)'], 
+        ['rgba(5, 63, 102, 0.7)', 'rgba(5, 63, 102, 1)'],   
+        ['rgba(40, 167, 69, 0.7)', 'rgba(40, 167, 69, 1)'],   
+        ['rgba(220, 53, 69, 0.7)', 'rgb(43, 7, 11)']  ,
+         ['rgba(129, 86, 16, 0.7)', 'rgb(107, 68, 6)'], 
+        ['rgba(13, 118, 189, 0.7)', 'rgb(22, 69, 100)'],   
+        ['rgba(3, 99, 25, 0.7)', 'rgb(26, 65, 35)'],   
+        ['rgba(199, 90, 101, 0.7)', 'rgb(85, 49, 53)']    
+    ];
+    
+    $i = 0;
+    foreach ($todosLosEncuestadores as $encuestador) {
+        // Buscamos cuántas encuestas hizo en 2016 y en 2022
+        $subtotal16 = $encuestadores16->firstWhere('name', $encuestador)->total ?? 0;
+        $subtotal22 = $encuestadores22->firstWhere('name', $encuestador)->total ?? 0;
+
+        $colorAsignado = $paletaColores[$i % count($paletaColores)];
+
+        $datasets[] = [
+            'label' => $encuestador ? $encuestador : 'Sin Asignar',
+            'data' => [$subtotal16, $subtotal22], // Mismo orden que las $labels
+            'backgroundColor' => $colorAsignado[0],
+            'borderColor' => $colorAsignado[1],
+            'borderWidth' => 1
+        ];
+        $i++;
+    }
+        // 1. Define tu query base limpia (sin selectRaw, solo los filtros de Eloquent)
+    $queryWeekly22 = respuestas20::where('completed', '=', 1)
+        ->whereNull('aplica2')
+        ->where('gen_dgae', 2022);
+
+    // 2. Le pasas la expresión de truncado de fecha directamente al Trait
+    $chartWeekly22 = $this->generateChartData(
+        $queryWeekly22,
+        "date_trunc('week', fec_capt)",
+        "to_char(date_trunc('week', fec_capt), 'YYYY-MM-DD')"
+    );
+   
     return view('stats', compact(
-        'aplica_chart', 'weeklyChart', 'total22', 'total16', 
-        'internet22', 'requeridas', 'internet', 'telefonicas','Internet16','telefonicas16','Internet'
-    ));
+        'chartWeekly22', 'total22', 'total16', 'chartName22',
+        'internet22', 'requeridas', 'internet', 'telefonicas','Internet16','telefonicas16','Internet',
+        'labels', 'datasets'
+        ));
 
     }
-    public function stats()
+
+public function stats()
     {
         if (!auth()->user()->can('ver_graficas')) {
             return redirect()->route('home')->with('error', 'No tienes acceso.');

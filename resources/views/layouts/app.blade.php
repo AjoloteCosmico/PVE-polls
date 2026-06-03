@@ -17,8 +17,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.0/css/responsive.bootstrap.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     
-    @stack('css')
+    
     @include('layouts.identidad_grafica')
+    
     <script>
         var elem = document.documentElement;
         function openFullScreen() {
@@ -32,6 +33,7 @@
         }
     </script>
     @livewireStyles
+    @stack('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" >
     <div class="wrapper">
@@ -54,7 +56,7 @@
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
                     @if(auth()->user()->unreadNotifications->count())
-                        <span class="badge badge-warning navbar-badge">
+                        <span class="badge badge-warning navbar-badge" style="background-color: red !important;">
                             {{ auth()->user()->unreadNotifications->count() }}
                         </span>
                     @endif
@@ -63,16 +65,22 @@
                     <span class="dropdown-header">
                         {{ auth()->user()->unreadNotifications->count() }} Notificaciones
                     </span>
-                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider" ></div>
                     
-                    @foreach(auth()->user()->unreadNotifications->take(5) as $notification)
-                        <a href="{{ $notification->data['action_url'] ?? '#' }}" 
-                        class="dropdown-item">
-                            <i class="{{ $notification->data['icon'] ?? 'fas fa-bell' }} mr-2"></i>
-                            {{ $notification->data['message'] }}
-                            <span class="float-right text-muted text-sm">
-                                {{ $notification->created_at->diffForHumans() }}
-                            </span>
+                   @foreach(auth()->user()->unreadNotifications->take(5) as $notification)
+                        <a href="{{route('notifications.read', $notification->id)}}" 
+                        class="dropdown-item text-wrap" 
+                        style="background-color: #ffa3ac; white-space: normal; padding: 10px;">
+                            
+                            <div class="d-flex flex-column" style="background-color: #ffa3ac; color: black">
+                                <div style="background-color: #ffa3ac; color: black">
+                                    <i class="{{ $notification->data['icon'] ?? 'fas fa-bell' }} mr-2"></i>
+                                    {{ $notification->data['message'] }}
+                                </div>
+                                <span class="text-muted text-sm mt-1 align-self-end" style="font-color: black">
+                                    {{ $notification->created_at->diffForHumans() }}
+                                </span>
+                            </div>
                         </a>
                         <div class="dropdown-divider"></div>
                     @endforeach
@@ -128,8 +136,8 @@
             <div class="float-right  >
                 <b>Version</b> 3.1.0
             </div>
-            <strong>Copyright &copy; 2024-2025 <a href="https://www.pveaju.unam.mx/">PVEAJU-UNAM</a>.</strong> All rights
-            reserved. Version 1.1.2 april  25 2025
+            <strong>Copyright &copy; 2024-2026 <a href="https://www.pveaju.unam.mx/">PVEAJU-UNAM</a>.</strong> All rights
+            reserved. Version 1.2.0 May  2025
         </footer>
     </div>
     @stack('js')

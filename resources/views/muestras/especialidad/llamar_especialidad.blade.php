@@ -72,7 +72,7 @@
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>
                 
-              @include('recados.recados_tabla')
+              @include('recados.recados_tabla',['plan_car'=>$EgresadoEsp->especialidad])
                 <form action="/encuestaEspecialidad/marcar/{{$telefono->id}}/{{$EgresadoEsp->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                     @csrf
                     @include('recados.recado_form_content')

@@ -301,10 +301,10 @@ class Encuesta22Controller extends Controller
         $section_field = "sec_" . strtolower($section);
         if ($this->validar_seccion($Encuesta, $section,$request)) {
             $Encuesta->$section_field = 1;
-            $this->recordEvent($Encuesta->registro, 'update_completa_seg22', ' ');
+            $this->recordEvent($Encuesta->registro, 'update_completa_seg22', 'section'.$section);
         } else {
             $Encuesta->$section_field = 0;
-            $this->recordEvent($Encuesta->registro, 'update_incompleta_seg22', ' ');
+            $this->recordEvent($Encuesta->registro, 'update_incompleta_seg22', 'section'.$section);
             return back()->with('error', 'true');
         }
         $Encuesta->save();

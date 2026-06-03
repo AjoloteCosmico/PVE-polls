@@ -72,7 +72,7 @@
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>
                 
-              @include('recados.recados_tabla')
+              @include('recados.recados_tabla',['plan_car'=>$EgresadoPos->plan])
                 <form action="/encuestaPosgrado/marcar/{{$telefono->id}}/{{$EgresadoPos->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                     @csrf
                     @include('recados.recado_form_content')
@@ -101,11 +101,7 @@
                     @endif 
                             </div>
                         </div>
-                       
-                     
-
                         <br><br>
-                     
                   
                     </div> 
 
@@ -124,6 +120,15 @@
                 </button>
             </a>
         </div>
+        <div class="col">
+        <div id="next-egresado-container" class="text-center my-4">
+            <!-- Aquí se cargará dinámicamente el botón o el mensaje -->
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando siguiente egresado...</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @stop
@@ -134,6 +139,59 @@
 @stop
 
 @push('js')
+
+
+<script>
+
+const cuentaActual = {{ $EgresadoPos->cuenta }};
+@if(!$EgSiguiente)
+console.log('a punto de llamar por fetch ',cuentaActual,'{{$plan}}');
+fetch(`/egresado/siguiente_posgrado/${cuentaActual}/{{$plan}}`)
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('next-egresado-container');
+        const input_siguiente=document.getElementById('input_siguiente');
+        if (data.siguiente) {
+            container.innerHTML = `
+                <a href="${data.url}" 
+                   class="btn-siguiente-egresado" 
+                   style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                    Siguiente Egresado: ${data.nombre_completo}
+                </a>
+            `;
+            input_siguiente.value=data.eg_id;
+        } else {
+            container.innerHTML = `
+                <div class="alert alert-info">
+                    ${data.mensaje}
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener el siguiente egresado:', error);
+        document.getElementById('next-egresado-container').innerHTML = `
+            <div class="alert alert-danger">
+                Error al cargar el siguiente egresado. Intente de nuevo.
+            </div>
+        `;
+    });
+@else
+const container = document.getElementById('next-egresado-container');
+const input_siguiente=document.getElementById('input_siguiente');
+    
+ container.innerHTML = `
+                <a href="{{route('llamar_posgrado', [ $EgSiguiente->cuenta, $EgSiguiente->plan,$EgSiguiente->programa])}}" 
+                   class="btn-siguiente-egresado" 
+                   style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                    Siguiente Egresado: {{$EgSiguiente->nombre}} {{$EgSiguiente->paterno}}
+                </a>
+            `;
+            input_siguiente.value={{$EgSiguiente->id}};
+@endif
+</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 
@@ -151,9 +209,14 @@ function codigo(tel_id){
     valor=document.getElementById(id_codigo).value;
     console.log(valor,tel_id);
     switch (valor) {
-        @foreach($Codigos as $code)
-  case '{{$code->code}}':
-    change_color('{{$code->color_rgb}}',tel_id);
+    @foreach($Codigos as $code)
+        case '{{$code->code}}':
+        change_color('{{$code->color_rgb}}',tel_id);
+        @if($code->code==3)
+            document.getElementById('fecha-prog'+tel_id).style.display='block';
+        @else
+            document.getElementById('fecha-prog'+tel_id).style.display='none';
+        @endif
     break;
    @endforeach
   

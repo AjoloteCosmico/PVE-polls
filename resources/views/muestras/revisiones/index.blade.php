@@ -34,7 +34,7 @@
   @can('ver_muestra_posgrado')
   <div>
   <a href="{{route('muestras.posgrado.revision_posgrado')}}">
-  <button class='boton-muestras' >
+  <button class='boton-muestras' style="background-color:#70500f">
       <br><br>ENCUESTA DE POSGRADO <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="encuesta" class="icono-boton">
   </button></a>
@@ -43,9 +43,9 @@
   @can('ver_muestra_ed_continua')
        <div>
         <a href="{{route('muestras_ed_continua.revision')}}">
-          <button class='boton-muestras' >
+          <button class='boton-muestras' style="background-color:#0F4D0F" >
             <br><br>ENCUESTA DE EDUCACIÓN CONTINUA <br><br><br>
-            <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton">
+           <i class="fas fa-leaf fa-6x" alt="educacion continua"></i>
           </button>
         </a>
       </div>
@@ -66,5 +66,11 @@
     padding: 10px;
     text-align: center;
   }
+   .boton-muestras:hover{
+    background-color: #ba800d !important;
+    /* transponer en y  */
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
     </style>
     @endpush

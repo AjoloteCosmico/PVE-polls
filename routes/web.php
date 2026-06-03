@@ -28,7 +28,9 @@ use App\Http\Controllers\{
     PosgradoController,
     EspecialidadController,
     EncuestaContinuaController,
-    UserController
+    UserController,    
+    StatsController,
+    NotificationController
 };
 
 Route::get('/', function () {
@@ -54,7 +56,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/notificaciones/{notification}/read', 
         [NotificationController::class, 'markAsReadAndRedirect'])
         ->name('notifications.read');
-    /**Rutas relacionadas con encuestas 
+    /**Rutas relacionadas con encuestas
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
     Route::controller(MuestrasController::class)->group(function(){
@@ -208,7 +210,7 @@ Route::group(['middleware' => ['auth']], function(){
     /** Recados */
     Route::controller(RecadosController::class)->group(function(){
         Route::get('recados', 'index')->name('recados.index');
-        Route::delete('recados/delete/{id}', 'destroy')->name('recados.destroy');
+        Route::delete('recados/delete/{id}/{plan_car}', 'destroy')->name('recados.destroy');
         Route::delete('recados/posgrado/delete/{id}', 'destroyP')->name('recados.destroyP');
         Route::delete('recados/especialidad/delete/{id}', 'destroyE')->name('recados.destroyE');
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
@@ -243,7 +245,7 @@ Route::group(['middleware' => ['auth']], function(){
     
     /** Pantalla de inicio */
     Route::controller(HomeController::class)->group(function(){
-        Route::get('/stats', 'optimized_stats')->name('stats');
+        // Route::get('/stats', 'optimized_stats')->name('stats');
         Route::get('/links', 'links')->name('links');
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');
@@ -297,17 +299,18 @@ Route::group(['middleware' => ['auth']], function(){
     
     /**Dark Mode */
     Route::get('/switch', [ConfigController::class, 'switch_mode'])->name('switch_mode');
-
+    /**Conteo estadístico bueno */
+    Route::get('/stats', [StatsController::class,'optimized_stats'])->name('stats');
     /** Reactivos, Opciones y Llamadas */
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
-    Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
+    Route::get('/encuestas/llamar/{gen}/{id}/{carrera}/{siguiente?}', [LlamadasController::class, 'llamar'])->name('llamar');
     //Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
     Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_continua');
     //Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_verde'])->name('llamar_verde');
     Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
 
-    Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
+    Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}/{siguiente?}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/encuestas/llamar_especialidad/{id}/{especialidad}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
@@ -315,7 +318,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
     //ruta para cargar sig egresado con ajax, aja aja ajax
-    Route::get('/egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
+    Route::get('/egresado/siguiente/{id}/{gen}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
+    
+    Route::get('/egresado/siguiente_posgrado/{cuenta}/{plan}', [LlamadasController::class, 'getSiguiente_posgrado'])->name('llamadas.siguiente_eg_posgrado');
     //TODO: hacer funcionar las  rutas asincronas para sig eg (generalziar a una sola si es posible)
     Route::get('/act_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguienteAct'])->name('llamadas.siguiente_act');
     Route::get('/pos_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguientePos'])->name('llamadas.siguiente_pos');
