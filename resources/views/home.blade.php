@@ -131,6 +131,32 @@
 @endsection
 
 @push('css')
+
+<style>
+    /* Forzamos al contenedor a mantener dimensiones rígidas que no rompan el Flexbox de AdminLTE */
+    .chart-wrapper-fixed {
+        position: relative;
+        display: block;
+        width: 100% !important;
+        height: 500px !important; /* Altura fija para que el canvas no se estire al infinito */
+        overflow: hidden;         /* Evita que subelementos desborden el layout principal */
+        box-sizing: border-box;
+    }
+
+    /* Aseguramos que el componente de Chart.js y su contenedor interno respeten el límite */
+    .chart-container-js {
+        position: relative;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Forzar al Canvas a no romper el bloque */
+    .chart-wrapper-fixed canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
 <style>
   #message-div {
     position: relative !important; /* Fuerza la posición */
