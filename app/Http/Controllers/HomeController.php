@@ -9,6 +9,7 @@ use App\Models\respuestas16;
 use App\Models\respuestas20;
 use App\Models\respuestas14;
 
+use App\Models\respuestas_verdes;
 use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
@@ -34,266 +35,197 @@ use ChartDataProcessor;
     
     public function index()
     {
-        $nuevos_datos=DB::table('egresados')->where('muestra','=','3')->where('actualized','=','2025-06-19')
-        ->leftJoin('codigos','codigos.code','=','egresados.status')
-        ->leftJoin('carreras', function($join)
-  {
-      $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
-      $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
-  })
-        ->select('egresados.*','codigos.color_rgb','codigos.description','carreras.carrera as name_carrera','carreras.plantel as name_plantel')
-        ->get();
+         $currentYear = Carbon::now()->year;
 
-        return view('home',compact('nuevos_datos'));
-    }
-    
-    public function optimized_stats(){
-        
-    if (!auth()->user()->can('ver_graficas')) {
-        return redirect()->route('home')->with('error', 'No tienes acceso.');
-    }
-
-    $currentYear = Carbon::now()->year;
-
-    // 1. Optimización de Conteo por Encuestador (Generalizado)
-    // Agrupamos por el ID del encuestador ('aplica') y contamos en una sola query.
-    $stats20 = respuestas20::where('completed', 1)
+    // ========== 1. Conteo por encuestador (barras simples por encuestador - chartName22) ==========
+    $queryBase22 = respuestas20::join('users', 'aplica', 'clave')
+        ->where('completed', 1)
+        ->whereNull('aplica2')
         ->where('gen_dgae', 2022)
-        ->select('aplica', DB::raw('count(*) as total'))
-        ->groupBy('aplica')
-        ->pluck('total', 'aplica'); // Retorna un array [id_encuestador => total]
+        ->whereNotIn('aplica', ['104','105','20','30','31']);
+    $chartName22 = $this->generateChartData($queryBase22, 'name', 'name');
 
+    // ========== 2. Totales y cálculos rápidos ==========
+    // Consultas optimizadas con agregados condicionales para evitar múltiples viajes
+    $stats = respuestas20::where('completed', 1)
+        ->where('gen_dgae', 2022)
+        ->whereNull('aplica2')
+        ->selectRaw("
+            count(*) as total22,
+            count(*) filter (where aplica in ('111','104','20')) as internet22,
+            count(*) filter (where aplica =' 111') as internet_111
+        ")
+        ->first();
+
+    $total22 = $stats->total22;
+    $internet22 = $stats->internet22;
+    $telefonicas22 = $total22 - $internet22;
+    $internetTotal = $stats->internet_111; // Aplicaciones internet de tipo 111
+
+    // Para 2016
     $stats16 = respuestas16::where('completed', 1)
-        ->select('aplica', DB::raw('count(*) as total'))
-        ->groupBy('aplica')
-        ->pluck('total', 'aplica');
+        ->selectRaw("
+            count(*) as total16,
+            count(*) filter (where aplica = '111') as internet16
+        ")
+        ->first();
 
-    // Mapeo de nombres (Esto podrías traerlo de una tabla 'users' o 'encuestadores' para que sea 100% dinámico)
-    $nombresEncuestadores = [
-        '17' => 'Erendira','26' => 'Eli Maldonado',
-        '27' => 'Alondra','28' => 'Ana K','29' => 'Alejandro',
-        '23' => 'Sandra','25' => 'Amanda','22' => 'Eli Vazquez',
-        '30' => 'Susana'
-    ];
+    $total16 = $stats16->total16;
+    $internet16 = $stats16->internet16;
+    $telefonicas16 = $total16 - $internet16;
 
-    $data20 = []; $data16 = []; $labels = [];
-    foreach ($nombresEncuestadores as $id => $nombre) {
-        $labels[] = $nombre;
-        $data20[] = $stats20[$id] ?? 0;
-        $data16[] = $stats16[$id] ?? 0;
-    }
-
-
-
-    // 3. Totales y cálculos rápidos (Sin traer todos los modelos a memoria)
-    $total22 = respuestas20::where('completed', 1)->whereNull('aplica2')->where('gen_dgae', 2022)->count();
-    
-    $total16 = respuestas16::where('completed', 1)->count();
-    $internet22 = respuestas20::where('completed', 1)
-            ->whereNull('aplica2')
-            ->where('gen_dgae', 2022)
-            ->whereIn('aplica', ['111', '104', '20'])
-            ->get()->count();
-    
-    // Cálculo de requeridas optimizado (Haciendo el conteo en SQL, no en un loop de PHP)
+    // Cálculo de requeridas (sin cargar todos los modelos a memoria)
     $realizadasPorCarrera = respuestas20::where('completed', 1)
         ->where('gen_dgae', 2022)
         ->whereNull('aplica2')
         ->select('carrera', DB::raw('count(*) as total'))
         ->groupBy('carrera')
         ->pluck('total', 'carrera');
+
     $metas = DB::table('muestras')->where('estudio_id', '5')->get();
+    $requeridas = $metas->sum(function ($m) use ($realizadasPorCarrera) {
+        return max(0, $m->requeridas_5 - ($realizadasPorCarrera[$m->carrera_id] ?? 0));
+    });
+    $requeridas16=Egresado::where('act_suvery',1)->count();
+    // ========== 3. Gráfica apilada por encuestador (migrada al trait) ==========
+    $query16Enc = DB::table('respuestas16')
+        ->join('users', 'aplica', 'clave')
+        ->where('completed', 1);
+    $query22Enc = DB::table('respuestas20')
+        ->join('users', 'aplica', 'clave')
+        ->whereNull('aplica2')
+        ->where('completed', 1)
+        ->where('gen_dgae', 2022);
+    $queryPosEnc = DB::table('respuestas_posgrado')
+    ->join('users', function ($join) {
+        $join->on(DB::raw('CAST(respuestas_posgrado.aplica AS varchar)'), '=', 'users.clave');
+    })
+    ->where('respuestas_posgrado.completed', '1')
+    ->whereIn('respuestas_posgrado.anio_egreso', [2019, 2020, 2021, 2022]);
+    $paletaColores = [
+        ['rgba(243, 156, 18, 0.7)', 'rgba(243, 156, 18, 1)'],
+        ['rgba(5, 63, 102, 0.7)', 'rgba(5, 63, 102, 1)'],
+        ['rgba(40, 167, 69, 0.7)', 'rgba(40, 167, 69, 1)'],
+        ['rgba(220, 53, 69, 0.7)', 'rgb(43, 7, 11)'],
+        ['rgba(129, 86, 16, 0.7)', 'rgb(107, 68, 6)'],
+        ['rgba(13, 118, 189, 0.7)', 'rgb(22, 69, 100)'],
+        ['rgba(3, 99, 25, 0.7)', 'rgb(26, 65, 35)'],
+        ['rgba(199, 90, 101, 0.7)', 'rgb(85, 49, 53)'],
+    ];
+
+    $stackedEnc = $this->generateStackedBarByCategoryAcrossPeriods(
+        [$query16Enc, $query22Enc,$queryPosEnc],
+        'name',
+        ['Act 2016', 'Seg 2022','Posgrado'],
+        $paletaColores
+    );
+
+    // ========== 4. Gráfica semanal multilínea (todos los estudios) ==========
+    $seriesSemanales = [
+        [
+            'query'       => respuestas20::where('completed', '1')->whereNull('aplica2')->where('gen_dgae', 2022),
+            'label'       => 'Respuestas 2022',
+            'color'       => 'rgba(54, 162, 235, 0.2)',
+            'borderColor' => 'rgba(54, 162, 235, 1)',
+        ],
+        [
+            'query'       => respuestas16::where('completed', '1'),
+            'label'       => 'Respuestas 2016',
+            'color'       => 'rgba(255, 99, 132, 0.2)',
+            'borderColor' => 'rgba(255, 99, 132, 1)',
+        ],
+        [
+            // Asumiendo modelo RespuestasPosgrado con campo fec_capt
+            'query'       => respuestasPosgrado::where('completed', '1')->whereIn('anio_egreso',[2019,2020,2021,2022]),
+            'label'       => 'Posgrado',
+            'color'       => 'rgba(75, 192, 192, 0.2)',
+            'borderColor' => 'rgba(75, 192, 192, 1)',
+        ],
+        [
+            // Asumiendo modelo RespuestasVerdes con campo fec_capt
+            'query'       => respuestas_verdes::whereNotNull('vr1'),
+            'label'       => 'Verdes',
+            'color'       => 'rgba(153, 102, 255, 0.2)',
+            'borderColor' => 'rgba(153, 102, 255, 1)',
+        ],
+    ];
+
+    $chartWeeklyAll = $this->generateMultiSeriesChartData(
+        "date_trunc('week', updated_at)",
+        "to_char(date_trunc('week', updated_at), 'YYYY-MM-DD')",
+        $seriesSemanales
+    );
+      // ========== 2. Totales y cálculos rápidos ==========
+    // Consultas optimizadas con agregados condicionales para evitar múltiples viajes
+    $stats = respuestas20::where('completed', 1)
+        ->where('gen_dgae', 2022)
+        ->whereNull('aplica2')
+        ->selectRaw("
+            count(*) as total22,
+            count(*) filter (where aplica in ('111','104','20')) as internet22,
+            count(*) filter (where aplica =' 111') as internet_111
+        ")
+        ->first();
+
+    $total22 = $stats->total22;
+    $internet22 = $stats->internet22;
+    $telefonicas22 = $total22 - $internet22;
+    $internetTotal = $stats->internet_111; // Aplicaciones internet de tipo 111
+
+    // Para 2016
+    $stats16 = respuestas16::where('completed', 1)
+        ->selectRaw("
+            count(*) as total16,
+            count(*) filter (where aplica = '111') as internet16
+        ")
+        ->first();
+
+    $total16 = $stats16->total16;
+    $internet16 = $stats16->internet16;
+    $telefonicas16 = $total16 - $internet16;
+
+    // Cálculo de requeridas (sin cargar todos los modelos a memoria)
+    $realizadasPorCarrera = respuestas20::where('completed', 1)
+        ->where('gen_dgae', 2022)
+        ->whereNull('aplica2')
+        ->select('carrera', DB::raw('count(*) as total'))
+        ->groupBy('carrera')
+        ->pluck('total', 'carrera');
+
+    $metas = DB::table('muestras')->where('estudio_id', '5')->get();
+    $requeridas = $metas->sum(function ($m) use ($realizadasPorCarrera) {
+        return max(0, $m->requeridas_5 - ($realizadasPorCarrera[$m->carrera_id] ?? 0));
+    });
+    $requeridas16=Egresado::where('act_suvery',1)->count();
+$Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
+    ->whereNull('aplica2')->where('gen_dgae', 2022)->get()->count();
+    $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
     $requeridas = $metas->sum(function($m) use ($realizadasPorCarrera) {
         return max(0, $m->requeridas_5 - ($realizadasPorCarrera[$m->carrera_id] ?? 0));
     });
    
-
-    // ... (Repetir lógica similar para chart y chart16 con los nuevos totales)
-    $internet=respuestas20::whereIn('aplica',['111','104','20'])->whereNull('aplica2')->where('gen_dgae', 2022)->count();
-    $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
     $telefonicas=$total22-$internet22;
-    
-    $telefonicas16=$total16-$Internet16;
-    $Internet=respuestas20::where('completed','=',1)->where('gen_dgae', 2022)
-    ->where('aplica','=',111)->get()->count();
-    $queryBase = respuestas20::join('users','aplica','clave')
-        ->where('completed','=',1)
-        ->whereNull('aplica2')
-        ->where('gen_dgae',2022);
 
-    $chartName22 = $this->generateChartData($queryBase->whereNotIn('aplica',['104','105','20','30','31']), 'name', 'name');
-    
-    // GRAFICA DE STAKET DABRS POR ENCUESTADOR
-    $labels = ['Act 2016', 'Seg 2022'];
+    // ========== DATOS PARA POSGRADO =================
+    $InternetPos=respuestasPosgrado::whereIn('aplica',['111','104','20','105'])
+    ->whereIn('anio_egreso', [2019,2020,2021,2022])
+    ->where('completed','1')->get()->count();
+    $TotalPos=respuestasPosgrado::whereIn('anio_egreso', [2019,2020,2021,2022])
+    ->where('completed','1')
+    ->get()->count();
+    $telefonicasPos=$TotalPos-$InternetPos;
 
-    // Consultas de ejemplo: Obtener los totales agrupados por encuestador en cada periodo
-    $encuestadores16 = DB::table('respuestas16')->join('users','aplica','clave')->where('completed', '=', 1)
-                        ->select('name', DB::raw('count(*) as total'))->groupBy('name')->get();
-    $encuestadores22 = DB::table('respuestas20')->join('users','aplica','clave')->whereNull('aplica2')
-    ->where('completed', '=', 1)->where('gen_dgae', 2022)
-    ->select('name', DB::raw('count(*) as total'))->groupBy('name')->get();
+    $requeridasPos=EgresadoPosgrado::whereIn('anio_egreso', [2019,2020,2021,2022])
+    ->where('fuente','base original')->get()->count();
 
-    // Unificamos los nombres de todos los encuestadores únicos involucrados
-    $todosLosEncuestadores = $encuestadores16->pluck('name')
-        ->merge($encuestadores22->pluck('name'))
-        ->unique();
 
-    $datasets = [];
-    $paletaColores = [
-        ['rgba(243, 156, 18, 0.7)', 'rgba(243, 156, 18, 1)'], 
-        ['rgba(5, 63, 102, 0.7)', 'rgba(5, 63, 102, 1)'],   
-        ['rgba(40, 167, 69, 0.7)', 'rgba(40, 167, 69, 1)'],   
-        ['rgba(220, 53, 69, 0.7)', 'rgb(43, 7, 11)']  ,
-         ['rgba(129, 86, 16, 0.7)', 'rgb(107, 68, 6)'], 
-        ['rgba(13, 118, 189, 0.7)', 'rgb(22, 69, 100)'],   
-        ['rgba(3, 99, 25, 0.7)', 'rgb(26, 65, 35)'],   
-        ['rgba(199, 90, 101, 0.7)', 'rgb(85, 49, 53)']    
-    ];
-    
-    $i = 0;
-    foreach ($todosLosEncuestadores as $encuestador) {
-        // Buscamos cuántas encuestas hizo en 2016 y en 2022
-        $subtotal16 = $encuestadores16->firstWhere('name', $encuestador)->total ?? 0;
-        $subtotal22 = $encuestadores22->firstWhere('name', $encuestador)->total ?? 0;
-
-        $colorAsignado = $paletaColores[$i % count($paletaColores)];
-
-        $datasets[] = [
-            'label' => $encuestador ? $encuestador : 'Sin Asignar',
-            'data' => [$subtotal16, $subtotal22], // Mismo orden que las $labels
-            'backgroundColor' => $colorAsignado[0],
-            'borderColor' => $colorAsignado[1],
-            'borderWidth' => 1
-        ];
-        $i++;
+        return view('home',compact('chartWeeklyAll','stackedEnc','chartName22',
+        'Internet16','telefonicas16','requeridas16' ,
+        'InternetPos','telefonicasPos', 'requeridasPos','total16',
+        'Internet','telefonicas', 'requeridas','Internet','total22','TotalPos'));
     }
-        // 1. Define tu query base limpia (sin selectRaw, solo los filtros de Eloquent)
-    $queryWeekly22 = respuestas20::where('completed', '=', 1)
-        ->whereNull('aplica2')
-        ->where('gen_dgae', 2022);
-
-    // 2. Le pasas la expresión de truncado de fecha directamente al Trait
-    $chartWeekly22 = $this->generateChartData(
-        $queryWeekly22,
-        "date_trunc('week', fec_capt)",
-        "to_char(date_trunc('week', fec_capt), 'YYYY-MM-DD')"
-    );
-   
-    return view('stats', compact(
-        'chartWeekly22', 'total22', 'total16', 'chartName22',
-        'internet22', 'requeridas', 'internet', 'telefonicas','Internet16','telefonicas16','Internet',
-        'labels', 'datasets'
-        ));
-
-    }
-
-public function stats()
-    {
-        if (!auth()->user()->can('ver_graficas')) {
-            return redirect()->route('home')->with('error', 'No tienes acceso.');
-            }
-            
-        //2022
-        $encuestas20=DB::table('respuestas20')
-        ->select('respuestas20.*')
-        ->where('completed','=',1)
-        ->whereNull('aplica2')
-        ->get();
-
-        $carreras=DB::table('muestras')
-        ->leftJoin('carreras', function($join)
-                         {
-                             $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
-                             $join->on('carreras.clave_plantel', '=', 'muestras.plantel_id');                             
-                         })
-        ->where('estudio_id','5')
-        //->get()
-        //nueva
-        ->select(
-        'muestras.*',
-        'carreras.carrera as nombre_carrera',
-        'carreras.plantel as nombre_plantel'
-        )
-        ->get();
-
-        $requeridas = $carreras->sum(function ($carrera){
-            $realizadas = DB::table('respuestas20')
-                ->where('completed', '=', 1)
-                ->where('gen_dgae', '=', 2022)
-                ->whereNull('aplica2')
-                ->where('carrera', '=', $carrera->carrera_id)
-                ->count();
-            return max(0, $carrera->requeridas_5 - $realizadas);
-        });
-        
-
-
-        
-        $internet=$encuestas20->whereIn('aplica',['111','104','20'])->count();
-        $telefonicas=$encuestas20->count()-$internet;
-
-
-        //grafica1 encuestas telefono vs internet de 2022
-        $chart = LarapexChart::setTitle('Encuestas realizadas 2022')
-        ->setColors(['#D1690E', '#D1330E','#D19914'])
-            ->setLabels(['Realizadas por Internet','Realizadas Telefonica', 'Por hacer'])
-            ->setDataset([$internet,$telefonicas, $requeridas]);
-
-        
-
-
-        //2016
-        $encuestas16=DB::table('respuestas16')
-        ->select('respuestas16.*')
-        ->where('respuestas16.completed', '=',1)
-        ->get();
-        
-        $requeridas16=Egresado::where('act_suvery','1')->count() - $encuestas16->count();
-        $Internet16=respuestas16::where('completed','1')->where('aplica','111')->count();
-        $telefonicas16= $encuestas16->count() -$Internet16;
     
-
-        //grafica1.2 encuestas telefono vs internet de 2016
-        $chart16 = LarapexChart::setTitle('Encuestas realizadas 2016')
-        ->setColors(['#D1690E', '#D1330E','#D19914'])
-            ->setLabels(['Realizadas por Internet','Realizadas Telefonica', 'Por hacer'])
-            ->setDataset([$Internet16,$telefonicas16, $requeridas16]);
-
-        $encuestas16=respuestas16::all();
-        $encuestas20=respuestas20::where('completed','=',1)->get();
-
-
-        #Grafica de encuestadores       
-       $ere20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '17')->count();
-       $eli20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '22')->count();
-       $sandy20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '23')->count();
-       $amanda20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '25')->count();
-       $eliMal20 = respuestas20::where('completed', '=', 1)->where('gen_dgae', '=', 2022)->where('aplica', '=', '26')->count();
-       
-        $ere16=respuestas16::where('aplica', '=' ,'17')->count();
-        $eli16=respuestas16::where('aplica', '=' ,'22')->count();
-        $sandy16=respuestas16::where('aplica', '=' ,'23')->count();
-        $amanda16=respuestas16::where('aplica', '=' ,'25')->count();
-        
-        $aplica_chart = LarapexChart::barChart()
-        ->setTitle('Conteo por encuestador')
-        ->setSubtitle('enc2022 vs enc2016 actualizacion')
-         ->addData('2022', [ $ere20,$eli20,$sandy20,$amanda20,$eliMal20])
-         ->addData('2016', [ $ere16,$eli16,$sandy16,$amanda16])
-         ->setColors(['#D1690E', '#EB572F','#f3b87c'])
-         ->setXAxis(['Erendira', 'Elizabeth', 'Sandra','Amanda','Elizabeth Maldonado']);
-
-         //totales
-
-        $total22=$encuestas20->count();
-        $total16=$encuestas16->count();
-        $Internet=respuestas20::where('completed','=',1)
-        ->where('aplica','=',111)->get()->count();
-        return view('stats',compact('encuestas20','carreras',
-        'chart','chart16','aplica_chart','total22','total16','Internet',
-         'Internet16'));
-    }
-
+    
 
     public function links()
     {
