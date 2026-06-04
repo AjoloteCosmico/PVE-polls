@@ -145,18 +145,22 @@ use LogEvents;
 
       public function destroy($id,$plan_car){
         $Recado=Recado::find($id);
+        $cuenta=$Recado->cuenta;
         $Telefono=Telefono::find($Recado->tel_id);
         Recado::destroy($id);
         switch($Recado->type){
           case 'seg':
           case 'act':
           case 'anterior':
-            $Egresado=Egresado::where('cuenta',$Recado->cuenta)->where('carrera',$plan_car)->first();
+            $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$plan_car)->first();
             $Recados=Recado::where('cuenta','=',$Egresado->cuenta)
               ->whereIn('type',['seg','act','anterior'])
               ->get();
             $Egresado->llamadas=$Recados->count();
-            $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+            if($Recados){
+
+              $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+            }
             $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
             $Egresado->save();
             $Telefono->save();
@@ -170,7 +174,9 @@ use LogEvents;
               ->whereIn('type',['pos','act'])
               ->get();
             $EgresadoPos->llamadas=$Recados->count();
-            $EgresadoPos->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+            if($Recados){
+              $EgresadoPos->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+            }
             $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
             $EgresadoPos->save();
             $Telefono->save();
@@ -183,14 +189,18 @@ use LogEvents;
               ->whereIn('type',['esp'])
               ->get();
             $EgresadoEsp->llamadas=$Recados->count();
+            if($Recados){
+
             $EgresadoEsp->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+            
+            }
+            
             $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
             $EgresadoEsp->save();
             $Telefono->save();
             break;
           case 'verde':
           case 'cont':
-            dd('caso correcto');
             $Egresado=Egresado::where('cuenta',$Recado->cuenta)->where('carrera',$plan_car)->first();
             $Recados=Recado::where('cuenta','=',$Egresado->cuenta)
               ->where('type',$Recado->type)
@@ -199,10 +209,13 @@ use LogEvents;
                 ->where('egresado_id',$Egresado->id)
                 ->where('muestra_id',$muestra_id) // ID de muestra de educación continua
                 ->update(['llamadas' => $Recados->count()]);
-            $EgMuestra=DB::table('egresado_muestra')
+            if($Recados){
+                $EgMuestra=DB::table('egresado_muestra')
                 ->where('egresado_id',$Egresado->id)
                 ->where('muestra_id',$muestra_id) // ID de muestra de educación continua
                 ->update(['status' => $Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status]);
+            }
+            
            
         } 
         $this->recordEvent($id, 'delete_recado', $Recado->type.'-'.$Recado->cuenta.'-'.$Recado->tel_id);
