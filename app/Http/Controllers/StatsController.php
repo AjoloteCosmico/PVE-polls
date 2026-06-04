@@ -13,6 +13,7 @@ use App\Models\respuestas_verdes;
 use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
+use App\Models\Event;
 use DB;
 
 use App\Models\User;
@@ -167,13 +168,34 @@ class StatsController extends Controller
     });
    
     $telefonicas=$total22-$internet22;
+
+    // ========== DATOS PARA POSGRADO =================
+    $InternetPos=respuestasPosgrado::whereIn('aplica',['111','104','20','105'])
+    ->whereIn('anio_egreso', [2019,2020,2021,2022])
+    ->where('completed','1')->get()->count();
+    $TotalPos=respuestasPosgrado::whereIn('anio_egreso', [2019,2020,2021,2022])
+    ->where('completed','1')
+    ->get()->count();
+    $telefonicasPos=$TotalPos-$InternetPos;
+
+    $requeridasPos=EgresadoPosgrado::whereIn('anio_egreso', [2019,2020,2021,2022])
+    ->where('fuente','base original')->get()->count();
+
+    // ==========  Llamadas por encuestador (barras simples por encuestador ) ==========
+    $queryLlamadas = Event::join('users', 'users.id', 'events.user_id')
+        ->where('event', 'like','%llamar%');
+
+    $chartEvent = $this->generateChartData($queryLlamadas, 'name', 'name');
+
+    //Eventos de llamadas
     return view('stats', compact(
         'chartName22','telefonicas','requeridas',
         'total22', 'total16', 'Internet','Internet16','requeridas16',
         'internet22', 'internet16', 'telefonicas22', 'telefonicas16', 'internetTotal',
         'requeridas',
         'stackedEnc',        // Contiene ['labels' => [...], 'datasets' => [...]]
-        'chartWeeklyAll'     // Contiene ['labels' => [...], 'datasets' => [...]]
+        'chartWeeklyAll',
+        'chartEvent', 'requeridasPos','telefonicasPos','InternetPos','TotalPos'
     ));
 }
 

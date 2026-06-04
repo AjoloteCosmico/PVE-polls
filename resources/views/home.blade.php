@@ -10,7 +10,118 @@
     <br><br><br>
     <div class="botones-inicio">
         <br><br><br> 
+    </div>
+       <div class="row"> 
+        <div class="col">
+            <div class="cuadro-amarillo">
+                <h3> Total encuestas 2022:  {{$total22}}</h3>
+                <h3> por internet: {{$Internet}} </h3>
+            </div>
+        </div>
+           @can('ver_muestra_posgrado')
+        <div class="col">
+            <div class="cuadro-amarillo">
+                <h3> Total encuestas posgrado:  {{$TotalPos}}</h3>
+                <h3> por internet: {{$InternetPos}} </h3>
+            </div>
+        </div>
+        @endcan
+        <div class="col">
+            <div class="cuadro-amarillo">
+                <h3> Total encuestas 2016:   {{$total16}} </h3>
+                <h3> por internet: {{$Internet16}} </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2022 -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie22" 
+                    type="doughnut" 
+                    title="Avance del estudio seg 2022" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$Internet,$telefonicas, $requeridas-$Internet-$telefonicas]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
+   @can('ver_muestra_posgrado')
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence posgrado -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie_posgrado" 
+                    type="doughnut" 
+                    title="Avance del estudio posgrado" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$InternetPos,$telefonicasPos, $requeridasPos-$InternetPos-$telefonicasPos]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
+   @endcan
+     <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2016 -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie16" 
+                    type="doughnut" 
+                    title="Avance del estudio act 2016" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$Internet16,$telefonicas16, $requeridas16-$Internet16-$telefonicas16]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- 2022 encuestas por aplciador -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="name22" 
+                    type="bar" 
+                    title="Cuestionarios por encuestador 2022" 
+                    :labels="$chartName22['labels']" 
+                    :data="$chartName22['data']" 
+                />
+            </div>
+        </div>
+    </div>
     
+     <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Por tipo de estudio,  apilado por encuestador  -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="stackedEnc" 
+                    :labels="$stackedEnc['labels']" 
+                    :data="$stackedEnc['datasets']" 
+                    type="bar" 
+                    title="Encuestadores por periodo"
+                    :stacked="true"
+                />
+            </div>
+        </div>
+        </div>
+        <div class="col-12 col-md-6 mb-4">
+               @can('ver_graficas')
+        <div class="card card-outline card-warning p-3"> <!-- Multi serie encuestas por semana historico -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="weeklyAll" 
+                    :labels="$chartWeeklyAll['labels']" 
+                    :data="$chartWeeklyAll['datasets']" 
+                    type="line" 
+                    title="Encuestas semanales por estudio"
+                    :stacked="false"
+                />
+            </div>
+        </div>
+    </div>
+    @endcan
     </div>
 <br><br><br>
 
@@ -20,6 +131,32 @@
 @endsection
 
 @push('css')
+
+<style>
+    /* Forzamos al contenedor a mantener dimensiones rígidas que no rompan el Flexbox de AdminLTE */
+    .chart-wrapper-fixed {
+        position: relative;
+        display: block;
+        width: 100% !important;
+        height: 500px !important; /* Altura fija para que el canvas no se estire al infinito */
+        overflow: hidden;         /* Evita que subelementos desborden el layout principal */
+        box-sizing: border-box;
+    }
+
+    /* Aseguramos que el componente de Chart.js y su contenedor interno respeten el límite */
+    .chart-container-js {
+        position: relative;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Forzar al Canvas a no romper el bloque */
+    .chart-wrapper-fixed canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
 <style>
   #message-div {
     position: relative !important; /* Fuerza la posición */
@@ -63,7 +200,7 @@
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const randomEmojis = ['😀', '😃', '😄', '😁', '😆', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩'];
+    const randomEmojis = ['😀', '😃', '😄', '😁', '🙂', '😉', '😊', '😇', '🥰', '😍', '🤩', '🌻','🌄🌞'];
     const randomMessage = ['¡Que tengas un excelente día!', '¡Sigue haciendo un gran trabajo!', '¡Eres increíble!', '¡Gracias por tu dedicación!', '¡Tu esfuerzo es apreciado!','Eres Fabulos@','Hoy tendrás un gran dia','Los egresados te adoran!'];
     const messageElement = document.getElementById('random-message');
     function showRandomMessage() {

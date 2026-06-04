@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('options', OpcionesController::class);
     Route::resource('encuestas', EncuestasController::class);
     Route::resource('correos', CorreosController::class);
-    Route::resource('notifications', NotificationsController::class);
+    Route::resource('notifications', NotificationController::class);
     Route::get('/notificaciones/{notification}/read', 
         [NotificationController::class, 'markAsReadAndRedirect'])
         ->name('notifications.read');
@@ -308,7 +308,7 @@ Route::group(['middleware' => ['auth']], function(){
     //Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
     Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_continua');
     //Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_verde'])->name('llamar_verde');
-    Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
+    Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}/{siguiente?}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
 
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}/{siguiente?}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/encuestas/llamar_especialidad/{id}/{especialidad}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
@@ -317,8 +317,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
-    //ruta para cargar sig egresado con ajax, aja aja ajax
+    //ruta para cargar sig egresado con ajax
     Route::get('/egresado/siguiente/{id}/{gen}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
+    Route::get('/verde/siguiente/{id}/{muestra_id}', [LlamadasController::class, 'getSiguienteVerde'])->name('llamadas.siguiente_verde');
     
     Route::get('/egresado/siguiente_posgrado/{cuenta}/{plan}', [LlamadasController::class, 'getSiguiente_posgrado'])->name('llamadas.siguiente_eg_posgrado');
     //TODO: hacer funcionar las  rutas asincronas para sig eg (generalziar a una sola si es posible)

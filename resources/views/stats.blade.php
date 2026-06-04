@@ -58,6 +58,12 @@
         </div>
         <div class="col">
             <div class="cuadro-amarillo">
+                <h3> Total encuestas posgrado:  {{$TotalPos}}</h3>
+                <h3> por internet: {{$InternetPos}} </h3>
+            </div>
+        </div>
+        <div class="col">
+            <div class="cuadro-amarillo">
                 <h3> Total encuestas 2016:   {{$total16}} </h3>
                 <h3> por internet: {{$Internet16}} </h3>
             </div>
@@ -66,7 +72,7 @@
 
     <div class="row">
     <div class="col-12 col-md-6 mb-4">
-        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2022 -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
                     id="pie22" 
@@ -79,8 +85,24 @@
             </div>
         </div>
     </div>
+
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence posgrado -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie_posgrado" 
+                    type="doughnut" 
+                    title="Avance del estudio posgrado" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$InternetPos,$telefonicasPos, $requeridasPos-$InternetPos-$telefonicasPos]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
+
      <div class="col-12 col-md-6 mb-4">
-        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2016 -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
                     id="pie16" 
@@ -94,7 +116,7 @@
         </div>
     </div>
     <div class="col-12 col-md-6 mb-4">
-        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+        <div class="card card-outline card-warning p-3"> <!-- 2022 encuestas por aplciador -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
                     id="name22" 
@@ -108,7 +130,7 @@
     </div>
     
      <div class="col-12 col-md-6 mb-4">
-        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+        <div class="card card-outline card-warning p-3"> <!-- Por tipo de estudio,  apilado por encuestador  -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
                     id="stackedEnc" 
@@ -122,7 +144,7 @@
         </div>
         </div>
         <div class="col-12 col-md-6 mb-4">
-        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+        <div class="card card-outline card-warning p-3"> <!-- Multi serie encuestas por semana historico -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
                     id="weeklyAll" 
@@ -135,7 +157,20 @@
             </div>
         </div>
     </div>
-
+    
+  <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="llamadas" 
+                    type="bar" 
+                    title="Llmadas por encuestador " 
+                    :labels="$chartEvent['labels']" 
+                    :data="$chartEvent['data']" 
+                />
+            </div>
+        </div>
+    </div>
    
 
 </div>

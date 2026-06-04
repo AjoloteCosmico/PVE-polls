@@ -36,7 +36,7 @@
     @can('ver_muestra_posgrado')
     <div>
     <a href="{{route('posgrado.programas_index')}}">
-    <button class='boton-muestras' style="background-color:#70500f">
+    <button class='boton-muestras' style="background-color:#cc9b39">
       <br><br>ENCUESTA DE POSGRADO <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="posgrado" class="icono-boton">
     </button>
@@ -46,7 +46,7 @@
     @can('ver_muestra_posgrado')
     <div>
     <a href="{{route('especialidad.index')}}">
-    <button class='boton-muestras' style="background-color:#70500f">
+    <button class='boton-muestras' style="background-color:#cc9b39">
       <br><br>ENCUESTA DE ESPECIALIDADES <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="especialidad" class="icono-boton">
     </button>
@@ -66,7 +66,7 @@
 @can('ver_muestra_ed_continua')
        <div >
         <a href="{{route('enc_verde.planteles', ['muestra_id' => 898]) }}">
-          <button class='boton-muestras' style="background-color:#0F4D0F" >
+          <button class='boton-muestras' style="background-color:#1c941c" >
             <br><br>ENCUESTA VERDE <br><br><br>
             <!-- <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton"> -->
              <i class="fas fa-leaf fa-6x"></i>

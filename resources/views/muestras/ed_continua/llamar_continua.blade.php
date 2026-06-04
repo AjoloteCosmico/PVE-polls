@@ -78,8 +78,6 @@
                 @csrf
                     @include('recados.recado_form_content')
 
-                       
-                     
                 </form>
                 <br><br>
                 <div class="row tel-contorno-div">
