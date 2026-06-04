@@ -78,6 +78,7 @@
             </div>
         </div>
     </div>
+     @can('ver_graficas')
     <div class="col-12 col-md-6 mb-4">
         <div class="card card-outline card-warning p-3"> <!-- 2022 encuestas por aplciador -->
             <div class="chart-wrapper-fixed">
@@ -107,7 +108,7 @@
         </div>
         </div>
         <div class="col-12 col-md-6 mb-4">
-               @can('ver_graficas')
+               
         <div class="card card-outline card-warning p-3"> <!-- Multi serie encuestas por semana historico -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
