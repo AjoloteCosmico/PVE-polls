@@ -191,15 +191,7 @@ use  LogEvents;
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->first();
         $caminoalpoder=public_path();
-        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }else{
-            $Correo->enviado=1;
-            $Correo->save();
-        }
-        $data = $process->getOutput();
+        $this->enviarAviso($id, $Correo->correo, $Egresado->nombre.' '.$Egresado->paterno);
         
         $this->recordEvent($Correo->id, 'direct_send', ' ');
         return redirect()->back();
@@ -209,16 +201,7 @@ use  LogEvents;
  public function posgrado_direct_send($id){
         $Correo=Correo::find($id);
         $Egresado=EgresadoPosgrado::where('cuenta',$Correo->cuenta)->first();
-        $caminoalpoder=public_path();
-        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }else{
-            $Correo->enviado=1;
-            $Correo->save();
-        }
-        $data = $process->getOutput();
+          $this->enviarAviso($id, $Correo->correo, $Egresado->nombre.' '.$Egresado->paterno);
 
         $this->recordEvent($Correo->id, 'direct_send_pos', ' ');
         return redirect()->back();

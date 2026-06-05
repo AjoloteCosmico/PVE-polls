@@ -40,7 +40,6 @@ class Encuesta22Controller extends Controller
                
                 $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
 
-                
                 $Correo->enviado = 1;
                 $Correo->save();
 

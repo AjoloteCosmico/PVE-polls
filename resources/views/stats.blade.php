@@ -21,7 +21,7 @@
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2016
                 </button>
             </a>
-            <br> <br> 
+            <br> 
             <a href="{{ route('report','correos_contestadas_2016')}}">
                 <button class="boton-azul" >
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2016
@@ -72,6 +72,7 @@
 
     <div class="row">
     <div class="col-12 col-md-6 mb-4">
+        <h1>AVANZE ESTUDIO SEG 2022</h1>
         <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2022 -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -87,6 +88,7 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4">
+        <h1>AVANZE ESTUDIO POSGRADO PILOTO</h1>
         <div class="card card-outline card-warning p-3"> <!-- Pastel de avence posgrado -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -102,6 +104,7 @@
     </div>
 
      <div class="col-12 col-md-6 mb-4">
+        <h1>AVANZE ESTUDIO ACT 2016</h1>
         <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2016 -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -116,6 +119,7 @@
         </div>
     </div>
     <div class="col-12 col-md-6 mb-4">
+        <h1>ENCUESTAS 2022 POR APLICADOR</h1>
         <div class="card card-outline card-warning p-3"> <!-- 2022 encuestas por aplciador -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 

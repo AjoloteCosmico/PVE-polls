@@ -282,8 +282,6 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
     }
 
 
-
-
     public function enviar_aviso(Request $request){
             
         $correoBD = DB::table('correos')->where('correo', $request->correo)->first();

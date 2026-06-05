@@ -202,7 +202,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
     const randomEmojis = ['😀', '😃', '😄', '😁', '🙂', '😉', '😊', '😇', '🥰', '😍', '🤩', '🌻','🌄🌞'];
-    const randomMessage = ['¡Que tengas un excelente día!', '¡Sigue haciendo un gran trabajo!', '¡Eres increíble!', '¡Gracias por tu dedicación!', '¡Tu esfuerzo es apreciado!','Eres Fabulos@','Hoy tendrás un gran dia','Los egresados te adoran!'];
+    const randomMessage = ['¡Que tengas un excelente día!', '¡Sigue haciendo un gran trabajo!', 
+    '¡Eres increíble!', '¡Gracias por tu dedicación!', '¡Tu esfuerzo es apreciado!','Eres Fabulos@',
+    'Hoy tendrás un gran dia','Los egresados te adoran!','Los egresados te temen más a ti que tu a ellos','Tu voz es tu poder ;)'];
     const messageElement = document.getElementById('random-message');
     function showRandomMessage() {
         const randomEmoji = randomEmojis[Math.floor(Math.random() * randomEmojis.length)];
