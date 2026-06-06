@@ -72,7 +72,7 @@
 
     <div class="row">
     <div class="col-12 col-md-6 mb-4">
-        <h1>AVANZE ESTUDIO SEG 2022</h1>
+        <h1>AVANCE ESTUDIO SEG 2022</h1>
         <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2022 -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -88,7 +88,7 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4">
-        <h1>AVANZE ESTUDIO POSGRADO PILOTO</h1>
+        <h1>AVANCE ESTUDIO POSGRADO PILOTO</h1>
         <div class="card card-outline card-warning p-3"> <!-- Pastel de avence posgrado -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -104,7 +104,7 @@
     </div>
 
      <div class="col-12 col-md-6 mb-4">
-        <h1>AVANZE ESTUDIO ACT 2016</h1>
+        <h1>AVANCE ESTUDIO ACT 2016</h1>
         <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2016 -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
