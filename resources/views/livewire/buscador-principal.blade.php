@@ -3,7 +3,9 @@
         
         {{-- Input de Cuenta --}}
         <div class="col-md-6 mb-3 mb-md-0">
-            <label class="form-label font-weight-bold">Número de Cuenta</label>
+            <br>
+            <br>
+            <h3>Número de Cuenta</h3>
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-id-card"></i></span>
@@ -17,7 +19,9 @@
 
         {{-- Input de Nombre --}}
         <div class="col-md-6">
-            <label class="form-label font-weight-bold">Nombre Completo</label>
+            <br>
+            <br>
+            <h3>Nombre Completo</h3>
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-user"></i></span>

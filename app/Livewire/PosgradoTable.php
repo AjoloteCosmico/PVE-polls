@@ -86,9 +86,11 @@ class PosgradoTable extends Component
         
         // --- JOIN UNIVERSO: POSGRADO ---
         ->leftJoin('egresados_posgrado as ep', 'ep.cuenta', '=', 'alumnos.cuenta')
+        
         ->leftJoin('codigos as c_posgrado', function($join) {
-            $join->on(DB::raw('CAST(c_posgrado.code AS TEXT)'), '=', DB::raw('CAST(ep.status AS TEXT)'));
+            $join->on(DB::raw('CAST(c_posgrado.code AS INTEGER)'), '=', 'ep.status');
         })
+
         ->leftJoin('respuestas_posgrado as rp', 'rp.cuenta', '=', 'alumnos.cuenta')
         // CORRECCIÓN POSTGRES: Cast de Clave y Aplica para evitar conflicto varchar = integer
         ->leftJoin('users as u_posgrado', function($join) {
@@ -97,8 +99,9 @@ class PosgradoTable extends Component
 
         // --- JOIN UNIVERSO: ESPECIALIDAD ---
         ->leftJoin('egresados_especialidad as ee', 'ee.cuenta', '=', 'alumnos.cuenta')
+        
         ->leftJoin('codigos as c_especialidad', function($join) {
-            $join->on(DB::raw('CAST(c_especialidad.code AS TEXT)'), '=', DB::raw('CAST(ee.status AS TEXT)'));
+            $join->on(DB::raw('CAST(c_especialidad.code AS INTEGER)'), '=', 'ee.status');
         })
         ->leftJoin('respuestas_especialidad as re', 're.cuenta', '=', 'alumnos.cuenta')
         // CORRECCIÓN POSTGRES: Cast de Clave y Aplica para evitar conflicto varchar = integer
@@ -149,9 +152,16 @@ class PosgradoTable extends Component
             $query->where(function($q) use ($partes) {
                 foreach ($partes as $parte) {
                     $q->where(function($sub) use ($parte) {
-                        $sub->where('alumnos.nombre', 'LIKE', "%{$parte}%")
-                            ->orWhere('alumnos.paterno', 'LIKE', "%{$parte}%")
-                            ->orWhere('alumnos.materno', 'LIKE', "%{$parte}%");
+                        $parteLimpia = str_replace(
+                            ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ü'], 
+                            ['A', 'E', 'I', 'O', 'U', 'U'], 
+                            $parte
+                        );
+                        $buscarSegmento = "TRANSLATE(UPPER(??), 'ÁÉÍÓÚÜ', 'AEEIOUU') LIKE ?";
+
+                        $sub->whereRaw(str_replace('??', 'alumnos.nombre', $buscarSegmento), ["%{$parteLimpia}%"])
+                            ->orWhereRaw(str_replace('??', 'alumnos.paterno', $buscarSegmento), ["%{$parteLimpia}%"])
+                            ->orWhereRaw(str_replace('??', 'alumnos.materno', $buscarSegmento), ["%{$parteLimpia}%"]);
                     });
                 }
             });

@@ -119,7 +119,7 @@
                                 @elseif($tipo == 'especialidad' && !is_null($eg->id_especialidad))
                                     @if(!is_null($eg->plan_especialidad) && !is_null($eg->programa_especialidad))
                                         
-                                        @if(in_array($eg->status_especialidad_num, [null, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], false))
+                                        @if(in_array($eg->status_especialidad_num, [null,0,3,4,5,6,7,8,9,10,11,12], false))
                                             <a href="{{ route('llamar_especialidad', [$eg->cuenta, $eg->programa_especialidad]) }}">
                                                 <button class="boton-oscuro">
                                                     <i class="fa fa-phone" aria-hidden="true"></i> LLAMAR 
