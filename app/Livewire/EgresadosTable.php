@@ -151,11 +151,19 @@ class EgresadosTable extends Component
                     $query->where(function($q) use ($partes) {
                     foreach ($partes as $parte) {
                         $q->where(function($sub) use ($parte) {
-                        $sub->where('egresados.nombre', 'LIKE', "%{$parte}%")
-                            ->orWhere('egresados.paterno', 'LIKE', "%{$parte}%")
-                            ->orWhere('egresados.materno', 'LIKE', "%{$parte}%");
-                    });
-                }
+                            $parteLimpia = str_replace(
+                                ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ü'], 
+                                ['A', 'E', 'I', 'O', 'U', 'U'], 
+                                $parte
+                            );
+                            $buscarSegmento = "TRANSLATE(UPPER(??), 'ÁÉÍÓÚÜ', 'AEEIOUU') LIKE ?";
+    
+                            $sub->whereRaw(str_replace('??', 'egresados.nombre', $buscarSegmento), ["%{$parteLimpia}%"])
+                                ->orWhereRaw(str_replace('??', 'egresados.paterno', $buscarSegmento), ["%{$parteLimpia}%"])
+                                ->orWhereRaw(str_replace('??', 'egresados.materno', $buscarSegmento), ["%{$parteLimpia}%"]);
+                        });
+                        
+                        }
                     });
                 }
             }

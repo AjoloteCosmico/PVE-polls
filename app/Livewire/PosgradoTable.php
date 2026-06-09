@@ -152,9 +152,16 @@ class PosgradoTable extends Component
             $query->where(function($q) use ($partes) {
                 foreach ($partes as $parte) {
                     $q->where(function($sub) use ($parte) {
-                        $sub->where('alumnos.nombre', 'LIKE', "%{$parte}%")
-                            ->orWhere('alumnos.paterno', 'LIKE', "%{$parte}%")
-                            ->orWhere('alumnos.materno', 'LIKE', "%{$parte}%");
+                        $parteLimpia = str_replace(
+                            ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ü'], 
+                            ['A', 'E', 'I', 'O', 'U', 'U'], 
+                            $parte
+                        );
+                        $buscarSegmento = "TRANSLATE(UPPER(??), 'ÁÉÍÓÚÜ', 'AEEIOUU') LIKE ?";
+
+                        $sub->whereRaw(str_replace('??', 'alumnos.nombre', $buscarSegmento), ["%{$parteLimpia}%"])
+                            ->orWhereRaw(str_replace('??', 'alumnos.paterno', $buscarSegmento), ["%{$parteLimpia}%"])
+                            ->orWhereRaw(str_replace('??', 'alumnos.materno', $buscarSegmento), ["%{$parteLimpia}%"]);
                     });
                 }
             });
