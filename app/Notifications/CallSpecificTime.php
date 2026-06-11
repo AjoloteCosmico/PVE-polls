@@ -14,10 +14,11 @@ class CallSpecificTime extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct($Egresado, $horario_programado,$recado,$TypeStudy='seg')
+    public function __construct($Egresado, $horario_programado,$recado,$TypeStudy='seg',$recado_id)
     {
         $this->Egresado = $Egresado;
         $this->horario_programado = $horario_programado;
+        $this->recado_id = $recado_id;
         $this->recado = $recado;
         $this->TypeStudy = $TypeStudy;
     }
@@ -78,6 +79,7 @@ class CallSpecificTime extends Notification
             'cuenta'=>$this->Egresado->cuenta,
             'horario_programado'=>$this->horario_programado,
             'recado'=>$this->recado,
+            'recado_id'=>$this->recado_id,
             'action_url'=>$url ?? route('dashboard')
         ];
     }

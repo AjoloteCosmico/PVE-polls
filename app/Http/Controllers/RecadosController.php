@@ -93,12 +93,7 @@ use LogEvents;
 
       $type = ($gen == 2016) ? 'act' : 'seg';
 
-       if ($request->code == 3) {
-          $encuestadores = $Egresado->encuestadoresDeMuestra();
-          if ($encuestadores->isNotEmpty()) {
-              Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type));
-          }
-      }
+       
       // dd($Egresado);
       $Recado= new Recado();
       $Recado->recado=$request->recado.' '.$request->fecha_programada;
@@ -110,7 +105,12 @@ use LogEvents;
       $Recado->type=$type;
       $Recado->save();
       //Notificar si es horario especifico
-     
+      if ($request->code == 3) {
+          $encuestadores = $Egresado->encuestadoresDeMuestra();
+          if ($encuestadores->isNotEmpty()) {
+              Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type,$Recado->id));
+          }
+      }
       $telefono->status=$request->code;
       $telefono->save();
 
@@ -147,6 +147,9 @@ use LogEvents;
         $Recado=Recado::find($id);
         $cuenta=$Recado->cuenta;
         $Telefono=Telefono::find($Recado->tel_id);
+        //si el recado es status 3, borra la notificacion asociada
+        DB::table('notifications')->where('data','like','%"recado_id":'.$Recado->id.'%' )->delete();
+
         Recado::destroy($id);
         switch($Recado->type){
           case 'seg':
@@ -158,12 +161,11 @@ use LogEvents;
               ->get();
             $Egresado->llamadas=$Recados->count();
             if($Recados){
-
               $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->save();
             }
-            $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
             $Egresado->save();
-            $Telefono->save();
             break;
 
           case 'pos':
@@ -176,10 +178,14 @@ use LogEvents;
             $EgresadoPos->llamadas=$Recados->count();
             if($Recados){
               $EgresadoPos->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->save();
+            
             }
-            $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+            
+            
+
             $EgresadoPos->save();
-            $Telefono->save();
             break;
           case 'esp':
             $EgresadoEsp=EgresadoEspecialidad::where('cuenta',$Recado->cuenta)
@@ -192,12 +198,11 @@ use LogEvents;
             if($Recados){
 
             $EgresadoEsp->status=$Recados->sortBy('created_at')->reverse()->first()->status;
-            
+            $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+            $Telefono->save();
             }
             
-            $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
             $EgresadoEsp->save();
-            $Telefono->save();
             break;
           case 'verde':
           case 'cont':
@@ -249,14 +254,9 @@ use LogEvents;
         
         $EgresadoPos=EgresadoPosgrado::find($eg_id);
         $telefono=Telefono::find($tel_id);
-        if ($request->code == 3) {
-                  $encuestadores = $EgresadoPos->encuestadoresDeMuestra();
-                  if ($encuestadores->isNotEmpty()) {
-                      Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($EgresadoPos, $request->fecha_programada, $request->recado,'pos'));
-                  }
-              }
+        
         $Recado= new Recado();
-        $Recado->recado=$request->recado;
+        $Recado->recado=$request->recado.' '.$request->fecha_programada;;
         $Recado->status=$request->code;
         $Recado->tel_id=$telefono->id;
         $Recado->cuenta=$EgresadoPos->cuenta;
@@ -264,6 +264,13 @@ use LogEvents;
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->type = 'pos';
         $Recado->save();
+        //notificar en caso de horario especifico
+        if ($request->code == 3) {
+                  $encuestadores = $EgresadoPos->encuestadoresDeMuestra();
+                  if ($encuestadores->isNotEmpty()) {
+                      Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($EgresadoPos, $request->fecha_programada, $request->recado,'pos',$Recado->id));
+                  }
+              }
         $telefono->status=$request->code;
         $telefono->save();
         $EgresadoPos->llamadas=$Recados=Recado::where('cuenta', '=',$EgresadoPos->cuenta)->get()->count();
@@ -294,12 +301,7 @@ use LogEvents;
         $Egresado=Egresado::find($eg_id);
         $telefono=Telefono::find($tel_id);
         $type = ($muestra_id == 897) ? 'cont' : 'verde';
-        if ($request->code == 3) {
-            $encuestadores = $Egresado->encuestadoresSondeo();
-            if ($encuestadores->isNotEmpty()) {
-                Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type));
-            }
-        }
+        
         $Recado= new Recado();
         $Recado->recado=$request->recado;
         $Recado->status=$request->code;
@@ -309,7 +311,12 @@ use LogEvents;
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->type = ($muestra_id == 897) ? 'cont' : 'verde';
         $Recado->save();
-
+        if ($request->code == 3) {
+            $encuestadores = $Egresado->encuestadoresSondeo();
+            if ($encuestadores->isNotEmpty()) {
+                Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type,$Recado->id));
+            }
+        }
         $telefono->status=$request->code;
         $telefono->save();
 
@@ -361,7 +368,7 @@ use LogEvents;
         $Recado->status=$request->code;
         $Recado->tel_id=$telefono->id;
         $Recado->cuenta=$EgresadoEsp->cuenta;
-        $Recado->user_id=Auth::user()->id;
+        $Recado->user_id=Auth::user()->id; 
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->type = 'esp';
         $Recado->save();
