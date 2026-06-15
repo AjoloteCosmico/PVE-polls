@@ -178,7 +178,27 @@
             </div>
         </div>
     </div>
-    
+<div class="col-12 col-md-6 mb-4">
+    <h3>Tasas de apertura por tipo</h3>
+    @if(!empty($tasa_apertura))
+        @foreach($tasa_apertura as $item)
+            @php
+                $enviados = $item['enviados'] ?? 0;
+                $abiertos = $item['abiertos'] ?? 0;
+                $porcentaje = $enviados > 0 ? ($abiertos / $enviados) * 100 : 0;
+            @endphp
+            <div class="card card-outline card-warning p-3 mb-3">
+                <h4>Tasa de apertura: {{ ucfirst($item['type']) }}</h4>
+                <p>Enviados: {{ number_format($enviados) }} — Abiertos: {{ number_format($abiertos) }}</p>
+                <p><strong>{{ number_format($porcentaje, 2) }}%</strong></p>
+            </div>
+        @endforeach
+    @else
+        <div class="card card-outline card-warning p-3 mb-3">
+            <p>No hay datos de envíos.</p>
+        </div>
+    @endif
+</div>
   <div class="col-12 col-md-12 mb-4">
     <h3>Encuestas 2022 vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
         <div class="card card-outline card-warning p-3">

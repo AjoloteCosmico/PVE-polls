@@ -274,6 +274,23 @@ class StatsController extends Controller
     );
 
     //Eventos de llamadas
+    // Calcular tasa de apertura por tipo usando la tabla email_tracking
+    $tasa_apertura = EmailTracking::select(
+            'type',
+            DB::raw('COUNT(*) AS enviados'),
+            DB::raw("SUM(CASE WHEN opened_at IS NOT NULL THEN 1 ELSE 0 END) AS abiertos")
+        )
+        ->groupBy('type')
+        ->get()
+        ->map(function ($row) {
+            return [
+                'type' => $row->type,
+                'enviados' => (int) $row->enviados,
+                'abiertos' => (int) $row->abiertos,
+            ];
+        })
+        ->toArray();
+
     return view('stats', compact(
         'chartName22','telefonicas','requeridas',
         'total22', 'total16', 'Internet','Internet16','requeridas16',
@@ -281,7 +298,8 @@ class StatsController extends Controller
         'requeridas',
         'stackedEnc',        // Contiene ['labels' => [...], 'datasets' => [...]]
         'chartWeeklyAll','chartEmailTracking','chartEncuestasVsRecados',
-        'chartEncuestasVsRecadosPos', 'requeridasPos','telefonicasPos','InternetPos','TotalPos'
+        'chartEncuestasVsRecadosPos', 'requeridasPos','telefonicasPos','InternetPos','TotalPos',
+        'tasa_apertura'
     ));
 }
 
