@@ -111,9 +111,9 @@ use LogEvents;
               Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type,$Recado->id));
           }
       }
+      
       $telefono->status=$request->code;
       $telefono->save();
-
       
       $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)
       ->whereIn('type',['seg','act','anterior'])

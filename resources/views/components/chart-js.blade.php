@@ -6,7 +6,8 @@
     'title' => 'Gráfico',
     'colors' => null,      // Puede ser un string o un array de colores
     'borders' => null,     // Puede ser un string o un array de bordes
-    'stacked' => false     // True si quieres barras apiladas
+    'stacked' => false,    // True si quieres barras apiladas
+    'indexAxis' => 'x'     // 'x' para vertical, 'y' para horizontal
 ])
 
 <div class="chart-container-js">
@@ -14,7 +15,8 @@
             data-labels="{{ json_encode($labels) }}" 
             data-type="{{ $type }}" 
             data-title="{{ $title }}"
-            data-stacked="{{ $stacked ? 'true' : 'false' }}">
+            data-stacked="{{ $stacked ? 'true' : 'false' }}"
+            data-index-axis="{{ $indexAxis }}">
     </canvas>
 </div>
 
@@ -26,6 +28,7 @@
             document.querySelectorAll('.chart-container-js canvas').forEach(canvas => {
                 const rawLabels = JSON.parse(canvas.dataset.labels || '[]');
                 const isStacked = canvas.dataset.stacked === 'true';
+                const indexAxis = canvas.dataset.indexAxis || 'x';
                 
                 // Intentar parsear el contenido de data-values
                 let datasetsStructure = [];
@@ -59,6 +62,7 @@
                         datasets: datasetsStructure
                     },
                     options: {
+                        indexAxis: indexAxis,
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {

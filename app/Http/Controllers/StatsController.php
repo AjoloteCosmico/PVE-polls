@@ -14,6 +14,8 @@ use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
 use App\Models\Event;
+use App\Models\Recado;
+use App\Models\EmailTracking;
 use DB;
 
 use App\Models\User;
@@ -158,7 +160,43 @@ class StatsController extends Controller
         $seriesSemanales
     );
 
-    // ========== 5. Pasar datos a la vista ==========
+    // ========== 4. Gráfica semanal multilínea (email tracking) ==========
+    $seriesEnvios = [
+        [
+            'query'       => EmailTracking::where('type', 'aviso'),
+            'label'       => 'Avioso',
+            'color'       => 'rgba(54, 162, 235, 0.2)',
+            'borderColor' => 'rgba(54, 162, 235, 1)',
+        ],
+        [
+            'query'       => EmailTracking::where('type', 'posgrado'),
+            'label'       => 'Invitación Posgrado',
+            'color'       => 'rgba(255, 99, 132, 0.2)',
+            'borderColor' => 'rgba(255, 99, 132, 1)',
+        ],
+        [
+            // Asumiendo modelo RespuestasPosgrado con campo fec_capt
+            'query'       => EmailTracking::where('type', 'verde'),
+            'label'       => 'Verde',
+            'color'       => 'rgba(75, 192, 192, 0.2)',
+            'borderColor' => 'rgba(75, 192, 192, 1)',
+        ],
+        [
+            // Asumiendo modelo RespuestasVerdes con campo fec_capt
+            'query'       => EmailTracking::where('type', 'correo_seg_22'),
+            'label'       => 'Invitación Lics',
+            'color'       => 'rgba(153, 102, 255, 0.2)',
+            'borderColor' => 'rgba(153, 102, 255, 1)',
+        ],
+    ];
+
+    $chartEmailTracking = $this->generateMultiSeriesChartData(
+        "date_trunc('week', created_at)",
+        "to_char(date_trunc('week', created_at), 'YYYY-MM-DD')",
+        $seriesEnvios
+    );
+
+    // ========== Pasar datos a la vista ==========
     
     $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
     ->whereNull('aplica2')->where('gen_dgae', 2022)->get()->count();
@@ -181,11 +219,59 @@ class StatsController extends Controller
     $requeridasPos=EgresadoPosgrado::whereIn('anio_egreso', [2019,2020,2021,2022])
     ->where('fuente','base original')->get()->count();
 
-    // ==========  Llamadas por encuestador (barras simples por encuestador ) ==========
-    $queryLlamadas = Event::join('users', 'users.id', 'events.user_id')
-        ->where('event', 'like','%llamar%');
+// ==========  Encuestas 2022 vs Recados por encuestador (barras horizontales apiladas) ==========
+    // Query 1: Encuestas 2022 completadas por encuestador
+    $queryEncuestasEncuestador = respuestas20::join('users', 'aplica', 'clave')
+        ->where('completed', 1)
+        ->whereNull('aplica2')
+        ->where('gen_dgae', 2022)
+        ->whereIn('aplica', ['27','26','28','17','30'])
+        ->where('fec_capt','>=',carbon::now()->subdays(30));
 
-    $chartEvent = $this->generateChartData($queryLlamadas, 'name', 'name');
+    // Query 2: Recados tipo 'seg' por encuestador
+    $queryRecadosEncuestador = Recado::join('users', 'users.id', 'recados.user_id')
+        ->where('recados.type', 'seg')
+        ->whereIn('user_id',[893,891,892,13,898])
+        ->where('recados.created_at','>=',carbon::now()->subdays(30));
+
+    $chartEncuestasVsRecados = $this->generateHorizontalStackedWithEffectiveness(
+        $queryEncuestasEncuestador,
+        $queryRecadosEncuestador,
+        'name',
+        'Encuestas 2022',
+        'Recados Seg',
+        'rgba(52, 152, 219, 0.7)',      // color encuestas
+        'rgba(52, 152, 219, 1)',         // borderColor encuestas
+        'rgba(243, 156, 18, 0.7)',       // color recados
+        'rgba(243, 156, 18, 1)'          // borderColor recados
+    );
+
+    // ==========  Encuestas posgrado vs Recados por encuestador (barras horizontales apiladas) ==========
+    // Query 1: Encuestas posgrado completadas por encuestador
+    $queryEncuestasEncuestadorPos = respuestasPosgrado::join('users', function ($join) {
+        $join->on(DB::raw('CAST(aplica AS varchar)'), '=', 'users.clave');
+    })
+        ->where('completed', 1)
+        ->whereIn('aplica', ['25','22','23'])
+        ->where('fec_capt','>=',carbon::now()->subdays(30));
+
+    // Query 2: Recados tipo 'pos o esp' por encuestador
+    $queryRecadosEncuestadorPos = Recado::join('users', 'users.id', 'recados.user_id')
+        ->whereIn('recados.type', ['pos'])
+        ->whereIn('user_id',[9,16,20])
+        ->where('recados.created_at','>=',carbon::now()->subdays(30));
+
+    $chartEncuestasVsRecadosPos = $this->generateHorizontalStackedWithEffectiveness(
+        $queryEncuestasEncuestadorPos,
+        $queryRecadosEncuestadorPos,
+        'name',
+        'Encuestas 2022',
+        'Recados Pos',
+        'rgba(52, 152, 219, 0.7)',      // color encuestas
+        'rgba(52, 152, 219, 1)',         // borderColor encuestas
+        'rgba(243, 156, 18, 0.7)',       // color recados
+        'rgba(243, 156, 18, 1)'          // borderColor recados
+    );
 
     //Eventos de llamadas
     return view('stats', compact(
@@ -194,8 +280,8 @@ class StatsController extends Controller
         'internet22', 'internet16', 'telefonicas22', 'telefonicas16', 'internetTotal',
         'requeridas',
         'stackedEnc',        // Contiene ['labels' => [...], 'datasets' => [...]]
-        'chartWeeklyAll',
-        'chartEvent', 'requeridasPos','telefonicasPos','InternetPos','TotalPos'
+        'chartWeeklyAll','chartEmailTracking','chartEncuestasVsRecados',
+        'chartEncuestasVsRecadosPos', 'requeridasPos','telefonicasPos','InternetPos','TotalPos'
     ));
 }
 

@@ -148,6 +148,89 @@ trait ChartDataProcessor
             'datasets' => $datasets,
         ];
     }
+
+    /**
+     * Gráfico de barras horizontales apiladas comparando dos métricas por categoría (ej. encuestador).
+     * Retorna también un coeficiente de efectividad (metric1 / metric2).
+     *
+     * @param Builder $queryMetric1  Query para primera métrica (ej. encuestas)
+     * @param Builder $queryMetric2  Query para segunda métrica (ej. recados)
+     * @param string $groupColumn    Columna por la cual agrupar (ej. 'name')
+     * @param string $label1         Etiqueta para primera métrica
+     * @param string $label2         Etiqueta para segunda métrica
+     * @param string $color1         Color para primera métrica
+     * @param string $borderColor1   Color borde para primera métrica
+     * @param string $color2         Color para segunda métrica
+     * @param string $borderColor2   Color borde para segunda métrica
+     * @return array                 ['labels' => [...], 'datasets' => [...], 'effectiveness' => [...]]
+     */
+    public function generateHorizontalStackedWithEffectiveness(
+        Builder $queryMetric1,
+        Builder $queryMetric2,
+        string $groupColumn,
+        string $label1 = 'Métrica 1',
+        string $label2 = 'Métrica 2',
+        string $color1 = 'rgba(54, 162, 235, 0.7)',
+        string $borderColor1 = 'rgba(54, 162, 235, 1)',
+        string $color2 = 'rgba(255, 99, 132, 0.7)',
+        string $borderColor2 = 'rgba(255, 99, 132, 1)'
+    ): array {
+        // 1. Ejecutar queries: obtener [categoria => total]
+        $data1 = (clone $queryMetric1)
+            ->select($groupColumn, DB::raw('count(*) as total'))
+            ->groupBy($groupColumn)
+            ->pluck('total', $groupColumn)
+            ->toArray();
+
+        $data2 = (clone $queryMetric2)
+            ->select($groupColumn, DB::raw('count(*) as total'))
+            ->groupBy($groupColumn)
+            ->pluck('total', $groupColumn)
+            ->toArray();
+
+        // 2. Todas las categorías únicas, ordenadas
+        $allCategories = array_unique(array_merge(array_keys($data1), array_keys($data2)));
+        sort($allCategories);
+
+        // 3. Construir datasets y calcular efectividad
+        $dataPoints1 = [];
+        $dataPoints2 = [];
+        $effectiveness = [];
+
+        foreach ($allCategories as $category) {
+            $val1 = $data1[$category] ?? 0;
+            $val2 = $data2[$category] ?? 0;
+
+            $dataPoints1[] = $val1;
+            $dataPoints2[] = $val2;
+
+            // Coeficiente: metric1 / metric2 (evitar división por cero)
+            $effectiveness[] = $val2 > 0 ? round($val1 / $val2, 4) : 0;
+        }
+
+        $datasets = [
+            [
+                'label'           => $label1,
+                'data'            => $dataPoints1,
+                'backgroundColor' => $color1,
+                'borderColor'     => $borderColor1,
+                'borderWidth'     => 1,
+            ],
+            [
+                'label'           => $label2,
+                'data'            => $dataPoints2,
+                'backgroundColor' => $color2,
+                'borderColor'     => $borderColor2,
+                'borderWidth'     => 1,
+            ],
+        ];
+
+        return [
+            'labels'         => $allCategories,
+            'datasets'       => $datasets,
+            'effectiveness'  => $effectiveness,
+        ];
+    }
 }
 
 

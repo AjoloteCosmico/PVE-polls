@@ -134,6 +134,7 @@
     </div>
     
      <div class="col-12 col-md-6 mb-4">
+        
         <div class="card card-outline card-warning p-3"> <!-- Por tipo de estudio,  apilado por encuestador  -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -161,17 +162,121 @@
             </div>
         </div>
     </div>
-    
-  <div class="col-12 col-md-6 mb-4">
-        <div class="card card-outline card-warning p-3"> <!-- Usamos las clases nativas de tarjetas de AdminLTE -->
+
+    <div class="col-12 col-md-6 mb-4">
+        <h3>Envios de correos por tipo, historico</h3>
+        <div class="card card-outline card-warning p-3"> <!-- Multi serie envios por semana historico -->
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
-                    id="llamadas" 
-                    type="bar" 
-                    title="Llmadas por encuestador " 
-                    :labels="$chartEvent['labels']" 
-                    :data="$chartEvent['data']" 
+                    id="weeklyEnvios" 
+                    :labels="$chartEmailTracking['labels']" 
+                    :data="$chartEmailTracking['datasets']" 
+                    type="line" 
+                    title="Envios semanales por tipo"
+                    :stacked="false"
                 />
+            </div>
+        </div>
+    </div>
+    
+  <div class="col-12 col-md-12 mb-4">
+    <h3>Encuestas 2022 vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+        <div class="card card-outline card-warning p-3">
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="encuestasVsRecados" 
+                    type="bar" 
+                    title="Encuestas completadas vs Recados (Medios de Contacto)" 
+                    :labels="$chartEncuestasVsRecados['labels']" 
+                    :data="$chartEncuestasVsRecados['datasets']" 
+                    :stacked="true"
+                    :indexAxis="'y'"
+                />
+            </div>
+            <!-- Tabla de Coeficientes de Efectividad -->
+            <div class="mt-3">
+                <h5>Coeficientes de Efectividad (Encuestas / Recados)</h5>
+                <table class="table table-sm ">
+                    <thead>
+                        <tr>
+                            <th>Encuestador</th>
+                            <th class="text-center">Encuestas</th>
+                            <th class="text-center">Recados</th>
+                            <th class="text-center">Coeficiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($chartEncuestasVsRecados['labels'] as $idx => $label)
+                            @php
+                                $encuestas = $chartEncuestasVsRecados['datasets'][0]['data'][$idx] ?? 0;
+                                $recados = $chartEncuestasVsRecados['datasets'][1]['data'][$idx] ?? 0;
+                                $efectividad = $chartEncuestasVsRecados['effectiveness'][$idx] ?? 0;
+                            @endphp
+                            <tr>
+                                <td><strong>{{ $label }}</strong></td>
+                                <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ $recados }}</td>
+                                <td class="text-center">
+                                    <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
+                                        {{ number_format($efectividad, 3) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+      
+  <div class="col-12 col-md-12 mb-4">
+    <h3>Encuestas Posgrado vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+        <div class="card card-outline card-warning p-3">
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="encuestasVsRecadosPos" 
+                    type="bar" 
+                    title="Encuestas completadas vs Recados (Medios de Contacto)" 
+                    :labels="$chartEncuestasVsRecadosPos['labels']" 
+                    :data="$chartEncuestasVsRecadosPos['datasets']" 
+                    :stacked="true"
+                    :indexAxis="'y'"
+                />
+            </div>
+            <!-- Tabla de Coeficientes de Efectividad -->
+            <div class="mt-3">
+                <h5>Coeficientes de Efectividad (Encuestas / Recados)</h5>
+                <table class="table table-sm ">
+                    <thead>
+                        <tr>
+                            <th>Encuestador</th>
+                            <th class="text-center">Encuestas</th>
+                            <th class="text-center">Recados</th>
+                            <th class="text-center">Coeficiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($chartEncuestasVsRecadosPos['labels'] as $idx => $label)
+                            @php
+                                $encuestas = $chartEncuestasVsRecadosPos['datasets'][0]['data'][$idx] ?? 0;
+                                $recados = $chartEncuestasVsRecadosPos['datasets'][1]['data'][$idx] ?? 0;
+                                $efectividad = $chartEncuestasVsRecadosPos['effectiveness'][$idx] ?? 0;
+                            @endphp
+                            <tr>
+                                <td><strong>{{ $label }}</strong></td>
+                                <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ $recados }}</td>
+                                <td class="text-center">
+                                    <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
+                                        {{ number_format($efectividad, 3) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
