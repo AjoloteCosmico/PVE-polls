@@ -265,7 +265,7 @@ class StatsController extends Controller
         $queryEncuestasEncuestadorPos,
         $queryRecadosEncuestadorPos,
         'name',
-        'Encuestas 2022',
+        'Encuestas Posgrado',
         'Recados Pos',
         'rgba(52, 152, 219, 0.7)',      // color encuestas
         'rgba(52, 152, 219, 1)',         // borderColor encuestas
