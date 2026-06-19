@@ -277,6 +277,7 @@
                             <th class="text-center">Coeficiente</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         @foreach($chartEncuestasVsRecadosPos['labels'] as $idx => $label)
                             @php

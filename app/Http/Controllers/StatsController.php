@@ -206,7 +206,6 @@ class StatsController extends Controller
     });
    
     $telefonicas=$total22-$internet22;
-
     // ========== DATOS PARA POSGRADO =================
     $InternetPos=respuestasPosgrado::whereIn('aplica',['111','104','20','105'])
     ->whereIn('anio_egreso', [2019,2020,2021,2022])
