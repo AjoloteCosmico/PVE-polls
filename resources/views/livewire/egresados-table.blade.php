@@ -75,7 +75,7 @@
                     <td>
                         @if($tipo == 'licenciatura')
 
-                            @if($eg->muestra==5 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
+                            @if($eg->muestra==5 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12,15], false))
                                 <a href="{{route('llamar',['2022',$eg->cuenta,$eg->carrera])}}">
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> LLAMAR
@@ -93,7 +93,7 @@
                                 <small><strong>Aplicador:</strong> {{ $eg->aplicador22 ?? 'N/A' }}</small>
                             @endif
 
-                            @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
+                            @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12,15], false))
                                 <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
@@ -112,7 +112,7 @@
                             @endif
                             
                         @elseif($tipo == 'continua')
-                             @if(in_array($eg->status_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
+                             @if(in_array($eg->status_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12,15]))
                                 <a href="{{route('llamar_continua',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 897])}}" >
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
@@ -126,7 +126,7 @@
                             @endif
 
                         @elseif($tipo == 'verde')
-                            @if(in_array($eg->status_verde,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
+                            @if(in_array($eg->status_verde,[null,0,3,4,5,6,7,8,9,10,6,11,12,15]))
                                 <a href="{{route('llamar_verde',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 898])}}" >
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
