@@ -11,9 +11,9 @@
     <!-- <div style="display:flex; justify-content:space-around; align-content:space-around; align-items: flex-start; margin:4.9vh; padding:5.6vh;flex-wrap: wrap"> -->
       @can('ver_muestra_actualizacion')
        <div>
-        <a href="{{route('muestras.plantel_index', ['gen' => 16]) }}">
+        <a href="{{route('muestras.plantel_index', ['gen' => 18]) }}">
           <button class='boton-muestras' >
-            <br><br>ENCUESTA DE ACTUALIZACION 2016 <br><br><br>
+            <br><br>ENCUESTA DE ACTUALIZACION 2018 <br><br><br>
             <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
           </button>
         </a>

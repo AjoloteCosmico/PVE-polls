@@ -6,8 +6,8 @@
     <h1>ENCUESTA DE SEGUIMIENTO 2020</h1>
   @elseif($gen == 22)
     <h1>ENCUESTA DE SEGUIMIENTO 2022</h1>
-  @elseif($gen == 16)
-    <h1>ENCUESTA DE ACTUALIZACIÓN GENERACIÓN 2016</h1>
+  @elseif($gen == 18)
+    <h1>ENCUESTA DE ACTUALIZACIÓN GENERACIÓN 2018</h1>
   @endif
 <div class="col-6 col-lg-12 table-responsive">
         <table class="table text-xl " id="myTable">
@@ -32,8 +32,8 @@
                     <a href="{{route('muestras.index_general', ['gen' => 22, $p->clave_plantel])}}">
                       <button class="boton-oscuro">Ver Muestra</button>
                     </a>
-                  @elseif($gen==16)
-                    <a href="{{route('muestras.index_general', ['gen' => 16, $p->clave_plantel])}}">
+                  @elseif($gen==18)
+                    <a href="{{route('muestras.index_general', ['gen' => 18, $p->clave_plantel])}}">
                       <button class="boton-oscuro">Ver Muestra</button>
                     </a>
                   @endif

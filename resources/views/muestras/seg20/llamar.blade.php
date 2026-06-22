@@ -26,7 +26,7 @@
                         </button>
                     </a>
                     @endif
-                    @if($gen==2016)
+                    @if($gen==2018)
                     <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
@@ -55,7 +55,7 @@
                  Año: {{$Egresado->anio_egreso}}  
                 </td>
             </tr>
-            @if($gen==2016)
+            @if($gen==2018)
                 @php  
                    $fecha=new DateTime(substr($Egresado->actualized,0,10))
                 @endphp
@@ -130,7 +130,7 @@
                         @endcan
                         @endif
 
-                        @if($gen==2016)
+                        @if($gen==2018)
                         @can('aplicar_encuesta_actualizacion')
                         <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
@@ -166,7 +166,7 @@
                 </div>
                 
             @endif
-            @if($gen==2016)
+            @if($gen==2018)
           
             <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                 <button type="button"  class="boton-oscuro">

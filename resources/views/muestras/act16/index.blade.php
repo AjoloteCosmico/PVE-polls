@@ -33,7 +33,7 @@
             @endforeach
           </tbody>
         </table>
-        <a href="{{route('muestras.plantel_index', ['gen' => 16]) }}">
+        <a href="{{route('muestras.plantel_index', ['gen' => 18]) }}">
           <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>

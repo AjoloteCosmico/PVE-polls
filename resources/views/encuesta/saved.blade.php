@@ -13,7 +13,7 @@
     <i class="fas fa-download fa-lg"></i> &nbsp; DESCARGAR JSON
   </button></a>
 <br>
-@if($Encuesta->nbr7==2016)
+@if($Encuesta->nbr7==2018)
 <a href="{{route('edit_16',$Encuesta->registro)}}">
        <button class="boton-dorado"  type="button"  style=" color:white; padding:15px 30px; margin:15px;">
     <i class="fas fa-eye fa-lg"></i> &nbsp; Revisar

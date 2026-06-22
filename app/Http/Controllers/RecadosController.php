@@ -81,8 +81,8 @@ use LogEvents;
       $Egresado=Egresado::find($eg_id);
       $telefono=Telefono::find($tel_id);
 
-      if($Egresado->act_suvery==1){
-        $gen=2016;
+      if($Egresado->act_suvery==2){
+        $gen=2018;
       }
       if($Egresado->muestra==3){
         $gen=2020;
@@ -91,7 +91,7 @@ use LogEvents;
         $gen=2022;
       }
 
-      $type = ($gen == 2016) ? 'act' : 'seg';
+      $type = ($gen == 2018) ? 'act' : 'seg';
 
        
       // dd($Egresado);
