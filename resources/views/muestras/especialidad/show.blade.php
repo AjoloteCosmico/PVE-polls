@@ -9,7 +9,7 @@
 
     </div>
       <div class='col'>
-          <a href="{{route('muestras.especialidad.index',$especialidad)}}">
+          <a href="{{route('especialidad.index')}}">
             <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>

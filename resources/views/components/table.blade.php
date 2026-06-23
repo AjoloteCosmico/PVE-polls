@@ -100,7 +100,7 @@
 
                                     {{-- Llamar RenderReactive igual que en section.blade --}}
                                     <div id="container{{$reactivo_celda->clave}}">
-                                        {{$reactivo_celda->clave}}
+                                        <p style="color:rgba(0,0,0,0.1); font-size: 15px;">{{$reactivo_celda->clave}}/{{$reactivo_celda->reference}}</p>
                                     {{ \App\Http\Controllers\ComponentController::RenderReactive(
                                         $reactivo_celda,
                                         collect(),        // RenderReactive recarga opciones internamente

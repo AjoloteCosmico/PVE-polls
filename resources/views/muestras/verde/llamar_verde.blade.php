@@ -65,7 +65,7 @@
         </div>
         @foreach($Telefonos as $telefono)
         <center>
-        <div class="elementos-centrados ">
+        <div class="elementos-centrados  tel">
             <button type="button" 
                 class="btn btn-info" 
                 id="{{'tel_button'.$telefono->id}}"
@@ -77,7 +77,7 @@
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>
-                @include('recados.recados_tabla')
+                @include('recados.recados_tabla', ['plan_car' => $Egresado->carrera])
                 <form action="/encuestas/continua/marcar/{{$telefono->id}}/{{$Egresado->id}}/{{$muestra_id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                 @csrf
                     @include('recados.recado_form_content')
@@ -112,9 +112,16 @@
                     @endif
                     </div>
                                 -->
+
+             
+                    
+                            
+
+                
+                </div>
                 </div>
             </div>
-        </div>
+      
         </center>
         <br> 
         @endforeach
@@ -128,6 +135,68 @@
                 </button>
             </a>
         </div>
+         <div class="col">
+                <div id="next-egresado-container" class="text-center my-4">
+                    <!-- Aquí se cargará dinámicamente el botón o el mensaje -->
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando siguiente egresado...</span>
+                        </div>
+                    </div>
+                </div>
+
+        <script>
+
+        const idActual = {{ $Egresado->id }};
+        const muestra_id = {{$muestra_id}};
+        @if(!$EgSiguiente)
+        fetch(`/verde/siguiente/${idActual}/${muestra_id}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('next-egresado-container');
+                const input_siguiente=document.getElementById('input_siguiente');
+                if (data.siguiente) {
+                    container.innerHTML = `
+                        <a href="${data.url}" 
+                        class="btn-siguiente-egresado" 
+                        style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                            Siguiente Egresado: ${data.nombre_completo}
+                        </a>
+                    `;
+                    input_siguiente.value=data.eg_id;
+                } else {
+                    container.innerHTML = `
+                        <div class="alert alert-info">
+                            ${data.mensaje}
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener el siguiente egresado:', error);
+                document.getElementById('next-egresado-container').innerHTML = `
+                    <div class="alert alert-danger">
+                        Error al cargar el siguiente egresado. Intente de nuevo.
+                    </div>
+                `;
+            });
+        @else
+        const container = document.getElementById('next-egresado-container');
+        const input_siguiente=document.getElementById('input_siguiente');
+            
+        container.innerHTML = `
+                        <a href="{{route('llama_verde', [$gen, $EgSiguiente->cuenta, $EgSiguiente->carrera,898])}}" 
+                        class="btn-siguiente-egresado" 
+                        style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                            Siguiente Egresado: {{$EgSiguiente->nombre}} {{$EgSiguiente->paterno}}
+                        </a>
+                    `;
+                    input_siguiente.value={{$EgSiguiente->id}};
+        @endif
+        </script>
+                        </div>
     </div>
 </div>
 @stop
@@ -158,6 +227,11 @@ function codigo(tel_id){
         @foreach($Codigos as $code)
   case '{{$code->code}}':
     change_color('{{$code->color_rgb}}',tel_id);
+    @if($code->code==3)
+        document.getElementById('fecha-prog'+tel_id).style.display='block';
+    @else
+        document.getElementById('fecha-prog'+tel_id).style.display='none';
+    @endif
     break;
    @endforeach
   
@@ -214,5 +288,24 @@ function codigo(tel_id){
           })
         }
     }
+</script>
+<script>
+    $('.DeleteReg').submit(function(e) {
+    e.preventDefault();
+    Swal.fire({
+        title: '¿Estás seguro de querer eliminar el RECADO?',
+        html: " <p style='background-color: white; font-size: 16px;'>¡No podrás revertir esto!</p>",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '¡Sí, eliminar Registro!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // document.getElementById('loader').style.display = 'flex';
+            this.submit();
+        }
+    })
+});
 </script>
 @endpush

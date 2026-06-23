@@ -11,9 +11,9 @@
     <!-- <div style="display:flex; justify-content:space-around; align-content:space-around; align-items: flex-start; margin:4.9vh; padding:5.6vh;flex-wrap: wrap"> -->
       @can('ver_muestra_actualizacion')
        <div>
-        <a href="{{route('muestras.plantel_index', ['gen' => 16]) }}">
+        <a href="{{route('muestras.plantel_index', ['gen' => 18]) }}">
           <button class='boton-muestras' >
-            <br><br>ENCUESTA DE ACTUALIZACION 2016 <br><br><br>
+            <br><br>ENCUESTA DE ACTUALIZACION 2018 <br><br><br>
             <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
           </button>
         </a>
@@ -36,7 +36,7 @@
     @can('ver_muestra_posgrado')
     <div>
     <a href="{{route('posgrado.programas_index')}}">
-    <button class='boton-muestras' >
+    <button class='boton-muestras' style="background-color:#cc9b39">
       <br><br>ENCUESTA DE POSGRADO <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="posgrado" class="icono-boton">
     </button>
@@ -46,7 +46,7 @@
     @can('ver_muestra_posgrado')
     <div>
     <a href="{{route('especialidad.index')}}">
-    <button class='boton-muestras' >
+    <button class='boton-muestras' style="background-color:#cc9b39">
       <br><br>ENCUESTA DE ESPECIALIDADES <br><br><br>
       <img src="{{ asset('img/posgrado.png') }}" alt="especialidad" class="icono-boton">
     </button>
@@ -58,17 +58,19 @@
         <a href="{{route('ed_continua.planteles', ['muestra_id' => 897]) }}">
           <button class='boton-muestras' >
             <br><br>ENCUESTA DE EDUCACIÓN CONTINUA <br><br><br>
-            <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton">
+            <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton" height="200px">
           </button>
         </a>
       </div>
       @endcan
 @can('ver_muestra_ed_continua')
-       <div>
+       <div >
         <a href="{{route('enc_verde.planteles', ['muestra_id' => 898]) }}">
-          <button class='boton-muestras' >
+          <button class='boton-muestras' style="background-color:#1c941c" >
             <br><br>ENCUESTA VERDE <br><br><br>
-            <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton">
+            <!-- <img src="{{ asset('img/encuesta.png') }}" alt="educacion continua" class="icono-boton"> -->
+             <i class="fas fa-leaf fa-6x"></i>
+             <br><br>
           </button>
         </a>
       </div>
@@ -90,5 +92,11 @@
     text-align: center;
     width: 20vw;
   }
+  .boton-muestras:hover{
+    background-color: #ba800d !important;
+    /* transponer en y  */
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
     </style>
 @endpush

@@ -13,12 +13,15 @@ use App\Models\Comentario;
 use App\Models\Recado;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use App\Models\Telefono;
 use Illuminate\Http\Request;
+use App\Traits\LogEvents;
 
 class RecadosController extends Controller
 {
 
+use LogEvents;
   public function index(){
     if(auth()->user()->can('ver_mis_recados')){
       $Recados=DB::table('recados')
@@ -72,14 +75,14 @@ class RecadosController extends Controller
 
 
     }
-        
+        /**marcar 20 recibe: request,  telefono, y egresado, calcula a donde debe llamar guarda el sig egresado prev calculado */
     public function marcar_20(Request $request,$tel_id,$eg_id){
 
       $Egresado=Egresado::find($eg_id);
       $telefono=Telefono::find($tel_id);
 
-      if($Egresado->act_suvery==1){
-        $gen=2016;
+      if($Egresado->act_suvery==2){
+        $gen=2018;
       }
       if($Egresado->muestra==3){
         $gen=2020;
@@ -88,12 +91,12 @@ class RecadosController extends Controller
         $gen=2022;
       }
 
-      $type = ($gen == 2016) ? 'act' : 'seg';
+      $type = ($gen == 2018) ? 'act' : 'seg';
 
-
+       
       // dd($Egresado);
       $Recado= new Recado();
-      $Recado->recado=$request->recado;
+      $Recado->recado=$request->recado.' '.$request->fecha_programada;
       $Recado->status=$request->code;
       $Recado->tel_id=$telefono->id;
       $Recado->cuenta=$Egresado->cuenta;
@@ -101,20 +104,26 @@ class RecadosController extends Controller
       $Recado->fecha=now()->modify('-6 hours');
       $Recado->type=$type;
       $Recado->save();
-
+      //Notificar si es horario especifico
+      if ($request->code == 3) {
+          $encuestadores = $Egresado->encuestadoresDeMuestra();
+          if ($encuestadores->isNotEmpty()) {
+              Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type,$Recado->id));
+          }
+      }
+      
       $telefono->status=$request->code;
       $telefono->save();
-
       
       $Egresado->llamadas=$Recados=Recado::where('cuenta','=',$Egresado->cuenta)
-      ->where('type','!=','cont')
+      ->whereIn('type',['seg','act','anterior'])
       ->get()->count();
       $Egresado->save();
       if($Egresado->status!=1&&$Egresado->status!=2){
      
          if(($Recado->status == 6)||($Recado->status==11)){
             
-
+             //verificar si todos los telefonos no existen (egresado ilocalizable)
              $Telefonos=Telefono::where('cuenta',$Egresado->cuenta)->get();
           
              $flag=1;
@@ -128,28 +137,97 @@ class RecadosController extends Controller
             $Egresado->save(); 
            }
     }
-      //verificar si todos los telefonos no existen (egresado ilocalizable)
-      $Telefonos=Telefono::where('cuenta',$Egresado->cuenta);
+      //verificar si cambio el status, si cambio, ya no se calcula un sig eg
       
 
-      return redirect()->route('llamar',[$gen,$Egresado->cuenta,$Egresado->carrera]);
+      return redirect()->route('llamar',[$gen,$Egresado->cuenta,$Egresado->carrera,$request->input_siguiente]);
     }
 
-      public function destroy($id){
+      public function destroy($id,$plan_car){
         $Recado=Recado::find($id);
-        // dd($Recado);
-
-        $Egresado=Egresado::where('cuenta',$Recado->cuenta)->first();
+        $cuenta=$Recado->cuenta;
         $Telefono=Telefono::find($Recado->tel_id);
-        $this->recordEvent($id, 'delete_recado', ' ');
+        //si el recado es status 3, borra la notificacion asociada
+        DB::table('notifications')->where('data','like','%"recado_id":'.$Recado->id.'%' )->delete();
+
         Recado::destroy($id);
-        $Recados=Recado::where('cuenta','=',$Egresado->cuenta)->get();
-        $Egresado->llamadas=$Recados->count();
-        $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
-        $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
-        //verificar los no existe unu
-        $Egresado->save();
-        $Telefono->save();
+        switch($Recado->type){
+          case 'seg':
+          case 'act':
+          case 'anterior':
+            $Egresado=Egresado::where('cuenta',$cuenta)->where('carrera',$plan_car)->first();
+            $Recados=Recado::where('cuenta','=',$Egresado->cuenta)
+              ->whereIn('type',['seg','act','anterior'])
+              ->get();
+            $Egresado->llamadas=$Recados->count();
+            if($Recados){
+              $Egresado->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->save();
+            }
+            $Egresado->save();
+            break;
+
+          case 'pos':
+            $EgresadoPos=EgresadoPosgrado::where('cuenta',$Recado->cuenta)
+            ->where('plan',$plan_car)
+            ->first();
+            $Recados=Recado::where('cuenta','=',$EgresadoPos->cuenta)
+              ->whereIn('type',['pos','act'])
+              ->get();
+            $EgresadoPos->llamadas=$Recados->count();
+            if($Recados){
+              $EgresadoPos->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+              $Telefono->save();
+            
+            }
+            
+            
+
+            $EgresadoPos->save();
+            break;
+          case 'esp':
+            $EgresadoEsp=EgresadoEspecialidad::where('cuenta',$Recado->cuenta)
+            ->where('especialidad',$plan_car)
+            ->first();
+            $Recados=Recado::where('cuenta','=',$EgresadoEsp->cuenta)
+              ->whereIn('type',['esp'])
+              ->get();
+            $EgresadoEsp->llamadas=$Recados->count();
+            if($Recados){
+
+            $EgresadoEsp->status=$Recados->sortBy('created_at')->reverse()->first()->status;
+            $Telefono->status=$Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status;
+            $Telefono->save();
+            }
+            
+            $EgresadoEsp->save();
+            break;
+          case 'verde':
+          case 'cont':
+            $Egresado=Egresado::where('cuenta',$Recado->cuenta)->where('carrera',$plan_car)->first();
+            $Recados=Recado::where('cuenta','=',$Egresado->cuenta)
+              ->where('type',$Recado->type)
+              ->get();
+            $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',$muestra_id) // ID de muestra de educación continua
+                ->update(['llamadas' => $Recados->count()]);
+            if($Recados){
+                $EgMuestra=DB::table('egresado_muestra')
+                ->where('egresado_id',$Egresado->id)
+                ->where('muestra_id',$muestra_id) // ID de muestra de educación continua
+                ->update(['status' => $Recados->where('tel_id',$Telefono->id)->sortBy('created_at')->reverse()->first()->status]);
+            }
+            
+           
+        } 
+        $this->recordEvent($id, 'delete_recado', $Recado->type.'-'.$Recado->cuenta.'-'.$Recado->tel_id);
+       
+        
+        
+        
         return back();
       }
 
@@ -173,12 +251,12 @@ class RecadosController extends Controller
 
 
       public function marcar_posgrado(Request $request,$tel_id,$eg_id){
-
+        
         $EgresadoPos=EgresadoPosgrado::find($eg_id);
         $telefono=Telefono::find($tel_id);
-
+        
         $Recado= new Recado();
-        $Recado->recado=$request->recado;
+        $Recado->recado=$request->recado.' '.$request->fecha_programada;;
         $Recado->status=$request->code;
         $Recado->tel_id=$telefono->id;
         $Recado->cuenta=$EgresadoPos->cuenta;
@@ -186,6 +264,13 @@ class RecadosController extends Controller
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->type = 'pos';
         $Recado->save();
+        //notificar en caso de horario especifico
+        if ($request->code == 3) {
+                  $encuestadores = $EgresadoPos->encuestadoresDeMuestra();
+                  if ($encuestadores->isNotEmpty()) {
+                      Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($EgresadoPos, $request->fecha_programada, $request->recado,'pos',$Recado->id));
+                  }
+              }
         $telefono->status=$request->code;
         $telefono->save();
         $EgresadoPos->llamadas=$Recados=Recado::where('cuenta', '=',$EgresadoPos->cuenta)->get()->count();
@@ -205,7 +290,7 @@ class RecadosController extends Controller
         }
         //verificacion de telefonos
         $Telefonos=Telefono::where('cuenta',$EgresadoPos->cuenta);
-        return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa]);
+        return redirect()->route('llamar_posgrado',[$EgresadoPos->cuenta,$EgresadoPos->plan,$EgresadoPos->programa,$request->input_siguiente]);
 
       }
 
@@ -215,7 +300,8 @@ class RecadosController extends Controller
 
         $Egresado=Egresado::find($eg_id);
         $telefono=Telefono::find($tel_id);
-
+        $type = ($muestra_id == 897) ? 'cont' : 'verde';
+        
         $Recado= new Recado();
         $Recado->recado=$request->recado;
         $Recado->status=$request->code;
@@ -225,7 +311,12 @@ class RecadosController extends Controller
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->type = ($muestra_id == 897) ? 'cont' : 'verde';
         $Recado->save();
-
+        if ($request->code == 3) {
+            $encuestadores = $Egresado->encuestadoresSondeo();
+            if ($encuestadores->isNotEmpty()) {
+                Notification::send($encuestadores, new \App\Notifications\CallSpecificTime($Egresado, $request->fecha_programada, $request->recado,$type,$Recado->id));
+            }
+        }
         $telefono->status=$request->code;
         $telefono->save();
 
@@ -277,7 +368,7 @@ class RecadosController extends Controller
         $Recado->status=$request->code;
         $Recado->tel_id=$telefono->id;
         $Recado->cuenta=$EgresadoEsp->cuenta;
-        $Recado->user_id=Auth::user()->id;
+        $Recado->user_id=Auth::user()->id; 
         $Recado->fecha=now()->modify('-6 hours');
         $Recado->type = 'esp';
         $Recado->save();

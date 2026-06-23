@@ -8,16 +8,40 @@ $reactivosEnTablas=array();
 {{-- {{session('logs')}} --}}
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
-@include('empresas.modal_create', ['typeStudy' => 'posgrado'])
-@include('encuesta.seg20.modal_create_telefono')
-@include('encuesta.seg20.modal_create_correo')
+@include('empresas.modal_create', ['typeStudy' => 'esp'])
+@include('components.create_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                   ])
+@include('components.edit_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                   ])
+                   @include('components.edit_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                   ])
+@include('components.create_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                   ])
 <div>
     <div class="titulos">
         <h1>ENCUESTA DE SEGUIMIENTO GEN 2022 UNAM</h1>
     </div>
 
     {{-- Sección de datos personales --}}
-    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 200;">
+    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 1000;">
         @include('especialidad.personal_data')
     </div>
     <br>
@@ -62,7 +86,7 @@ $reactivosEnTablas=array();
                         // Precargar todos los reactivos necesarios de una sola vez
                         $all_claves = collect($rows_normalized)->flatten()->unique()->values();
                         $reactivos_tabla = \App\Models\Reactivo::whereIn('clave', $all_claves)->get()->keyBy('clave');
-                       $reactivosEnTablas= array_merge($reactivosEnTablas,$reactivos_tabla->pluck('clave')->toArray());
+                        $reactivosEnTablas= array_merge($reactivosEnTablas,$reactivos_tabla->pluck('clave')->toArray());
                        
                     @endphp
 
@@ -76,10 +100,20 @@ $reactivosEnTablas=array();
                     ])
                     
 
+                @elseif($reactivo->clave=='espc4')
+                <div class="react_container">
+                    espc4
+                    <h3>50.- ¿Cuál es el nombre de la empresa donde trabaja?</h3>
+                    <input type="text" id="espc4" name="espc4" value="{{$Encuesta->espc4}}" >
+                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
+                <div class="resultados-div" id="resultados"></div>
+                </div>
                 @else
+
+
                     <div class="react_container @if($reactivo->breakline==1) column_react @endif @if($is_bloqueado_inicialmente) bloqueado_inicialmente @endif" id="{{'container'.$reactivo->clave}}">
 
-                       <h3>{{$reactivo->clave}} / {{$reactivo->reference}}</h3>     
+                       {{$reactivo->clave}} / {{$reactivo->reference}}   
                         <h3>{{$reactivo->orden}}.- @if($reactivo->description) {{$reactivo->description}} @else {{$reactivo->question}} @endif ({{$reactivo->clave}})</h3>
                         @php $field_presenter = $reactivo->clave @endphp
 
@@ -107,14 +141,8 @@ $reactivosEnTablas=array();
                     </div>
                 @endif
               
-                @if($reactivo->clave=='pdr2')
-                <div class="react_container">
-                    <h3>¿Cuál es el nombre de la empresa donde trabaja?</h3>
-                    <input type="text" id="name_empresa" name="empresa" value="{{$Encuesta->empresa}}">
-                    <button class="btn boton-dorado w-10" data-toggle="modal" onclick="update_empresa_form()" data-target="#empresaModal" type="button"> <i class="fas fa-plus-circle fa-xl"></i>&nbsp; Nueva </button>
-                <div class="resultados-div" id="resultados"></div>
-                </div>
-                @endif
+                
+                
             @endif
             @endforeach
         </div>
@@ -148,7 +176,7 @@ $reactivosEnTablas=array();
 {{-- Incluye aquí los estilos CSS y los scripts JS que proporcionaste --}}
 @push('css')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
@@ -824,8 +852,8 @@ $reactivosEnTablas=array();
         element.value = value;
         element.classList.add('highlight');
     }
- @if($section=='pD')
-    const searchBox = document.getElementById('name_empresa');
+ @if($section=='espC')
+    const searchBox = document.getElementById('espc4');
     const resultadosDiv = document.getElementById('resultados');
 
     searchBox.addEventListener('input', function(e) {
@@ -841,22 +869,34 @@ $reactivosEnTablas=array();
                 resultadosDiv.innerHTML = '';
                 data.forEach(item => {
                     const nombre = item.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                    resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}','${item.giro_especifico}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
+                    resultadosDiv.innerHTML += `<div onclick="rellenar_empresa('${nombre}','${item.sector}','${item.clave_giro}')"> ${item.nombre} ${item.giro_especifico.substring(0,6)}</div>`;
                 });
             })
             .catch(error => console.error('Error:', error));
     });
     
-    function rellenar_empresa(nombre, sector, giro, giro_esp) {
-        setValueWithEffect(document.getElementById('name_empresa'), nombre);
-        
+    function rellenar_empresa(nombre, sector, giro) {
+        setValueWithEffect(document.getElementById('espc4'), nombre);
+        setValueWithEffect(document.getElementById('espc3'), sector);
+        setValueWithEffect(document.getElementById('espc5'), giro);
+        //cambiar en el container visible del select2 espc5
+            const select2_espc5 = document.querySelector('#espc5 + .select2 .select2-selection__rendered');
+            if (select2_espc5) {
+                select2_espc5.textContent = giro;
+            }
         console.log('se ha seleccionado una empresa', sector, giro);
         resultadosDiv.innerHTML = '';
     }
 
     function update_empresa_form() {
-        nombre = document.getElementById('name_empresa').value;
+        nombre = document.getElementById('espc4').value;
         document.getElementById('nombre_empresa').value = nombre;
+         
+        sector = document.getElementById('espc3').value;
+        rama = document.getElementById('espc5').value;
+        document.getElementById('nombre_empresa').value = nombre;
+        document.getElementById('rama').value = rama;
+        document.getElementById('sector').value = sector;
     }
     @endif
 
@@ -925,6 +965,13 @@ $reactivosEnTablas=array();
     $(document).ready(function() {
     // 1. Obtener el número de opciones
    
+            @if($section === 'espC')
+                const espc12Select = $('select[name="espc12"]');
+                if (espc12Select.length && !espc12Select.find('option[value="9"]').length) {
+                    espc12Select.append(new Option('9 No deseo dar esa información', '9'));
+                }
+            @endif
+
             // 3. Inicializar Select2 en el select deseado
              $('.select2-searchable').select2({
                 // Opciones opcionales de Select2, por ejemplo, el placeholder:

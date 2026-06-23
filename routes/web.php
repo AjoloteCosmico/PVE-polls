@@ -28,7 +28,9 @@ use App\Http\Controllers\{
     PosgradoController,
     EspecialidadController,
     EncuestaContinuaController,
-    UserController
+    UserController,    
+    StatsController,
+    NotificationController
 };
 
 Route::get('/', function () {
@@ -50,8 +52,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('options', OpcionesController::class);
     Route::resource('encuestas', EncuestasController::class);
     Route::resource('correos', CorreosController::class);
-
-    /**Rutas relacionadas con encuestas 
+    Route::resource('notifications', NotificationController::class);
+    Route::get('/notificaciones/{notification}/read', 
+        [NotificationController::class, 'markAsReadAndRedirect'])
+        ->name('notifications.read');
+    /**Rutas relacionadas con encuestas
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
     Route::controller(MuestrasController::class)->group(function(){
@@ -186,6 +191,11 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/guardar_telefono/{cuenta}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'store')->name('guardar_telefono');
         Route::post('/guardar_telefono_pos/{cuenta}/{programa}/{encuesta?}/{telefono_id?}', 'storepos')->name('guardar_telefono_pos');
         Route::post('/actualizar_telefono/{id}/{carrera}/{encuesta?}/{telefono_id?}/{muestra_id?}', 'update')->name('actualizar_telefono');
+
+        //TODO: COLAPSAR TODAS LAS RUTAS DE GUARDAR TELEFONOS A ESTA
+        Route::post('/telefonos_store/', 'store_async')->name('telefonos.store_async');
+        Route::post('/update_async_telefono/', 'async_update')->name('telefonos.async_update');
+        
     });
 
     /**Encuestas */ //Qué tipo de encuestas? 2014/2019?
@@ -200,7 +210,7 @@ Route::group(['middleware' => ['auth']], function(){
     /** Recados */
     Route::controller(RecadosController::class)->group(function(){
         Route::get('recados', 'index')->name('recados.index');
-        Route::delete('recados/delete/{id}', 'destroy')->name('recados.destroy');
+        Route::delete('recados/delete/{id}/{plan_car}', 'destroy')->name('recados.destroy');
         Route::delete('recados/posgrado/delete/{id}', 'destroyP')->name('recados.destroyP');
         Route::delete('recados/especialidad/delete/{id}', 'destroyE')->name('recados.destroyE');
         Route::get('/encuestas/2014/recados/{id}', 'recado_14')->name('encuestas.recado_14');
@@ -228,11 +238,14 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('direct_send/{id}',  'direct_send')->name('direct_send');
         Route::get('posgrado_direct_send/{id}',  'posgrado_direct_send')->name('posgrado_direct_send');
         Route::get('especialidad_direct_send/{id}',  'especialidad_direct_send')->name('especialidad_direct_send');
+         //TODO: COLAPSAR TODAS LAS RUTAS DE GUARDAR CORREOS A ESTA
+        Route::post('/correos_store/', 'store_async')->name('correos.store_async');
+        Route::post('/correos_update/', 'update_async')->name('correos.update_async');
     });
     
     /** Pantalla de inicio */
     Route::controller(HomeController::class)->group(function(){
-        Route::get('/stats', 'optimized_stats')->name('stats');
+        // Route::get('/stats', 'optimized_stats')->name('stats');
         Route::get('/links', 'links')->name('links');
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');
@@ -242,9 +255,8 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/home', 'index')->name('home');
         Route::get('/2014_act', '2014_act')->name('2014_act');
         Route::get('/2019', 'encuesta_2019')->name('2019');
-        Route::get('/buscar', 'buscar')->name('buscar');
+        //Route::get('/buscar', 'buscar')->name('buscar');
         Route::any('/resultado', 'resultado')->name('resultado');
-        Route::any('/resultado_fonetico', 'resultado_fonetico')->name('resultado_fonetico');
         /**Avisos */
         Route::get('/aviso', 'aviso')->name('aviso');
         Route::post('/enviar_aviso', 'enviar_aviso')->name('enviar_aviso');
@@ -287,23 +299,34 @@ Route::group(['middleware' => ['auth']], function(){
     
     /**Dark Mode */
     Route::get('/switch', [ConfigController::class, 'switch_mode'])->name('switch_mode');
-
+    /**Conteo estadístico bueno */
+    Route::get('/stats', [StatsController::class,'optimized_stats'])->name('stats');
     /** Reactivos, Opciones y Llamadas */
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');
-    Route::get('/encuestas/llamar/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar'])->name('llamar');
+    Route::get('/encuestas/llamar/{gen}/{id}/{carrera}/{siguiente?}', [LlamadasController::class, 'llamar'])->name('llamar');
     //Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_continua'])->name('llamar_continua');
     Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_continua');
     //Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_verde'])->name('llamar_verde');
-    Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
+    Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}/{siguiente?}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
 
-    Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
+    Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}/{siguiente?}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/encuestas/llamar_especialidad/{id}/{especialidad}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
     Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
+    //ruta para cargar sig egresado con ajax
+    Route::get('/egresado/siguiente/{id}/{gen}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
+    Route::get('/verde/siguiente/{id}/{muestra_id}', [LlamadasController::class, 'getSiguienteVerde'])->name('llamadas.siguiente_verde');
+    
+    Route::get('/egresado/siguiente_posgrado/{cuenta}/{plan}', [LlamadasController::class, 'getSiguiente_posgrado'])->name('llamadas.siguiente_eg_posgrado');
+    //TODO: hacer funcionar las  rutas asincronas para sig eg (generalziar a una sola si es posible)
+    Route::get('/act_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguienteAct'])->name('llamadas.siguiente_act');
+    Route::get('/pos_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguientePos'])->name('llamadas.siguiente_pos');
+    Route::get('/esp_egresado/siguiente/{cuenta}', [LlamadasController::class, 'getSiguienteEsp'])->name('llamadas.siguiente_esp');
+    Route::get('/sondeo_egresado/siguiente/{cuenta}/{muestra_id}', [LlamadasController::class, 'getSiguienteSondeo'])->name('llamadas.siguiente_sondeo');
 
     Route::controller(UserController::class)->group(function(){
         Route::get('/users/give/{id}/{permission}', 'give_permission')->name('users.give');

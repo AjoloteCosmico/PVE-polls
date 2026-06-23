@@ -1,5 +1,31 @@
 @extends('layouts.app')
 @section('content')
+@include('components.create_phone', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                   ])
+@include('components.create_email', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                        'EgName'=> $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
+                    ])
+@include('components.edit_phone', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                   ])
+@include('components.edit_email', [
+                        'cuenta'        => $EgresadoEsp->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'esp',
+                        'carrera' => $EgresadoEsp->carrera,
+                        'EgName'=> $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
+                    ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
@@ -42,11 +68,10 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono_pos',[$EgresadoEsp->cuenta,$EgresadoEsp->especialidad, '0',$TelefonoEnLlamada->id])}}">
-        <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
+      <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw" data-toggle="modal" data-target="#phoneModal">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
-      </a>
+     
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       
@@ -59,14 +84,15 @@
           <th> </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="telefonos-tbody">
         @foreach($Telefonos as $t)
         <tr>
             <td>{{$t->cuenta}} </td>
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
-            <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono',[$t->id,$EgresadoEsp->carrera,'especialidad',$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a></td>
+            <td>{{$t->status_description}} </td>
+            <td> <button class="btn edit-phone-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-telefono_id="{{$t->id}}" data-telefono="{{ $t->telefono }}" data-description="{{ $t->descripcion }}" >
+               <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>
         </tr>
         @endforeach
       </tbody>
@@ -74,10 +100,10 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$EgresadoEsp->cuenta,$EgresadoEsp->carrera,'especialidad',$TelefonoEnLlamada->id])}}">
-          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
+    
+          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;" data-toggle="modal" data-target="#emailModal"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
-        </a>
+   
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
@@ -90,18 +116,18 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="correos-tbody">
         @foreach($Correos as $c)
-        <tr>
+        <tr data-id="{{$c->id}}">
           <td>{{$c->cuenta}} </td>
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo',[$c->id,$EgresadoEsp->carrera,'posgrado',$TelefonoEnLlamada->id])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+            
+              <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
-            </a>
+
           </td>
             <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$EgresadoEsp->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
@@ -154,6 +180,41 @@
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+$(document).on('phoneAdded', function(event, data) {
+   
+    location.reload();
+});
+
+$(document).on('click', '.edit-email-btn', function() {
+    let btn = $(this);
+    editEmail(btn.data('id'), btn.data('correo'), btn.data('description'));
+});
+
+$(document).on('click', '.edit-phone-btn', function() {
+    let btn = $(this);
+    editPhone(btn.data('telefono_id'), btn.data('telefono'), btn.data('description'));
+});
+
+$(document).on('emailAdded', function(event, data) {
+    //Actualizar la pagina mejor 
+    location.reload();
+});
+$(document).on('emailUpdated', function(event, data) {
+
+    location.reload();
+});
+$(document).on('phoneUpdated', function(event, data) {
+    location.reload();
+});
  </script>
  
 @endpush 

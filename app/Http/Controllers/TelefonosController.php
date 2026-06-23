@@ -144,7 +144,7 @@ use  LogEvents;
 
         if (isset($egresado->carrera) && $egresado->carrera != 0) {
 
-            if ($egresado->act_suvery == 1) {
+            if ($egresado->act_suvery == 2) {
                 if ($encuesta == '2016') {
                     return route('act_data', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
                 } else {
@@ -167,7 +167,6 @@ use  LogEvents;
                     return route('edit_22', [$encuesta, 'SEARCH']);
                 }
             }
-            
         }
 
         if (isset($egresado->programa)){
@@ -230,4 +229,69 @@ use  LogEvents;
         $redirectUrl = $this->getRedirectUrl($Egresado, $encuesta, $telefono_id, $muestra_id);
         return redirect($redirectUrl);
     }
+
+
+
+
+    //lo pongo hasta el final para hallarlo facil, mover a donde debe cuando este establecido
+    
+    public function store_async(Request $request ){
+
+        //Validacion de que el telefono no esté repetido
+        $request->validate([
+            'telefono' => 'required|string|max:20|unique:telefonos,telefono',
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'telefono.unique' => 'Este número ya está registrado.',
+        ]);
+
+
+        $Telefono=new Telefono();
+        $Telefono->cuenta=$request->cuenta;
+        $Telefono->telefono=$request->telefono;
+        $Telefono->descripcion=$request->description;
+        //ABAJO EL ESTATUS NO DEBE´RIA SER 0 PORK NO ES SIN DATOS, SABEMOS Q SI LO USA EL EGRESADO
+        $Telefono->status=0;
+
+        $Telefono->save();
+        $this->recordEvent($Telefono->id, 'create_telefono', $request->type.' encuestaKey: '. $request->encuesta_id);
+       
+            return response()->json([
+                'success' => true, 
+                'status' => 'sin datos',
+                'message' => 'Teléfono agregado correctamente',
+                'telefono' => $Telefono,
+            ]);
+        
+        
+    }
+    public function async_update(Request $request ){
+        //TODO: Configurar validaciones para edicion
+        // //Validacion de que el telefono no esté repetido
+        // $request->validate([
+        //     'telefono' => 'required|string|max:20|unique:telefonos,telefono',
+        //     'descripcion' => 'nullable|string|max:255',
+        // ], [
+        //     'telefono.required' => 'El campo teléfono es obligatorio.',
+        //     'telefono.unique' => 'Este número ya está registrado.',
+        // ]);
+
+
+        $Telefono= Telefono::find((int)$request->telefono_id);
+        $Telefono->telefono=$request->telefono;
+        $Telefono->descripcion=$request->description;
+        $Telefono->save();
+        $this->recordEvent($Telefono->id, 'update_telefono', $request->type.' encuestaKey: '. $request->encuesta_id);
+       
+            return response()->json([
+                'success' => true, 
+                'status' => 'sin datos',
+                'message' => 'Teléfono editado correctamente',
+                'telefono' => $Telefono,
+            ]);
+        
+        
+    }
+
 }

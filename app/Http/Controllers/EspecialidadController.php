@@ -32,38 +32,34 @@ class EspecialidadController extends Controller
         $Egresado = EgresadoEspecialidad::where("cuenta", $cuenta)
             ->where("especialidad", $plan)
             ->first();
-        // if ($Correo->enviado == 0) {
-        //     $caminoalpoder = public_path();
-        //     $process = new Process([
-        //         env("PY_COMAND"),
-        //         $caminoalpoder . "/aviso.py",
-        //         $Egresado->nombre,
-        //         $Correo->correo,
-        //     ]);
-        //      $process->run();
-
-        //     if (!$process->isSuccessful()) {
-        //         //TODO-future: return swal alert,
-        //         $Correo->enviado = 2;
-        //         $Correo->save();
-        //         throw new ProcessFailedException($process);
+        if ($Correo->enviado == 0) {
+            try {
                 
-        //     } else {
-        //         $Correo->enviado = 1;
-        //         $Correo->save();
-        //     }
-        //     $data = $process->getOutput();
-        // }
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
+
+                
+                $Correo->enviado = 1;
+                $Correo->save();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+            
+                throw $e; 
+        }
+            
+        }
        
         $Encuesta = respuestasEspecialidad::where("cuenta", "=", $cuenta)
             ->first();
-         $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente');
+         
         if ($Encuesta) {
-            
+            $this->recordEvent($Encuesta->registro, 'continue_esp', 'comineza enceusta desde un reg existente tel_id:'.Session::get('telefono_encuesta'));
             return redirect()->route('especialidad.show', [
                 'section' => 'SEARCH',
                 'id' => $Encuesta->registro
-                
             ]);
         } else {
             $Encuesta = new respuestasEspecialidad();
@@ -75,7 +71,7 @@ class EspecialidadController extends Controller
             $Encuesta->anio_egreso =  $Egresado->anio_egreso;
             $Encuesta->completed = 0;
             $Encuesta->save();
-            $this->recordEvent($Encuesta->registro, 'create_enc_esp', ' ');
+            $this->recordEvent($Encuesta->registro, 'create_enc_esp', 'tel_id:'.Session::get('telefono_encuesta'));
             return redirect()->route('especialidad.show', [
                 'section' => 'espA',
                 'id' => $Encuesta->registro,                
@@ -104,7 +100,7 @@ public function show($section, $id)
     // ── Sección activa ───────────────────────────────────────────────────────
     if ($section === "SEARCH") {
         $section = "espA"; // default
-        foreach (["espA", "espB", "espC", "espD"] as $sec) {
+        foreach (["espA", "espF", "espE", "espC","espG"] as $sec) {
             if ($Encuesta->{"sec_" . strtolower($sec)} != 1) {
                 $section = $sec;
                 break;
@@ -408,9 +404,10 @@ public function show($section, $id)
     {
 
         if ($Encuesta->sec_espa == 1 &&
-            $Encuesta->sec_espb == 1 &&
+            $Encuesta->sec_espf == 1 &&
+            $Encuesta->sec_espe == 1 &&
             $Encuesta->sec_espc == 1 &&
-            $Encuesta->sec_espd == 1
+            $Encuesta->sec_espg == 1
             ) {
                 //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
                 if ($Encuesta->completed != 1){
@@ -454,7 +451,7 @@ public function show($section, $id)
 
             return view("encuesta.saved_especialidad", compact("Encuesta",'Egresado'));
         } else {
-            return redirect()->route("muestrasespecialidad.show", [$Egresado->especialidad,$Encuesta->plan]);
+            return redirect()->route("muestras.especialidad.show", [$Egresado->especialidad,$Encuesta->plan]);
         }
     }
 }

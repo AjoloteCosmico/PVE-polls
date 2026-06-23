@@ -35,23 +35,20 @@ use  LogEvents;
             ->where("carrera", $carrera)
             ->first();
         if ($Correo->enviado == 0) {
-            $caminoalpoder = public_path();
-            $process = new Process([
-                env("PY_COMAND"),
-                $caminoalpoder . "/aviso.py",
-                $Egresado->nombre,
-                $Correo->correo,
-            ]);
-            $process->run();
+            try {
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
 
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-                $Correo->save();
-            } else {
                 $Correo->enviado = 1;
                 $Correo->save();
-            }
-            $data = $process->getOutput();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+            
+                throw $e; 
+        }
         }
 
         if($muestra_id == 897){
@@ -68,7 +65,6 @@ use  LogEvents;
             ->first();
 
         if (!$Encuesta) {
-            $this->recordEvent($Encuesta->registro, 'create_sondeo','muestra' . $muestra_id);
             $Encuesta = new $res();
             $Encuesta->cuenta = $cuenta;
             $Encuesta->paterno = $Egresado->paterno;
@@ -90,9 +86,10 @@ use  LogEvents;
                 ->update(['status' => 10,
                 'updated_at'=>now()]);
             $Encuesta->save();
+            $this->recordEvent($Encuesta->getKey(), 'create_sondeo','muestra' . $muestra_id);
             $Encuesta->refresh();
         }else{
-            $this->recordEvent($Encuesta->registro, 'continue_sondeo', 'comineza enceusta desde un reg existente muestra: ' . $muestra_id);
+            $this->recordEvent($Encuesta->getKey(), 'continue_sondeo', 'comineza enceusta desde un reg existente muestra: ' .$muestra_id);
         }
         return redirect()->route($ruta, ['id' => $Encuesta->getKey()]);
     }
@@ -258,7 +255,7 @@ use  LogEvents;
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
-            $this->recordEvent($Encuesta->registro, 'complete_continua',' ');
+            $this->recordEvent($Encuesta->getKey(), 'complete_continua',' ');
             return view("encuesta.saved_continua", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
@@ -356,7 +353,7 @@ use  LogEvents;
             $fileName = $Encuesta->cuenta . ".json";
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
-            $this->recordEvent($Encuesta->registro, 'complete_verde',' ');
+            $this->recordEvent($Encuesta->getKey(), 'complete_verde',' ');
       
             return view("encuesta.saved_verde", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');

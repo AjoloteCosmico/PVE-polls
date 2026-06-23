@@ -1,25 +1,5 @@
 <div>
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="nc" 
-                   class="form-control" 
-                   placeholder="Buscar por número de cuenta">
-        </div>
-        <div class="col-md-4">
-            <input type="text" 
-                   wire:model.live.debounce.300ms="nombre_completo" 
-                   class="form-control" 
-                   placeholder="Buscar por nombre">
-        </div>
-
-        <div class="col-md-50">
-            <div wire:loading class="spinner-border text-primary text-sm" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-        </div>
-
-    </div>  
+    
     <div class="col-6 col-sm-12 table-responsive">
         <table class="table  text-xl">
             <thead>
@@ -44,9 +24,19 @@
                     <td>{{$eg->nombre_plantel}}</td>
                     <td>
                         <div class="btn-group">
-                            @if($eg->muestra==5||$eg->act_suvery==1)
+                            @if($eg->muestra==5)
                             <button wire:click="seleccionarMuestra({{$eg->id}}, 'licenciatura')" class="boton-oscuro">
-                                 LICENCIATURA
+                                 SEGUIMIENTO
+                            </button>
+                            @endif
+                            @if($eg->act_suvery==1)
+                            <button wire:click="seleccionarMuestra({{$eg->id}}, 'licenciatura')" class="boton-oscuro">
+                                ACTUALIZACION
+                            </button>
+                            @endif
+                            @if($eg->act_suvery==2)
+                            <button wire:click="seleccionarMuestra({{$eg->id}}, 'licenciatura')" class="boton-oscuro">
+                                ACTUALIZACION
                             </button>
                             @endif
                             @if($eg->es_continua)
@@ -95,7 +85,7 @@
                     <td>
                         @if($tipo == 'licenciatura')
 
-                            @if($eg->muestra==5 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
+                            @if($eg->muestra==5 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12,15], false))
                                 <a href="{{route('llamar',['2022',$eg->cuenta,$eg->carrera])}}">
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> LLAMAR
@@ -113,7 +103,7 @@
                                 <small><strong>Aplicador:</strong> {{ $eg->aplicador22 ?? 'N/A' }}</small>
                             @endif
 
-                            @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12], false))
+                            @if($eg->act_suvery==1 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12,15], false))
                                 <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
@@ -130,9 +120,26 @@
                                 <small><strong>Fecha:</strong> {{ $eg->fechaFinal_16 ?? 'N/A' }}</small><br>
                                 <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
                             @endif
+                             @if($eg->act_suvery==2 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12,15], false))
+                                <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
+                                    <button class="boton-oscuro">
+                                        <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
+                                    </button>
+                                </a>
+                                <br>
+                                    <small><strong>Fecha:</strong> {{ $eg->fecha_16 ?? 'N/A' }}</small><br>
+                                    <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
+                                    <br>
+                                    
+                            @endif
+                            <!-- si esta encuestado por llamada o internet solo muestra datos del encuestador -->
+                            @if($eg->act_suvery==2 && in_array($eg->status,[1,2], false))
+                                <small><strong>Fecha:</strong> {{ $eg->fechaFinal_16 ?? 'N/A' }}</small><br>
+                                <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
+                            @endif
                             
                         @elseif($tipo == 'continua')
-                             @if(in_array($eg->status_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
+                             @if(in_array($eg->status_continua,[null,0,3,4,5,6,7,8,9,10,6,11,12,15]))
                                 <a href="{{route('llamar_continua',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 897])}}" >
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
@@ -146,7 +153,7 @@
                             @endif
 
                         @elseif($tipo == 'verde')
-                            @if(in_array($eg->status_verde,[null,0,3,4,5,6,7,8,9,10,6,11,12]))
+                            @if(in_array($eg->status_verde,[null,0,3,4,5,6,7,8,9,10,6,11,12,15]))
                                 <a href="{{route('llamar_verde',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 898])}}" >
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 

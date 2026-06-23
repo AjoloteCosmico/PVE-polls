@@ -26,7 +26,7 @@
                         </button>
                     </a>
                     @endif
-                    @if($gen==2016)
+                    @if($gen==2018)
                     <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
@@ -55,7 +55,7 @@
                  Año: {{$Egresado->anio_egreso}}  
                 </td>
             </tr>
-            @if($gen==2016)
+            @if($gen==2018)
                 @php  
                    $fecha=new DateTime(substr($Egresado->actualized,0,10))
                 @endphp
@@ -94,7 +94,7 @@
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno" >
                 <br>
-                @include('recados.recados_tabla')
+                @include('recados.recados_tabla', ['plan_car' => $Egresado->carrera])
                 <form action="/encuestas/2020/marcar/{{$telefono->id}}/{{$Egresado->id}}" method="POST" enctype="multipart/form-data" id="myform{{$telefono->id}}">
                     @csrf
                     @include('recados.recado_form_content')
@@ -130,7 +130,7 @@
                         @endcan
                         @endif
 
-                        @if($gen==2016)
+                        @if($gen==2018)
                         @can('aplicar_encuesta_actualizacion')
                         <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
@@ -155,47 +155,91 @@
     
     <div class='row tel-contorno-div'>
         <div class='col'>
-            @if($gen==2020)
-            <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-                <button type="button"  class="boton-oscuro">
-                    <i class="fas fa-table"></i> Ir a muestra Carrera 
-                </button>
-            </a>
-            @endif
+           <div class="row"> 
             @if($gen==2022)
-            <div class="row">
+            
                 <div class="col"><a href="{{route('muestras22.show22',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
                             <i class="fas fa-table"></i> Ir a muestra Carrera 
                         </button>
                     </a>
                 </div>
-                <div class="col">
-                    @if($siguiente)
-                        <div class="text-center my-4">
-                            <a href="{{ route('llamar', [2022, $siguiente->cuenta, $siguiente->carrera]) }}" 
-                            class="btn-siguiente-egresado" 
-                            style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i> 
-                                Siguiente Egresado: {{ $siguiente->nombre }} {{ $siguiente->paterno }}
-                            </a>
-                        </div>
-                    @else
-                        <div class="alert alert-info">
-                            Has llegado al final de la lista de esta muestra.
-                        </div>
-                    @endif
-                </div>
-            </div>
-                    
+                
             @endif
-            @if($gen==2016)
+            @if($gen==2018)
+          
             <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                 <button type="button"  class="boton-oscuro">
                     <i class="fas fa-table"></i> Ir a muestra Carrera 
                 </button>
             </a>
+           
             @endif
+    <div class="col">
+        <div id="next-egresado-container" class="text-center my-4">
+            <!-- Aquí se cargará dinámicamente el botón o el mensaje -->
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando siguiente egresado...</span>
+                </div>
+            </div>
+        </div>
+
+<script>
+
+const idActual = {{ $Egresado->id }};
+@if(!$EgSiguiente)
+fetch(`/egresado/siguiente/${idActual}/{{$gen}}`)
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('next-egresado-container');
+        const input_siguiente=document.getElementById('input_siguiente');
+        if (data.siguiente) {
+            container.innerHTML = `
+                <a href="${data.url}" 
+                   class="btn-siguiente-egresado" 
+                   style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                    Siguiente Egresado: ${data.nombre_completo}
+                </a>
+            `;
+            input_siguiente.value=data.eg_id;
+        } else {
+            container.innerHTML = `
+                <div class="alert alert-info">
+                    ${data.mensaje}
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener el siguiente egresado:', error);
+        document.getElementById('next-egresado-container').innerHTML = `
+            <div class="alert alert-danger">
+                Error al cargar el siguiente egresado. Intente de nuevo.
+            </div>
+        `;
+    });
+@else
+const container = document.getElementById('next-egresado-container');
+const input_siguiente=document.getElementById('input_siguiente');
+    
+ container.innerHTML = `
+                <a href="{{route('llamar', [$gen, $EgSiguiente->cuenta, $EgSiguiente->carrera])}}" 
+                   class="btn-siguiente-egresado" 
+                   style="padding: 20px; font-size: 15px; background: #002b7a; color: white; text-decoration: none; display: block; border-radius: 10px;">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> 
+                    Siguiente Egresado: {{$EgSiguiente->nombre}} {{$EgSiguiente->paterno}}
+                </a>
+            `;
+            input_siguiente.value={{$EgSiguiente->id}};
+@endif
+</script>
+                </div>
+            </div>
+                    
+
+           
         </div>
     </div>
 </div>
@@ -226,7 +270,12 @@ function codigo(tel_id){
     switch (valor) {
         @foreach($Codigos as $code)
   case '{{$code->code}}':
-    change_color('{{$code->color_rgb}}',tel_id);
+    change_color('{{$code->color_rgb}}',tel_id); 
+    @if($code->code==3)
+        document.getElementById('fecha-prog'+tel_id).style.display='block';
+     @else
+        document.getElementById('fecha-prog'+tel_id).style.display='none';
+    @endif
     break;
    @endforeach
   
@@ -289,7 +338,7 @@ function codigo(tel_id){
     e.preventDefault();
     Swal.fire({
         title: '¿Estás seguro de querer eliminar el RECADO?',
-        html: " <p style='color: white;'>¡No podrás revertir esto!</p>",
+        html: " <p style='background-color: white; font-size: 16px;'>¡No podrás revertir esto!</p>",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',

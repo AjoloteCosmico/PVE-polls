@@ -1,32 +1,32 @@
 <table class="table text-lg table-personal">
-    <tr>
+    <tr >
         <th>Egresad@:</th>
-        <td> {{ $Egresado->nombre }} {{ $Egresado->paterno }} {{ $Egresado->materno }}</td>
+        <td style="color: #1c1d23"> {{ $Egresado->nombre }} {{ $Egresado->paterno }} {{ $Egresado->materno }}</td>
 
         <th>Número de Cuenta:</th>
-        <td> {{ $Egresado->cuenta }}</td>
+        <td style="color: #1c1d23"> {{ $Egresado->cuenta }}</td>
 
         <th>Teléfonos: <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#phoneModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button> </th>
         <td style="width:25vw">
             @foreach($Telefonos as $t)
-                <a class="contact_data" style="color: #002b7a;" href="{{ route('editar_telefono', [$t->id, $Egresado->carrera, $Encuesta->registro, Session::get('telefono_encuesta')]) }}">{{ $t->telefono }} </a>, &nbsp;
+                <button class="contact_data" style="color: #002b7a;" onclick="editPhone({{$t->id}}, '{{$t->telefono}}', '{{$t->descripcion}}')"> {{ $t->telefono }} </button>, &nbsp;
             @endforeach
         </td>
 
-        <th>fec. grado: <br>{{$Egresado->fec_grad}} </th>  
-        <th>fec. nac.: <br> {{$Egresado->fec_nac}}</th>
+        <th >fec. grado: <br>{{$Egresado->fec_grad}} </th>  
+        <th >fec. nac.: <br> {{$Egresado->fec_nac}}</th>
 
     </tr>
     <tr>
         <th>Especialidad:</th>
-        <td> {{ $Egresado->especialidad }}</td>
+        <td style="color: #1c1d23"> {{ $Egresado->especialidad }}</td>
 
         <th>Plantel:</th>
         <td> Fac de derecho (pero alomejor no)</td>
-        <th>Correos: <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#emailModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo</button> </th>
+        <th>Correos: <br><br> <button class="btn boton-dorado"  onclick="" data-toggle="modal" data-target="#emailModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo</button> </th>
         <td>
             @foreach($Correos as $c)
-                <a class="contact_data" style="color: #002b7a;" onclick="correos({{ $c->id }},'{{ $c->correo }}')"> {{ $c->correo }} </a>, &nbsp;
+                <button class="contact_data" style="color: #002b7a;" onclick="editEmail({{$c->id}}, '{{$c->correo}}', '{{$c->descripcion}}','{{$c->status}}')"> {{ $c->correo }} </button>, &nbsp;
             @endforeach
         </td>
 
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col">
                   @if($Encuesta->sec_espe==1)
-                         <a class="btn boton-verde" id="btn-espE" href="{{route('especialidad.show',['espE',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
+                         <a class="btn boton-verde" id="btn-espE" href="{{route('especialidad.show',['espE',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección E </a>
                
                     @else
                          <a class="btn boton-dorado" id="btn-espE" href="{{route('especialidad.show',['espE',$Encuesta->registro])}}">Sección E</a>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="col">
                   @if($Encuesta->sec_espg==1)
-                         <a class="btn boton-verde" id="btn-espG" href="{{route('especialidad.show',['espG',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección D </a>
+                         <a class="btn boton-verde" id="btn-espG" href="{{route('especialidad.show',['espG',$Encuesta->registro,])}}"> <i class="fas fa-check-circle" aria-hidden="true"></i> Sección G </a>
                
                     @else
                          <a class="btn boton-dorado" id="btn-espG" href="{{route('especialidad.show',['espG',$Encuesta->registro])}}">Sección G</a>

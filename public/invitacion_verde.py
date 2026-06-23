@@ -84,9 +84,9 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
 
     # SMTP
     try:
-        servidor = smtplib.SMTP('smtp.gmail.com', 587)
+        servidor = smtplib.SMTP('exalumno.pve.unam.mx', 587)
         servidor.starttls()
-        servidor.login('vinculacionexalumnos@exalumno.unam.mx', 'mfdd bsjr yiku wahf')
+        servidor.login('vinculacionexalumnos@exalumno.unam.mx', 'programa')
         servidor.sendmail(remitente, destinatario, msg.as_string())
         servidor.quit()
         return True

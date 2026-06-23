@@ -47,6 +47,7 @@ class MuestrasController extends Controller
     return view('muestras.show',compact('Egresados','Muestra'));
 }
 
+/*
 public function plantel_index_16(){
   
   $Planteles=Egresado::where('act_suvery','1')
@@ -57,13 +58,13 @@ public function plantel_index_16(){
   // dd($planteles);
   return view('muestras.act16.plantel_index',compact('Planteles'));
 }
-
+*/
 
 public function index_general($gen,$id){
 
-  //CHECA GENERACION 2016
-  if ($gen==16){
-    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+  //CHECA GENERACION 2018
+  if ($gen==18){
+    $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -72,7 +73,7 @@ public function index_general($gen,$id){
   ->distinct()
   ->get();
   if($id==0){
-    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+    $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -192,10 +193,10 @@ public function index_general($gen,$id){
 
 }
 
-  
+  /*
 public function index_16($id){
  
-  $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+  $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -204,7 +205,7 @@ public function index_16($id){
   ->distinct()
   ->get();
   if($id==0){
-    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+    $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -239,6 +240,7 @@ public function index_16($id){
   return view('muestras.act16.index',compact('carreras'));
 }
 
+*/
 public function index_20($id){
   $carreras=Muestra::where('estudio_id','=','3')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
@@ -464,8 +466,8 @@ public function plantel_index($gen){
   $Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
    if ($gen==20){
     return view('muestras.plantel_index',compact('Planteles', 'gen'));
-   } else if ($gen==16){
-    $Planteles=Egresado::where('act_suvery','1')
+   } else if ($gen==18){
+    $Planteles=Egresado::where('act_suvery','2')
       ->join('carreras','egresados.plantel','carreras.clave_plantel')
       ->select('carreras.plantel','carreras.clave_plantel',)
       ->distinct()->get();
@@ -494,14 +496,14 @@ public function show_20($carrera,$plantel){
 
 public function show_16($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
-  $muestra=DB::table('egresados')->where('act_suvery','=','1')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
+  $muestra=DB::table('egresados')->where('act_suvery','=','2')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
     ->leftJoin('codigos','codigos.code','=','egresados.status')
     ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
-  $this->recordEvent(0, 'muestra_16', 'gen 2016 '.$carrera.'-'.$plantel);
+  $this->recordEvent(0, 'muestra_16', 'gen 2018 '.$carrera.'-'.$plantel);
   return view('muestras.act16.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
   
 }
@@ -620,7 +622,7 @@ public function revision_posgrado(){
 
 
 
-//Revisar encuenstas de act 2016
+//Revisar encuenstas de act 2018
 
 public function revision16(){
   $Encuestas=respuestas16::leftJoin('carreras', function($join)
@@ -649,7 +651,7 @@ public function completar_encuesta($id){
       return redirect()->back();
     }
   }
-  if($Egresado->muestra==3){
+  if($Egresado->muestra==5){
     $Encuesta=respuestas20::where('cuenta',$Egresado->cuenta)->first();
     if($Encuesta){
       return redirect()->route('edit_20',[$Encuesta->registro,'SEARCH']);
@@ -657,8 +659,8 @@ public function completar_encuesta($id){
       return redirect()->back();
     }
   }
+  return redirect()->back();
 }
-
 
 
 //funciones para posgrado
@@ -673,6 +675,7 @@ public function index_posgrado($programa){
   $programa = urldecode($programa);
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->where('muestra', '=', 7)
     ->where('fuente','base original')
     ->select('plan')
     ->distinct()
@@ -682,6 +685,7 @@ public function index_posgrado($programa){
     $queryBase = EgresadoPosgrado::where('programa', $programa)
       ->where('plan', $p->plan)
       ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+      ->where('muestra', '=', 7)
       ->where('fuente', 'base original');
 
     // Encuestas por teléfono
@@ -850,13 +854,14 @@ public function show_unificado($carrera, $plantel, $muestra_id){
 
 public function especialidad_index(){
 
-  $planes = EgresadoEspecialidad::whereIn('anio_egreso', [2022, 2023, 2024, 2025])
+  $planes = EgresadoEspecialidad::whereIn('anio_egreso', [2020, 2021, 2022, 2023])
+    ->where('created_at','<','2026-05-01')
     ->select('especialidad')
     ->distinct()
     ->get();
   foreach ($planes as $p) {
     $queryBase = EgresadoEspecialidad::where('especialidad', $p->especialidad)
-      ->whereIn('anio_egreso', [2022, 2023, 2024, 2025]);
+      ->whereIn('anio_egreso', [2020, 2021, 2022, 2023]);
 
     // Encuestas por teléfono
     $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();
@@ -877,7 +882,8 @@ public function especialidad_index(){
       
     $muestra = DB::table('egresados_especialidad')
       ->where('especialidad', '=', $especialidad)
-      ->whereIn('anio_egreso', [2022,2023,2024,2025])
+      ->whereIn('anio_egreso', [2020,2021,2022,2023])
+      ->where('created_at','<','2026-05-01')
       ->leftJoin('codigos',function($join){
         $join->on(
               // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER

@@ -36,6 +36,24 @@ class Encuesta22Controller extends Controller
             ->first();
 
         if ($Correo->enviado == 0) {
+            try {
+               
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
+
+                $Correo->enviado = 1;
+                $Correo->save();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+                
+                throw $e; 
+        }
+    }
+/*
+        if ($Correo->enviado == 0) {
             $caminoalpoder = public_path();
             $process = new Process([
                 env("PY_COMAND"),
@@ -55,7 +73,7 @@ class Encuesta22Controller extends Controller
             }
             $data = $process->getOutput();
         }
-       
+  */     
         //  dd('hasta aki');
         $Encuesta = respuestas20::where("cuenta", "=", $cuenta)
             ->where("nbr2", "=", $carrera)
@@ -282,10 +300,10 @@ class Encuesta22Controller extends Controller
         $section_field = "sec_" . strtolower($section);
         if ($this->validar_seccion($Encuesta, $section,$request)) {
             $Encuesta->$section_field = 1;
-            $this->recordEvent($Encuesta->registro, 'update_completa_seg22', ' ');
+            $this->recordEvent($Encuesta->registro, 'update_completa_seg22', 'section'.$section);
         } else {
             $Encuesta->$section_field = 0;
-            $this->recordEvent($Encuesta->registro, 'update_incompleta_seg22', ' ');
+            $this->recordEvent($Encuesta->registro, 'update_incompleta_seg22', 'section'.$section);
             return back()->with('error', 'true');
         }
         $Encuesta->save();

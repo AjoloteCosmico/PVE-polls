@@ -61,7 +61,7 @@
 </li>
 
 <li class="nav-item">
-    <a href="{{ route('buscar') }}" class="nav-link {{ Request::is('buscar') ? 'active' : '' }}">
+    <a href="{{ route('resultado') }}" class="nav-link {{ Request::is('resultado') ? 'active' : '' }}">
     <i class="fas fa-eye"></i>
         <p>Buscar numero  </p>
     </a>

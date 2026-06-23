@@ -21,7 +21,7 @@
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2016
                 </button>
             </a>
-            <br> <br> 
+            <br> 
             <a href="{{ route('report','correos_contestadas_2016')}}">
                 <button class="boton-azul" >
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2016
@@ -48,8 +48,7 @@
         </div>
     </div>
     <br>
-</div>
-<div>
+    <div>
     <div class="row"> 
         <div class="col">
             <div class="cuadro-amarillo">
@@ -59,33 +58,251 @@
         </div>
         <div class="col">
             <div class="cuadro-amarillo">
+                <h3> Total encuestas posgrado:  {{$TotalPos}}</h3>
+                <h3> por internet: {{$InternetPos}} </h3>
+            </div>
+        </div>
+        <div class="col">
+            <div class="cuadro-amarillo">
                 <h3> Total encuestas 2016:   {{$total16}} </h3>
                 <h3> por internet: {{$Internet16}} </h3>
             </div>
         </div>
     </div>
-    
+
     <div class="row">
-        <div class="col cuadro-amarillo" style="font-color: white;">
-            {!! $aplica_chart->container() !!}
-        </div>
-        <div class="col cuadro-amarillo" style="font-color: white;">
-            {!! $weeklyChart->container() !!}
+    <div class="col-12 col-md-6 mb-4">
+        <h1>AVANCE ESTUDIO SEG 2022</h1>
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2022 -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie22" 
+                    type="doughnut" 
+                    title="Avance del estudio seg 2022" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$Internet,$telefonicas, $requeridas-$Internet-$telefonicas]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
         </div>
     </div>
-  <div class="row">
+
+    <div class="col-12 col-md-6 mb-4">
+        <h1>AVANCE ESTUDIO POSGRADO PILOTO</h1>
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence posgrado -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie_posgrado" 
+                    type="doughnut" 
+                    title="Avance del estudio posgrado" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$InternetPos,$telefonicasPos, $requeridasPos-$InternetPos-$telefonicasPos]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
+
+     <div class="col-12 col-md-6 mb-4">
+        <h1>AVANCE ESTUDIO ACT 2016</h1>
+        <div class="card card-outline card-warning p-3"> <!-- Pastel de avence 2016 -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="pie16" 
+                    type="doughnut" 
+                    title="Avance del estudio act 2016" 
+                    :labels="['Realizadas Internet','Realizadas telef','No realizadas']" 
+                    :data="[$Internet16,$telefonicas16, $requeridas16-$Internet16-$telefonicas16]" 
+                    :colors="['#002b7a', 'rgba(52, 152, 219, 0.7)', '#ba800d']"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 mb-4">
+        <h1>ENCUESTAS 2022 POR APLICADOR</h1>
+        <div class="card card-outline card-warning p-3"> <!-- 2022 encuestas por aplciador -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="name22" 
+                    type="bar" 
+                    title="Cuestionarios por encuestador 2022" 
+                    :labels="$chartName22['labels']" 
+                    :data="$chartName22['data']" 
+                />
+            </div>
+        </div>
+    </div>
+    
+     <div class="col-12 col-md-6 mb-4">
         
-        <div class="col cuadro-amarillo" style="font-color: white;">
-            {!! $weeklyChart_16->container() !!}
+        <div class="card card-outline card-warning p-3"> <!-- Por tipo de estudio,  apilado por encuestador  -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="stackedEnc" 
+                    :labels="$stackedEnc['labels']" 
+                    :data="$stackedEnc['datasets']" 
+                    type="bar" 
+                    title="Encuestadores por periodo"
+                    :stacked="true"
+                />
+            </div>
         </div>
-        <div class="col cuadro-amarillo" style="font-color: white;">
-            {!! $weeklyChart_pos->container() !!}
+        </div>
+        <div class="col-12 col-md-6 mb-4">
+        <div class="card card-outline card-warning p-3"> <!-- Multi serie encuestas por semana historico -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="weeklyAll" 
+                    :labels="$chartWeeklyAll['labels']" 
+                    :data="$chartWeeklyAll['datasets']" 
+                    type="line" 
+                    title="Encuestas semanales por estudio"
+                    :stacked="false"
+                />
+            </div>
         </div>
     </div>
 
-    
+    <div class="col-12 col-md-6 mb-4">
+        <h3>Envios de correos por tipo, historico</h3>
+        <div class="card card-outline card-warning p-3"> <!-- Multi serie envios por semana historico -->
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="weeklyEnvios" 
+                    :labels="$chartEmailTracking['labels']" 
+                    :data="$chartEmailTracking['datasets']" 
+                    type="line" 
+                    title="Envios semanales por tipo"
+                    :stacked="false"
+                />
+            </div>
+        </div>
+    </div>
+<div class="col-12 col-md-6 mb-4">
+    <h3>Tasas de apertura por tipo</h3>
+    @if(!empty($tasa_apertura))
+        @foreach($tasa_apertura as $item)
+            @php
+                $enviados = $item['enviados'] ?? 0;
+                $abiertos = $item['abiertos'] ?? 0;
+                $porcentaje = $enviados > 0 ? ($abiertos / $enviados) * 100 : 0;
+            @endphp
+            <div class="card card-outline card-warning p-3 mb-3">
+                <h4>Tasa de apertura: {{ ucfirst($item['type']) }}</h4>
+                <p>Enviados: {{ number_format($enviados) }} — Abiertos: {{ number_format($abiertos) }}</p>
+                <p><strong>{{ number_format($porcentaje, 2) }}%</strong></p>
+            </div>
+        @endforeach
+    @else
+        <div class="card card-outline card-warning p-3 mb-3">
+            <p>No hay datos de envíos.</p>
+        </div>
+    @endif
+</div>
+  <div class="col-12 col-md-12 mb-4">
+    <h3>Encuestas 2022 vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+        <div class="card card-outline card-warning p-3">
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="encuestasVsRecados" 
+                    type="bar" 
+                    title="Encuestas completadas vs Recados (Medios de Contacto)" 
+                    :labels="$chartEncuestasVsRecados['labels']" 
+                    :data="$chartEncuestasVsRecados['datasets']" 
+                    :stacked="true"
+                    :indexAxis="'y'"
+                />
+            </div>
+            <!-- Tabla de Coeficientes de Efectividad -->
+            <div class="mt-3">
+                <h5>Coeficientes de Efectividad (Encuestas / Recados)</h5>
+                <table class="table table-sm ">
+                    <thead>
+                        <tr>
+                            <th>Encuestador</th>
+                            <th class="text-center">Encuestas</th>
+                            <th class="text-center">Recados</th>
+                            <th class="text-center">Coeficiente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($chartEncuestasVsRecados['labels'] as $idx => $label)
+                            @php
+                                $encuestas = $chartEncuestasVsRecados['datasets'][0]['data'][$idx] ?? 0;
+                                $recados = $chartEncuestasVsRecados['datasets'][1]['data'][$idx] ?? 0;
+                                $efectividad = $chartEncuestasVsRecados['effectiveness'][$idx] ?? 0;
+                            @endphp
+                            <tr>
+                                <td><strong>{{ $label }}</strong></td>
+                                <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ $recados }}</td>
+                                <td class="text-center">
+                                    <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
+                                        {{ number_format($efectividad, 3) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-    
+
+      
+  <div class="col-12 col-md-12 mb-4">
+    <h3>Encuestas Posgrado vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+        <div class="card card-outline card-warning p-3">
+            <div class="chart-wrapper-fixed">
+                <x-chart-js 
+                    id="encuestasVsRecadosPos" 
+                    type="bar" 
+                    title="Encuestas completadas vs Recados (Medios de Contacto)" 
+                    :labels="$chartEncuestasVsRecadosPos['labels']" 
+                    :data="$chartEncuestasVsRecadosPos['datasets']" 
+                    :stacked="true"
+                    :indexAxis="'y'"
+                />
+            </div>
+            <!-- Tabla de Coeficientes de Efectividad -->
+            <div class="mt-3">
+                <h5>Coeficientes de Efectividad (Encuestas / Recados)</h5>
+                <table class="table table-sm ">
+                    <thead>
+                        <tr>
+                            <th>Encuestador</th>
+                            <th class="text-center">Encuestas</th>
+                            <th class="text-center">Recados</th>
+                            <th class="text-center">Coeficiente</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @foreach($chartEncuestasVsRecadosPos['labels'] as $idx => $label)
+                            @php
+                                $encuestas = $chartEncuestasVsRecadosPos['datasets'][0]['data'][$idx] ?? 0;
+                                $recados = $chartEncuestasVsRecadosPos['datasets'][1]['data'][$idx] ?? 0;
+                                $efectividad = $chartEncuestasVsRecadosPos['effectiveness'][$idx] ?? 0;
+                            @endphp
+                            <tr>
+                                <td><strong>{{ $label }}</strong></td>
+                                <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ $recados }}</td>
+                                <td class="text-center">
+                                    <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
+                                        {{ number_format($efectividad, 3) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+
 </div>
 
 @endsection
@@ -93,6 +310,31 @@
 @push('css')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
+<style>
+    /* Forzamos al contenedor a mantener dimensiones rígidas que no rompan el Flexbox de AdminLTE */
+    .chart-wrapper-fixed {
+        position: relative;
+        display: block;
+        width: 100% !important;
+        height: 500px !important; /* Altura fija para que el canvas no se estire al infinito */
+        overflow: hidden;         /* Evita que subelementos desborden el layout principal */
+        box-sizing: border-box;
+    }
+
+    /* Aseguramos que el componente de Chart.js y su contenedor interno respeten el límite */
+    .chart-container-js {
+        position: relative;
+        height: 100% !important;
+        width: 100% !important;
+    }
+
+    /* Forzar al Canvas a no romper el bloque */
+    .chart-wrapper-fixed canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
 @endpush
 
 @push('js')
@@ -101,25 +343,7 @@
   console.log('script jalando ¿?');
   $(document).ready(function() {
     $('#myTable').DataTable();
-} );
- </script>
+  });
+</script>
 
-
-<script src="{{ $aplica_chart->cdn() }}"></script>
-  
-{!! $aplica_chart->script() !!}
-
-<script src="{{ $weeklyChart->cdn() }}"></script>
-  
-{!! $weeklyChart->script() !!}
-    
-<script src="{{ $weeklyChart->cdn() }}"></script>
-  
-{!! $weeklyChart->script() !!}
-<script src="{{ $weeklyChart_16->cdn() }}"></script>
-  
-{!! $weeklyChart_16->script() !!}
-<script src="{{ $weeklyChart_pos->cdn() }}"></script>
-  
-{!! $weeklyChart_pos->script() !!}
- @endpush
+@endpush

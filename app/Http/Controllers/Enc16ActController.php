@@ -33,23 +33,22 @@ class Enc16ActController extends Controller
             ->where("carrera", $carrera)
             ->first();
         if ($Correo->enviado == 0) {
-            $caminoalpoder = public_path();
-            $process = new Process([
-                env("PY_COMAND"),
-                $caminoalpoder . "/aviso.py",
-                $Egresado->nombre,
-                $Correo->correo,
-            ]);
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
-                $Correo->save();
-            } else {
+            try {
+               
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
+
                 $Correo->enviado = 1;
                 $Correo->save();
-            }
-            $data = $process->getOutput();
+
+            } catch (ProcessFailedException $e) {
+                
+                $Correo->enviado = 2; 
+                $Correo->save();
+            
+                
+                throw $e; 
         }
+    }
 
         $Encuesta = respuestas16::where("cuenta", "=", $cuenta)
             ->where("nbr2", "=", $carrera)
@@ -65,10 +64,11 @@ class Enc16ActController extends Controller
             $Encuesta->nbr2 = $carrera;
             $Encuesta->nbr3 = $Egresado->plantel;
             $Encuesta->completed = 0;
+            $Encuesta->gen = 2018;
             $Encuesta->save();
-            $this->recordEvent($Encuesta->registro, 'create_enc_act16', ' ');
+            $this->recordEvent($Encuesta->registro, 'create_enc_act18', ' ');
         }else{
-            $this->recordEvent($Encuesta->registro, 'continue_act16', 'comienza encuesta desde registro existente');
+            $this->recordEvent($Encuesta->registro, 'continue_act18', 'comienza encuesta desde registro existente');
         }
         return redirect()->route('edit_16',$Encuesta->registro);
     }
@@ -224,11 +224,11 @@ class Enc16ActController extends Controller
 
                     }
             $Encuesta->completed=1;
-            $Encuesta->nbr7=2016;
+            $Encuesta->nbr7=2018;
             $Encuesta->save();
             $Egresado->status=1;
             $Egresado->save();
-            $this->recordEvent($Encuesta->registro, 'update_complete_act16', ' ');
+            $this->recordEvent($Encuesta->registro, 'update_complete_act18', ' ');
             //guardar los datos de la empresa si es necesario
             // $Empresa=Empresas::where('nombre',$Encuesta->ncr2)->first();
             // if(!$Empresa){
@@ -261,7 +261,7 @@ class Enc16ActController extends Controller
               }
             $Egresado->status=10;
             $Egresado->save();
-            $this->recordEvent($Encuesta->registro, 'update_incomplete_act16', ' ');
+            $this->recordEvent($Encuesta->registro, 'update_incomplete_act18', ' ');
             if($request->btn_pressed == "inconclusa"){
                 return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
             }

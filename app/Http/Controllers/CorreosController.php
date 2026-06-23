@@ -104,7 +104,7 @@ use  LogEvents;
             }
         }
 
-        if($Egresado->act_suvery==1){
+        if($Egresado->act_suvery==2){
             if($encuesta == '2016'){
                 return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
@@ -191,15 +191,7 @@ use  LogEvents;
         $Correo=Correo::find($id);
         $Egresado=Egresado::where('cuenta',$Correo->cuenta)->first();
         $caminoalpoder=public_path();
-        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }else{
-            $Correo->enviado=1;
-            $Correo->save();
-        }
-        $data = $process->getOutput();
+        $this->enviarAviso($id, $Correo->correo, $Egresado->nombre.' '.$Egresado->paterno);
         
         $this->recordEvent($Correo->id, 'direct_send', ' ');
         return redirect()->back();
@@ -209,22 +201,68 @@ use  LogEvents;
  public function posgrado_direct_send($id){
         $Correo=Correo::find($id);
         $Egresado=EgresadoPosgrado::where('cuenta',$Correo->cuenta)->first();
-        $caminoalpoder=public_path();
-        $process = new Process([env('PY_COMAND'),$caminoalpoder.'/aviso.py',$Egresado->nombre.' '.$Egresado->paterno,$Correo->correo]);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }else{
-            $Correo->enviado=1;
-            $Correo->save();
-        }
-        $data = $process->getOutput();
+          $this->enviarAviso($id, $Correo->correo, $Egresado->nombre.' '.$Egresado->paterno);
 
         $this->recordEvent($Correo->id, 'direct_send_pos', ' ');
         return redirect()->back();
  
  }
 
+  public function store_async(Request $request ){
+
+        //Validacion de que el telefono no esté repetido
+        $request->validate([
+            'correo' => 'required|string|max:40|unique:correos,correo',
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'correo.required' => 'El campo correo es obligatorio.',
+            'correo.unique' => 'Este correo ya está registrado.',
+        ]);
+
+
+        $Correo=new Correo();
+        $Correo->cuenta=$request->cuenta;
+        $Correo->correo=$request->correo;
+        $Correo->descripcion=$request->description;
+        //ABAJO EL ESTATUS NO DEBE´RIA SER 0 PORK NO ES SIN DATOS, SABEMOS Q SI LO USA EL EGRESADO
+        $Correo->status=13;
+
+        $Correo->save();
+        $this->recordEvent($Correo->id, 'create_correo', $request->type.' encuestaKey: '. $request->encuesta_id);
+        
+       
+            return response()->json([
+                'success' => true, 
+                'status' => 'sin datos',
+                'message' => 'Correo agregado correctamente',
+                'correo' => $Correo,
+            ]);
+        
+        
+    }
+  public function update_async(Request $request ){
+
+        //Validacion de que el telefono no esté repetido
+       
+
+
+        $Correo=Correo::find($request->correo_id);
+        $Correo->correo=$request->correo;
+        $Correo->descripcion=$request->description;
+        $Correo->status=$request->status;
+
+        $Correo->save();
+        $this->recordEvent($Correo->id, 'update_correo', $request->type.' encuestaKey: '. $request->encuesta_id);
+
+            return response()->json([
+                'success' => true, 
+                'status' => $request->status,
+                'message' => 'Correo Editado correctamente',
+                'correo' => $Correo,
+            ]);
+        
+        
+    }
  
 }
 
