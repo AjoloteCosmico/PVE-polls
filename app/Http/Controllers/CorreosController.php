@@ -104,7 +104,7 @@ use  LogEvents;
             }
         }
 
-        if($Egresado->act_suvery==1){
+        if($Egresado->act_suvery==2){
             if($encuesta == '2016'){
                 return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
