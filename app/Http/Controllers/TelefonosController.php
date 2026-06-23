@@ -144,7 +144,7 @@ use  LogEvents;
 
         if (isset($egresado->carrera) && $egresado->carrera != 0) {
 
-            if ($egresado->act_suvery == 1) {
+            if ($egresado->act_suvery == 2) {
                 if ($encuesta == '2016') {
                     return route('act_data', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
                 } else {
