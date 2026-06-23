@@ -527,7 +527,6 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
 // Obtener el egresado actual
     $egresadoActual = DB::table('egresados_posgrado')->where('cuenta', $cuenta)
     ->where('plan',$plan)->first();
-    
     if (!$egresadoActual) {
         return response()->json(['error' => 'Egresado no encontrado'], 404);
     }
