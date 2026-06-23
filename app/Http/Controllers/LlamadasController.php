@@ -24,6 +24,7 @@ use Session;
 class LlamadasController extends Controller
 {
     use LogEvents;
+    
     public function llamar($gen,$id,$carrera,$siguiente=0){
     
         if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
@@ -44,7 +45,7 @@ class LlamadasController extends Controller
             $Encuesta= ($gen == '2020') ? 'ENCUESTA DE SEGUIMIENTO 2020' : 'ENCUESTA DE SEGUIMIENTO 2022';;
             $Encuesta=respuestas20::where('cuenta','=',$Egresado->cuenta)->first();
         }else{
-            $Encuesta='ENCUESTA DE ACTUALIZACION 2016';
+            $Encuesta='ENCUESTA DE ACTUALIZACION 2018';
             $Encuesta=respuestas16::where('cuenta','=',$Egresado->cuenta)->first();
         }
 

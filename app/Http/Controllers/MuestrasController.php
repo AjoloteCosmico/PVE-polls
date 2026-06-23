@@ -47,6 +47,7 @@ class MuestrasController extends Controller
     return view('muestras.show',compact('Egresados','Muestra'));
 }
 
+/*
 public function plantel_index_16(){
   
   $Planteles=Egresado::where('act_suvery','1')
@@ -57,13 +58,13 @@ public function plantel_index_16(){
   // dd($planteles);
   return view('muestras.act16.plantel_index',compact('Planteles'));
 }
-
+*/
 
 public function index_general($gen,$id){
 
-  //CHECA GENERACION 2016
-  if ($gen==16){
-    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+  //CHECA GENERACION 2018
+  if ($gen==18){
+    $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -72,7 +73,7 @@ public function index_general($gen,$id){
   ->distinct()
   ->get();
   if($id==0){
-    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+    $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -192,10 +193,10 @@ public function index_general($gen,$id){
 
 }
 
-  
+  /*
 public function index_16($id){
  
-  $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+  $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -204,7 +205,7 @@ public function index_16($id){
   ->distinct()
   ->get();
   if($id==0){
-    $carreras=Egresado::where('act_suvery','1')->leftJoin('carreras', function($join){
+    $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'egresados.carrera');
       $join->on('carreras.clave_plantel', '=', 'egresados.plantel');                             
   })
@@ -239,6 +240,7 @@ public function index_16($id){
   return view('muestras.act16.index',compact('carreras'));
 }
 
+*/
 public function index_20($id){
   $carreras=Muestra::where('estudio_id','=','3')->leftJoin('carreras', function($join){
       $join->on('carreras.clave_carrera', '=', 'muestras.carrera_id');
@@ -464,8 +466,8 @@ public function plantel_index($gen){
   $Planteles=Carrera::distinct()->get(['plantel','clave_plantel']);
    if ($gen==20){
     return view('muestras.plantel_index',compact('Planteles', 'gen'));
-   } else if ($gen==16){
-    $Planteles=Egresado::where('act_suvery','1')
+   } else if ($gen==18){
+    $Planteles=Egresado::where('act_suvery','2')
       ->join('carreras','egresados.plantel','carreras.clave_plantel')
       ->select('carreras.plantel','carreras.clave_plantel',)
       ->distinct()->get();
@@ -494,14 +496,14 @@ public function show_20($carrera,$plantel){
 
 public function show_16($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
-  $muestra=DB::table('egresados')->where('act_suvery','=','1')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
+  $muestra=DB::table('egresados')->where('act_suvery','=','2')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
     ->leftJoin('codigos','codigos.code','=','egresados.status')
     ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
   ->orderBy('color')->get();
-  $this->recordEvent(0, 'muestra_16', 'gen 2016 '.$carrera.'-'.$plantel);
+  $this->recordEvent(0, 'muestra_16', 'gen 2018 '.$carrera.'-'.$plantel);
   return view('muestras.act16.show',compact('muestra','Carrera','Codigos','carrera','plantel'));
   
 }
@@ -620,7 +622,7 @@ public function revision_posgrado(){
 
 
 
-//Revisar encuenstas de act 2016
+//Revisar encuenstas de act 2018
 
 public function revision16(){
   $Encuestas=respuestas16::leftJoin('carreras', function($join)
