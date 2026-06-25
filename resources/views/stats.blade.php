@@ -200,7 +200,7 @@
     @endif
 </div>
   <div class="col-12 col-md-12 mb-4">
-    <h3>Encuestas 2022 vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+    <h3>Encuestas 2022 (Ultimos 30 dias por cada encuestador)</h3>
         <div class="card card-outline card-warning p-3">
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -221,8 +221,9 @@
                         <tr>
                             <th>Encuestador</th>
                             <th class="text-center">Encuestas</th>
+                            <th class="text-center">Encuestas x dia <br> (promedio)</th>
                             <th class="text-center">Recados</th>
-                            <th class="text-center">Coeficiente</th>
+                            <th class="text-center">Coeficiente <br> efectividad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -231,10 +232,12 @@
                                 $encuestas = $chartEncuestasVsRecados['datasets'][0]['data'][$idx] ?? 0;
                                 $recados = $chartEncuestasVsRecados['datasets'][1]['data'][$idx] ?? 0;
                                 $efectividad = $chartEncuestasVsRecados['effectiveness'][$idx] ?? 0;
+                                $encuestasPorDia = $recados > 0 ? $encuestas / 30 : 0;
                             @endphp
                             <tr>
                                 <td><strong>{{ $label }}</strong></td>
                                 <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ number_format($encuestasPorDia, 2) }}</td>
                                 <td class="text-center">{{ $recados }}</td>
                                 <td class="text-center">
                                     <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
@@ -252,7 +255,7 @@
 
       
   <div class="col-12 col-md-12 mb-4">
-    <h3>Encuestas Posgrado vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+    <h3>Encuestas Posgrado (Ultimos 30 dias por cada encuestador)</h3>
         <div class="card card-outline card-warning p-3">
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -273,8 +276,9 @@
                         <tr>
                             <th>Encuestador</th>
                             <th class="text-center">Encuestas</th>
+                            <th class="text-center">Encuestas x dia <br> (promedio)</th>
                             <th class="text-center">Recados</th>
-                            <th class="text-center">Coeficiente</th>
+                            <th class="text-center">Coeficiente <br> efectividad</th>
                         </tr>
                     </thead>
                     
@@ -284,10 +288,12 @@
                                 $encuestas = $chartEncuestasVsRecadosPos['datasets'][0]['data'][$idx] ?? 0;
                                 $recados = $chartEncuestasVsRecadosPos['datasets'][1]['data'][$idx] ?? 0;
                                 $efectividad = $chartEncuestasVsRecadosPos['effectiveness'][$idx] ?? 0;
+                                $encuestasPorDia = $recados > 0 ? $encuestas / 30 : 0;
                             @endphp
                             <tr>
                                 <td><strong>{{ $label }}</strong></td>
                                 <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ number_format($encuestasPorDia, 2) }}</td>
                                 <td class="text-center">{{ $recados }}</td>
                                 <td class="text-center">
                                     <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
