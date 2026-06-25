@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth']], function(){
     */
     Route::controller(MuestrasController::class)->group(function(){
         
-        Route::get('muestras20/index/{id}','index_20')->name('muestras20.index');
+        //Route::get('muestras20/index/{id}','index_20')->name('muestras20.index');
         Route::get('muestras22/index/{id}','index_22')->name('muestras22.index');
       
         Route::get('muestras20/show/{carrera}/{plantel}','show_20')->name('muestras20.show');
