@@ -84,7 +84,7 @@ public function index_general($gen,$id){
 
   foreach($carreras as $c){
     // Partes comunes de la consulta base
-    $queryBase = Egresado::where('act_suvery', 1)
+    $queryBase = Egresado::where('act_suvery', 2)
     ->where('carrera', $c->c)
     ->where('plantel', $c->p)
     ->get();

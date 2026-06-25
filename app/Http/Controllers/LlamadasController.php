@@ -533,7 +533,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
    
         // Replicar exactamente la misma query que usas en el index/show
         $query = DB::table('egresados_posgrado')
-             ->where('programa', '=', $egresadoActual->programa)
+            ->where('programa', '=', $egresadoActual->programa)
             ->where('plan', '=', $egresadoActual->plan)
             ->where('muestra', '=', 7)
             ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])

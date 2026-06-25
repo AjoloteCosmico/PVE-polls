@@ -30,8 +30,8 @@
                             </button>
                             @endif
                             @if($eg->act_suvery==1)
-                            <button wire:click="seleccionarMuestra({{$eg->id}}, 'licenciatura')" class="boton-oscuro">
-                                ACTUALIZACION
+                            <button  class="boton-oscuro">
+                                ACTUALIZACION <br> 2016 (terminada)
                             </button>
                             @endif
                             @if($eg->act_suvery==2)
