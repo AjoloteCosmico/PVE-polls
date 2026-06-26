@@ -481,7 +481,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         } 
     }else{
          $query = DB::table('egresados')
-            ->where('act_suvery', '=', '1')
+            ->where('act_suvery', '=', '2')
             ->where('egresados.carrera', '=', $egresadoActual->carrera)
             ->whereNotIn('egresados.status', ['1', '2'])
             ->where('plantel', '=', $egresadoActual->plantel)
