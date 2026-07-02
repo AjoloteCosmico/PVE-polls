@@ -212,7 +212,7 @@ class Enc16ActController extends Controller
         // 
         if ($request->btn_pressed === 'guardar') {
             $this->validar($Encuesta);
-            if($Encuesta->completed != 1){
+            if($Encuesta->completed == 1){
                 $Encuesta->save();
         }
         return back()->with('status', 'guardado');
@@ -220,9 +220,8 @@ class Enc16ActController extends Controller
         if( $this->validar($Encuesta)){
             //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
                 if ($Encuesta->completed == 1){
-                       //nada xd
-                    }else{
-                        $Encuesta->fec_capt = now()->modify("-6 hours");
+            $Encuesta->fec_capt = now()->modify("-6 hours");
+
                     }
             $Encuesta->completed=1;
             $Encuesta->nbr7=2018;

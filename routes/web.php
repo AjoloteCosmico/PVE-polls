@@ -68,12 +68,12 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('muestras22/show/{carrera}/{plantel}','show_22')->name('muestras22.show22');//SHOW DEL 22
 
 
-        Route::get('muestras{gen}/index/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
+        Route::get('muestras{gen}/index/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2018 Y SEGUIMIENTO 2022
         Route::get('muestras{gen}/planteles/','plantel_index')->name('muestras.plantel_index');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
         //Route::get('muestras{gen}/indexgeneral/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
         
         //encuesta de act 2016
-        Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
+        Route::get('muestras18/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
 
         //encuesta educación continua
@@ -142,10 +142,10 @@ Route::group(['middleware' => ['auth']], function(){
      */
     Route::controller(Enc16ActController::class)->group(function(){
 
-        Route::get('/comenzar_encuesta_2016/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2016');
-        Route::get('/encuestas_2016/edit/{id}', 'edit')->name('edit_16');
-        Route::post('/encuestas/2016/update/{id}', 'update')->name('encuesta16.update');
-        Route::get('/encuestas/2016/guardar_inconclusa/{id}', 'guardar_incompleta')->name('incomplete');
+        Route::get('/comenzar_encuesta_2018/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2018');
+        Route::get('/encuestas_2018/edit/{id}', 'edit')->name('edit_16');
+        Route::post('/encuestas/2018/update/{id}', 'update')->name('encuesta16.update');
+        Route::get('/encuestas/2018/guardar_inconclusa/{id}', 'guardar_incompleta')->name('incomplete');
     });
     /**Actualización de encuestas:
      * Estas rutas permiten actualizar los datos de las encuestas 

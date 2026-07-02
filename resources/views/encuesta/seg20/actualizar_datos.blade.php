@@ -27,7 +27,7 @@
             </button>
         </a>
         @endif
-        @if($gen==2016)
+        @if($gen==2018)
         <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
             <button type="button"  class="boton-oscuro">
                 <i class="fas fa-table"></i> Ir a muestra Carrera 
@@ -50,8 +50,8 @@
           </button>
       </a>
     @endif
-    @if($gen==2016)
-      <a href="{{route('llamar',[2016, $Egresado->cuenta,$Egresado->carrera])}}">
+    @if($gen==2018)
+      <a href="{{route('llamar',[2018, $Egresado->cuenta,$Egresado->carrera])}}">
         <button class="boton-volver">
             <i class="fa-sharp fa-solid fa-rotate-left"></i>
           </button>
@@ -121,9 +121,9 @@
           <td>{{$c->cuenta}} </td>
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
-          @if($gen==2016)
+          @if($gen==2018)
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2016,$TelefonoEnLlamada->id])}}"> 
+            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2018,$TelefonoEnLlamada->id])}}"> 
               <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
@@ -185,7 +185,7 @@
               </td>
               @endcan
             @endif
-            @if($gen==2016)
+            @if($gen==2018)
             <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="boton-oscuro" > 
@@ -195,7 +195,7 @@
               </td>
               @can('aplicar_encuesta_actualizacion')
               <td>
-                <a href="{{route('comenzar_encuesta_2016',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
+                <a href="{{route('comenzar_encuesta_2018',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
                   <button class="boton-oscuro" > 
                     <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
                   </button>
