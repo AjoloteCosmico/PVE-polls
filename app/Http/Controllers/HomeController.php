@@ -346,7 +346,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
         // Determinar el script Python que se utilizará
 
         $scripts = [
-            2016 => 'invitacion16.py',
+            2018 => 'invitacion16.py',
             2020 => 'invitacion20.py',
             2021 => 'invitacion21.py',
             2022 => 'invitacion22.py',

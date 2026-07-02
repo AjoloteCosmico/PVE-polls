@@ -12,7 +12,7 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
     
     # Crear el mensaje
     msg = MIMEMultipart('related')
-    msg['Subject'] = "Invitación a Encuesta de Actualización de Egresados 2016"
+    msg['Subject'] = "Invitación a Encuesta de Actualización de Egresados 2018"
     msg['From'] = remitente
     msg['To'] = destinatario
     
