@@ -336,7 +336,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
     public function enviar_invitacion(Request $request){
 
         $links = [
-            2016 => "https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2016",
+            2018 => "https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2018",
             2020 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2020",
             2021 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2021",
             2022 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2022",
