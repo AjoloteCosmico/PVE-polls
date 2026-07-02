@@ -131,7 +131,7 @@
                         @endif
 
                         @if($gen==2018)
-                        @can('aplicar_encuesta_actualizacion')
+                        @can('aplicar_encuesta_actualizacion' && $Encuesta->completed==0)
                         <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
                               <i class="fas fa-file-pen"></i>  Continuar encuesta Inconclusa
