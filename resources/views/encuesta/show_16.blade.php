@@ -13,7 +13,7 @@ use \App\Http\Controllers\ComponentController;
             <h1>ENCUESTA DE ACTUALIZACION GEN 2018 UNAM</h1>
         </div>
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
-    <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+    <form action="{{ url('encuestas/2018/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
     <br><br>
