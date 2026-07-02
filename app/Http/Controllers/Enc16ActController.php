@@ -220,8 +220,7 @@ class Enc16ActController extends Controller
         if( $this->validar($Encuesta)){
             //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
                 if ($Encuesta->completed != 1){
-            $Encuesta->fec_capt = now()->modify("-6 hours");
-
+                        $Encuesta->fec_capt = now()->modify("-6 hours");
                     }
             $Encuesta->completed=1;
             $Encuesta->nbr7=2018;

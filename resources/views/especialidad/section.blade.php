@@ -140,15 +140,13 @@ $reactivosEnTablas=array();
 
                     </div>
                 @endif
-              
-                
                 
             @endif
             @endforeach
         </div>
 
         {{-- Comentario de la sección G --}}
-        @if($section === 'pE')
+        @if($section === 'espE')
             <div class="form-group" style="padding:1.2vw;">
                 <label for="comentario" style="color:white; font-size:1.5vw;">Comentario:</label>
                 <textarea name="comentario" id="comentario" rows="4" style="width:100%;">{{ $Comentario }}</textarea>

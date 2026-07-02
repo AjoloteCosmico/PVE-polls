@@ -27,8 +27,7 @@ class LlamadasController extends Controller
     
     public function llamar($gen,$id,$carrera,$siguiente=0){
     
-        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
-            
+        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {            
             $this->recordEvent($id, 'unautorized_attempt_llamar', 'gen'.$gen);
             return redirect()->back()->with('error', 'No tienes permisos para la muestra ' . $gen);
         }
@@ -37,7 +36,6 @@ class LlamadasController extends Controller
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
         ->first();
-
 
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
