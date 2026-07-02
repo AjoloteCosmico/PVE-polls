@@ -632,6 +632,7 @@ public function revision16(){
   })
   ->leftjoin('users','users.clave','=','respuestas16.aplica')
   ->select('respuestas16.*','carreras.carrera','carreras.plantel','users.name')
+  ->where('gen', 2018)
   ->where('completed',1)
   ->get();
 
