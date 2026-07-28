@@ -132,6 +132,7 @@ $reactivosEnTablas=array();
                                 'respuestas_anteriores' => $respuestas_reactivo
                             ])
                         
+                            
                         @else
                             {{-- Consulta para otros reactivos --}}
                             @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
