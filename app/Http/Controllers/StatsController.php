@@ -168,7 +168,6 @@ class StatsController extends Controller
         "to_char(date_trunc('week', updated_at), 'YYYY-MM-DD')",
         $seriesSemanales
     );
-
     // ========== 4. Gráfica semanal multilínea (email tracking) ==========
     $seriesEnvios = [
         [
