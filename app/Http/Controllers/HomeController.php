@@ -14,6 +14,7 @@ use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
 use DB;
+use Illuminate\Support\Str;
 
 use App\Models\User;
 use App\Models\Estudio;
@@ -366,6 +367,25 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
         $link = $links[$anio];
         $python = env('PY_COMAND');
 
+        $tracking_id = (string) Str::uuid();
+        $ahora = now();
+
+        $Correo = Correo::where('correo', $request->correo)->first();
+
+    if (!$Correo) {
+        return redirect()->back()->with('swal_warning', true);
+    }
+
+         DB::table('email_tracking')->insert([
+            'email_id' => $Correo->id,
+            'recipient_email' => $request->correo,
+            'tracking_uuid' => $tracking_id,
+            'type' => 'invitacion',
+            'created_at' => $ahora,
+            'sended_at' => $ahora,
+            'updated_at' => $ahora,
+        ]);
+
         $process = new Process([
             $python,
             $scriptPath,
@@ -374,7 +394,8 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
             $request->cuenta,
             $request->carrera,
             $request->plantel,
-            $link
+            $link,
+            $tracking_id
         ]);
 
         $process->run();
