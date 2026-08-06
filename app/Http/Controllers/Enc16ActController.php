@@ -263,7 +263,7 @@ class Enc16ActController extends Controller
             $Egresado->save();
             $this->recordEvent($Encuesta->registro, 'update_incomplete_act18', ' ');
             if($request->btn_pressed == "inconclusa"){
-                return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
+                return redirect()->route('llamar',['2018',$Egresado->cuenta,$Egresado->carrera]);
             }
             return back();
         }
