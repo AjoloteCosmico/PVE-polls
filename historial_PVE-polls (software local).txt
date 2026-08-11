@@ -1,0 +1,1399 @@
+Colaborador          | Total Líneas Agregadas | Commits
+--------------------------------------------------------- 
+FelipeGonzalez       | 17256                  | 176
+DavidJacome          | 7929                   | 77
+
+FelipeGonzalez|2026-06-26|de8be83| ajuste para obtener sig egresado en llamar actualizacion 2018
+ app/Http/Controllers/LlamadasController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-06-25|e3a7600|cambios a stats
+ resources/views/stats.blade.php | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-06-25|740ef32|evitar llamadas a 2016
+ app/Http/Controllers/LlamadasController.php        | 2 +-
+ app/Http/Controllers/MuestrasController.php        | 2 +-
+ resources/views/livewire/egresados-table.blade.php | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-06-23|ff248a3|mexcla act2018 con david-dev
+ app/Http/Controllers/LlamadasController.php | 1 -
+ 1 file changed, 1 deletion(-)
+
+FelipeGonzalez|2026-06-23|a799275|mezcla davMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-06-23|1794427|correos y telefonos panrtalla principal
+ app/Http/Controllers/CorreosController.php   | 2 +-
+ app/Http/Controllers/TelefonosController.php | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-06-23|03e7a6d|asfMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-06-23|ab9f8a9|buscador, primera iteracion de actualizacion 2018
+ resources/views/livewire/egresados-table.blade.php | 31 ++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
+
+DavidJacome|2026-06-22|9f5605f|cambios a la nueva encuetsa de 18, primera iteracion
+ app/Http/Controllers/Enc16ActController.php        | 38 ++++++++--------
+ app/Http/Controllers/LlamadasController.php        |  3 +-
+ app/Http/Controllers/MuestrasController.php        | 28 ++++++------
+ app/Http/Controllers/RecadosController.php         |  6 +--
+ resources/views/encuesta/saved.blade.php           |  2 +-
+ resources/views/encuesta/show_16.blade.php         |  2 +-
+ resources/views/muestras/act16/index.blade.php     |  2 +-
+ .../views/muestras/act16/plantel_index.blade.php   | 51 ----------------------
+ resources/views/muestras/index.blade.php           |  4 +-
+ resources/views/muestras/plantel_index.blade.php   |  8 ++--
+ resources/views/muestras/seg20/llamar.blade.php    |  8 ++--
+ 11 files changed, 52 insertions(+), 100 deletions(-)
+
+FelipeGonzalez|2026-06-19|b5ff945|merge buscador nuevo status
+ app/Http/Controllers/StatsController.php |  1 -
+ public/correos muestra.ipynb             | 34 +++++++++++++++++++++++++-------
+ resources/views/stats.blade.php          |  1 +
+ 3 files changed, 28 insertions(+), 8 deletions(-)
+
+DavidJacome|2026-06-19|51e2385|status buscador
+ resources/views/livewire/egresados-table.blade.php | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-06-15|ea5c981|label grafica posgrado
+ app/Http/Controllers/StatsController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-06-15|36b0ae2|tasas de apertura de correos
+ app/Http/Controllers/StatsController.php | 20 +++++++++++++++++++-
+ resources/views/stats.blade.php          | 22 +++++++++++++++++++++-
+ 2 files changed, 40 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-06-15|83b38d3|grafica de correos enviados y tasas de exito
+ app/Http/Controllers/RecadosController.php    |   2 +-
+ app/Http/Controllers/StatsController.php      | 100 ++++++++++++++++++++--
+ app/Models/EmailTracking.php                  |  13 +++
+ app/Traits/ChartDataProcessor.php             |  83 ++++++++++++++++++
+ resources/views/components/chart-js.blade.php |   8 +-
+ resources/views/stats.blade.php               | 117 ++++++++++++++++++++++++--
+ 6 files changed, 307 insertions(+), 16 deletions(-)
+
+FelipeGonzalez|2026-06-10|0e0967e| fix notifications bug, and delete recado bug
+ app/Http/Controllers/RecadosController.php | 67 +++++++++++++++++-------------
+ app/Notifications/CallSpecificTime.php     |  4 +-
+ 2 files changed, 40 insertions(+), 31 deletions(-)
+
+FelipeGonzalez|2026-06-09|9d4601e|mezcla correcciones al buscadorMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-06-09|89ef0b6|ignore acentos
+ app/Livewire/EgresadosTable.php                       | 18 +++++++++++++-----
+ app/Livewire/PosgradoTable.php                        | 13 ++++++++++---
+ resources/views/livewire/buscador-principal.blade.php |  8 ++++++--
+ 3 files changed, 29 insertions(+), 10 deletions(-)
+
+DavidJacome|2026-06-08|79b3085|busgs resueltos en buscador
+ app/Livewire/PosgradoTable.php                              | 7 +++++--
+ resources/views/livewire/egresados-posgrado-table.blade.php | 2 +-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-06-05|182b368| corrección a labels de graficas (orotgrafia)
+ resources/views/stats.blade.php | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-06-05|1a33dfe|labels en stats, corregir bug de direct_send
+ app/Http/Controllers/CorreosController.php    | 21 ++-------------------
+ app/Http/Controllers/Encuesta22Controller.php |  1 -
+ app/Http/Controllers/HomeController.php       |  2 --
+ resources/views/home.blade.php                |  4 +++-
+ resources/views/stats.blade.php               |  6 +++++-
+ 5 files changed, 10 insertions(+), 24 deletions(-)
+
+FelipeGonzalez|2026-06-04|6776518|asf
+ resources/views/home.blade.php | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-06-04|0868351|aasf
+ app/Http/Controllers/RecadosController.php | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+DavidJacome|2026-06-04|f7a429b|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+FelipeGonzalez|2026-06-04|63d07cb| estilos de graficas en dashboard
+ resources/views/home.blade.php | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+FelipeGonzalez|2026-06-04|26579cb|correcciones al dashboard, index de notificaciones
+ app/Http/Controllers/HomeController.php       | 390 +++++++++++---------------
+ repository metrics report.ipynb               | 281 +++++++++++++++++++
+ resources/views/home.blade.php                | 113 +++++++-
+ resources/views/notifications/index.blade.php |  76 +++++
+ 4 files changed, 630 insertions(+), 230 deletions(-)
+
+FelipeGonzalez|2026-06-03|0fbdd38|boton siguiente para llamar unificado, correcciones de colores a muestras e index de notificaciones
+ app/Http/Controllers/LlamadasController.php        | 72 ++++++++++++++++++++-
+ app/Http/Controllers/StatsController.php           | 24 ++++++-
+ .../muestras/ed_continua/llamar_continua.blade.php |  2 -
+ resources/views/muestras/index.blade.php           |  6 +-
+ .../views/muestras/revisiones/index.blade.php      |  2 +-
+ .../views/muestras/verde/llamar_verde.blade.php    | 73 +++++++++++++++++++++-
+ resources/views/stats.blade.php                    | 47 ++++++++++++--
+ routes/web.php                                     |  7 ++-
+ 8 files changed, 213 insertions(+), 20 deletions(-)
+
+FelipeGonzalez|2026-06-03|b4a114c|aviso de priv y tabla Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-06-03|5a4d937|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+FelipeGonzalez|2026-06-02|ca28440| integracion de eventos con llamadas, correccion a recados
+ app/Http/Controllers/Encuesta22Controller.php      |   4 +-
+ app/Http/Controllers/LlamadasController.php        |   6 +-
+ app/Http/Controllers/NotificationController.php    |   5 +-
+ app/Http/Controllers/RecadosController.php         | 105 +++++++++++++++++----
+ app/Models/Egresado.php                            |  23 +++++
+ app/Models/EgresadoPosgrado.php                    |  29 ++----
+ app/Notifications/CallSpecificTime.php             |  29 +++++-
+ resources/views/home.blade.php                     | 101 ++++++++++++--------
+ resources/views/layouts/app.blade.php              |  34 ++++---
+ .../muestras/ed_continua/llamar_continua.blade.php |   2 +-
+ .../especialidad/llamar_especialidad.blade.php     |   2 +-
+ resources/views/muestras/index.blade.php           |  20 ++--
+ .../muestras/posgrado/llamar_posgrado.blade.php    |   2 +-
+ .../views/muestras/revisiones/index.blade.php      |  12 ++-
+ resources/views/muestras/seg20/llamar.blade.php    |  12 +--
+ .../views/muestras/verde/llamar_verde.blade.php    |  26 ++++-
+ .../views/recados/recado_form_content.blade.php    |   2 +-
+ resources/views/recados/recados_tabla.blade.php    |   5 +-
+ routes/web.php                                     |   9 +-
+ 19 files changed, 298 insertions(+), 130 deletions(-)
+
+DavidJacome|2026-06-01|7170d29|Herencia en aviso de privacidad
+ app/Http/Controllers/Controller.php                | 39 +++++++++++++++++++-
+ app/Http/Controllers/Encuesta22Controller.php      | 21 ++++++++++-
+ .../Controllers/EncuestaContinuaController.php     | 27 +++++++-------
+ app/Http/Controllers/EspecialidadController.php    | 29 +++++++--------
+ app/Http/Controllers/HomeController.php            | 42 ++++++++++++++++++++--
+ app/Http/Controllers/PosgradoController.php        | 28 +++++++--------
+ public/aviso.py                                    |  8 ++---
+ 7 files changed, 139 insertions(+), 55 deletions(-)
+
+DavidJacome|2026-05-29|899e9b3|aviso traking
+ public/aviso.py | 67 ++++++++++++++++++++++++---------------------------------
+ 1 file changed, 28 insertions(+), 39 deletions(-)
+
+DavidJacome|2026-05-29|7b9841e|tabalas funcionales
+ app/Livewire/PosgradoTable.php                     | 262 ++++++++-------------
+ .../livewire/egresados-posgrado-table.blade.php    | 189 ++++++++-------
+ 2 files changed, 201 insertions(+), 250 deletions(-)
+
+DavidJacome|2026-05-28|a27d400|avance tablas juntas
+ app/Livewire/PosgradoTable.php                     | 141 +++++++++++++++++----
+ public/aviso.py                                    |   3 +-
+ .../livewire/egresados-posgrado-table.blade.php    |  69 +++++-----
+ 3 files changed, 154 insertions(+), 59 deletions(-)
+
+FelipeGonzalez|2026-05-25|652597b|Merge branch 'integracion_notif' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-05-25|c416f3c|llamando
+ resources/views/muestras/seg20/llamar.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+DavidJacome|2026-05-25|16f3f84|avances boton especialidad en tabla livewire
+ app/Livewire/PosgradoTable.php                     |  29 ++++-
+ .../livewire/egresados-posgrado-table.blade.php    | 133 ++++++++++++++-------
+ resources/views/livewire/egresados-table.blade.php |  24 +---
+ 3 files changed, 117 insertions(+), 69 deletions(-)
+
+DavidJacome|2026-05-25|96ee1b5|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+FelipeGonzalez|2026-05-25|5691321| parchar boton incorrecto de encuesta inconclusa
+ app/Http/Controllers/MuestrasController.php               | 3 ++-
+ resources/views/encuesta/seg20/actualizar_datos.blade.php | 9 +--------
+ 2 files changed, 3 insertions(+), 9 deletions(-)
+
+FelipeGonzalez|2026-05-25|c6d108c| parche encuesta incompleta
+ app/Http/Controllers/MuestrasController.php               | 3 ++-
+ resources/views/encuesta/seg20/actualizar_datos.blade.php | 9 +--------
+ 2 files changed, 3 insertions(+), 9 deletions(-)
+
+FelipeGonzalez|2026-05-25|dc711a2| change emails send credentials stpm
+ public/invitacion16.py     | 4 ++--
+ public/invitacion20.py     | 4 ++--
+ public/invitacion21.py     | 4 ++--
+ public/invitacion22.py     | 4 ++--
+ public/invitacion_verde.py | 4 ++--
+ 5 files changed, 10 insertions(+), 10 deletions(-)
+
+FelipeGonzalez|2026-05-25|1527d20|asfMerge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-05-25|35ff2f6|parchar correos
+ public/aviso.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+DavidJacome|2026-05-22|05f0660|actualizacion del readme
+ README.md | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
+
+DavidJacome|2026-05-21|2927311|optimizacion de busqueda p2
+ app/Livewire/EgresadosTable.php | 34 ++++++++++++++++++----------------
+ app/Livewire/PosgradoTable.php  | 36 +++++++++++++++++++-----------------
+ 2 files changed, 37 insertions(+), 33 deletions(-)
+
+FelipeGonzalez|2026-05-20|56c2f85|Se completan las funciones para ir al siguiente egresado (se calcula asincronico con ajax) tanto para seg, act y posgrado
+ app/Http/Controllers/LlamadasController.php        | 175 ++++++++++++++-------
+ app/Http/Controllers/RecadosController.php         |  13 +-
+ app/Http/Controllers/StatsController.php           |   4 +-
+ .../muestras/posgrado/llamar_posgrado.blade.php    |  77 ++++++++-
+ resources/views/muestras/seg20/llamar.blade.php    |  71 +++++----
+ .../views/recados/recado_form_content.blade.php    |   1 +
+ resources/views/recados/recados_tabla.blade.php    |   5 +-
+ resources/views/stats.blade.php                    |  15 ++
+ routes/web.php                                     |   8 +-
+ 9 files changed, 264 insertions(+), 105 deletions(-)
+
+DavidJacome|2026-05-20|6caec08|avance de componente de busqueda
+ app/Livewire/BuscadorPrincipal.php                 | 28 +++++++++++++++++++
+ app/Livewire/EgresadosTable.php                    | 16 +++++++++++
+ app/Livewire/PosgradoTable.php                     | 16 +++++++++++
+ .../views/livewire/buscador-principal.blade.php    | 32 ++++++++++++++++++++++
+ .../livewire/egresados-posgrado-table.blade.php    |  6 ++--
+ resources/views/livewire/egresados-table.blade.php |  2 ++
+ resources/views/resultado.blade.php                | 17 ++++++++----
+ 7 files changed, 109 insertions(+), 8 deletions(-)
+
+FelipeGonzalez|2026-05-19|75588af| se agrega psogrado al stacked por encuestador
+ app/Http/Controllers/StatsController.php | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-05-19|a652d5d|Conteos y dashboard con graficas remodelado, se integra chartJs y un trait para procesar los datos
+ app/Http/Controllers/HomeController.php          | 142 ++++++++-----
+ app/Http/Controllers/StatsController.php         | 179 ++++++++++++++++
+ app/Traits/ChartDataProcessor.php                | 188 +++++++++++++++++
+ public/correos muestra.ipynb                     | 256 ++++++++++++++++++++---
+ resources/views/components/chart-js.blade.php    | 107 ++++++++++
+ resources/views/livewire/email-manager.blade.php |   2 +-
+ resources/views/stats.blade.php                  | 116 ++++++----
+ routes/web.php                                   |   8 +-
+ 8 files changed, 868 insertions(+), 130 deletions(-)
+
+DavidJacome|2026-05-19|d3df0d9|tabla posgrado livewire p1
+ app/Livewire/PosgradoTable.php                     | 110 +++++++++++++++++++++
+ .../livewire/egresados-posgrado-table.blade.php    |  87 ++++++++++++++++
+ resources/views/resultado.blade.php                |  61 +-----------
+ 3 files changed, 202 insertions(+), 56 deletions(-)
+
+DavidJacome|2026-05-19|296e1c4|limpieza de buscador
+ app/Http/Controllers/HomeController.php | 45 ---------------------------------
+ resources/views/buscar.blade.php        | 32 -----------------------
+ resources/views/layouts/menu.blade.php  |  2 +-
+ resources/views/resultado.blade.php     |  2 +-
+ routes/web.php                          |  3 +--
+ 5 files changed, 3 insertions(+), 81 deletions(-)
+
+FelipeGonzalez|2026-05-14|296ddc5|Merge pull request #1 from FelipeGonzalez/integracion_notif
+FelipeGonzalez|2026-05-14|09256ff|integracion de notificaciones
+ app/Http/Controllers/LlamadasController.php        | 57 ++++++++++++++++++++++
+ app/Http/Controllers/RecadosController.php         |  2 +
+ resources/views/layouts/app.blade.php              | 10 ++--
+ resources/views/livewire/email-manager.blade.php   |  2 +-
+ resources/views/muestras/seg20/llamar.blade.php    | 57 ++++++++++++++++------
+ .../views/recados/recado_form_content.blade.php    |  2 +
+ routes/web.php                                     |  7 +++
+ 7 files changed, 118 insertions(+), 19 deletions(-)
+
+FelipeGonzalez|2026-05-14|cfc672f|migrando componentes a live wireMerge branch 'livewire-migration' of https://github.com/FelipeGonzalez/PVE-polls into integracion_notif
+FelipeGonzalez|2026-05-13|c439437|feat: Add EmailManager Livewire component with SweetAlert2 integration
+ app/Livewire/EmailManager.php                    | 117 +++++++++++++++++++++++
+ resources/views/livewire/email-manager.blade.php |  98 +++++++++++++++++++
+ 2 files changed, 215 insertions(+)
+
+FelipeGonzalez|2026-05-13|284bbc9|feat: Create PhoneManager Livewire component with SweetAlert2
+ app/Livewire/PhoneManager.php | 158 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
+
+FelipeGonzalez|2026-05-13|5aafe22|Merge branch 'notificaciones' into integracion_notif
+FelipeGonzalez|2026-05-13|7c3bdca|cambios apra poder usar los modals
+ resources/views/components/create_email.blade.php  |  2 +-
+ resources/views/components/create_phone.blade.php  |  2 +-
+ resources/views/components/edit_email.blade.php    |  2 +-
+ resources/views/components/edit_phone.blade.php    |  4 ++--
+ .../views/especialidad/personal_data.blade.php     |  2 +-
+ resources/views/especialidad/section.blade.php     |  4 ++--
+ resources/views/layouts/app.blade.php              |  2 +-
+ .../actualizar_datos_especialidad.blade.php        | 23 +---------------------
+ 8 files changed, 10 insertions(+), 31 deletions(-)
+
+FelipeGonzalez|2026-05-12|031718e|cambios para guardar asincrono en especialidad
+ app/Http/Controllers/LlamadasController.php        |  1 +
+ app/Http/Controllers/TelefonosController.php       | 27 +++++++++
+ resources/views/components/create_email.blade.php  |  2 +-
+ resources/views/components/create_phone.blade.php  |  2 +-
+ resources/views/components/edit_email.blade.php    |  4 +-
+ resources/views/components/edit_phone.blade.php    | 34 ++++++++---
+ .../views/especialidad/personal_data.blade.php     |  2 +-
+ .../actualizar_datos_especialidad.blade.php        | 67 +++++++++++++---------
+ routes/web.php                                     |  7 ++-
+ 9 files changed, 101 insertions(+), 45 deletions(-)
+
+FelipeGonzalez|2026-05-12|d587151| correcciones a los modals
+ app/Http/Controllers/CorreosController.php         | 25 ++++++++-
+ resources/views/components/create_email.blade.php  |  8 +--
+ resources/views/components/create_phone.blade.php  |  2 +-
+ resources/views/components/edit_email.blade.php    | 55 ++++++++++++++-----
+ resources/views/components/edit_phone.blade.php    |  4 +-
+ .../views/especialidad/personal_data.blade.php     | 14 ++---
+ resources/views/especialidad/section.blade.php     | 17 +++++-
+ .../actualizar_datos_especialidad.blade.php        | 61 +++++++++++++++++-----
+ .../views/muestras/especialidad/show.blade.php     |  2 +-
+ routes/web.php                                     |  1 +
+ 10 files changed, 143 insertions(+), 46 deletions(-)
+
+FelipeGonzalez|2026-05-11|49fa82a|sintax error
+ .../views/muestras/especialidad/actualizar_datos_especialidad.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-05-11|b9fc828|mas correcciones a especialidad
+ resources/views/components/create_email.blade.php                      | 2 ++
+ resources/views/especialidad/section.blade.php                         | 3 ++-
+ .../muestras/especialidad/actualizar_datos_especialidad.blade.php      | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-05-11|ff123d8|correcciones a especiualidad
+ app/Http/Controllers/EspecialidadController.php |  5 +--
+ app/Http/Controllers/PosgradoController.php     |  3 +-
+ resources/views/especialidad/section.blade.php  | 44 +++++++++++++++++--------
+ 3 files changed, 35 insertions(+), 17 deletions(-)
+
+FelipeGonzalez|2026-05-08|435bbe5| filtro temporal especialidad
+ app/Http/Controllers/MuestrasController.php | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-05-07|c678354|correcciones en especialidad
+ public/work-data.ipynb                             | 31 +++++++++++-----------
+ resources/views/components/table.blade.php         |  2 +-
+ .../views/especialidad/personal_data.blade.php     |  4 +--
+ resources/views/especialidad/section.blade.php     |  2 +-
+ 4 files changed, 19 insertions(+), 20 deletions(-)
+
+FelipeGonzalez|2026-05-07|90ebaa5|activar envio de avisso de p en especialidad
+ app/Http/Controllers/EspecialidadController.php | 42 ++++++++++++-------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
+
+FelipeGonzalez|2026-05-06|8171ded|correo
+ app/Http/Controllers/CorreosController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-05-06|c16151b|pcion9 en rangos de salarios
+ resources/views/especialidad/section.blade.php | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-05-06|f49abb2|correcciones a especialidad, record tel en llamada, modals simplificados
+ app/Http/Controllers/EspecialidadController.php    |  5 +-
+ app/Http/Controllers/LlamadasController.php        |  2 +
+ public/work-data.ipynb                             | 59 ++++++++++++----
+ resources/views/components/create_email.blade.php  |  3 +-
+ resources/views/components/create_phone.blade.php  |  3 +-
+ resources/views/components/edit_email.blade.php    | 80 ++++++++++++++++++++++
+ resources/views/components/edit_phone.blade.php    | 80 ++++++++++++++++++++++
+ .../views/especialidad/personal_data.blade.php     |  2 +-
+ resources/views/especialidad/section.blade.php     | 16 ++++-
+ .../actualizar_datos_especialidad.blade.php        | 11 +--
+ 10 files changed, 230 insertions(+), 31 deletions(-)
+
+FelipeGonzalez|2026-05-05|bbe2351|correcciones especialidad inconcluda
+ app/Http/Controllers/EspecialidadController.php    |  2 +-
+ public/work-data.ipynb                             | 55 +++++-----------------
+ .../especialidad/llamar_especialidad.blade.php     |  2 +-
+ 3 files changed, 13 insertions(+), 46 deletions(-)
+
+FelipeGonzalez|2026-05-05|d77e2da| cambios a especialidad
+ app/Http/Controllers/EspecialidadController.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-05-05|6a68f31|filtro plan posgrado
+ app/Http/Controllers/PosgradoController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-05-04|5bb29cf| modals para guardar telefono y correo mediante ajax
+ app/Http/Controllers/CorreosController.php         | 32 +++++++++
+ app/Http/Controllers/TelefonosController.php       |  2 +-
+ resources/views/components/create_email.blade.php  | 81 ++++++++++++++++++++++
+ resources/views/components/create_phone.blade.php  |  4 ++
+ .../actualizar_datos_especialidad.blade.php        | 50 +++++++++++--
+ routes/web.php                                     |  2 +
+ 6 files changed, 164 insertions(+), 7 deletions(-)
+
+FelipeGonzalez|2026-04-30|f9f4c45|modal para agregar telefonos asinc;
+ app/Http/Controllers/EspecialidadController.php    |  2 +-
+ app/Http/Controllers/TelefonosController.php       | 39 ++++++++++-
+ resources/views/components/create_phone.blade.php  | 77 ++++++++++++++++++++++
+ .../actualizar_datos_especialidad.blade.php        | 10 ++-
+ routes/web.php                                     |  4 ++
+ 5 files changed, 127 insertions(+), 5 deletions(-)
+
+FelipeGonzalez|2026-04-29|7d48745|c
+ app/Http/Controllers/MuestrasController.php | 1 -
+ 1 file changed, 1 deletion(-)
+
+FelipeGonzalez|2026-04-29|9f672cf|corregir conteo de internet en posgrado index
+ app/Http/Controllers/MuestrasController.php | 2 ++
+ 1 file changed, 2 insertions(+)
+
+FelipeGonzalez|2026-04-29|0146fcf|correccion get key from encuesta verde
+ app/Http/Controllers/EncuestaContinuaController.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-04-29|2638579|castear parametro recor_event
+ app/Http/Controllers/EncuestaContinuaController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+DavidJacome|2026-04-29|787059e|cambio1
+ app/Http/Controllers/EncuestaContinuaController.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-04-28|35fcbc7| merge de correciones y grabar eventos en verde y continua
+ app/Http/Controllers/EncuestaContinuaController.php | 1 -
+ 1 file changed, 1 deletion(-)
+
+DavidJacome|2026-04-28|bbf0b36|act_data tel
+ app/Http/Controllers/TelefonosController.php                   | 2 +-
+ resources/views/encuesta/seg20/modal_create_telefono.blade.php | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-04-28|8bfc4de|record events continua y verde
+ app/Http/Controllers/EncuestaContinuaController.php | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-04-28|94acdec| importar logs en telefonoscontroller
+ app/Http/Controllers/TelefonosController.php | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+FelipeGonzalez|2026-04-27|370bb91|correccion correos controller
+ app/Http/Controllers/CorreosController.php | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+FelipeGonzalez|2026-04-27|671080f|corregir empresa bug
+ app/Http/Controllers/EmpresasController.php | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-04-27|af5e3b5| correccion bug empresa
+ app/Http/Controllers/EmpresasController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-04-27|723d5c0|mezcla para subir
+ app/Http/Controllers/EspecialidadController.php |  1 -
+ public/migraciones.ipynb                        | 22 +++++++++-
+ public/work-data.ipynb                          | 54 ++++++++++++++++++++-----
+ resources/views/especialidad/section.blade.php  |  2 +-
+ 4 files changed, 65 insertions(+), 14 deletions(-)
+
+DavidJacome|2026-04-27|b04f9db|eventos
+ app/Http/Controllers/Enc16ActController.php   | 4 ++++
+ app/Http/Controllers/Encuesta22Controller.php | 3 +++
+ 2 files changed, 7 insertions(+)
+
+DavidJacome|2026-04-27|d49fe39|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+FelipeGonzalez|2026-04-27|eb477a5|boton de "siguiente egresado" en llamar 2boton de "siguiente egresado" en llamar 22
+ app/Http/Controllers/EspecialidadController.php |  2 +-
+ app/Http/Controllers/LlamadasController.php     | 36 +++++++++++++++++++++++--
+ app/Http/Controllers/MuestrasController.php     |  1 -
+ resources/views/muestras/seg20/llamar.blade.php | 23 +++++++++++++++-
+ 4 files changed, 57 insertions(+), 5 deletions(-)
+
+DavidJacome|2026-04-27|5d90e50|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+FelipeGonzalez|2026-04-27|2ce0317|record events fase1
+ app/Http/Controllers/CorreosController.php      |  9 ++-
+ app/Http/Controllers/EmpresasController.php     |  4 +-
+ app/Http/Controllers/Enc16ActController.php     |  6 +-
+ app/Http/Controllers/Encuesta22Controller.php   |  6 +-
+ app/Http/Controllers/EspecialidadController.php | 36 ++++-------
+ app/Http/Controllers/LlamadasController.php     | 12 +++-
+ app/Http/Controllers/MuestrasController.php     |  7 ++-
+ app/Http/Controllers/RecadosController.php      |  3 +-
+ app/Http/Controllers/TelefonosController.php    |  5 +-
+ public/work-data.ipynb                          | 82 +++++++++++++++----------
+ resources/views/components/table.blade.php      |  4 +-
+ resources/views/especialidad/section.blade.php  |  2 +-
+ 12 files changed, 105 insertions(+), 71 deletions(-)
+
+DavidJacome|2026-04-27|ffd4ee3|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+DavidJacome|2026-04-27|ae2fb2d|cambios en la tabla de busqueda
+ app/Livewire/EgresadosTable.php                    | 26 ++++++++++++++++++----
+ resources/views/livewire/egresados-table.blade.php | 20 ++++++++---------
+ 2 files changed, 31 insertions(+), 15 deletions(-)
+
+FelipeGonzalez|2026-04-24|4050afc|integrar  /Traits
+ app/Traits/LogEvents.php | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+FelipeGonzalez|2026-04-24|7ce0974|Observadores y especialidad terminada
+ .../Controllers/EncuestaContinuaController.php     |   3 +-
+ app/Http/Controllers/EspecialidadController.php    |  10 +-
+ app/Http/Controllers/LlamadasController.php        |   7 +-
+ app/Http/Controllers/MuestrasController.php        |   7 +
+ app/Models/Event.php                               |   2 +
+ public/work-data.ipynb                             | 548 +++++++++++++++++----
+ 6 files changed, 475 insertions(+), 102 deletions(-)
+
+DavidJacome|2026-04-24|77f79ed|inconclusa out
+ resources/views/resultado.blade.php | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+FelipeGonzalez|2026-04-23|53d5a3e|probando terminal, reactivos en el notebook
+ .../Controllers/EncuestaContinuaController.php     |   2 +-
+ public/work-data.ipynb                             | 120 ++++++++++++++++++---
+ 2 files changed, 107 insertions(+), 15 deletions(-)
+
+FelipeGonzalez|2026-04-23|2d797db|mezcla correcciones david_Dev encuesta verde llamar
+ app/Http/Controllers/EncuestaContinuaController.php | 1 -
+ 1 file changed, 1 deletion(-)
+
+DavidJacome|2026-04-23|73263f3|correciones
+ app/Http/Controllers/EncuestaContinuaController.php  |  8 +-------
+ app/Http/Controllers/LlamadasController.php          |  1 +
+ resources/views/livewire/egresados-table.blade.php   | 20 ++++----------------
+ .../views/muestras/verde/llamar_verde.blade.php      |  7 ++++---
+ 4 files changed, 10 insertions(+), 26 deletions(-)
+
+FelipeGonzalez|2026-04-23|48aa602|completa tabla reactivos-detalles enc verde
+ resources/views/components/label.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-04-23|fc7f566|mexcla correcciones verdes-tabla de reactivosMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-04-23|33df850| componente de tablas
+ app/Http/Controllers/EspecialidadController.php    |   2 +-
+ app/Http/Controllers/MuestrasController.php        |   1 +
+ resources/views/components/table.blade.php         | 120 +++++++++++++++++++++
+ .../views/especialidad/personal_data.blade.php     |  23 ++--
+ resources/views/especialidad/section.blade.php     |  88 ++++++++++++++-
+ 5 files changed, 224 insertions(+), 10 deletions(-)
+
+DavidJacome|2026-04-23|c7789b7|actualizaciones interfaz verde
+ .../views/encuesta/personal_data_conteo.blade.php  | 76 ++++++++++++++++++++++
+ .../views/muestras/verde/llamar_verde.blade.php    |  8 +--
+ .../views/muestras/verde/show_edit_verde.blade.php |  2 +-
+ 3 files changed, 81 insertions(+), 5 deletions(-)
+
+DavidJacome|2026-04-21|8e05e7b|status egresado verde
+ app/Http/Controllers/LlamadasController.php           | 4 ++++
+ resources/views/muestras/verde/llamar_verde.blade.php | 5 ++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+DavidJacome|2026-04-21|e6c0f23|inconclusa de verde y continua
+ resources/views/muestras/ed_continua/llamar_continua.blade.php | 5 +++--
+ resources/views/muestras/verde/llamar_verde.blade.php          | 9 +++++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+DavidJacome|2026-04-21|fc2daaa|verde buscador
+ app/Livewire/EgresadosTable.php                    | 41 +++++++++++++++++-----
+ resources/views/livewire/egresados-table.blade.php | 41 +++++++++++++++++++---
+ 2 files changed, 68 insertions(+), 14 deletions(-)
+
+DavidJacome|2026-04-20|00051fc|Fix: resolviendo conflictos en dependencias2
+ composer.lock | 39 ---------------------------------------
+ 1 file changed, 39 deletions(-)
+
+DavidJacome|2026-04-20|9502d16|Fix: resolviendo conflictos en dependencias
+DavidJacome|2026-04-20|37ca76d|correos verde
+ app/Http/Controllers/HomeController.php            |  22 ++++-
+ public/img/correo/invitacion/B.jpg                 | Bin 0 -> 201933 bytes
+ public/img/correo/invitacion/Banner.png            | Bin 0 -> 56036 bytes
+ .../Mailing_posgrado_Mailing_ejemplo.jpg           | Bin 0 -> 2214672 bytes
+ public/img/correo/invitacion/cabecera_verde.jpg    | Bin 0 -> 61906 bytes
+ public/img/correo/invitacion/cuerpo verde.jpg      | Bin 0 -> 720469 bytes
+ .../paleta de colores encuesta verde.txt           |   4 +
+ public/img/correo/invitacion/pie_verde.jpg         | Bin 0 -> 53082 bytes
+ public/invitacion_verde.py                         | 105 +++++++++++++++++++++
+ 9 files changed, 127 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-04-20|74d3771|cambios a muestras posgrado
+ app/Http/Controllers/MuestrasController.php |  8 +++++--
+ composer.json                               |  2 +-
+ composer.lock                               | 34 ++++++++++++++---------------
+ 3 files changed, 24 insertions(+), 20 deletions(-)
+
+DavidJacome|2026-04-17|fd35682|tabla actualixzada mas correos p1
+ app/Http/Controllers/HomeController.php            | 49 +++++++++++++++++++++-
+ composer.json                                      |  2 +-
+ composer.lock                                      | 35 +++++++---------
+ .../views/invitacion/encuesta_por_correo.blade.php | 11 ++++-
+ resources/views/livewire/egresados-table.blade.php |  2 +-
+ .../actualizar_datos_continua.blade.php            |  2 +-
+ .../verde/actualizar_datos_verde.blade.php         |  2 +-
+ routes/web.php                                     |  5 ++-
+ 8 files changed, 81 insertions(+), 27 deletions(-)
+
+FelipeGonzalez|2026-04-17|c90aa8d|filtrado por muestra seleccionada
+ app/Http/Controllers/MuestrasController.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+FelipeGonzalez|2026-04-17|912a6f0|muestras de posgrado reducidas, color de status en llamar
+ app/Http/Controllers/MuestrasController.php        |  5 +-
+ .../especialidad/llamar_especialidad.blade.php     |  9 +--
+ resources/views/muestras/posgrado/show.blade.php   | 66 ++++++++++++++++------
+ resources/views/muestras/seg20/llamar.blade.php    |  5 +-
+ 4 files changed, 62 insertions(+), 23 deletions(-)
+
+FelipeGonzalez|2026-04-17|fb81195|correccion a miestra
+ app/Http/Controllers/MuestrasController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-04-17|56409a0| corregir posgrado
+ app/Http/Controllers/MuestrasController.php |  6 ++---
+ app/Models/EgresadoPosgrado.php             | 40 ++++++++++++++---------------
+ 2 files changed, 23 insertions(+), 23 deletions(-)
+
+FelipeGonzalez|2026-04-16|fd1baab|correccion filtrado de posgrado
+ app/Http/Controllers/MuestrasController.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+FelipeGonzalez|2026-04-16|a68261e| reporte encuestadores, filtro
+ app/Http/Controllers/Encuesta22Controller.php      |  1 +
+ app/Models/EgresadoPosgrado.php                    | 28 +++++++++++--
+ public/base22AAA.py                                | 46 ++++++++++++++++++++++
+ public/metric analisys.ipynb                       | 23 ++++++++++-
+ .../muestras/posgrado/llamar_posgrado.blade.php    |  5 ++-
+ 5 files changed, 97 insertions(+), 6 deletions(-)
+
+DavidJacome|2026-04-15|5727d71|Merge remote-tracking branch 'origin/master' into david-dev
+DavidJacome|2026-04-15|af6cda2|merge completo
+FelipeGonzalez|2026-04-15|31985d8|implementacion scripts update_rules v1 usando select2
+ app/Http/Controllers/Encuesta22Controller.php      |  3 +-
+ .../views/muestras/verde/show_edit_verde.blade.php |  4 ++
+ .../views/posgrado/scripts_bloquear.blade.php      | 72 ++++++++++++++++++++++
+ routes/web.php                                     |  1 -
+ 4 files changed, 77 insertions(+), 3 deletions(-)
+
+DavidJacome|2026-04-15|4e7b12c|integracion de verde y continua
+ app/Http/Controllers/CorreosController.php         |  15 +++++-
+ app/Http/Controllers/TelefonosController.php       |  15 +++++-
+ ...-ADB6-3ED981F79AD3}.2.ver0x000000000000000c.db} | Bin 1240 -> 1240 bytes
+ ...-9B3C-3716689AF493}.2.ver0x000000000000000c.db} | Bin 307456 -> 307632 bytes
+ ...D-8288-1A9A39C3FDA2}.2.ver0x000000000000000b.db | Bin 659176 -> 0 bytes
+ ...D-8288-1A9A39C3FDA2}.2.ver0x000000000000000c.db | Bin 0 -> 659824 bytes
+ .../views/encuesta/edit_correo_sondeo.blade.php    |  55 +++++++++++++++++++++
+ .../views/encuesta/edit_telefono_sondeo.blade.php  |  53 ++++++++++++++++++++
+ .../actualizar_datos_continua.blade.php            |   4 +-
+ .../verde/actualizar_datos_verde.blade.php         |   4 +-
+ routes/web.php                                     |  13 ++++-
+ 11 files changed, 149 insertions(+), 10 deletions(-)
+
+FelipeGonzalez|2026-04-14|f254fbd|Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-04-13|0fe3898|correccion a componente de raiting star
+ public/correos muestra.ipynb                       | 77 +++++++++++++---------
+ resources/views/components/rating.blade.php        | 11 ++--
+ resources/views/especialidad/section.blade.php     |  6 +-
+ .../verde/actualizar_datos_verde.blade.php         |  2 -
+ 4 files changed, 53 insertions(+), 43 deletions(-)
+
+DavidJacome|2026-04-07|3c785a0|agregar correo y numero actualizados
+ app/Http/Controllers/CorreosController.php         | 23 +++++++--
+ app/Http/Controllers/TelefonosController.php       | 27 ++++++++--
+ .../views/encuesta/create_correo_sondeo.blade.php  | 50 +++++++++++++++++++
+ .../encuesta/create_telefono_sondeo.blade.php      | 58 ++++++++++++++++++++++
+ .../views/encuesta/seg20/create_telefono.blade.php |  2 +-
+ .../actualizar_datos_continua.blade.php            |  6 +--
+ .../verde/actualizar_datos_verde.blade.php         |  6 +--
+ routes/web.php                                     |  8 ++-
+ 8 files changed, 164 insertions(+), 16 deletions(-)
+
+FelipeGonzalez|2026-03-27|4af4674|mezca correccion verdeMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-03-27|74407e5|funcional verde
+ .../Controllers/EncuestaContinuaController.php     | 10 ++++++
+ resources/views/encuesta/saved_continua.blade.php  |  2 +-
+ resources/views/encuesta/saved_verde.blade.php     | 37 ++++++++++++++++++++++
+ 3 files changed, 48 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-03-27|ad95055|correccion edit correos on verdeMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-03-27|083d238|correo
+ resources/views/muestras/verde/actualizar_datos_verde.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-03-27|2b2db63| merge edit correos verde:wq:
+ resources/views/especialidad/section.blade.php | 1 -
+ resources/views/stats.blade.php                | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-03-27|099a956|asfMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-03-27|7061386|'verde'
+ .../Controllers/EncuestaContinuaController.php     | 189 +++++++++++++++++++--
+ .../views/muestras/verde/show_edit_verde.blade.php |   2 +-
+ routes/web.php                                     |   1 +
+ 3 files changed, 180 insertions(+), 12 deletions(-)
+
+FelipeGonzalez|2026-03-26|d0e02aa|afs
+ app/Http/Controllers/HomeController.php        |  28 +-
+ public/work-data.ipynb                         | 701 +++++++++++++++----------
+ resources/views/especialidad/section.blade.php |   2 +-
+ resources/views/posgrado/section.blade.php     |   2 +-
+ resources/views/stats.blade.php                |  22 +
+ 5 files changed, 489 insertions(+), 266 deletions(-)
+
+FelipeGonzalez|2026-03-26|3753e93| merge davo
+ app/Http/Controllers/HomeController.php |   32 +-
+ public/work-data.ipynb                  | 1692 ++++++++-----------------------
+ resources/views/stats.blade.php         |   20 +-
+ 3 files changed, 463 insertions(+), 1281 deletions(-)
+
+FelipeGonzalez|2026-03-26|be9946b|Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-03-26|22c8369|funcionalidad terminada verde
+ app/Http/Controllers/EncuestaContinuaController.php          |  4 +++-
+ app/Http/Controllers/TelefonosController.php                 |  2 +-
+ resources/views/components/option.blade.php                  |  6 +++++-
+ .../muestras/ed_continua/actualizar_datos_continua.blade.php |  4 ++--
+ .../views/muestras/verde/actualizar_datos_verde.blade.php    | 12 ++++++------
+ resources/views/muestras/verde/llamar_verde.blade.php        |  2 +-
+ resources/views/muestras/verde/show_edit_verde.blade.php     |  4 ++++
+ 7 files changed, 22 insertions(+), 12 deletions(-)
+
+FelipeGonzalez|2026-03-24|bf3b1cc|afsMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-03-24|3609da2| cambios stats
+ app/Http/Controllers/HomeController.php |  82 ++++++++-
+ public/correos muestra.ipynb            |  68 +++++++-
+ public/migraciones.ipynb                | 290 +-------------------------------
+ routes/web.php                          |   2 +-
+ 4 files changed, 143 insertions(+), 299 deletions(-)
+
+DavidJacome|2026-03-24|b6b3ed1|avances recados verdes
+ .../Controllers/EncuestaContinuaController.php     |  61 +-
+ app/Http/Controllers/LlamadasController.php        |  80 +++
+ app/Http/Controllers/RecadosController.php         |  22 +-
+ app/Models/respuestas_verdes.php                   |  18 +
+ .../actualizar_datos_continua.blade.php            |   6 +-
+ .../muestras/ed_continua/llamar_continua.blade.php |   6 +-
+ .../views/muestras/ed_continua/show.blade.php      |   2 +-
+ .../ed_continua/show_edit_continua.blade.php       |   6 +-
+ .../verde/actualizar_datos_verde.blade.php         | 162 +++++
+ resources/views/muestras/verde/index.blade.php     |   2 +-
+ .../views/muestras/verde/llamar_verde.blade.php    | 209 ++++++
+ resources/views/muestras/verde/show.blade.php      | 132 ++++
+ .../views/muestras/verde/show_edit_verde.blade.php | 716 +++++++++++++++++++++
+ routes/web.php                                     |  15 +-
+ 14 files changed, 1409 insertions(+), 28 deletions(-)
+
+FelipeGonzalez|2026-03-23|6f937f5|saf
+ app/Http/Controllers/CorreosController.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-03-23|a0b6ece|encuesta de especialidad
+ app/Http/Controllers/CorreosController.php         |  14 +-
+ app/Http/Controllers/EspecialidadController.php    | 263 ++++---
+ app/Http/Controllers/LlamadasController.php        |  75 +-
+ app/Http/Controllers/MuestrasController.php        |  51 ++
+ app/Http/Controllers/RecadosController.php         |  40 +
+ app/Models/EgresadoEspecialidad.php                |   1 +
+ app/Models/respuestasEspecialidad.php              |   5 +
+ .../2026_03_20_215223_add_performance_indexes.php  |  38 +
+ resources/views/components/option.blade.php        |   2 +-
+ .../views/encuesta/saved_especialidad.blade.php    |  36 +
+ .../views/especialidad/personal_data.blade.php     | 154 ++++
+ .../views/especialidad/scripts_bloquear.blade.php  | 183 +++++
+ resources/views/especialidad/section.blade.php     | 858 +++++++++++++++++++++
+ .../views/especialidad/sectionbackup.blade.php     | 435 +++++++++++
+ .../actualizar_datos_especialidad.blade.php        | 159 ++++
+ .../views/muestras/especialidad/index.blade.php    |  76 ++
+ .../especialidad/llamar_especialidad.blade.php     | 213 +++++
+ .../especialidad/programas_index.blade.php         |  51 ++
+ .../especialidad/revision_posgrado.blade.php       |  58 ++
+ .../views/muestras/especialidad/show.blade.php     | 129 ++++
+ resources/views/muestras/index.blade.php           |  12 +-
+ routes/web.php                                     |  14 +-
+ 22 files changed, 2731 insertions(+), 136 deletions(-)
+
+DavidJacome|2026-03-20|45bd16f|avances1
+ app/Http/Controllers/MuestrasController.php        | 166 ++++++++++++++++++++-
+ .../views/muestras/ed_continua/index.blade.php     |   4 +-
+ .../muestras/ed_continua/plantel_index.blade.php   |  11 +-
+ .../views/muestras/ed_continua/show.blade.php      |   2 +-
+ resources/views/muestras/index.blade.php           |  12 +-
+ resources/views/muestras/verde/index.blade.php     |  78 ++++++++++
+ routes/web.php                                     |  14 +-
+ 7 files changed, 274 insertions(+), 13 deletions(-)
+
+FelipeGonzalez|2026-03-19|30b256e|archivos esp
+ app/Http/Controllers/EspecialidadController.php | 452 ++++++++++++++++++++++++
+ app/Models/EgresadoEspecialidad.php             |  11 +
+ app/Models/respuestasEspecialidad.php           |  11 +
+ 3 files changed, 474 insertions(+)
+
+FelipeGonzalez|2026-03-19|d9b9740|rutas_especialidad
+ public/work-data.ipynb | 1360 +++++++++++++++++++++++++++++++++++++++---------
+ routes/web.php         |   28 +-
+ 2 files changed, 1149 insertions(+), 239 deletions(-)
+
+FelipeGonzalez|2026-02-20|7934913|badge de licenciatura
+ resources/views/livewire/egresados-table.blade.php | 2 ++
+ 1 file changed, 2 insertions(+)
+
+FelipeGonzalez|2026-02-20|2e7e8e4|mezcla para subir a master
+ public/base_continua.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+FelipeGonzalez|2026-02-20|c485f3a|busqueda con badgesMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-02-20|eaea9f0|cambios script base_continua
+ app/Http/Controllers/HomeController.php     | 5 -----
+ public/base_continua.py                     | 8 +++++---
+ public/meta_continua.py                     | 1 +
+ resources/views/encuesta/seccionC.blade.php | 2 +-
+ 4 files changed, 7 insertions(+), 9 deletions(-)
+
+DavidJacome|2026-02-20|4663b46|tabla de busquedas dinamica
+ app/Http/Controllers/HomeController.php            |  86 ++----------
+ app/Livewire/EgresadosTable.php                    | 122 +++++++++++++++++
+ composer.json                                      |   1 +
+ composer.lock                                      |  78 ++++++++++-
+ resources/views/layouts/app.blade.php              |   2 +
+ resources/views/livewire/egresados-table.blade.php | 151 +++++++++++++++++++++
+ resources/views/resultado.blade.php                | 126 ++---------------
+ routes/web.php                                     |   4 +-
+ 8 files changed, 380 insertions(+), 190 deletions(-)
+
+FelipeGonzalez|2026-02-16|c353da4|correccion busquedaMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-02-16|be9d97e|act resultado fonetica
+ app/Http/Controllers/HomeController.php | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-16|6f85888|mostrar meustras en resultados bisquedaMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-02-16|fa59307|correcciones
+ app/Http/Controllers/MuestrasController.php          | 1 +
+ resources/views/muestras/ed_continua/index.blade.php | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+DavidJacome|2026-02-16|144afc4|distincion entre continua y licenciatura en las busquedas
+ app/Http/Controllers/HomeController.php             | 6 +++++-
+ resources/views/muestras/revisiones/index.blade.php | 8 +-------
+ resources/views/resultado.blade.php                 | 8 ++++++++
+ 3 files changed, 14 insertions(+), 8 deletions(-)
+
+FelipeGonzalez|2026-02-13|a3732e3|botones dorados en saved
+ resources/views/encuesta/saved.blade.php          | 19 ++++++++++++-------
+ resources/views/encuesta/saved_posgrado.blade.php |  8 +++++---
+ 2 files changed, 17 insertions(+), 10 deletions(-)
+
+FelipeGonzalez|2026-02-13|1270cea|marca temporal estatus de continua,botones dorados al temrinar
+ .../Controllers/EncuestaContinuaController.php     | 21 ++++++------
+ resources/views/encuesta/saved_continua.blade.php  | 37 ++++++++++++++++++++++
+ .../muestras/ed_continua/llamar_continua.blade.php |  2 +-
+ 3 files changed, 49 insertions(+), 11 deletions(-)
+
+FelipeGonzalez|2026-02-12|2ee9b06|juntar cambios corregidos para push
+ app/Http/Controllers/RecadosController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-12|25de58b|cambios davo vistasMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-02-12|a1c9c1a|cambios, scripts, estructura de tabla empresas, botones 2020, correcto
+ app/Http/Controllers/EmpresasController.php | 51 ++++++++++++++++++++++++++++-
+ resources/views/empresas/index.blade.php    | 48 +++------------------------
+ resources/views/home.blade.php              | 10 ------
+ resources/views/muestras/index.blade.php    | 12 ++-----
+ resources/views/stats.blade.php             | 24 ++++++--------
+ 5 files changed, 67 insertions(+), 78 deletions(-)
+
+FelipeGonzalez|2026-02-12|ef662fb|ordenar opciones en los select
+ resources/views/components/option.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-12|c2a8d92|mezclar commit para subir
+ resources/views/muestras/posgrado/llamar_posgrado.blade.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+FelipeGonzalez|2026-02-12|228d6f7|correcciones a reportes de completadas Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-02-12|243875c|cambios, scripts, estructura de tabla empresas, botones 2020
+ public/base20.py                   |  46 -------------
+ public/correos_contestadas.py      | 123 ---------------------------------
+ public/correos_contestadas22.py    |  76 ++++++++++++++-------
+ public/correos_contestadas_2016.py |  70 ++++++++++++-------
+ public/reporte_individual20.py     | 135 -------------------------------------
+ 5 files changed, 98 insertions(+), 352 deletions(-)
+
+FelipeGonzalez|2026-02-12|241f2ab|limpiar public archivos sueltos
+ Correos_no_contestadas_posgrado.xlsx |    Bin 1049267 -> 0 bytes
+ contro de vueltas.ipynb              |    509 -
+ egresados.sql                        | 145853 --------------------------------
+ fechas.xlsx                          |    Bin 12661 -> 0 bytes
+ migraciones2016.ipynb                |  15262 ----
+ migraciones_posgrado.ipynb           |  62082 --------------
+ muestras_base.xlsx                   |    Bin 18920 -> 0 bytes
+ posgrado.ipynb                       |   1307 -
+ print_suvery.ipynb                   |   1966 -
+ reactivos_posgrado.xlsx              |    Bin 18085 -> 0 bytes
+ validate.ipynb                       |    116 -
+ 11 files changed, 227095 deletions(-)
+
+FelipeGonzalez|2026-02-11|4991bd3|retoque a las pantallas de llamar completado
+ app/Http/Controllers/LlamadasController.php        |  9 ++-
+ .../views/layouts/identidad_grafica.blade.php      |  7 +-
+ .../muestras/ed_continua/llamar_continua.blade.php | 82 ++++----------------
+ .../muestras/posgrado/llamar_posgrado.blade.php    | 90 ++++++----------------
+ resources/views/muestras/seg20/llamar.blade.php    | 67 ++--------------
+ .../views/recados/recado_form_content.blade.php    | 19 +++++
+ resources/views/recados/recados_tabla.blade.php    | 41 ++++++++++
+ 7 files changed, 116 insertions(+), 199 deletions(-)
+
+FelipeGonzalez|2026-02-10|a4e7064|arregló aviso enc posgrado Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-02-10|22f23ea|corrección de estilos, espaciados y contornos en llamar lic
+ .../views/layouts/identidad_grafica.blade.php      |  9 +++
+ resources/views/muestras/seg20/llamar.blade.php    | 73 +++++++++++++++-------
+ 2 files changed, 58 insertions(+), 24 deletions(-)
+
+DavidJacome|2026-02-10|1141d9f|avisos de privacidad desde modal
+ app/Http/Controllers/CorreosController.php       | 5 ++++-
+ resources/views/posgrado/personal_data.blade.php | 2 +-
+ resources/views/posgrado/section.blade.php       | 2 +-
+ routes/web.php                                   | 2 +-
+ 4 files changed, 7 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-02-10|863533c|notificaciones de horario especifico, rutas y controlador de notificaciones
+ app/Http/Controllers/NotificationController.php    | 32 ++++++++++++
+ app/Http/Controllers/RecadosController.php         |  7 ++-
+ app/Notifications/CallSpecificTime.php             | 19 +++++--
+ app/Providers/AppServiceProvider.php               | 16 +++---
+ config/notifications.php                           | 21 ++++++++
+ resources/views/layouts/app.blade.php              | 44 ++++++++++++----
+ resources/views/muestras/seg20/llamar.blade.php    |  6 ++-
+ .../views/vendor/notifications/email.blade.php     | 58 ++++++++++++++++++++++
+ routes/web.php                                     |  5 +-
+ 9 files changed, 182 insertions(+), 26 deletions(-)
+
+DavidJacome|2026-02-10|8f84494|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+DavidJacome|2026-02-10|dbfab07|revisiones de continua
+ app/Http/Controllers/MuestrasController.php        | 19 ++++++++
+ .../ed_continua/revision_continua.blade.php        | 57 ++++++++++++++++++++++
+ .../views/muestras/revisiones/index.blade.php      | 10 ++++
+ routes/web.php                                     |  6 +++
+ 4 files changed, 92 insertions(+)
+
+FelipeGonzalez|2026-02-09|0114070| primera version notificaciones
+ app/Http/Controllers/RecadosController.php         |  4 +-
+ app/Notifications/CallSpecificTime.php             | 54 ++++++++++++++++++++++
+ ...026_02_06_232350_create_notifications_table.php | 31 +++++++++++++
+ resources/views/layouts/app.blade.php              |  4 +-
+ 4 files changed, 90 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-02-09|2198b69|visualizar tipo de recado lic
+ resources/views/muestras/seg20/llamar.blade.php | 2 ++
+ 1 file changed, 2 insertions(+)
+
+FelipeGonzalez|2026-02-09|ea81acd|correccion a recados licenciatura conteo
+ app/Http/Controllers/RecadosController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-09|8531e8b|asf
+ app/Http/Controllers/RecadosController.php | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+FelipeGonzalez|2026-02-09|29989ad|parchar recados conteo por tipo licenciatura
+ app/Http/Controllers/RecadosController.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+FelipeGonzalez|2026-02-09|fd0aa8a|cambios al contar las llamadas
+ app/Http/Controllers/MuestrasController.php         |  3 ++-
+ app/Http/Controllers/RecadosController.php          | 13 +++++++++++--
+ resources/views/muestras/ed_continua/show.blade.php |  2 +-
+ 3 files changed, 14 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-02-09|56cc9c3|correcciones a encuesta continua
+ .../Controllers/EncuestaContinuaController.php     | 24 ++++++++++++++++++++--
+ app/Http/Controllers/LlamadasController.php        |  2 +-
+ app/Http/Controllers/RecadosController.php         | 12 +++++++----
+ resources/views/layouts/app.blade.php              | 10 +++++++--
+ resources/views/muestras/act16/index.blade.php     |  2 +-
+ .../views/muestras/ed_continua/show.blade.php      |  1 -
+ routes/web.php                                     |  2 +-
+ 7 files changed, 41 insertions(+), 12 deletions(-)
+
+FelipeGonzalez|2026-02-05|6c34e80| parametro gen de enc continua
+ app/Http/Controllers/LlamadasController.php | 2 +-
+ routes/web.php                              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-02-05|e47c044|merge david preventions 1
+ public/__pycache__/meta_continua.cpython-310.pyc | Bin 0 -> 2927 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+FelipeGonzalez|2026-02-05|25df879|Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-02-05|a017786| correcciones a exportar base continua
+ public/base_continua.py                            |   5 +-
+ public/work-data.ipynb                             | 345 ++++++++++++++++++++-
+ .../views/posgrado/scripts_bloquear.blade.php      |   1 +
+ 3 files changed, 348 insertions(+), 3 deletions(-)
+
+DavidJacome|2026-02-05|032d377|if de fel
+ .../views/posgrado/scripts_bloquear.blade.php      | 145 ++++++++++-----------
+ 1 file changed, 72 insertions(+), 73 deletions(-)
+
+FelipeGonzalez|2026-02-04|2b1e287|correccion de sintaxis
+ app/Http/Controllers/EncuestaContinuaController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-04|aaa3f28|correcciones a encuesta ed_continua
+ app/Http/Controllers/EncuestaContinuaController.php           | 11 +++++++++--
+ .../views/muestras/ed_continua/llamar_continua.blade.php      |  4 +++-
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-02-04|7132827|se agrega una ruta para refrescar los permisos
+ routes/web.php | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-04|493b2df| orden enc continua
+ resources/views/muestras/ed_continua/show_edit_continua.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-02-04|c7688f2|Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls encuesta completada ed continua
+FelipeGonzalez|2026-02-04|bc58cd5|bloquear op multiple
+ .../Controllers/EncuestaContinuaController.php     | 40 ++++++++++++++++------
+ app/Http/Controllers/TelefonosController.php       |  2 +-
+ .../views/posgrado/scripts_bloquear.blade.php      |  8 +++--
+ 3 files changed, 35 insertions(+), 15 deletions(-)
+
+DavidJacome|2026-02-04|c646976|continua termianda
+ .../Controllers/EncuestaContinuaController.php     |  45 +++-
+ app/Http/Controllers/LlamadasController.php        |  40 +++-
+ app/Http/Controllers/RecadosController.php         |  42 ++++
+ .../actualizar_datos_continua.blade.php            | 103 +--------
+ .../muestras/ed_continua/llamar_continua.blade.php | 257 +++++++++++++++++++++
+ .../views/muestras/ed_continua/show.blade.php      |   6 +-
+ routes/web.php                                     |   3 +
+ 7 files changed, 391 insertions(+), 105 deletions(-)
+
+FelipeGonzalez|2026-02-04|2197a8d|subir prueba merge ed_continua
+ app/Http/Controllers/EncuestaContinuaController.php | 1 -
+ 1 file changed, 1 deletion(-)
+
+FelipeGonzalez|2026-02-04|23fc7fb|marcar status en egresado_muestra
+ .../Controllers/EncuestaContinuaController.php     |  55 ++-----
+ app/Http/Controllers/MuestrasController.php        |   2 +-
+ public/work-data.ipynb                             | 168 ++++++++-------------
+ .../views/muestras/ed_continua/show.blade.php      |   6 +-
+ 4 files changed, 85 insertions(+), 146 deletions(-)
+
+FelipeGonzalez|2026-02-03|3d6a3b6|icompletar mezcla para subir
+ resources/views/muestras/ed_continua/show.blade.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+DavidJacome|2026-01-30|95e0e23|vista de encuesta de educación cont
+ .../Controllers/EncuestaContinuaController.php     | 220 +++++-
+ app/Models/respuestas_continua.php                 |   3 +
+ .../views/components/multiple_option.blade.php     |   5 +
+ resources/views/empresas/index.blade.php           |   3 +
+ resources/views/links.blade.php                    |  14 +-
+ .../ed_continua/show_edit_continua.blade.php       | 839 +++++++++++++++++++++
+ routes/web.php                                     |   5 +-
+ 7 files changed, 1071 insertions(+), 18 deletions(-)
+
+DavidJacome|2026-01-28|97c72d7|lINK DE 2022 EN LA PAGINA
+ resources/views/links.blade.php | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+DavidJacome|2026-01-27|1f5f59e|permisos terminados
+ app/Http/Controllers/EmpresasController.php | 1 +
+ app/Http/Controllers/RecadosController.php  | 4 ++--
+ resources/views/empresas/index.blade.php    | 1 +
+ resources/views/recados/index.blade.php     | 6 +++---
+ 4 files changed, 7 insertions(+), 5 deletions(-)
+
+DavidJacome|2026-02-03|9cd1f94|Merge branch 'ed_continua' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+DavidJacome|2026-02-03|3b3e33f|cambios1
+ app/Http/Controllers/LlamadasController.php        |  43 ++++
+ .../actualizar_datos_continua.blade.php            | 251 +++++++++++++++++++++
+ routes/web.php                                     |   1 +
+ 3 files changed, 295 insertions(+)
+
+FelipeGonzalez|2026-02-03|db7138a|icompletar mezcla para subir
+ resources/views/muestras/ed_continua/show.blade.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+FelipeGonzalez|2026-02-03|0504992|fusionar enc_continua muestra, llamada y encuestaMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls into ed_continua
+FelipeGonzalez|2026-02-03|45612a3|Muestras de encuesta continua
+ app/Http/Controllers/HomeController.php            |   2 -
+ app/Http/Controllers/MuestrasController.php        |  77 ++++++-
+ public/work-data.ipynb                             | 235 +++++++++++++++++++++
+ resources/views/empresas/modal_create.blade.php    |   8 +-
+ .../views/muestras/ed_continua/index.blade.php     |  78 +++++++
+ .../muestras/ed_continua/plantel_index.blade.php   |  51 +++++
+ .../views/muestras/ed_continua/show.blade.php      |   4 +-
+ resources/views/muestras/index.blade.php           |  12 +-
+ routes/web.php                                     |   8 +-
+ 9 files changed, 457 insertions(+), 18 deletions(-)
+
+DavidJacome|2026-01-30|68125ff|vista de encuesta de educación cont
+ .../Controllers/EncuestaContinuaController.php     | 220 +++++-
+ app/Models/respuestas_continua.php                 |   3 +
+ .../views/components/multiple_option.blade.php     |   5 +
+ resources/views/empresas/index.blade.php           |   3 +
+ resources/views/links.blade.php                    |  14 +-
+ .../ed_continua/show_edit_continua.blade.php       | 839 +++++++++++++++++++++
+ routes/web.php                                     |   5 +-
+ 7 files changed, 1071 insertions(+), 18 deletions(-)
+
+DavidJacome|2026-01-28|f4f0da0|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+DavidJacome|2026-01-28|d3c6c40|lINK DE 2022 EN LA PAGINA
+ resources/views/links.blade.php | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+FelipeGonzalez|2026-01-28|03384d8|rutas para educacion continua vista de muestra.show
+ app/Http/Controllers/MuestrasController.php        |  17 +++
+ public/migraciones.ipynb                           |  20 ++++
+ .../views/muestras/ed_continua/show.blade.php      | 131 +++++++++++++++++++++
+ routes/web.php                                     |   6 +-
+ 4 files changed, 173 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-01-27|d43ece9|asf
+ app/Http/Controllers/EncuestaContinuaController.php | 1 +
+ app/Http/Controllers/TelefonosController.php        | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+DavidJacome|2026-01-27|cfa4c1e|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+DavidJacome|2026-01-27|00438a1|permisos terminados
+ app/Http/Controllers/EmpresasController.php | 1 +
+ app/Http/Controllers/RecadosController.php  | 4 ++--
+ resources/views/empresas/index.blade.php    | 1 +
+ resources/views/recados/index.blade.php     | 6 +++---
+ 4 files changed, 7 insertions(+), 5 deletions(-)
+
+FelipeGonzalez|2026-01-27|3329b85|respuestas continuas controller
+ .../Controllers/EncuestaContinuaController.php     | 65 ++++++++++++++++++++++
+ app/Models/respuestas_continua.php                 | 15 +++++
+ public/migraciones.ipynb                           | 20 +++++++
+ 3 files changed, 100 insertions(+)
+
+FelipeGonzalez|2026-01-26|b343f10|Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-01-26|9a15066|errores posgrado ajax corregido
+ app/Http/Controllers/CorreosController.php         |   32 +-
+ app/Http/Controllers/HomeController.php            |    5 +-
+ app/Http/Controllers/PosgradoController.php        |    1 +
+ app/Http/Controllers/TelefonosController.php       |   12 +-
+ public/work-data.ipynb                             | 2226 +++++++++++++++++++-
+ .../encuesta/seg20/modal_create_correo.blade.php   |    2 +-
+ routes/web.php                                     |   10 +
+ 7 files changed, 2251 insertions(+), 37 deletions(-)
+
+DavidJacome|2026-01-26|c04e9a0|filtros para licenciaturas
+ app/Http/Controllers/HomeController.php            |  17 ++++-------
+ app/Http/Controllers/LlamadasController.php        |  33 +++++++++++----------
+ app/Http/Controllers/RecadosController.php         |  33 ++++++++++++++-------
+ ...-ADB6-3ED981F79AD3}.2.ver0x000000000000000b.db} | Bin 1240 -> 1240 bytes
+ ...-9B3C-3716689AF493}.2.ver0x000000000000000b.db} | Bin 307456 -> 307456 bytes
+ ...-8288-1A9A39C3FDA2}.2.ver0x000000000000000b.db} | Bin 659176 -> 659176 bytes
+ .../encuesta/seg20/actualizar_datos.blade.php      |   7 +++++
+ resources/views/layouts/menu.blade.php             |  17 ++++++++---
+ resources/views/muestras/act16/show.blade.php      |   2 ++
+ .../posgrado/actualizar_datos_posgrado.blade.php   |   2 ++
+ .../muestras/posgrado/llamar_posgrado.blade.php    |   2 ++
+ resources/views/muestras/seg20/llamar.blade.php    |   8 +++++
+ resources/views/recados/index.blade.php            |  28 ++++++++++-------
+ 13 files changed, 97 insertions(+), 52 deletions(-)
+
+DavidJacome|2026-01-22|a95ceb5|busqueda
+ app/Http/Controllers/HomeController.php | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+FelipeGonzalez|2026-01-22|535f020|icorrecciones a estilos de posgrado
+ resources/views/posgrado/section.blade.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-01-22|5b26cb3|empresa posgrado
+ app/Http/Controllers/Enc16ActController.php        |   6 +-
+ app/Http/Controllers/Encuesta22Controller.php      |   8 +-
+ public/work-data.ipynb                             | 281 ++++++++++++++++++++-
+ resources/views/empresas/modal_create.blade.php    |   2 +-
+ .../views/encuesta/seccion_generica.blade.php      |   2 +-
+ resources/views/encuesta/show_16.blade.php         |   2 +-
+ resources/views/posgrado/section.blade.php         |  68 +++--
+ 7 files changed, 317 insertions(+), 52 deletions(-)
+
+DavidJacome|2026-01-21|4d3f080|cambios en la busqueda
+ resources/views/muestras/index.blade.php           |  1 +
+ .../muestras/posgrado/revision_posgrado.blade.php  |  5 ++--
+ .../views/muestras/revisiones/index.blade.php      | 30 +++++++++++++++++-----
+ resources/views/resultado.blade.php                | 11 ++------
+ 4 files changed, 29 insertions(+), 18 deletions(-)
+
+FelipeGonzalez|2026-01-20|4048c08|revision fec_Capt
+ app/Http/Controllers/PosgradoController.php | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+FelipeGonzalez|2026-01-20|794bdf4| validacion al actualizar fec_Capt
+ app/Http/Controllers/PosgradoController.php | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-01-20|e122d2f|asf
+ app/Http/Controllers/Encuesta22Controller.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-20|76c341e|no actualziar fec_capt
+ app/Http/Controllers/PosgradoController.php         | 8 ++++----
+ resources/views/muestras/revisiones/index.blade.php | 3 +--
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+FelipeGonzalez|2026-01-19|cf91a86|pla en psogrado
+ public/invitacion_posgrado.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-19|7ba3561|icorrecciones
+ app/Http/Controllers/HomeController.php                               | 4 ++--
+ resources/views/muestras/posgrado/actualizar_datos_posgrado.blade.php | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-01-19|4796fe9|telefono id on redirection posgrado inv
+ app/Http/Controllers/HomeController.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-19|40d4992|parametros
+ public/invitacion_posgrado.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-01-19|f24d4ca|asf
+ public/invitacion_posgrado.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-19|83f951a|cambios inv
+ public/invitacion_posgrado.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-19|78d9196|correccion parameters invitacion
+ app/Http/Controllers/HomeController.php | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-01-19|176f8ab|enviar invitacion posgrado
+ public/invitacion_posgrado.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+FelipeGonzalez|2026-01-19|59fdeba|enviar invitacion psogrado
+ app/Http/Controllers/HomeController.php            |  70 ++++-
+ app/Http/Controllers/LlamadasController.php        |  21 +-
+ public/aviso.py                                    |   2 +-
+ public/img/correo/invitacion/Banner_POSGRADO.jpg   | Bin 0 -> 90696 bytes
+ .../invitacion/ENCUESTA POSGRADO_CABECERA.jpg      | Bin 0 -> 50643 bytes
+ .../invitacion/ENCUESTA POSGRADO_COLORES copia.jpg | Bin 0 -> 187960 bytes
+ .../correo/invitacion/ENCUESTA POSGRADO_CUERPO.jpg | Bin 0 -> 108098 bytes
+ .../correo/invitacion/ENCUESTA POSGRADO_PIE.jpg    | Bin 0 -> 58099 bytes
+ public/invitacion_posgrado.py                      | 133 +++++++++
+ public/nrel_data.sql                               |   0
+ public/work-data.ipynb                             | 324 ++++++++++++++++++++-
+ resources/views/encuesta/show_16.blade.php         |   9 +-
+ .../views/invitacion/encuesta_por_correo.blade.php |  77 ++++-
+ .../posgrado/actualizar_datos_posgrado.blade.php   |   2 +-
+ .../muestras/posgrado/llamar_posgrado.blade.php    |   6 +-
+ resources/views/posgrado/section.blade.php         |   3 +-
+ routes/web.php                                     |   6 +-
+ 17 files changed, 596 insertions(+), 57 deletions(-)
+
+FelipeGonzalez|2026-01-14|7bc24e2|aviso de privacidad credencial
+ public/aviso.py        |  5 ++---
+ public/work-data.ipynb | 44 ++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 44 insertions(+), 5 deletions(-)
+
+FelipeGonzalez|2026-01-14|ae2ca5c|asfMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-01-14|123db3e|Merge branch 'master' of https://github.com/FelipeGonzalez/PVE-polls into david-dev
+DavidJacome|2026-01-14|fa6f3e4|ver muestras de posgrado
+ app/Http/Controllers/MuestrasController.php        | 32 ++++++++++++
+ .../muestras/posgrado/revision_posgrado.blade.php  | 57 ++++++++++++++++++++++
+ .../views/muestras/revisiones/index.blade.php      | 44 ++++++++++++-----
+ routes/web.php                                     |  2 +
+ 4 files changed, 122 insertions(+), 13 deletions(-)
+
+FelipeGonzalez|2026-01-13|48a5ec9|filtros para biusqueda incluyendo psogradoMerge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-01-13|d062da9|busquedas con filtros de años y permisos
+ app/Http/Controllers/HomeController.php | 30 +++++++++++++++++++++++++++---
+ resources/views/resultado.blade.php     |  5 +++--
+ 2 files changed, 30 insertions(+), 5 deletions(-)
+
+FelipeGonzalez|2026-01-13|304e9b5|descripcion para telefonica en posgrado
+ app/Http/Controllers/PosgradoController.php | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+FelipeGonzalez|2026-01-12|eca115a|specify subtype MIME image
+ public/invitacion16.py | 13 ++++++-------
+ public/invitacion20.py | 10 +++++-----
+ public/invitacion21.py | 10 +++++-----
+ 3 files changed, 16 insertions(+), 17 deletions(-)
+
+FelipeGonzalez|2026-01-12|32189f7|cabecera_Seguimiento jpg, no png
+ app/Http/Controllers/PosgradoController.php | 5 +----
+ public/invitacion16.py                      | 4 ++--
+ public/invitacion20.py                      | 4 ++--
+ public/invitacion21.py                      | 4 ++--
+ 4 files changed, 7 insertions(+), 10 deletions(-)
+
+FelipeGonzalez|2026-01-12|de3a01f|busqueda egresados posgrado merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+DavidJacome|2026-01-12|e18b82d|busqueda por cuenta
+FelipeGonzalez|2026-01-12|e7de738|egresado on saved posgrado
+ app/Http/Controllers/PosgradoController.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+FelipeGonzalez|2026-01-12|da09c6d|ROR SINTAXIS SAVEDPOSGRADOmessage for your changes. Lines starting
+ resources/views/encuesta/saved_posgrado.blade.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-12|524a772|terminar encuesta posgrado
+ app/Http/Controllers/PosgradoController.php       |  2 +-
+ resources/views/encuesta/saved_posgrado.blade.php | 34 +++++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+DavidJacome|2026-01-12|1e9b169|avances busqueda
+ app/Http/Controllers/HomeController.php | 21 +++++++++++-
+ resources/views/resultado.blade.php     | 58 ++++++++++++++++++++++++++++++++-
+ routes/web.php                          |  4 +--
+ 3 files changed, 79 insertions(+), 4 deletions(-)
+
+FelipeGonzalez|2026-01-12|a8553ad|bug al comenzar encuesta psogrado solucionado
+ app/Http/Controllers/PosgradoController.php |  10 +-
+ print_suvery.ipynb                          |  38 ++-
+ public/work-data.ipynb                      | 391 +++++++++++++++++++++++++++-
+ 3 files changed, 428 insertions(+), 11 deletions(-)
+
+FelipeGonzalez|2026-01-09|53c5d2e|correcciones de pogrado terminar y json
+ app/Http/Controllers/PosgradoController.php      | 56 ++++++++++++++++++++----
+ resources/views/posgrado/personal_data.blade.php |  4 +-
+ routes/web.php                                   |  2 +-
+ 3 files changed, 50 insertions(+), 12 deletions(-)
+
+FelipeGonzalez|2026-01-09|3464ace|pull request permisos v1
+ app/Http/Controllers/LlamadasController.php            |  5 +++--
+ app/Http/Controllers/PosgradoController.php            | 18 ++++++++++++++++--
+ .../views/encuesta/seg20/actualizar_datos.blade.php    |  1 -
+ .../posgrado/actualizar_datos_posgrado.blade.php       |  8 ++++++--
+ .../views/muestras/posgrado/llamar_posgrado.blade.php  |  4 ++--
+ 5 files changed, 27 insertions(+), 9 deletions(-)
+
+DavidJacome|2026-01-09|d166728|permisos iniciales muestras
+ app/Http/Controllers/MuestrasController.php        |   7 +--
+ ...-ADB6-3ED981F79AD3}.2.ver0x000000000000000a.db} | Bin 1240 -> 1240 bytes
+ ...-9B3C-3716689AF493}.2.ver0x000000000000000a.db} | Bin 307456 -> 307456 bytes
+ ...-8288-1A9A39C3FDA2}.2.ver0x000000000000000a.db} | Bin 659176 -> 659176 bytes
+ resources/views/muestras/index.blade.php           |  68 ++++++++++++---------
+ 5 files changed, 42 insertions(+), 33 deletions(-)
+
+FelipeGonzalez|2026-01-07|edb6474|mezcla actualizacion datos, filtros y encuesta pogrado para test production
+ app/Http/Controllers/MuestrasController.php        |  1 +
+ public/correos muestra.ipynb                       | 26 ++++++++++++++++++++--
+ public/empresas_data_integrity.ipynb               | 24 ++++----------------
+ .../encuesta/seg20/actualizar_datos.blade.php      |  1 +
+ 4 files changed, 30 insertions(+), 22 deletions(-)
+
+DavidJacome|2026-01-07|a742d54|guardar posgrado
+ app/Http/Controllers/LlamadasController.php        | 10 ++-
+ app/Http/Controllers/TelefonosController.php       | 74 +++++++++++++---------
+ .../views/encuesta/seg20/create_telefono.blade.php | 16 ++---
+ routes/web.php                                     |  1 +
+ 4 files changed, 60 insertions(+), 41 deletions(-)
+
+FelipeGonzalez|2026-01-06|79a231a|filtros
+ app/Http/Controllers/MuestrasController.php | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+FelipeGonzalez|2026-01-06|08db08a|mezclando avances posgrado act data
+ Correos_no_contestadas_posgrado.xlsx             | Bin 0 -> 1049267 bytes
+ app/Models/Event.php                             |  11 +
+ resources/views/posgrado/sectionbackup.blade.php | 435 +++++++++++++++++++++++
+ 3 files changed, 446 insertions(+)
+
+FelipeGonzalez|2026-01-06|6116d42|Merge branch 'david-dev' of https://github.com/FelipeGonzalez/PVE-polls
+FelipeGonzalez|2026-01-06|ad4fc79|cambios posgrado y trabajo en notebooks:wq
+ app/Http/Controllers/CorreosController.php         | 59 +++++++++++++---------
+ app/Http/Controllers/Enc16ActController.php        |  8 +--
+ app/Http/Controllers/LlamadasController.php        |  1 +
+ app/Http/Controllers/MuestrasController.php        |  5 --
+ app/Http/Controllers/PosgradoController.php        | 25 ++++++---
+ app/Http/Controllers/TelefonosController.php       | 51 ++++++++-----------
+ public/correos muestra.ipynb                       | 35 +++++++++++--
+ public/empresas_data_integrity.ipynb               | 21 ++++++++
+ .../posgrado/actualizar_datos_posgrado.blade.php   | 24 +++------
+ routes/web.php                                     |  1 -
+ 10 files changed, 138 insertions(+), 92 deletions(-)
+
+DavidJacome|2026-01-06|c508c8e|cambios telefono
+ app/Http/Controllers/TelefonosController.php       | 50 +++++++++++++++++++++-
+ .../views/encuesta/seg20/create_telefono.blade.php | 19 +++++++-
+ .../posgrado/actualizar_datos_posgrado.blade.php   |  4 +-
+ routes/web.php                                     |  1 +
+ 4 files changed, 69 insertions(+), 5 deletions(-)
