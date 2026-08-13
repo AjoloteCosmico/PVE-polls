@@ -60,7 +60,12 @@ Route::group(['middleware' => ['auth']], function(){
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
     Route::controller(MuestrasController::class)->group(function(){
+        //ruta para verificar si el egresado esta en posgrado
+        Route::get('muestras/alert/{cuenta}','alerta')->name('muestras.alert');
         
+        //ruta escalable para verificar si el egresado existe en múltiples muestras
+        Route::get('muestras-alert-check','checkMuestrasAlert')->name('muestras.alert-check');
+      
         //Route::get('muestras20/index/{id}','index_20')->name('muestras20.index');
         Route::get('muestras22/index/{id}','index_22')->name('muestras22.index');
       
