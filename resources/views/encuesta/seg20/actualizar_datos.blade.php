@@ -14,15 +14,18 @@
                         'carrera' => $Egresado->carrera,
                         'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
                     ])
-
-
-
-
-
-
-
-
-
+@include('components.create_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'act',
+                        'carrera' => $Egresado->carrera,
+                   ])
+@include('components.edit_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'act',
+                        'carrera' => $Egresado->carrera,
+                   ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
@@ -89,11 +92,9 @@
  
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id])}}">
-        <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
+        <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw" data-toggle="modal" data-target="#phoneModal">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
-      </a>
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       
@@ -113,7 +114,8 @@
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
+            <td> <button class="btn edit-phone-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-telefono_id="{{$t->id}}" data-telefono="{{ $t->telefono }}" data-description="{{ $t->descripcion }}" >
+               <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>  
           </td>
         </tr>
         @endforeach
