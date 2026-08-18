@@ -790,7 +790,8 @@ document.addEventListener('DOMContentLoaded', function () {
 checkBloqueos('nfr27');
 
     // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
-    const ncr2 = document.getElementById('ncr2');
+    // const ncr2 = document.getElementById('ncr2');
+    const ncr2 ="{{$Encuesta->ncr2}}"
     if (ncr2 && ncr2.value.trim().length >= 2) {
         fetch(`/search_empresa?q=${encodeURIComponent(ncr2.value.trim())}`)
         .then(response => response.json())

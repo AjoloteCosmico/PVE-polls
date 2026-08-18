@@ -27,6 +27,105 @@ use Illuminate\Support\Facades\Auth;
 class MuestrasController extends Controller
 {
   use LogEvents;
+  
+  /**
+   * Método escalable para verificar si una cuenta existe en múltiples muestras
+   * Maneja automáticamente ceros iniciales en las cuentas
+   */
+  public function checkMuestrasAlert()
+  {
+    $cuenta = request()->input('cuenta');
+    
+    if (!$cuenta) {
+      return response()->json([
+        'existe' => false,
+        'message' => 'Cuenta no proporcionada'
+      ], 400);
+    }
+
+    // Normalizar la cuenta: obtener versiones con y sin cero inicial
+    $cuentas_a_buscar = $this->normalizarCuentas($cuenta);
+    
+    $resultado = [
+      'existe' => false,
+      'muestras' => [],
+      'cuenta_original' => $cuenta,
+      'cuentas_buscadas' => $cuentas_a_buscar
+    ];
+
+    // POSGRADO: Buscar en egresados_posgrado
+    $existeEnPosgrado = EgresadoPosgrado::whereIn('cuenta', $cuentas_a_buscar)
+      ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
+      ->exists();
+    
+    if ($existeEnPosgrado) {
+      $resultado['existe'] = true;
+      $resultado['muestras']['posgrado'] = true;
+    }
+
+    // Aquí puedes agregar más muestras escalablemente:
+    // Ejemplo para futuras expansiones:
+    /*
+    // ESPECIALIDAD: Buscar en egresados_especialidad
+    $existeEnEspecialidad = EgresadoEspecialidad::whereIn('cuenta', $cuentas_a_buscar)
+      ->exists();
+    
+    if ($existeEnEspecialidad) {
+      $resultado['existe'] = true;
+      $resultado['muestras']['especialidad'] = true;
+    }
+
+    // EDUCACION CONTINUA: Buscar usando egresado_muestra
+    $existeEnContinua = DB::table('egresados')
+      ->whereIn('cuenta', $cuentas_a_buscar)
+      ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
+      ->where('muestra_id', 897)
+      ->exists();
+    
+    if ($existeEnContinua) {
+      $resultado['existe'] = true;
+      $resultado['muestras']['continua'] = true;
+    }
+    */
+
+    if ($resultado['existe']) {
+      // $this->recordEvent(0, 'muestras_alert', 'Cuenta encontrada: ' . $cuenta);
+      return response()->json($resultado, 200);
+    }
+
+    return response()->json($resultado, 200);
+  }
+
+  /**
+   * Normaliza una cuenta para búsqueda flexible
+   * Retorna un array con versiones de la cuenta con y sin cero inicial
+   * 
+   * @param string $cuenta
+   * @return array
+   */
+  private function normalizarCuentas($cuenta)
+  {
+    $cuentas = [$cuenta];
+    
+    // Si empieza con 0, también buscar sin el 0
+    if (strpos($cuenta, '0') === 0 && strlen($cuenta) > 1) {
+      $cuentas[] = ltrim($cuenta, '0');
+    }
+    // Si no empieza con 0, también buscar con 0 al inicio
+    elseif (strpos($cuenta, '0') !== 0 && is_numeric($cuenta)) {
+      $cuentas[] = '0' . $cuenta;
+    }
+    
+    return array_unique($cuentas);
+  }
+
+  public function alerta($cuenta)
+  {
+    $EgPos=EgresadoPosgrado::where('cuenta',$cuenta)->whereIn('anio_egreso',[2019,2020,2021,2022]);
+    return $EgPos;
+  }
+
+
   public function index(){
     //  $Muestras2019=Muestra::where('enc_id','=',Auth::user()->id)
     $Muestras2019=DB::table('muestras')

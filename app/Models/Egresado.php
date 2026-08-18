@@ -27,7 +27,7 @@ class Egresado extends Model
     }
     public function encuestadoresSondeo()
     {
-        return User::where('clave', '30')
+        return User::where('clave', '32')
             ->distinct()
             ->get();
     }
