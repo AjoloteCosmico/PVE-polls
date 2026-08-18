@@ -1,5 +1,28 @@
 @extends('layouts.app')
 @section('content')
+@include('components.create_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'act',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                    ])
+@include('components.edit_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'act',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                    ])
+
+
+
+
+
+
+
+
+
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
@@ -99,8 +122,8 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id])}}">
-          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
+        
+          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;" data-toggle="modal" data-target="#emailModal"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         </a>
     </div>
@@ -123,29 +146,23 @@
           <td>{{$c->description}} </td>
           @if($gen==2018)
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2018,$TelefonoEnLlamada->id])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+            <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
-            </a> 
           </td>
           @endif
           @if($gen==2022)
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2022,$TelefonoEnLlamada->id])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+            <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
-            </a>
           </td>
           @endif
           @if($gen==2020)
           <td>
-            <a href="{{route('editar_correo',[$c->id,$Egresado->carrera,2020,$TelefonoEnLlamada->id])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+            <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
-            </a>
           </td>
           @endif
 
@@ -235,10 +252,47 @@
 
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
-  console.log('script jalando ¿?');
+  console.log('script funcionando');
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
- </script>
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+$(document).on('phoneAdded', function(event, data) {
+   
+    location.reload();
+});
+
+$(document).on('click', '.edit-email-btn', function() {
+    let btn = $(this);
+    editEmail(btn.data('id'), btn.data('correo'), btn.data('description'));
+});
+
+$(document).on('click', '.edit-phone-btn', function() {
+    let btn = $(this);
+    editPhone(btn.data('telefono_id'), btn.data('telefono'), btn.data('description'));
+});
+
+$(document).on('emailAdded', function(event, data) {
+    //Actualizar la pagina mejor 
+    location.reload();
+});
+$(document).on('emailUpdated', function(event, data) {
+
+    location.reload();
+});
+$(document).on('phoneUpdated', function(event, data) {
+    location.reload();
+});
+
+
+</script>
  
 @endpush 
