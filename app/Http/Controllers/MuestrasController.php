@@ -35,6 +35,7 @@ class MuestrasController extends Controller
   public function checkMuestrasAlert()
   {
     $cuenta = request()->input('cuenta');
+    $muestra_actual = request()->input('muestra_actual');
     
     if (!$cuenta) {
       return response()->json([
@@ -57,10 +58,20 @@ class MuestrasController extends Controller
     $existeEnPosgrado = EgresadoPosgrado::whereIn('cuenta', $cuentas_a_buscar)
       ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
       ->exists();
+
+    $existeEnLicenciatura = Egresado::whereIn('cuenta', $cuentas_a_buscar)
+      ->where('muestra', '5')
+      ->orWhere('act_suvery','2')
+      ->exists();
     
-    if ($existeEnPosgrado) {
+    if ($existeEnPosgrado && $muestra_actual!='posgrado') {
       $resultado['existe'] = true;
       $resultado['muestras']['posgrado'] = true;
+    }
+
+    if ($existeEnLicenciatura && $muestra_actual!='licenciatura') {
+      $resultado['existe'] = true;
+      $resultado['muestras']['licenciatura'] = true;
     }
 
     // Aquí puedes agregar más muestras escalablemente:

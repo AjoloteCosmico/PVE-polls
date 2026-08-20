@@ -73,7 +73,7 @@
             @endif
             @endif
             <tr>
-                @include('components.muestras_alert', ['cuenta' => $Egresado->cuenta])
+                @include('components.muestras_alert', ['cuenta' => $Egresado->cuenta, 'muestra_actual'=>'licenciatura'])
             </tr>
         </table>   
         
