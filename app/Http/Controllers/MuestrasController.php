@@ -59,9 +59,11 @@ class MuestrasController extends Controller
       ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
       ->exists();
 
-    $existeEnLicenciatura = Egresado::whereIn('cuenta', $cuentas_a_buscar)
-      ->where('muestra', '5')
-      ->orWhere('act_suvery','2')
+    $existeEnAct = Egresado::whereIn('cuenta', $cuentas_a_buscar)
+      ->where('act_suvery','2')
+      ->exists();
+    $existeSeg = Egresado::whereIn('cuenta', $cuentas_a_buscar)
+      ->where('muestra','5')
       ->exists();
     
     if ($existeEnPosgrado && $muestra_actual!='posgrado') {
@@ -69,7 +71,12 @@ class MuestrasController extends Controller
       $resultado['muestras']['posgrado'] = true;
     }
 
-    if ($existeEnLicenciatura && $muestra_actual!='licenciatura') {
+    if ($existeSeg && $muestra_actual!='licenciatura') {
+      $resultado['existe'] = true;
+      $resultado['muestras']['licenciatura'] = true;
+    }
+    
+    if ($existeEnAct && $muestra_actual!='licenciatura') {
       $resultado['existe'] = true;
       $resultado['muestras']['licenciatura'] = true;
     }
