@@ -24,7 +24,7 @@
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
         <div class="mb-3">
           <label style="color:white;">Telefono</label>
-          <input type="text" name="telefono" id="telefono" class="form-control modal-input" style=" font-size: 120%;">
+            <input type="text" name="telefono" id="numero_telefono" class="form-control modal-input" style="font-size: 120%;" required>
         </div>
         <div class="mb-3">
           <label style="color:white;">Description</label>

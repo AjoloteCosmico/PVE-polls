@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="numero_telefonico">
-    Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
+    Estas en una llamadaaaaaaaaaaaaaaaaaaaaaaaa con el numero: {{$TelefonoEnLlamada->telefono}}
   </div>
 <div class="container-fluid"  background="{{asset('img/Fondo2.jpg')}}">
     <div class="padding div" >

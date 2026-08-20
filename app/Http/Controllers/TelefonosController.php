@@ -267,16 +267,13 @@ use  LogEvents;
         
     }
     public function async_update(Request $request ){
-        //TODO: Configurar validaciones para edicion
-        // //Validacion de que el telefono no esté repetido
-        // $request->validate([
-        //     'telefono' => 'required|string|max:20|unique:telefonos,telefono',
-        //     'descripcion' => 'nullable|string|max:255',
-        // ], [
-        //     'telefono.required' => 'El campo teléfono es obligatorio.',
-        //     'telefono.unique' => 'Este número ya está registrado.',
-        // ]);
-
+         $request->validate([
+            'telefono' => 'required|string|max:20|unique:telefonos,telefono,'.$id,
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'telefono.unique' => 'Este número ya está registrado.',
+        ]);
 
         $Telefono= Telefono::find((int)$request->telefono_id);
         $Telefono->telefono=$request->telefono;
