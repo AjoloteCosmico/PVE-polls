@@ -22,7 +22,7 @@
 @include('components.edit_email', [
                         'cuenta'        => $EgresadoEsp->cuenta,
                         'respuestasKey'         => 0,
-                        'typeStudy'  => 'esp',
+                        'typeStudy'  => 'esp', 
                         'carrera' => $EgresadoEsp->carrera,
                         'EgName'=> $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
                     ])
