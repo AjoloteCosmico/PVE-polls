@@ -267,18 +267,23 @@ use  LogEvents;
         
     }
     public function async_update(Request $request ){
-         $request->validate([
-            'telefono' => 'required|string|max:20|unique:telefonos,telefono,'.$id,
-            'descripcion' => 'nullable|string|max:255',
-        ], [
-            'telefono.required' => 'El campo teléfono es obligatorio.',
-            'telefono.unique' => 'Este número ya está registrado.',
-        ]);
 
-        $Telefono= Telefono::find((int)$request->telefono_id);
+        $id = $request->input('telefono_id');
+        $request->validate([
+        'telefono_id' => 'required|exists:telefonos,id',
+        'telefono' => 'required|string|max:20|unique:telefonos,telefono,' . $id,
+        'description' => 'nullable|string|max:255',
+    ], [
+        'telefono.required' => 'El campo teléfono es obligatorio.',
+        'telefono.unique' => 'Este número ya está registrado.',
+    ]);
+
+        $Telefono= Telefono::find((int) $id);
         $Telefono->telefono=$request->telefono;
         $Telefono->descripcion=$request->description;
         $Telefono->save();
+
+        
         $this->recordEvent($Telefono->id, 'update_telefono', $request->type.' encuestaKey: '. $request->encuesta_id);
        
             return response()->json([
