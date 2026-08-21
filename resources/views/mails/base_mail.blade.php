@@ -79,7 +79,7 @@
         <!-- PIE DE PÁGINA (Imagen con bordes inferiores redondeados) -->
         <tr>
             <td align="center">
-                <img src="{{ $message->embed(public_path('imagenes/footer_rounded.png')) }}" alt="Pie de página" style="width: 100%; display: block; border: 0;">
+                <img src="{{ $message->embed(public_path('img/correos/footer.png')) }}" alt="Pie de página" style="width: 100%; display: block; border: 0;">
             </td>
         </tr>
     </table>
