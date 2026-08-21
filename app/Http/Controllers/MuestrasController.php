@@ -1001,7 +1001,7 @@ public function especialidad_index(){
     $muestra = DB::table('egresados_especialidad')
       ->where('especialidad', '=', $especialidad)
       ->whereIn('anio_egreso', [2020,2021,2022,2023])
-      ->where('created_at','<','2026-05-01')
+      // ->where('created_at','<','2026-05-01')
       ->leftJoin('codigos',function($join){
         $join->on(
               // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER
