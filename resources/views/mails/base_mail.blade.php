@@ -23,7 +23,7 @@
         <!-- CABECERA (Imagen con bordes superiores redondeados) -->
         <tr>
             <td align="center">
-                <img src="{{ $message->embed(public_path('imagenes/header_rounded.png')) }}" alt="Cabecera" style="width: 100%; display: block; border: 0;">
+                <img src="{{ $message->embed(public_path('img/correos/header.png')) }}" alt="Cabecera" style="width: 100%; display: block; border: 0;">
             </td>
         </tr>
 
@@ -37,7 +37,7 @@
                 <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
                     <tr>
                         <td width="80" valign="middle">
-                            <img src="{{ $message->embed(public_path('imagenes/icon_main.png')) }}" width="60" style="display: block;">
+                            <img src="{{ $message->embed(public_path('img/correo/logo.png')) }}" width="60" style="display: block;">
                         </td>
                         <td style="font-size: 22px; font-weight: bold; color: #B7812C; line-height: 1.2;">
                             {{ $texto_destacado }}
