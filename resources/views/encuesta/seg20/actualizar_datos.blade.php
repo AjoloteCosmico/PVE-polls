@@ -127,7 +127,7 @@
         
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;" data-toggle="modal" data-target="#emailModal"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
-        </a>
+        
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
