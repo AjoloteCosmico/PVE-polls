@@ -365,8 +365,10 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
         Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
     });
-Route::get('/test_mail_sending/{id}', [App\Http\Controllers\SendMailController::class, 'test'])->name('send_mail.test');
+    
+    Route::get('/test_mail_sending/{id}', [App\Http\Controllers\SendMailController::class, 'test'])->name('send_mail.test');
 
+    Route::get('/test_mail_base', [App\Http\Controllers\SendMailController::class, 'send_test'])->name('send_mail.base_test');
 
     Route::get('/debug-permissions', function() {
     $user = auth()->user();
