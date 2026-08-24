@@ -20,12 +20,25 @@ abstract class BaseMail extends Mailable
     {
         $this->data = $data;
          // 2. Insertar registro en BD con estado 'pending'
-        $this->trackingId = DB::table('email_tracking')->insertGetId([
-            'uuid' => $this->trackingUuid,
-            'recipient_email' => $this->getRecipientEmail(), // Debes definir este método en hijas
-            'status' => 'pending',
-            'created_at' => now(),
-            'updated_at' => now(),
+        // $this->trackingId = DB::table('email_tracking')->insertGetId([
+        //     'uuid' => $this->trackingUuid,
+        //     'recipient_email' => $this->getRecipientEmail(), // Debes definir este método en hijas
+        //     'status' => 'pending',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+        $tracking_id = (string) Str::uuid();
+        $ahora = now();
+        $this->trackingUuid=$tracking_id;
+        DB::table('email_tracking')->insert([
+            'email_id' => $emailId,
+            'recipient_email' => $recipientEmail,
+            'tracking_uuid' => $tracking_id,
+            'type' => 'inv_prueba',
+            'created_at' => $ahora,
+            'sended_at' => $ahora,
+            'updated_at' => $ahora,
         ]);
     }
 

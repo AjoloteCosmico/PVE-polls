@@ -133,6 +133,7 @@
                 <img src="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/footer_lofi.png" alt="Pie de página" style="width: 100%; display: block; border: 0;">
             </td>
         </tr>
+        <img src="{{'https://encuestas.pveaju.unam.mx/track/'.$tracking_uuid }}" alt="" width="1" height="1" style="display:none; width:1px; height:1px;">
     </table>
 </body>
 </html>
