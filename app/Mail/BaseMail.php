@@ -14,10 +14,19 @@ abstract class BaseMail extends Mailable
     use Queueable, SerializesModels;
 
     public $data;
+    public string $trackingUuid;
 
     public function __construct($data)
     {
         $this->data = $data;
+         // 2. Insertar registro en BD con estado 'pending'
+        $this->trackingId = DB::table('email_tracking')->insertGetId([
+            'uuid' => $this->trackingUuid,
+            'recipient_email' => $this->getRecipientEmail(), // Debes definir este método en hijas
+            'status' => 'pending',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     public function build()
@@ -26,10 +35,22 @@ abstract class BaseMail extends Mailable
                     ->subject($this->defineSubject())
                     ->view($this->defineView()) // Usarás vistas Blade
                     ->with([
-                        'payload' => $this->data,
-                        'footer_img' => 'cid:footer_img' // Ejemplo de imagen fija
+                        'payload' => $this->data
                     ]);
        
+    }
+
+
+    // Este callback se ejecuta DESPUÉS de que el SMTP confirme el envío
+    public function after(): array
+    {
+        return [
+            function () {
+                DB::table('email_tracking')
+                  ->where('id', $this->trackingId)
+                  ->update(['status' => 'sent', 'sent_at' => now()]);
+            }
+        ];
     }
     
 }

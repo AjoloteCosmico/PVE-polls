@@ -16,6 +16,7 @@ class InvMail extends BaseMail
     }
 
     protected function defineView(): string {
-        return 'mails.invitacion'; // Tu archivo .blade.php
+        return 'mails.invitacion'; 
     }
+
 }

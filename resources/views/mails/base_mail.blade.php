@@ -45,7 +45,7 @@
         <!-- CABECERA (Imagen con bordes superiores redondeados) -->
         <tr>
             <td align="center">
-                <img src="{{ $message->embed(public_path('img/correo/header.png')) }}" alt="Cabecera" style="width: 100%; display: block; border: 0;">
+                <img src="{{'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/'.$header_image}}" alt="Cabecera" style="width: 100%; display: block; border: 0;">
             </td>
         </tr>
 
@@ -73,7 +73,7 @@
                     @yield('content')
 
                     <br>
-                    <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM"> visita la pagina del seguimiento</a>
+                    <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM"> 👉🏾 visita la pagina del seguimiento</a>
                 </div>
 
                 <!-- SECCIÓN: PODRÍA INTERESARTE -->
@@ -130,7 +130,7 @@
         <!-- PIE DE PÁGINA (Imagen con bordes inferiores redondeados) -->
         <tr>
             <td align="center">
-                <img src="{{ $message->embed(public_path('img/correo/footer.png')) }}" alt="Pie de página" style="width: 100%; display: block; border: 0;">
+                <img src="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/footer_lofi.png" alt="Pie de página" style="width: 100%; display: block; border: 0;">
             </td>
         </tr>
     </table>
