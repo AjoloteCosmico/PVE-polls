@@ -25,5 +25,5 @@
             Este correo fue enviado automáticamente por el sistema.
         </p>
     </div>
-</body>
-</html>
+</body> 
+</html> 

@@ -55,18 +55,18 @@
                 <h1> {{ $encabezado }}</h1>
                 <p class="sender-name">De: {{ $remitente }}</p>
 
-                <!-- TEXTO GRANDE CON ICONO -->
+            {{--     <!-- TEXTO GRANDE CON ICONO -->
                 <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
                     <tr>
                         <td width="80" valign="middle">
                             
-                            <img src="{{ $message->embed(public_path('img\correo\logo.png')) }}" width="60" style="display: block;">
+                            <img src="{{ $message->embed(public_path('img\correo\logo.png')) }}" width="80" style="display: block;">
                         </td>
                         <td style="font-size: 22px; font-weight: bold; color: #B7812C; line-height: 1.2;">
                              {{ $texto_destacado }}
                         </td>
                     </tr>
-                </table>
+                </table> --}}
 
                 <!-- CONTENIDO DINÁMICO -->
                 <div style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">

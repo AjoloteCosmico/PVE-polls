@@ -9,7 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-abstract class BaseMail extends Mailable
+use Illuminate\Support\Str;
+use DB;
+
+abstract class BaseMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -17,7 +20,7 @@ abstract class BaseMail extends Mailable
     public string $trackingUuid;
 
     public function __construct($data)
-    {
+    { 
         $this->data = $data;
          // 2. Insertar registro en BD con estado 'pending'
         // $this->trackingId = DB::table('email_tracking')->insertGetId([
@@ -29,16 +32,15 @@ abstract class BaseMail extends Mailable
         // ]);
 
         $tracking_id = (string) Str::uuid();
-        $ahora = now();
         $this->trackingUuid=$tracking_id;
         DB::table('email_tracking')->insert([
-            'email_id' => $emailId,
-            'recipient_email' => $recipientEmail,
+            'email_id' => $data['correo_id'],
+            'recipient_email' => $data['correo'],
             'tracking_uuid' => $tracking_id,
-            'type' => 'inv_prueba',
-            'created_at' => $ahora,
-            'sended_at' => $ahora,
-            'updated_at' => $ahora,
+            'type' => $this->defineType(),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'sended_at' => now(),
         ]);
     }
 
@@ -48,7 +50,8 @@ abstract class BaseMail extends Mailable
                     ->subject($this->defineSubject())
                     ->view($this->defineView()) // Usarás vistas Blade
                     ->with([
-                        'payload' => $this->data
+                        'payload' => $this->data,
+                        'tracking_uuid' => $this->trackingUuid,
                     ]);
        
     }
@@ -60,8 +63,9 @@ abstract class BaseMail extends Mailable
         return [
             function () {
                 DB::table('email_tracking')
-                  ->where('id', $this->trackingId)
-                  ->update(['status' => 'sent', 'sent_at' => now()]);
+                  ->where('tracking_uuid', $this->trackingUuid)
+                  ->update(['sended_at' => now(),
+                            'updated_at' => now()]);
             }
         ];
     }

@@ -29,8 +29,9 @@ class SendMailController extends Controller
                 'extra_items' => $intereses // Aquí ahorita es una constante, pero habra q hacer un algoritomo ->getIntereses()
             ];
         foreach($Correos as $correo){
-                
-            Mail::to($correo->correo)->send(new InvMail($data));
+            //agregar parametros especificos a data
+            $specific_data=$data + ['correo' => $correo->correo, 'correo_id'=>$correo->id];
+            Mail::to($correo->correo)->queue(new InvMail($specific_data));
 
         }
         return 'Correo enviado'.$Correos->pluck('correo');

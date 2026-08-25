@@ -9,19 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class InvMail extends BaseMail
+class EncuestaEspecialidadMail extends BaseMail
 {
+    use Queueable, SerializesModels;
     protected function defineSubject(): string {
-        return "Invitación a Encuesta de Seguimiento";
+        return "Invitación a Encuesta de Especialidad Derecho";
     }
 
     protected function defineView(): string {
-        return 'mails.invitacion'; 
+        return 'mails.encuesta_especialidad'; 
     }
     
     protected function defineType(): string {
-        return 'invitacion_prueba'; 
+        return 'especialidads'; 
     }
-    
-
 }
