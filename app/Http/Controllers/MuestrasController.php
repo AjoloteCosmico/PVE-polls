@@ -81,14 +81,12 @@ class MuestrasController extends Controller
       $resultado['muestras']['licenciatura'] = true;
     }
 
-    // Aquí puedes agregar más muestras escalablemente:
-    // Ejemplo para futuras expansiones:
-    /*
+    
     // ESPECIALIDAD: Buscar en egresados_especialidad
     $existeEnEspecialidad = EgresadoEspecialidad::whereIn('cuenta', $cuentas_a_buscar)
       ->exists();
     
-    if ($existeEnEspecialidad) {
+    if ($existeEnEspecialidad && $muestra_actual!='especialidad') {
       $resultado['existe'] = true;
       $resultado['muestras']['especialidad'] = true;
     }
@@ -100,11 +98,11 @@ class MuestrasController extends Controller
       ->where('muestra_id', 897)
       ->exists();
     
-    if ($existeEnContinua) {
+    if ($existeEnContinua && $muestra_actual!='continua') {
       $resultado['existe'] = true;
       $resultado['muestras']['continua'] = true;
     }
-    */
+    
 
     if ($resultado['existe']) {
       // $this->recordEvent(0, 'muestras_alert', 'Cuenta encontrada: ' . $cuenta);

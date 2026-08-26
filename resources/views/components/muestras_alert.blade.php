@@ -40,6 +40,15 @@ $(document).ready(function() {
                     mensaje += "⚠️ <strong>Muestra de Licenciatura</strong><br>";
                 }
 
+                if (muestras.especialidad) {
+                    titulo = "Este egresado está en múltiples muestras";
+                    mensaje += "⚠️ <strong>Muestra de ESPECIALIDAD</strong><br>";
+                }
+                if (muestras.continua) {
+                    titulo = "Este egresado está en múltiples muestras";
+                    mensaje += "⚠️ <strong>Muestra de EDUCACION CONTINUA</strong><br>";
+                }
+
                 // Mostrar badge en el componente
                 let badgeHtml = `
                     <div   style="font-size: 16px; padding: 15px; color:white !important">
@@ -55,7 +64,7 @@ $(document).ready(function() {
                     position: "center",
                     icon: "warning",
                     title: titulo,
-                    html: "<p style='background-color:#d0d0d0 !important; font-size: 20px'>" + mensaje + "Prioriza Actualizacion lic. primero. </p>",
+                    html: "<p style='background-color:#d0d0d0 !important; font-size: 20px'>" + mensaje + "Asegurate de priorizar la encuesta correspondiente </p>",
                     showConfirmButton: true,
                     confirmButtonText: "Entendido"
                 });
