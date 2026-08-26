@@ -56,6 +56,9 @@
             </tr>
             @endif
             @endif
+              <tr> 
+                <td> @include('components.muestras_alert', ['cuenta' => $Egresado->cuenta,'muestra_actual' =>'verde'])</td>
+            </tr>
         </table>   
     </div>
 
