@@ -133,9 +133,10 @@
             <td>
                 <a href="{{route('enviar_encuesta',[$c->id,$EgresadoPos->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="boton-oscuro" > 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA POR CORREO
+                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA POR CORREO viejo
                   </button>
                 </a>
+                
               </td>
               @can('aplicar_encuesta_posgrado')
               <td>

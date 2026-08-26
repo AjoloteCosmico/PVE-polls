@@ -32,8 +32,8 @@
           <label style="color:white;">Description</label>
           <input type="text" name="description" id="tel_edit_desc" class="form-control modal-input" style=" font-size: 120%;">
         </div>
-         <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+         <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
     
         </div>
       
