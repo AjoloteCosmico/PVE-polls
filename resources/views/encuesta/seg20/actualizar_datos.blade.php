@@ -127,7 +127,7 @@
         
           <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;" data-toggle="modal" data-target="#emailModal"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
-        </a>
+        
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
@@ -206,12 +206,18 @@
             @endif
             @if($gen==2018)
             <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="boton-oscuro" > 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
-                  </button>
-                </a>
-              </td>
+                <button type="button" class="boton-oscuro" data-toggle="modal" data-target="#modalEnviarEncuesta_{{ $c->id }}">
+                    <i class="fas fa-file" aria-hidden="true"></i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
+                </button>
+                @include('components.enviar_encuesta', [
+                    'correo_obj' => $c,
+                    'Egresado'   => $Egresado,
+                    'Telefono'   => $TelefonoEnLlamada,
+                    'Carrera'    => $Carrera,
+                    'Plantel'    => $Plantel,
+                    'gen'        => $gen
+                ])
+            </td>
               @can('aplicar_encuesta_actualizacion')
               <td>
                 <a href="{{route('comenzar_encuesta_2018',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 

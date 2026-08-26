@@ -408,12 +408,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
 
         $egresado = Egresado::where('cuenta', $request->cuenta)->first();
 
-        return redirect()->route('act_data', [
-            $request->cuenta,
-            $request->carrera_clave,
-            $request->anio,
-            $request->telefono
-        ]);
+        return redirect()->back()->with('swal_success', true);
     }
 
     public function enviar_invitacion_conteo(Request $request) {
