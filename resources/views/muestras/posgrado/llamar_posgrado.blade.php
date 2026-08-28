@@ -50,6 +50,11 @@
             </tr>
             @endif
             @endif
+            <tr>
+                <tr>
+                @include('components.muestras_alert', ['cuenta' => $EgresadoPos->cuenta,'muestra_actual' =>'posgrado'])
+            </tr>
+            </tr>
         </table>   
     </div>
 

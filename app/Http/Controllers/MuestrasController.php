@@ -35,6 +35,7 @@ class MuestrasController extends Controller
   public function checkMuestrasAlert()
   {
     $cuenta = request()->input('cuenta');
+    $muestra_actual = request()->input('muestra_actual');
     
     if (!$cuenta) {
       return response()->json([
@@ -57,20 +58,35 @@ class MuestrasController extends Controller
     $existeEnPosgrado = EgresadoPosgrado::whereIn('cuenta', $cuentas_a_buscar)
       ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
       ->exists();
+
+    $existeEnAct = Egresado::whereIn('cuenta', $cuentas_a_buscar)
+      ->where('act_suvery','2')
+      ->exists();
+    $existeSeg = Egresado::whereIn('cuenta', $cuentas_a_buscar)
+      ->where('muestra','5')
+      ->exists();
     
-    if ($existeEnPosgrado) {
+    if ($existeEnPosgrado && $muestra_actual!='posgrado') {
       $resultado['existe'] = true;
       $resultado['muestras']['posgrado'] = true;
     }
 
-    // Aquí puedes agregar más muestras escalablemente:
-    // Ejemplo para futuras expansiones:
-    /*
+    if ($existeSeg && $muestra_actual!='licenciatura') {
+      $resultado['existe'] = true;
+      $resultado['muestras']['licenciatura'] = true;
+    }
+    
+    if ($existeEnAct && $muestra_actual!='licenciatura') {
+      $resultado['existe'] = true;
+      $resultado['muestras']['licenciatura'] = true;
+    }
+
+    
     // ESPECIALIDAD: Buscar en egresados_especialidad
     $existeEnEspecialidad = EgresadoEspecialidad::whereIn('cuenta', $cuentas_a_buscar)
       ->exists();
     
-    if ($existeEnEspecialidad) {
+    if ($existeEnEspecialidad && $muestra_actual!='especialidad') {
       $resultado['existe'] = true;
       $resultado['muestras']['especialidad'] = true;
     }
@@ -82,11 +98,11 @@ class MuestrasController extends Controller
       ->where('muestra_id', 897)
       ->exists();
     
-    if ($existeEnContinua) {
+    if ($existeEnContinua && $muestra_actual!='continua') {
       $resultado['existe'] = true;
       $resultado['muestras']['continua'] = true;
     }
-    */
+    
 
     if ($resultado['existe']) {
       // $this->recordEvent(0, 'muestras_alert', 'Cuenta encontrada: ' . $cuenta);
@@ -983,7 +999,7 @@ public function especialidad_index(){
     $muestra = DB::table('egresados_especialidad')
       ->where('especialidad', '=', $especialidad)
       ->whereIn('anio_egreso', [2020,2021,2022,2023])
-      ->where('created_at','<','2026-05-01')
+      // ->where('created_at','<','2026-05-01')
       ->leftJoin('codigos',function($join){
         $join->on(
               // Aplicamos CAST a la columna 'codigos.code' para convertirla a INTEGER

@@ -3,7 +3,7 @@
     Componente: Alerta de muestras duplicadas
     Variables recibidas:
         $cuenta -> la cuenta del egresado para buscar en diferentes muestras
-    
+        $muestra_actual-> muestra desde donde se llama
     Descripción:
         Búsqueda escalable que verifica si una cuenta existe en múltiples muestras.
         Maneja automáticamente ceros iniciales en las cuentas.
@@ -17,7 +17,8 @@ $(document).ready(function() {
         url: "{{ route('muestras.alert-check') }}",
         method: "GET",
         data: {
-            cuenta: "{{ $cuenta }}"
+            cuenta: "{{ $cuenta }}",
+            muestra_actual: "{{ $muestra_actual }}"
         },
         dataType: 'json',
         success: function(response) {
@@ -31,6 +32,21 @@ $(document).ready(function() {
                 if (muestras.posgrado) {
                     titulo = "Este egresado está en múltiples muestras";
                     mensaje += "⚠️ <strong>Muestra de Posgrado</strong><br>";
+                }
+
+                // Mapeo de nombres de muestras
+                if (muestras.licenciatura) {
+                    titulo = "Este egresado está en múltiples muestras";
+                    mensaje += "⚠️ <strong>Muestra de Licenciatura</strong><br>";
+                }
+
+                if (muestras.especialidad) {
+                    titulo = "Este egresado está en múltiples muestras";
+                    mensaje += "⚠️ <strong>Muestra de ESPECIALIDAD</strong><br>";
+                }
+                if (muestras.continua) {
+                    titulo = "Este egresado está en múltiples muestras";
+                    mensaje += "⚠️ <strong>Muestra de EDUCACION CONTINUA</strong><br>";
                 }
 
                 // Mostrar badge en el componente
@@ -48,7 +64,7 @@ $(document).ready(function() {
                     position: "center",
                     icon: "warning",
                     title: titulo,
-                    html: "<p style='background-color:#d0d0d0 !important; font-size: 20px'>" + mensaje + "Prioriza esta encuesta primero. </p>",
+                    html: "<p style='background-color:#d0d0d0 !important; font-size: 20px'>" + mensaje + "Asegurate de priorizar la encuesta correspondiente </p>",
                     showConfirmButton: true,
                     confirmButtonText: "Entendido"
                 });
