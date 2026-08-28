@@ -9,18 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AvisoPrivacidadMail extends BaseMail
+class PosMail extends BaseMail
 {
     use Queueable, SerializesModels;
     protected function defineSubject(): string {
-        return "Aviso de privacidad PVEAJU UNAM";
+        return "Invitación a Encuesta de Posgrado";
     }
 
     protected function defineView(): string {
-        return 'mails.aviso'; 
+        return 'mails.encuesta_posgrado'; 
     }
     
     protected function defineType(): string {
-        return 'aviso'; 
+        return 'posgrado'; 
     }
 }

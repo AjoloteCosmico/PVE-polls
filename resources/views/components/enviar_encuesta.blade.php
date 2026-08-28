@@ -26,9 +26,7 @@
                     <input type="hidden" name="carrera_clave" value="{{ $Egresado->carrera }}">
                     <input type="hidden" name="plantel" value="{{ is_object($Carrera) ? $Carrera->plantel : $Plantel }}">
                     <input type="hidden" name="anio" value="{{ $gen }}"> 
-                    <input type="hidden" name="telefono" value="{{ $Telefono->telefono }}">
-                    
-                
+                    <input type="hidden" name="telefono" value="{{ $Telefono->telefono }}">                                    
                 
                 
                 <div class="modal-body text-left">

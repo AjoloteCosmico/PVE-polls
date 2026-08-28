@@ -368,6 +368,8 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/test_mail_base', [App\Http\Controllers\SendMailController::class, 'send_test'])->name('send_mail.base_test');
 
+    Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
+
     Route::get('/debug-permissions', function() {
     $user = auth()->user();
     Cache::forget('spatie.permission.cache');

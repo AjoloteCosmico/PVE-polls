@@ -2,30 +2,37 @@
 @section('content')
 @include('components.create_phone', [
                         'cuenta'        => $EgresadoEsp->cuenta,
-                        'respuestasKey'         => 0,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $EgresadoEsp->carrera,
+                        'respuestasKey' => 0,
+                        'typeStudy'     => 'esp',
+                        'carrera'       => $EgresadoEsp->carrera,
                    ])
 @include('components.create_email', [
-                        'cuenta'        => $EgresadoEsp->cuenta,
-                        'respuestasKey'         => 0,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $EgresadoEsp->carrera,
-                        'EgName'=> $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
+                        'cuenta'         => $EgresadoEsp->cuenta,
+                        'respuestasKey'  => 0,
+                        'typeStudy'      => 'esp',
+                        'carrera'        => $EgresadoEsp->carrera,
+                        'EgName'         => $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
                     ])
 @include('components.edit_phone', [
                         'cuenta'        => $EgresadoEsp->cuenta,
-                        'respuestasKey'         => 0,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $EgresadoEsp->carrera,
+                        'respuestasKey' => 0,
+                        'typeStudy'     => 'esp',
+                        'carrera'       => $EgresadoEsp->carrera,
                    ])
 @include('components.edit_email', [
-                        'cuenta'        => $EgresadoEsp->cuenta,
-                        'respuestasKey'         => 0,
-                        'typeStudy'  => 'esp', 
-                        'carrera' => $EgresadoEsp->carrera,
-                        'EgName'=> $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
+                        'cuenta'         => $EgresadoEsp->cuenta,
+                        'respuestasKey'  => 0,
+                        'typeStudy'      => 'esp', 
+                        'carrera'        => $EgresadoEsp->carrera,
+                        'EgName'         => $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
                     ])
+@include('components.send_emai',[
+      'cuenta'         => $EgresadoEsp->cuenta,
+      'respuestasKey'  => 0,
+      'typeStudy'      => 'esp', 
+      'carrera'        => $EgresadoEsp->carrera,
+      'EgName'         => $EgresadoEsp->nombre.' '.$EgresadoEsp->paterno.' '.$EgresadoEsp->materno
+                ])
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
@@ -130,11 +137,14 @@
 
           </td>
             <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$EgresadoEsp->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
+                {{--<a href="{{route('enviar_encuesta',[$c->id,$EgresadoEsp->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
                   <button class="boton-oscuro" > 
                     <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA POR CORREO
                   </button>
-                </a>
+                </a>--}}
+                <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="Especialidad en {{$EgresadoEsp->especialidad}}" data-mail_type ="especialidad" > 
+                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO {{$c->id}}
+              </button>
               </td>
               @can('aplicar_encuesta_posgrado')
               <td>
@@ -197,6 +207,11 @@ $(document).on('phoneAdded', function(event, data) {
 $(document).on('click', '.edit-email-btn', function() {
     let btn = $(this);
     editEmail(btn.data('id'), btn.data('correo'), btn.data('description'));
+});
+
+$(document).on('click', '.send-email-btn', function() {
+    let btn = $(this);
+    sendEmail(btn.data('correo_id'), btn.data('correo'),btn.data('prog_acad'), btn.data('mail_type'));
 });
 
 $(document).on('click', '.edit-phone-btn', function() {
