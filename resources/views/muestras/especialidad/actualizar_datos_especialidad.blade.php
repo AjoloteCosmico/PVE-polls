@@ -143,7 +143,7 @@
                   </button>
                 </a>--}}
                 <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="Especialidad en {{$EgresadoEsp->especialidad}}" data-mail_type ="especialidad" > 
-                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO {{$c->id}}
+                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO 
               </button>
               </td>
               @can('aplicar_encuesta_posgrado')

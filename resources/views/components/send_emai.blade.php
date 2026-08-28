@@ -29,7 +29,7 @@
           <label for="correo_edit" style="color:white;">Enviar Correo Electrónico</label>
           <div style="color:white; background-color: #335192; padding: 10px; border-radius: 5px; margin-bottom: 10px;">  
               <p id='correo_label'></p>
-              <input type="text" id="prueba" name='prueba'>
+            
           </div>
         </div>
 
@@ -57,7 +57,6 @@
 
    $('#correoId').val(correo_id);
     $('#mail_type').val(mail_type);
-    $('#prueba').val(correo_id);
      
     $('#email').val(correo);
     

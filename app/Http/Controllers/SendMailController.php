@@ -97,7 +97,7 @@ public function send_prioritary_mail(Request $request) {
                 'success' => true, 
                 'status' => 'sin datos',
                 'message' => 'Teléfono editado correctamente',
-                'telefono' => $Telefono,
+              
             ]);
         break;
         case 'invitacion': 
