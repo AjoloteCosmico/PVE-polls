@@ -20,11 +20,11 @@
         <h1>Estas enviando un correo a  {{$EgName}}</h1>
         @csrf
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$respuestasKey}}">
-        <input id="correoId" name="correo_id"  value="">
-        <input  id="email" name="correo" value="" >
-        <input  id="prog" name="prog_acad" value="" >
+        <input type="hidden" id="correoId" name="correo_id"  value="">
+        <input type="hidden" id="email" name="correo" value="" >
+        <input type="hidden" id="prog" name="prog_acad" value="" >
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
-        <input  id="mail_type" name="mail_type" value="">
+        <input type="hidden"  id="mail_type" name="mail_type" value="">
         <div class="mb-3">
           <label for="correo_edit" style="color:white;">Enviar Correo Electrónico</label>
           <div style="color:white; background-color: #335192; padding: 10px; border-radius: 5px; margin-bottom: 10px;">  
