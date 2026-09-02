@@ -31,4 +31,4 @@
 <br>
 <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/#creditos"> 👉🏾 Identidica al equipo del seguimiento </a>
 
-@endsection
+@endsection 
