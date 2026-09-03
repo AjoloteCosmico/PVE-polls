@@ -298,7 +298,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
             // $emailId = 0; 
         }
 
-        $this->enviarAviso($emailId, $request->correo, $request->nombre);
+        $this->enviarAviso($emailId, $request->correo, $request->nombre, $correoBD->cuenta);
         return redirect()->route('aviso'); 
             
         
