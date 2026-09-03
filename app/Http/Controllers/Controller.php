@@ -62,6 +62,7 @@ class Controller extends BaseController
             ['text' => '¿Problemas para titularte? Primer Feria de titulación 2026', 'link' => 'https://titulacion.unam.mx/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/feria_tit.png'],
             ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
         ];
+        
         $data = [
                 'correo' => $recipientEmail, 
                 'correo_id'=>$emailId,
@@ -70,7 +71,7 @@ class Controller extends BaseController
                 'extra_items' => $intereses // Aquí ahorita es una constante, pero habra q hacer un algoritomo ->getIntereses()
             ];
 
-        Mail::to($recipientEmail)->queue(new AvisoPrivacidadMail($data));
+        Mail::to($recipientEmail)->queue((new AvisoPrivacidadMail($data))->onQueue('high'));
         
         }
 

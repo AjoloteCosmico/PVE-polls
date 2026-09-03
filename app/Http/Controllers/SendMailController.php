@@ -87,22 +87,22 @@ public function send_prioritary_mail(Request $request) {
 
     switch($type){
         case 'aviso': 
-            Mail::to($correo)->queue(new AvisoPrivacidadMail($data));
+            Mail::to($correo)->queue((new AvisoPrivacidadMail($data))->onQueue('high'));
         break;
         case 'posgrado':
-            Mail::to($correo)->queue(new PosMail($data));
+            Mail::to($correo)->queue((new PosMail($data))->onQueue('high'));
         break;
         case 'especialidad': 
-            Mail::to($correo)->queue(new EspMail($data));
+            Mail::to($correo)->queue((new EspMail($data))->onQueue('high'));
         break;
         case 'correo_seg_22': 
-            Mail::to($correo)->queue(new InvMail($data));
+            Mail::to($correo)->queue((new InvMail($data))->onQueue('high'));
         break;
         case 'act_encuesta': 
-            Mail::to($correo)->queue(new ActMail($data));
+            Mail::to($correo)->queue((new ActMail($data))->onQueue('high'));
         break;
         case 'continua': 
-            Mail::to($correo)->queue(new EdContinuaMail($data));
+            Mail::to($correo)->queue((new EdContinuaMail($data))->onQueue('high'));
         break;
     }
 
