@@ -27,7 +27,7 @@
 </p>
 
 <p style="margin: 0 0 12px; font-weight: 700; color: #333; line-height: 1.8;">
-    Los datos personales que son recabados serán utilizados para las siguientes finalidades:
+    Los datos personales que son recabados serán utilizados para las siguientes finalidades: 
 </p>
 
 <ul style="margin: 0 0 18px 20px; line-height: 1.8; padding-left: 20px; color: #333;">
