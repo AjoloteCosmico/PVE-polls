@@ -39,11 +39,11 @@ egresados = pd.read_sql("""select
                             from egresados
                             inner join respuestas16 on egresados.cuenta = respuestas16.cuenta
                             left join users ON CAST(respuestas16.aplica AS VARCHAR) = CAST(users.clave AS VARCHAR) 
-                            where egresados.act_suvery = 1 
+                            where egresados.act_suvery = 2
                             and respuestas16.completed=1""", cnx)
 print('len de egresados', len(egresados))
 correos = pd.read_sql('select * from correos', cnx)
-writer = pd.ExcelWriter('storage/correos_contestadas_2016.xlsx', engine='xlsxwriter')
+writer = pd.ExcelWriter('storage/correos_contestadas_2018.xlsx', engine='xlsxwriter')
 
 workbook = writer.book
 a_color = '#173d83'
@@ -91,7 +91,7 @@ date_content_bold = workbook.add_format({
 # Crear hoja de Excel
 worksheet = workbook.add_worksheet()
 worksheet.merge_range('C2:H3', 'PROGRAMA DE VINCULACION A EGRESADOS UNAM', negro_b)
-worksheet.merge_range('C4:H4', 'EGRESADOS QUE COMPLETARON LA ENCUESTA DE ACTUALIZACION 2016', negro_b)
+worksheet.merge_range('C4:H4', 'EGRESADOS QUE COMPLETARON LA ENCUESTA DE ACTUALIZACION 2018', negro_b)
 worksheet.insert_image("A1", "img/logoPVE.png",{"x_scale": 0.2, "y_scale": 0.2})
 worksheet.merge_range('G6:H6',today, date_content_bold)
 

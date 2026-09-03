@@ -209,14 +209,7 @@
                 <button type="button" class="boton-oscuro" data-toggle="modal" data-target="#modalEnviarEncuesta_{{ $c->id }}">
                     <i class="fas fa-file" aria-hidden="true"></i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
                 </button>
-                @include('components.enviar_encuesta', [
-                    'correo_obj' => $c,
-                    'Egresado'   => $Egresado,
-                    'Telefono'   => $TelefonoEnLlamada,
-                    'Carrera'    => $Carrera,
-                    'Plantel'    => $Plantel,
-                    'gen'        => $gen
-                ])
+              
             </td>
               @can('aplicar_encuesta_actualizacion')
               <td>

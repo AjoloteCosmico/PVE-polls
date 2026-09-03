@@ -38,9 +38,9 @@ database_uri = f"postgresql+psycopg2://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB
 # Crear el motor de SQLAlchemy
 engine = create_engine(database_uri)
 
-query = """select * from respuestas16 where completed=1"""
+query = """select * from respuestas16 where completed=1 and gen=2018"""
 
 encuestas=pd.read_sql(query,engine)
 for col in ['created_at','updated_at','fec_capt']:
     encuestas[col]=encuestas[col].astype(str)
-encuestas.to_excel('storage/base16.xlsx')
+encuestas.to_excel('storage/base18.xlsx')
