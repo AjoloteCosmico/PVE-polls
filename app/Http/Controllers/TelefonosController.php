@@ -145,7 +145,7 @@ use  LogEvents;
         if (isset($egresado->carrera) && $egresado->carrera != 0) {
 
             if ($egresado->act_suvery == 2) {
-                if ($encuesta == '2016') {
+                if ($encuesta == '2018') {
                     return route('act_data', [$egresado->cuenta, $identificador, $encuesta, $telefono_id]);
                 } else {
                     return route('edit_16', [$encuesta]);
@@ -267,21 +267,23 @@ use  LogEvents;
         
     }
     public function async_update(Request $request ){
-        //TODO: Configurar validaciones para edicion
-        // //Validacion de que el telefono no esté repetido
-        // $request->validate([
-        //     'telefono' => 'required|string|max:20|unique:telefonos,telefono',
-        //     'descripcion' => 'nullable|string|max:255',
-        // ], [
-        //     'telefono.required' => 'El campo teléfono es obligatorio.',
-        //     'telefono.unique' => 'Este número ya está registrado.',
-        // ]);
 
+        $id = $request->input('telefono_id');
+        $request->validate([
+        'telefono_id' => 'required|exists:telefonos,id',
+        'telefono' => 'required|string|max:20|unique:telefonos,telefono,' . $id,
+        'description' => 'nullable|string|max:255',
+    ], [
+        'telefono.required' => 'El campo teléfono es obligatorio.',
+        'telefono.unique' => 'Este número ya está registrado.',
+    ]);
 
-        $Telefono= Telefono::find((int)$request->telefono_id);
+        $Telefono= Telefono::find((int) $id);
         $Telefono->telefono=$request->telefono;
         $Telefono->descripcion=$request->description;
         $Telefono->save();
+
+        
         $this->recordEvent($Telefono->id, 'update_telefono', $request->type.' encuestaKey: '. $request->encuesta_id);
        
             return response()->json([

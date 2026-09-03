@@ -27,8 +27,7 @@ class LlamadasController extends Controller
     
     public function llamar($gen,$id,$carrera,$siguiente=0){
     
-        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
-            
+        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {            
             $this->recordEvent($id, 'unautorized_attempt_llamar', 'gen'.$gen);
             return redirect()->back()->with('error', 'No tienes permisos para la muestra ' . $gen);
         }
@@ -37,7 +36,6 @@ class LlamadasController extends Controller
         $Egresado=Egresado::where('cuenta','=',$id)
         ->where('carrera',$carrera)
         ->first();
-
 
         $Carrera= Carrera::where('clave_carrera',$Egresado->carrera)->where('clave_plantel',$Egresado->plantel)->first();
         
@@ -481,7 +479,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         } 
     }else{
          $query = DB::table('egresados')
-            ->where('act_suvery', '=', '1')
+            ->where('act_suvery', '=', '2')
             ->where('egresados.carrera', '=', $egresadoActual->carrera)
             ->whereNotIn('egresados.status', ['1', '2'])
             ->where('plantel', '=', $egresadoActual->plantel)
@@ -533,7 +531,7 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
    
         // Replicar exactamente la misma query que usas en el index/show
         $query = DB::table('egresados_posgrado')
-             ->where('programa', '=', $egresadoActual->programa)
+            ->where('programa', '=', $egresadoActual->programa)
             ->where('plan', '=', $egresadoActual->plan)
             ->where('muestra', '=', 7)
             ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])

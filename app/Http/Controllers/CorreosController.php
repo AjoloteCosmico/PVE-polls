@@ -105,7 +105,7 @@ use  LogEvents;
         }
 
         if($Egresado->act_suvery==2){
-            if($encuesta == '2016'){
+            if($encuesta == '2018'){
                 return route('act_data',[$Egresado->cuenta,$Egresado->carrera, $encuesta,$telefono_id]);
             }else{
                 return route('edit_16',[$encuesta]);
@@ -216,6 +216,7 @@ use  LogEvents;
             'descripcion' => 'nullable|string|max:255',
         ], [
             'correo.required' => 'El campo correo es obligatorio.',
+            'correo.email'    => 'El formato del correo no es válido.',
             'correo.unique' => 'Este correo ya está registrado.',
         ]);
 
@@ -226,7 +227,7 @@ use  LogEvents;
         $Correo->descripcion=$request->description;
         //ABAJO EL ESTATUS NO DEBE´RIA SER 0 PORK NO ES SIN DATOS, SABEMOS Q SI LO USA EL EGRESADO
         $Correo->status=13;
-
+        $Correo->enviado=0;
         $Correo->save();
         $this->recordEvent($Correo->id, 'create_correo', $request->type.' encuestaKey: '. $request->encuesta_id);
         
@@ -240,9 +241,18 @@ use  LogEvents;
         
         
     }
+
+    
   public function update_async(Request $request ){
 
-        //Validacion de que el telefono no esté repetido
+        $request->validate([
+            'correo' => 'required|string|max:40|unique:correos,correo,'.$request->correo_id,
+            'descripcion' => 'nullable|string|max:255',
+        ], [
+            'correo.required' => 'El campo correo es obligatorio.',
+            'correo.email'    => 'El formato del correo no es válido.',
+            'correo.unique' => 'Este correo ya está registrado.',
+        ]);
        
 
 

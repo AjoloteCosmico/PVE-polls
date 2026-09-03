@@ -6,14 +6,27 @@ use \App\Http\Controllers\ComponentController;
 {{-- {{session('logs')}} --}}
 
 @include('encuesta.seg20.modal_create_telefono')
-@include('encuesta.seg20.modal_create_correo')
+@include('components.create_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'act',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                    ])
+@include('components.edit_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => $Encuesta->registro,
+                        'typeStudy'  => 'act',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                    ])
 @include('empresas.modal_create', ['typeStudy' => 'act'])
 <div> 
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2018 UNAM</h1>
         </div>
     <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
-    <form action="{{ url('encuestas/2016/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
+    <form action="{{ url('encuestas/2018/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
     <br><br>
@@ -70,7 +83,6 @@ use \App\Http\Controllers\ComponentController;
 @stop
 
 @push('css')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -651,8 +663,8 @@ div{
 @endpush
 
 @push('js')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -778,7 +790,8 @@ document.addEventListener('DOMContentLoaded', function () {
 checkBloqueos('nfr27');
 
     // Si ya hay valor en ncr2, intenta obtener la empresa y rellenar
-    const ncr2 = document.getElementById('ncr2');
+    // const ncr2 = document.getElementById('ncr2');
+    const ncr2 ="{{$Encuesta->ncr2}}"
     if (ncr2 && ncr2.value.trim().length >= 2) {
         fetch(`/search_empresa?q=${encodeURIComponent(ncr2.value.trim())}`)
         .then(response => response.json())
@@ -807,5 +820,14 @@ checkBloqueos('nfr27');
         
 });
 </script>
+
+<script>
+$(document).on('emailAdded', function(e, data) {
+    
+    window.location.reload();
+});
+</script>
+
+
 
 @endpush

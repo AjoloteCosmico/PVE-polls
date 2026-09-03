@@ -30,8 +30,8 @@
                             </button>
                             @endif
                             @if($eg->act_suvery==1)
-                            <button wire:click="seleccionarMuestra({{$eg->id}}, 'licenciatura')" class="boton-oscuro">
-                                ACTUALIZACION
+                            <button  class="boton-oscuro">
+                                ACTUALIZACION <br> 2016 (terminada)
                             </button>
                             @endif
                             @if($eg->act_suvery==2)
@@ -121,7 +121,7 @@
                                 <small><strong>Aplicador:</strong> {{ $eg->aplicador16 ?? 'N/A' }}</small>
                             @endif
                              @if($eg->act_suvery==2 && in_array($eg->status,[null,0,3,4,5,6,7,8,9,10,6,11,12,15], false))
-                                <a href="{{route('llamar',['2016',$eg->cuenta,$eg->carrera])}}">
+                                <a href="{{route('llamar',['2018',$eg->cuenta,$eg->carrera])}}">
                                     <button class="boton-oscuro">
                                         <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
                                     </button>

@@ -14,6 +14,7 @@ use App\Models\respuestasPosgrado;
 use App\Models\Carrera;
 use App\Models\Correo;
 use DB;
+use Illuminate\Support\Str;
 
 use App\Models\User;
 use App\Models\Estudio;
@@ -336,7 +337,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
     public function enviar_invitacion(Request $request){
 
         $links = [
-            2016 => "https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2016",
+            2018 => "https://encuestas.pveaju.unam.mx/encuesta_actualizacion/2018",
             2020 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2020",
             2021 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2021",
             2022 => "https://encuestas.pveaju.unam.mx/encuesta_generacion/2022",
@@ -346,7 +347,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
         // Determinar el script Python que se utilizará
 
         $scripts = [
-            2016 => 'invitacion16.py',
+            2018 => 'invitacion16.py',
             2020 => 'invitacion20.py',
             2021 => 'invitacion21.py',
             2022 => 'invitacion22.py',
@@ -366,6 +367,25 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
         $link = $links[$anio];
         $python = env('PY_COMAND');
 
+        $tracking_id = (string) Str::uuid();
+        $ahora = now();
+
+        $Correo = Correo::where('correo', $request->correo)->first();
+
+    if (!$Correo) {
+        return redirect()->back()->with('swal_warning', true);
+    }
+
+         DB::table('email_tracking')->insert([
+            'email_id' => $Correo->id,
+            'recipient_email' => $request->correo,
+            'tracking_uuid' => $tracking_id,
+            'type' => 'invitacion',
+            'created_at' => $ahora,
+            'sended_at' => $ahora,
+            'updated_at' => $ahora,
+        ]);
+
         $process = new Process([
             $python,
             $scriptPath,
@@ -374,7 +394,8 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
             $request->cuenta,
             $request->carrera,
             $request->plantel,
-            $link
+            $link,
+            $tracking_id
         ]);
 
         $process->run();
@@ -387,12 +408,7 @@ $Internet=respuestas20::whereIn('aplica',['111','104','20','105'])
 
         $egresado = Egresado::where('cuenta', $request->cuenta)->first();
 
-        return redirect()->route('act_data', [
-            $request->cuenta,
-            $request->carrera_clave,
-            $request->anio,
-            $request->telefono
-        ]);
+        return redirect()->back()->with('swal_success', true);
     }
 
     public function enviar_invitacion_conteo(Request $request) {

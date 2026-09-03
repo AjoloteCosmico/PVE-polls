@@ -72,6 +72,9 @@
             </tr>
             @endif
             @endif
+            <tr>
+                @include('components.muestras_alert', ['cuenta' => $Egresado->cuenta, 'muestra_actual'=>'licenciatura'])
+            </tr>
         </table>   
         
     </div>
@@ -130,7 +133,7 @@
                         @endcan
                         @endif
 
-                        @if($gen==2018)
+                        @if($gen==2018 && $Encuesta->completed==0)
                         @can('aplicar_encuesta_actualizacion')
                         <a href="{{route('edit_16',[$Encuesta->registro,'SEARCH'])}}">
                             <button class="boton-dorado" type="button" >
@@ -143,7 +146,7 @@
                     </div>
                 </div>
                         
-                        <!-- TODO: hacer una ruta llamada completar encuesta -->
+                       
                    
                     </div> 
                 

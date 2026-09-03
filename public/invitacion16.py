@@ -6,13 +6,13 @@ from email.mime.image import MIMEImage
 import sys
 import os
 
-def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
-    remitente = "vinculacionexalumnos@exalumno.unam.mx"
+def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link, tracking_uuid):
+    remitente = "vinculacionexalumnos@exalumno.pve.unam.mx"
     destinatario = correo
     
     # Crear el mensaje
     msg = MIMEMultipart('related')
-    msg['Subject'] = "Invitación a Encuesta de Actualización de Egresados 2016"
+    msg['Subject'] = "Invitación a Encuesta de Actualización de Egresados 2018"
     msg['From'] = remitente
     msg['To'] = destinatario
     
@@ -52,6 +52,7 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
             </td>
         </tr>
         </table>
+        <img src="https://encuestas.pveaju.unam.mx/track/""" + tracking_uuid + """" alt="" width="1" height="1" style="display:none; width:1px; height:1px;">
         
          <!-- FOOTER -->
         <br><br>
@@ -88,7 +89,7 @@ def enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link):
     # Configuración del servidor SMTP
     servidor = smtplib.SMTP('exalumno.pve.unam.mx', 587)
     servidor.starttls()
-    servidor.login('vinculacionexalumnos@exalumno.unam.mx', 'programa')
+    servidor.login('vinculacionexalumnos@exalumno.pve.unam.mx', 'programa')
     servidor.sendmail(remitente, destinatario, msg.as_string())
     servidor.quit()
 
@@ -101,5 +102,8 @@ if __name__ == '__main__':
     carrera = sys.argv[4]
     plantel = sys.argv[5]
     link = sys.argv[6]
+    tracking_id = sys.argv[7]
     
-enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link)
+enviar_encuesta(nombre, correo, cuenta, carrera, plantel, link, tracking_id)
+print(f"Correo enviado a {correo} con éxito.")
+sys.exit(0)

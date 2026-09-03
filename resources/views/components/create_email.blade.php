@@ -1,4 +1,8 @@
 
+<!-- Modal para Agregar Nuevo Correo Electrónico Unificado -->
+
+
+
 {{--
     Componente: agregar correo
     Variables recibidas:
@@ -9,11 +13,10 @@
 --}}
 
 <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true"  style="background: #131931;">
-  <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
+  <div class="modal-dialog" style=" font-size: 150%">
     <form id="formCorreo" class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"  style="color:white;">Nuevo Correo</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
+        <h5 class="modal-title"  style="color:white;">Nuevo Correo Electrónico</h5>
          <button type="button" class="close btn btn-danger" style="background-color:red;" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times fa-xl" aria-hidden="true"></i>
          </button>
@@ -25,21 +28,23 @@
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
         <h1> {{$EgName}}</h1>
         <div class="mb-3">
-          <label for="correo" style="color:white;">Correo</label>
-          <input type="text" name="correo" id="correo" class="form-control modal-input" style=" font-size: 120%;">
+          <label for="correo" style="color:white;">Correo Electrónico</label>
+          <input type="email" name="correo" id="correo" class="form-control modal-input" style=" font-size: 120%;" required>
         </div>
         <div class="mb-3">
-          <label for="description" style="color:white;">Description</label>
+          <label for="description" style="color:white;">Description (Opcional)</label>
           <input type="text" name="description" id="description" class="form-control modal-input" style=" font-size: 120%;">
         </div>
-         <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+         <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
+        
     
         </div>
-      
     </form>
   </div>
 </div>
+
+
 
 <script>
 $(document).ready(function() {
@@ -57,7 +62,7 @@ $(document).ready(function() {
                 // Trigger event with phone data
                 let correo = response.correo;
                 $(document).trigger('emailAdded', {correo: correo});
-                // alert('Empresa agregada correctamente');
+                
                 Swal.fire({
                     position: "top-end",
                     icon: "success",

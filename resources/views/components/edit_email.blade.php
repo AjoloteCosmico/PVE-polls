@@ -11,7 +11,7 @@
   <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
     <form id="formEditCorreo" class="modal-content">
       <div class="modal-header">
-        <h5 id="editEmailModalLabel" class="modal-title"  style="color:white;">Editar Correo</h5>
+        <h5 id="editEmailModalLabel" class="modal-title"  style="color:white;">Editar Correo Electrónico</h5>
         <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button> -->
          <button type="button" class="close btn btn-danger" style="background-color:red;" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-times fa-xl" aria-hidden="true"></i>
@@ -25,8 +25,8 @@
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
         <input type="hidden" id="type" name="type" value="{{$typeStudy}}">
         <div class="mb-3">
-          <label for="correo_edit" style="color:white;">Correo</label>
-          <input type="text" name="correo" id="correo_edit" class="form-control modal-input" style=" font-size: 120%;">
+          <label for="correo_edit" style="color:white;">Correo Electrónico</label>
+          <input type="email" name="correo" id="correo_edit" class="form-control modal-input" style=" font-size: 120%;">
         </div>
         <div class="mb-3">
            <label for="email_status" style="color: white;">Status</label>
@@ -39,8 +39,11 @@
           <label for="description_edit" style="color:white;">Anotaciones (opcional)</label>
           <input type="text" name="description" id="description_edit" class="form-control modal-input" style=" font-size: 120%;">
         </div>
-         <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
+
+        {{-- BOTONES --}}
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success text-lg"> <i class="fas fa-save fa-xlg"></i> Guardar</button>
+        
     
         </div>
       
@@ -64,6 +67,8 @@
     $('#description_edit').val(description);
     $('#email_status').val(status || '13');
     $('#editEmailModal').modal('show');
+
+
   }
 $(document).ready(function() {
     $('#formEditCorreo').on('submit', function(e) {

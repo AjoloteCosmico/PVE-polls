@@ -1,5 +1,40 @@
 @extends('layouts.app')
 @section('content')
+@include('components.create_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'cont',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                    ])
+@include('components.edit_email', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'cont',
+                        'carrera' => $Egresado->carrera,
+                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                    ])
+@include('components.create_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'cont',
+                        'carrera' => $Egresado->carrera,
+                   ])
+@include('components.edit_phone', [
+                        'cuenta'        => $Egresado->cuenta,
+                        'respuestasKey'         => 0,
+                        'typeStudy'  => 'cont',
+                        'carrera' => $Egresado->carrera,
+                   ])
+
+ @include('components.send_emai',[
+      'cuenta'         => $Egresado->cuenta,
+      'respuestasKey'  => 0,
+      'typeStudy'      => 'ed_continua', 
+      'carrera'        => $Egresado->carrera,
+      'EgName'         => $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                ])                    
+
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}  
 </div>
@@ -41,11 +76,9 @@
     @endif
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
-      <a href="{{ route('agregar_telefono_continua',[$Egresado->cuenta,$Egresado->carrera, $gen, $TelefonoEnLlamada->id, 897])}}">
-        <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw">
+      <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw" data-toggle="modal" data-target="#phoneModal">
           <i class="fas fa-plus-circle"></i>&nbsp; Nuevo telefono 
         </button>
-      </a>
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       
@@ -65,7 +98,8 @@
             <td style="width:40%; word-wrap: break-word"> {{$t->telefono}} </td>
             <td>{{$t->descripcion}} </td>
             <td>{{$t->description}} </td>
-            <td> <a href="{{route('editar_telefono_continua',[$t->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,897])}}"> <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></a>
+            <td> <button class="btn edit-phone-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-telefono_id="{{$t->id}}" data-telefono="{{ $t->telefono }}" data-description="{{ $t->descripcion }}" >
+               <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR </button></td>  
           </td>
         </tr>
         @endforeach
@@ -74,10 +108,8 @@
   </div>
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
-        <a href="{{ route('agregar_correo_continua',[$Egresado->cuenta,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,897])}}">
-          <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;"> 
+      <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.9vw;" data-toggle="modal" data-target="#emailModal"> 
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
-        </a>
     </div>
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
@@ -97,19 +129,16 @@
           <td style="width:40%; word-wrap: break-word">{{$c->correo}} </td>
           <td>{{$c->description}} </td>
           <td>
-            <a href="{{route('editar_correo_continua',[$c->id,$Egresado->carrera,$gen,$TelefonoEnLlamada->id,897])}}"> 
-              <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw"> 
+            <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
                 <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
               </button>
-            </a>
           </td>
 
               <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id, 897])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br> POR CORREO
-                  </button>
-                </a>
+                <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="{{$Carrera}}" data-mail_type ="continua" > 
+                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO 
+              </button>
+                
               </td>
           
               <td>
@@ -157,6 +186,46 @@
   $(document).ready(function() {
     $('#myTable').DataTable();
 } );
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+$(document).on('phoneAdded', function(event, data) {
+   
+    location.reload();
+});
+
+$(document).on('click', '.edit-email-btn', function() {
+    let btn = $(this);
+    editEmail(btn.data('id'), btn.data('correo'), btn.data('description'));
+});
+
+$(document).on('click', '.edit-phone-btn', function() {
+    let btn = $(this);
+    editPhone(btn.data('telefono_id'), btn.data('telefono'), btn.data('description'));
+});
+
+$(document).on('click', '.send-email-btn', function() {
+    let btn = $(this);
+    sendEmail(btn.data('correo_id'), btn.data('correo'),btn.data('prog_acad'), btn.data('mail_type'));
+});
+
+$(document).on('emailAdded', function(event, data) {
+    //Actualizar la pagina mejor 
+    location.reload();
+});
+$(document).on('emailUpdated', function(event, data) {
+
+    location.reload();
+});
+$(document).on('phoneUpdated', function(event, data) {
+    location.reload();
+});
  </script>
  
 @endpush 

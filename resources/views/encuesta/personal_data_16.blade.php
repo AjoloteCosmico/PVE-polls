@@ -1,13 +1,10 @@
-
-  
-        <table class="table text-lg table-personal" >
-         
-         <tr>
-           <th>Egresad@: </th>
-           <td> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</td>
-           <th>Número de Cuenta:</th>
-           <td> {{$Egresado->cuenta}}</td>
-           <th> Teléfonos:  <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#phoneModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button> </th>
+<table class="table text-lg table-personal" >
+  <tr>
+    |<th>Egresad@: </th>
+    |<td> {{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</td>
+    |<th>Número de Cuenta:</th>
+    |<td> {{$Egresado->cuenta}}</td>
+    |<th> Teléfonos:  <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#phoneModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono</button> </th>
            <td>  
            @foreach($Telefonos as $t)
                <a class="contact_data" style="color: #002b7a;"  href="{{route('editar_telefono',[$t->id,$Egresado->carrera,$Encuesta->registro,Session::get('telefono_encuesta')])}}">{{$t->telefono}} </a>, &nbsp;
@@ -24,7 +21,7 @@
          
           <th>Correos: <br><br> <button class="btn boton-dorado" data-toggle="modal" onclick="" data-target="#emailModal" type="button"><i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo</button></a></th></td> </th>
           <td> @foreach($Correos as $c)
-            <a class="contact_data" style="color: #002b7a;" onclick="correos({{$c->id}},'{{$c->correo}}')"> {{$c->correo}} </a> , &nbsp;
+             <a class="contact_data" style="color: #002b7a;" onclick="correos({{$c->id}},'{{$c->correo}}')"> {{$c->correo}} </a> , &nbsp;
            @endforeach </td>
           <th>Fecha en que se encuestó:</th> <td>{{substr($Egresado->actualized,0,10)}}
             
@@ -49,7 +46,7 @@
    }
    .customSwalBtn:hover{
       background-color: #ba800d;
-     color:#FFFFFF;
+     color: #FFFFFF;
       transform: translateY(-4px);
    }
  </style>
@@ -76,5 +73,5 @@
    });
  }
 
-</script>
+ </script>
  @endpush

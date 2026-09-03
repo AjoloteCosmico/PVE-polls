@@ -30,7 +30,8 @@ use App\Http\Controllers\{
     EncuestaContinuaController,
     UserController,    
     StatsController,
-    NotificationController
+    NotificationController,
+    SendMailController
 };
 
 Route::get('/', function () {
@@ -60,20 +61,25 @@ Route::group(['middleware' => ['auth']], function(){
      * Manejo de encuestas de los años 2014 y 2020: Estas rutas manejan el listado de muestras del año 2014 y 2020. 
     */
     Route::controller(MuestrasController::class)->group(function(){
+        //ruta para verificar si el egresado esta en posgrado
+        Route::get('muestras/alert/{cuenta}','alerta')->name('muestras.alert');
         
-        Route::get('muestras20/index/{id}','index_20')->name('muestras20.index');
+        //ruta escalable para verificar si el egresado existe en múltiples muestras
+        Route::get('muestras-alert-check','checkMuestrasAlert')->name('muestras.alert-check');
+      
+        //Route::get('muestras20/index/{id}','index_20')->name('muestras20.index');
         Route::get('muestras22/index/{id}','index_22')->name('muestras22.index');
       
         Route::get('muestras20/show/{carrera}/{plantel}','show_20')->name('muestras20.show');
         Route::get('muestras22/show/{carrera}/{plantel}','show_22')->name('muestras22.show22');//SHOW DEL 22
 
 
-        Route::get('muestras{gen}/index/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
+        Route::get('muestras{gen}/index/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2018 Y SEGUIMIENTO 2022
         Route::get('muestras{gen}/planteles/','plantel_index')->name('muestras.plantel_index');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
         //Route::get('muestras{gen}/indexgeneral/{id}', 'index_general')->name('muestras.index_general');//GENERAL PARA LAS ENCUESTAS DE SEGUIMIENTO 2020, ACTUALIZACIÓN 2016 Y SEGUIMIENTO 2022
         
         //encuesta de act 2016
-        Route::get('muestras16/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
+        Route::get('muestras18/show/{carrera}/{plantel}','show_16')->name('muestras16.show');
         Route::get('muestras16/index/{id}','index_16')->name('muestras16.index');
 
         //encuesta educación continua
@@ -142,10 +148,10 @@ Route::group(['middleware' => ['auth']], function(){
      */
     Route::controller(Enc16ActController::class)->group(function(){
 
-        Route::get('/comenzar_encuesta_2016/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2016');
-        Route::get('/encuestas_2016/edit/{id}', 'edit')->name('edit_16');
-        Route::post('/encuestas/2016/update/{id}', 'update')->name('encuesta16.update');
-        Route::get('/encuestas/2016/guardar_inconclusa/{id}', 'guardar_incompleta')->name('incomplete');
+        Route::get('/comenzar_encuesta_2018/{correo}/{cuenta}/{carrera}', 'comenzar')->name('comenzar_encuesta_2018');
+        Route::get('/encuestas_2018/edit/{id}', 'edit')->name('edit_16');
+        Route::post('/encuestas/2018/update/{id}', 'update')->name('encuesta16.update');
+        Route::get('/encuestas/2018/guardar_inconclusa/{id}', 'guardar_incompleta')->name('incomplete');
     });
     /**Actualización de encuestas:
      * Estas rutas permiten actualizar los datos de las encuestas 
@@ -268,8 +274,6 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/enviar_invitacion_conteo', 'enviar_invitacion_conteo')->name('enviar_invitacion_conteo');
         Route::post('/enviar_invitacion_posgrado', 'enviar_invitacion_posgrado')->name('enviar_invitacion_posgrado');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{extra?}', 'enviar_encuesta')->name('enviar_encuesta');
-        //Route::get('/enviar_encuesta_continua/{id_correo}/{id_egresado}/{telefono}/{muestra_id?}', 'enviar_encuesta')->name('enviar_encuesta_continua');
-        //Route::get('/enviar_encuesta_verde/{id_correo}/{id_egresado}/{telefono}/{muestra_id?}', 'enviar_encuesta')->name('enviar_encuesta_verde');
         Route::post('/enviar_invitacion_especialidad', 'enviar_invitacion_especialidad')->name('enviar_invitacion_especialidad');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{especialidad?}', 'enviar_encuesta')->name('enviar_encuesta_esp');
         
@@ -359,7 +363,12 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
         Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
     });
+    
+    Route::get('/test_mail_sending/{id}', [App\Http\Controllers\SendMailController::class, 'test'])->name('send_mail.test');
 
+    Route::get('/test_mail_base', [App\Http\Controllers\SendMailController::class, 'send_test'])->name('send_mail.base_test');
+
+    Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
 
     Route::get('/debug-permissions', function() {
     $user = auth()->user();

@@ -35,7 +35,7 @@ class Enc16ActController extends Controller
         if ($Correo->enviado == 0) {
             try {
                
-                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre);
+                $this->enviarAviso($Correo->id, $Correo->correo, $Egresado->nombre,$Egresado->cuenta);
 
                 $Correo->enviado = 1;
                 $Correo->save();
@@ -212,17 +212,17 @@ class Enc16ActController extends Controller
         // 
         if ($request->btn_pressed === 'guardar') {
             $this->validar($Encuesta);
-            if($Encuesta->completed != 1){
+            if($Encuesta->completed == 1){
                 $Encuesta->save();
         }
         return back()->with('status', 'guardado');
     }
         if( $this->validar($Encuesta)){
             //es decir, solo se actualiza la fecha de captura cuando se completa por primera vez
-                if ($Encuesta->completed != 1){
+                if ($Encuesta->completed == 1 && is_null($Encuesta->fec_capt)){
             $Encuesta->fec_capt = now()->modify("-6 hours");
-
                     }
+
             $Encuesta->completed=1;
             $Encuesta->nbr7=2018;
             $Encuesta->save();
@@ -263,7 +263,7 @@ class Enc16ActController extends Controller
             $Egresado->save();
             $this->recordEvent($Encuesta->registro, 'update_incomplete_act18', ' ');
             if($request->btn_pressed == "inconclusa"){
-                return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
+                return redirect()->route('llamar',['2018',$Egresado->cuenta,$Egresado->carrera]);
             }
             return back();
         }

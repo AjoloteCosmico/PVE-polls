@@ -132,6 +132,7 @@ $reactivosEnTablas=array();
                                 'respuestas_anteriores' => $respuestas_reactivo
                             ])
                         
+                            
                         @else
                             {{-- Consulta para otros reactivos --}}
                             @php $opciones = \App\Models\Option::where('reactivo', $reactivo->clave)->get(); @endphp
@@ -140,20 +141,12 @@ $reactivosEnTablas=array();
 
                     </div>
                 @endif
-              
-                
                 
             @endif
             @endforeach
         </div>
 
-        {{-- Comentario de la sección G --}}
-        @if($section === 'pE')
-            <div class="form-group" style="padding:1.2vw;">
-                <label for="comentario" style="color:white; font-size:1.5vw;">Comentario:</label>
-                <textarea name="comentario" id="comentario" rows="4" style="width:100%;">{{ $Comentario }}</textarea>
-            </div>
-        @endif
+
 
 <h1>Spoilers de la siguiente sección</h1>
         <br><br>

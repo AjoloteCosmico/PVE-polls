@@ -1,4 +1,7 @@
-<!-- Modal para Agregar Nuevo Correo Electrónico -->
+
+<!-- Modal para Agregar Nuevo Correo Electrónico desde la encuesta  -->
+
+
 <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true" >
     <div class="modal-dialog" style="font-size: 150%;">
         <form id="formEmail" class="modal-content">
@@ -12,11 +15,9 @@
 
             <div class="modal-body">
                  <h1 style="color:white">{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}   </h1>
-                @csrf
-                <!-- Aquí asumo que necesitas pasar IDs de contexto, como la encuesta y el egresado. -->
+                @csrf    
                 <input type="hidden" id="encuesta_id_email" name="encuesta_id" value="{{$Encuesta->registro}}">
                 <input type="hidden" id="egresado_table" name="table" value="{{$Egresado->anio_egreso}}">
-
                 <!-- Campo para el Correo Electrónico -->
                 <div class="mb-3">
                     <label style="color:white;">Correo Electrónico  *</label>

@@ -6,36 +6,28 @@
         <h1>Bienvenid@!!  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
         <div>-----------------------------------------
             <br><br><br> 
-            <a href="{{ route('report','reporte_individual')}}"  > 
-                <button class="boton-azul">
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2019
-                </button>
-            </a>
-            <a href="{{ route('report','correos_inconclusas')}}" > 
-                <button class="boton-azul">
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos par encuestas inconclusas
-                </button>
-            </a>
+            
             <a href="{{ route('report','reporte_individual_act2016')}}">
                 <button class="boton-azul">
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Reporte Individual 2016
                 </button>
             </a>
-            <br> 
-            <a href="{{ route('report','correos_contestadas_2016')}}">
+            <br><br>
+            <a href="{{ route('report','correos_contestadas_2018')}}">
                 <button class="boton-azul" >
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2016
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2018
                 </button>
             </a>
+            <br><br>
             <a href="{{ route('report','correos_contestadas22')}}">
                 <button class="boton-azul" >
                     <i class="fas fa-file-excel"></i> &nbsp; &nbsp; Correos para encuestas completas 2022
                 </button>
             </a>
             <br> <br>
-             <a href="{{ route('report','base16')}}">
+             <a href="{{ route('report','base18')}}">
                 <button class="boton-azul" >
-                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; ENCUESTAS 2016 BASE (al dia de hoy)
+                    <i class="fas fa-file-excel"></i> &nbsp; &nbsp; ENCUESTAS 2018 BASE (al dia de hoy)
                 </button>
             </a>
            
@@ -200,7 +192,7 @@
     @endif
 </div>
   <div class="col-12 col-md-12 mb-4">
-    <h3>Encuestas 2022 vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+    <h3>Encuestas 2022 (Ultimos 30 dias por cada encuestador)</h3>
         <div class="card card-outline card-warning p-3">
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -221,8 +213,9 @@
                         <tr>
                             <th>Encuestador</th>
                             <th class="text-center">Encuestas</th>
+                            <th class="text-center">Encuestas x dia <br> (promedio)</th>
                             <th class="text-center">Recados</th>
-                            <th class="text-center">Coeficiente</th>
+                            <th class="text-center">Coeficiente <br> efectividad</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -231,10 +224,12 @@
                                 $encuestas = $chartEncuestasVsRecados['datasets'][0]['data'][$idx] ?? 0;
                                 $recados = $chartEncuestasVsRecados['datasets'][1]['data'][$idx] ?? 0;
                                 $efectividad = $chartEncuestasVsRecados['effectiveness'][$idx] ?? 0;
+                                $encuestasPorDia = $recados > 0 ? $encuestas / 30 : 0;
                             @endphp
                             <tr>
                                 <td><strong>{{ $label }}</strong></td>
                                 <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ number_format($encuestasPorDia, 2) }}</td>
                                 <td class="text-center">{{ $recados }}</td>
                                 <td class="text-center">
                                     <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">
@@ -252,7 +247,7 @@
 
       
   <div class="col-12 col-md-12 mb-4">
-    <h3>Encuestas Posgrado vs Recados por Encuestador (Coeficiente de Efectividad)</h3>
+    <h3>Encuestas Posgrado (Ultimos 30 dias por cada encuestador)</h3>
         <div class="card card-outline card-warning p-3">
             <div class="chart-wrapper-fixed">
                 <x-chart-js 
@@ -273,8 +268,9 @@
                         <tr>
                             <th>Encuestador</th>
                             <th class="text-center">Encuestas</th>
+                            <th class="text-center">Encuestas x dia <br> (promedio)</th>
                             <th class="text-center">Recados</th>
-                            <th class="text-center">Coeficiente</th>
+                            <th class="text-center">Coeficiente <br> efectividad</th>
                         </tr>
                     </thead>
                     
@@ -284,10 +280,12 @@
                                 $encuestas = $chartEncuestasVsRecadosPos['datasets'][0]['data'][$idx] ?? 0;
                                 $recados = $chartEncuestasVsRecadosPos['datasets'][1]['data'][$idx] ?? 0;
                                 $efectividad = $chartEncuestasVsRecadosPos['effectiveness'][$idx] ?? 0;
+                                $encuestasPorDia = $recados > 0 ? $encuestas / 30 : 0;
                             @endphp
                             <tr>
                                 <td><strong>{{ $label }}</strong></td>
                                 <td class="text-center">{{ $encuestas }}</td>
+                                <td class="text-center">{{ number_format($encuestasPorDia, 2) }}</td>
                                 <td class="text-center">{{ $recados }}</td>
                                 <td class="text-center">
                                     <span class="badge @if($efectividad >= 0.5) badge-success @elseif($efectividad >= 0.2) badge-warning @else badge-danger @endif">

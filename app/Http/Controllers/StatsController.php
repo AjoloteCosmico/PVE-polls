@@ -11,6 +11,7 @@ use App\Models\respuestas14;
 
 use App\Models\respuestas_verdes;
 use App\Models\respuestasPosgrado;
+use App\Models\respuestasEspecialidad;
 use App\Models\Carrera;
 use App\Models\Correo;
 use App\Models\Event;
@@ -152,6 +153,14 @@ class StatsController extends Controller
             'color'       => 'rgba(153, 102, 255, 0.2)',
             'borderColor' => 'rgba(153, 102, 255, 1)',
         ],
+        [
+            // Asumiendo modelo RespuestasVerdes con campo fec_capt
+            'query'       => respuestasEspecialidad::where('completed','1'),
+            'label'       => 'Epecialidad',
+            'color'       => 'rgba(176, 143, 26, 0.2)',
+            'borderColor' => 'rgb(248, 192, 51)',
+        ],
+        
     ];
 
     $chartWeeklyAll = $this->generateMultiSeriesChartData(
@@ -159,14 +168,25 @@ class StatsController extends Controller
         "to_char(date_trunc('week', updated_at), 'YYYY-MM-DD')",
         $seriesSemanales
     );
-
     // ========== 4. Gráfica semanal multilínea (email tracking) ==========
     $seriesEnvios = [
         [
             'query'       => EmailTracking::where('type', 'aviso'),
-            'label'       => 'Avioso',
+            'label'       => 'Aviso',
             'color'       => 'rgba(54, 162, 235, 0.2)',
             'borderColor' => 'rgba(54, 162, 235, 1)',
+        ],
+         [
+            'query'       => EmailTracking::where('type', 'especialidad'),
+            'label'       => 'Especialidad',
+            'color'       => 'rgba(54, 162, 235, 0.2)',
+            'borderColor' => 'rgb(251, 184, 49)',
+        ],
+         [
+            'query'       => EmailTracking::where('type', 'act_encuesta'),
+            'label'       => 'Actualización',
+            'color'       => 'rgba(54, 162, 235, 0.2)',
+            'borderColor' => 'rgb(5, 103, 132)',
         ],
         [
             'query'       => EmailTracking::where('type', 'posgrado'),
