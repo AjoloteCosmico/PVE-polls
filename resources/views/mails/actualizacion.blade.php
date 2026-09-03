@@ -1,5 +1,5 @@
 @extends('mails.base_mail', [
-    'encabezado' => 'Encuesta de Seguimiento Licenciatura',
+    'encabezado' => 'Encuesta de Actualización Seguimiento Licenciatura',
     'remitente' => 'Seguimiento a Egresados UNAM',
     'header_image' => 'header_lofi.png',
     'footer_image' => 'footer_lofi.png',
@@ -17,9 +17,10 @@
     <p>Para nosotros es vital conocer tu trayectoria profesional, actualización académica y satisfacción con la institución respecto a la licenciatura <span style="color: #015190; font-weight: 800;">{{ $payload['prog_acad'] }}</span>.</p>
     <p>Contestar esta breve encuesta nos permite perfilar a los egresados de las diferentes carreras de la UNAM; saber en qué áreas están presentes y cómo mejorar los planes de estudio y la atención a la comunidad.</p>
     <p>También ayuda a los aspirantes a elegir correctamente la licenciatura que estudiarán; hazlo por todos, hazlo por tu universidad.</p>
+    <p>Este correo se envía a las generaciones que respondieron la encuesta de seguimiento a 3 años de egreso (generación de egreso 2018). Se realiza una actualización 5 años después para actualizar la trayectoria de los egresados.</p>
 
     <div style="text-align: center; margin: 30px 0;">
-        <a href="https://encuestas.pveaju.unam.mx/pveaju/resource/encuesta_seg_correo" style="background-color: #015190; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+        <a href="https://encuestas.pveaju.unam.mx/pveaju/resource/encuesta_act_correo" style="background-color: #015190; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
             INICIAR ENCUESTA
         </a>
     </div>

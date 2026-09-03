@@ -13,7 +13,7 @@ class EspMail extends BaseMail
 {
     use Queueable, SerializesModels;
     protected function defineSubject(): string {
-        return "Invitación a Encuesta de Especialidad Derecho";
+        return "Especialidad Derecho Encuesta de Seguimiento";
     }
 
     protected function defineView(): string {

@@ -20,7 +20,7 @@ class InvMail extends BaseMail
     }
     
     protected function defineType(): string {
-        return 'invitacion_prueba'; 
+        return 'correo_seg_22'; 
     }
     
 

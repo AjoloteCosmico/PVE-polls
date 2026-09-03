@@ -26,6 +26,14 @@
                         'typeStudy'  => 'act',
                         'carrera' => $Egresado->carrera,
                    ])
+
+ @include('components.send_emai',[
+      'cuenta'         => $Egresado->cuenta,
+      'respuestasKey'  => 0,
+      'typeStudy'      => 'act', 
+      'carrera'        => $Egresado->carrera,
+      'EgName'         => $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                ])                  
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}
 </div>
@@ -188,11 +196,9 @@
             @endif
             @if($gen==2022)
               <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
-                  </button>
-                </a>
+              <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="{{$Carrera}}" data-mail_type ="correo_seg_22" > 
+                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO 
+              </button>
               </td>
               @can('aplicar_encuesta_seguimiento')
               <td>
@@ -206,17 +212,9 @@
             @endif
             @if($gen==2018)
             <td>
-                <button type="button" class="boton-oscuro" data-toggle="modal" data-target="#modalEnviarEncuesta_{{ $c->id }}">
-                    <i class="fas fa-file" aria-hidden="true"></i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
-                </button>
-                @include('components.enviar_encuesta', [
-                    'correo_obj' => $c,
-                    'Egresado'   => $Egresado,
-                    'Telefono'   => $TelefonoEnLlamada,
-                    'Carrera'    => $Carrera,
-                    'Plantel'    => $Plantel,
-                    'gen'        => $gen
-                ])
+               <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="{{$Carrera}}" data-mail_type ="act_encuesta" > 
+                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO 
+              </button>
             </td>
               @can('aplicar_encuesta_actualizacion')
               <td>
@@ -272,6 +270,11 @@ function escapeHtml(text) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 }
+
+$(document).on('click', '.send-email-btn', function() {
+    let btn = $(this);
+    sendEmail(btn.data('correo_id'), btn.data('correo'),btn.data('prog_acad'), btn.data('mail_type'));
+});
 
 $(document).on('phoneAdded', function(event, data) {
    

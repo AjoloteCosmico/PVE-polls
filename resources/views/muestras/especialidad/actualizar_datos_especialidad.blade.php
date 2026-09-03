@@ -137,11 +137,6 @@
 
           </td>
             <td>
-                {{--<a href="{{route('enviar_encuesta',[$c->id,$EgresadoEsp->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="boton-oscuro" > 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA POR CORREO
-                  </button>
-                </a>--}}
                 <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="Especialidad en {{$EgresadoEsp->especialidad}}" data-mail_type ="especialidad" > 
                 <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO 
               </button>

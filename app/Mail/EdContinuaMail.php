@@ -9,18 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PosMail extends BaseMail
+class EdContinuaMail extends BaseMail
 {
     use Queueable, SerializesModels;
     protected function defineSubject(): string {
-        return "Posgrado UNAM seguimiento de egresados";
+        return "Invitación a Encuesta Educación Continua UNAM";
     }
 
     protected function defineView(): string {
-        return 'mails.posgrado'; 
+        return 'mails.ed_continua'; 
     }
     
     protected function defineType(): string {
-        return 'posgrado'; 
+        return 'continua'; 
     }
 }

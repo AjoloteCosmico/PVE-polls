@@ -4,6 +4,8 @@
         $cuenta -> la cuenta del egresado
         $respuestasKey -> id de la tabla de respuestas
         $typeStudy -> recibe 'pos' o 'seg' o 'act' o 'esp' o 'verde' o 'cont'
+        Estas no cambian según el correo, por eso se insertan directo en el Componente
+        el correo, el id del correo, se cargan segun el boton de la fila correspondiete
 --}}
 
 <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-labelledby="sendEmailModalLabel" aria-hidden="true"  style="background: #131931;">
@@ -24,6 +26,7 @@
         <input type="hidden" id="email" name="correo" value="" >
         <input type="hidden" id="prog" name="prog_acad" value="" >
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
+        <input type="hidden" id="nombre" name="nombre" value="{{$EgName}}">
         <input type="hidden"  id="mail_type" name="mail_type" value="">
         <div class="mb-3">
           <label for="correo_edit" style="color:white;">Enviar Correo Electrónico</label>

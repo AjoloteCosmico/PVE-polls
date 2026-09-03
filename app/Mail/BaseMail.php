@@ -22,14 +22,6 @@ abstract class BaseMail extends Mailable implements ShouldQueue
     public function __construct($data)
     { 
         $this->data = $data;
-         // 2. Insertar registro en BD con estado 'pending'
-        // $this->trackingId = DB::table('email_tracking')->insertGetId([
-        //     'uuid' => $this->trackingUuid,
-        //     'recipient_email' => $this->getRecipientEmail(), // Debes definir este método en hijas
-        //     'status' => 'pending',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
 
         $tracking_id = (string) Str::uuid();
         $this->trackingUuid=$tracking_id;
@@ -52,12 +44,12 @@ abstract class BaseMail extends Mailable implements ShouldQueue
                     ->with([
                         'payload' => $this->data,
                         'tracking_uuid' => $this->trackingUuid,
-                    ]);
-       
+                    ]);  
     }
 
 
     // Este callback se ejecuta DESPUÉS de que el SMTP confirme el envío
+    // bueno debería pero la realidad es que nunca se ejecuta :C
     public function after(): array
     {
         return [

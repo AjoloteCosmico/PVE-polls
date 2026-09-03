@@ -10,6 +10,8 @@ use App\Mail\testingMail;
 use App\Mail\InvMail;
 use App\Mail\EspMail;
 use App\Mail\PosMail;
+use App\Mail\ActMail;
+use App\Mail\EdContinuaMail;
 use App\Mail\AvisoPrivacidadMail;
 use Illuminate\Support\Facades\Mail;
 use DB;
@@ -34,7 +36,7 @@ class SendMailController extends Controller
         foreach($Correos as $correo){
             //agregar parametros especificos a data
             $specific_data=$data + ['correo' => $correo->correo, 'correo_id'=>$correo->id];
-            Mail::to($correo->correo)->queue(new InvMail($specific_data));
+            Mail::to($correo->correo)->queue(new AvisoPrivacidadMail($specific_data));
         }
         return 'Correo enviado'.$Correos->pluck('correo');
     }
@@ -49,13 +51,12 @@ class SendMailController extends Controller
     // proprcion de imagenes 3:4 
 
     $data = [
-        'nombre' => 'MARTHA NAVA',
+        'nombre' => 'Fel gonzalez',
         'cuenta' => '311000000',
-        'url_encuesta' => 'https://encuestas.pveaju.unam.mx/encuesta_generacion/general',
-        'extra_items' => $intereses // Aquí pueden ser 0 o hasta 10
+        'extra_items' => $intereses 
     ];
 
-    Mail::to('marthaunam@hotmail.com')->queue(new InvMail($data));
+    Mail::to('marthaunamivyanalitycs@gmail.com')->queue(new AvisoPrivacidadMail($data));
 }
 
 public function send_prioritary_mail(Request $request) {
@@ -93,23 +94,22 @@ public function send_prioritary_mail(Request $request) {
         break;
         case 'especialidad': 
             Mail::to($correo)->queue(new EspMail($data));
-             return response()->json([
-                'success' => true, 
-                'status' => 'sin datos',
-                'message' => 'Teléfono editado correctamente',
-              
-            ]);
         break;
-        case 'invitacion': 
+        case 'correo_seg_22': 
             Mail::to($correo)->queue(new InvMail($data));
+        break;
+        case 'act_encuesta': 
+            Mail::to($correo)->queue(new ActMail($data));
+        break;
+        case 'continua': 
+            Mail::to($correo)->queue(new EdContinuaMail($data));
         break;
     }
 
     return response()->json([
                 'success' => true, 
                 'type' => $data['cuenta'].$data['nombre'].$data['correo'].$type,
-                'message' => 'Teléfono editado correctamente',
-                
+                'message' => 'Correo encuado correctamente',
             ]);
     
 }
