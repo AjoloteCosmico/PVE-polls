@@ -17,7 +17,7 @@
     <p>Para nosotros es vital conocer tus necesidades de formación más allá de los programas académicos formales (licenciatura o posgrado).</p>
     <p>Esto nos permite diseñar nuevas ofertas educativas y volverlas más accesibles para ti.</p>
     <p>Recuerda que la UNAM sigue siendo tu casa; nunca dejemos de aprender.</p>
-
+ 
     <div style="text-align: center; margin: 18px auto 26px auto;">
         <img src="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/ed_continua.jpg"
              alt="Logo institucional de especialidad"
