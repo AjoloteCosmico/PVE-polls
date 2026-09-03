@@ -19,7 +19,10 @@
          </button>
       </div>
       <div class="modal-body">
-        <h1>Estas enviando un correo a  {{$EgName}}</h1>
+        <p class="text-center font-weight-bold lead mb-3" style="color:white;">
+          ¿Deseas enviar la encuesta al siguiente correo?
+        </p>
+
         @csrf
         <input type="hidden" id="encuesta_id" name="encuesta_id" value="{{$respuestasKey}}">
         <input type="hidden" id="correoId" name="correo_id"  value="">
@@ -28,12 +31,22 @@
         <input type="hidden" id="cuenta" name="cuenta" value="{{$cuenta}}">
         <input type="hidden" id="nombre" name="nombre" value="{{$EgName}}">
         <input type="hidden"  id="mail_type" name="mail_type" value="">
+
         <div class="mb-3">
-          <label for="correo_edit" style="color:white;">Enviar Correo Electrónico</label>
-          <div style="color:white; background-color: #335192; padding: 10px; border-radius: 5px; margin-bottom: 10px;">  
-              <p id='correo_label'></p>
-            
-          </div>
+          <table class="table table-bordered text-white" style="font-size: 15px;">
+            <tr style="background-color: rgb(0, 43, 122);">
+              <td><strong>Egresado:</strong></td>
+              <td>{{ $EgName }}</td>
+            </tr>
+            <tr style="background-color: rgb(0, 43, 122);">
+              <td><strong>Cuenta:</strong></td>
+              <td>{{ $cuenta }}</td>
+            </tr>
+            <tr style="background-color: rgb(0, 43, 122);">
+              <td><strong>Correo:</strong></td>
+              <td id="tabla_correo_val"></td>
+            </tr>
+          </table>
         </div>
 
         {{-- BOTONES --}}
@@ -64,7 +77,7 @@
     $('#email').val(correo);
     
     $('#prog').val(prog_acad);
-    $('#correo_label').html('Enviar <strong>'+ mail_type +'</strong> por correo a '+correo);
+    $('#tabla_correo_val').text(correo);
     $('#sendEmailModal').modal('show');
     
 
