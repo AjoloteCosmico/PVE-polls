@@ -84,6 +84,7 @@ class MuestrasController extends Controller
     
     // ESPECIALIDAD: Buscar en egresados_especialidad
     $existeEnEspecialidad = EgresadoEspecialidad::whereIn('cuenta', $cuentas_a_buscar)
+    ->whereIn('anio_egreso', [2020, 2021, 2022,2023])
       ->exists();
     
     if ($existeEnEspecialidad && $muestra_actual!='especialidad') {

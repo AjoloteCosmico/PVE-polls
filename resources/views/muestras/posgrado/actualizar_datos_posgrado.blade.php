@@ -27,7 +27,13 @@
                         'carrera' => $EgresadoPos->programa,
                    ])
 
-
+ @include('components.send_emai',[
+      'cuenta'         => $EgresadoPos->cuenta,
+      'respuestasKey'  => 0,
+      'typeStudy'      => 'act', 
+      'carrera'        => $EgresadoPos->plan,
+      'EgName'         => $EgresadoPos->nombre.' '.$EgresadoPos->paterno
+                ])    
 
 
 
@@ -131,11 +137,9 @@
               </button>
           </td>
             <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$EgresadoPos->id,$TelefonoEnLlamada->id,'posgrado'])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="boton-oscuro" > 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA POR CORREO viejo
-                  </button>
-                </a>
+                <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="{{$EgresadoPos->plan}}" data-mail_type ="posgrado" > 
+                <i class="fa fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>POR CORREO 
+              </button>
                 
               </td>
               @can('aplicar_encuesta_posgrado')
@@ -204,6 +208,11 @@ $(document).on('click', '.edit-email-btn', function() {
 $(document).on('click', '.edit-phone-btn', function() {
     let btn = $(this);
     editPhone(btn.data('telefono_id'), btn.data('telefono'), btn.data('description'));
+});
+
+$(document).on('click', '.send-email-btn', function() {
+    let btn = $(this);
+    sendEmail(btn.data('correo_id'), btn.data('correo'),btn.data('prog_acad'), btn.data('mail_type'));
 });
 
 $(document).on('emailAdded', function(event, data) {
