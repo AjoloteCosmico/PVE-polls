@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div>
-        <h1>Bienvenid@!!  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
+        <h1>Bienvenid@!!  {{Auth::user()->name }} {{Auth::user()->emojis }} dev version</h1>
         <div>-----------------------------------------
             <br><br><br> 
             
