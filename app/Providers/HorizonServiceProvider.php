@@ -33,4 +33,12 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
             ]);
         });
     }
+
+    protected function authorization(): void
+{
+    Horizon::auth(function ($request) {
+        // Permitir acceso si el entorno es local, o ajusta tu lógica aquí
+        return in_array(app()->environment(), ['local', 'staging', 'production']);
+    });
+}
 }
