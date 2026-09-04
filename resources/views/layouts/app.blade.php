@@ -103,7 +103,7 @@
                         <li class="user-header ">
                             <img src="{{asset('img/logoPVE.png')}}" class="img-circle elevation-2" alt="User Image">
                             <p>
-                                {{ Auth::user()->name }}
+                                {{ Auth::user()->name }} dev version 
                                 <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
                             </p>
                         </li>
@@ -128,6 +128,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            <h1 style="backgroud-color: black; color:white">dev mail version </h1>
             @yield('content')
         </div>
 
