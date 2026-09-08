@@ -74,7 +74,7 @@
                     @yield('content')
 
                     <br>
-                    <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM"> 👉🏾 visita la pagina del seguimiento</a>
+                    <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM"> 👉🏾 visita la página del seguimiento</a>
                 </div>
 
                 <!-- SECCIÓN: PODRÍA INTERESARTE -->

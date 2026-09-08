@@ -367,6 +367,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/test_mail_sending/{id}', [App\Http\Controllers\SendMailController::class, 'test'])->name('send_mail.test');
 
     Route::get('/test_mail_base', [App\Http\Controllers\SendMailController::class, 'send_test'])->name('send_mail.base_test');
+    Route::get('/send_continua', [App\Http\Controllers\SendMailController::class, 'send_continua'])->name('send_mail.send_continua');
 
     Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
 
