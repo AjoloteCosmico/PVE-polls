@@ -450,6 +450,7 @@ public function weeklyReportSeg()
         'rows'              => $rows,
         'correo'            => $correo,
         'correo_id'         => '0',
+        'nombre'            => 'Fel',
         'totalTelefonicas'  => $totalTelefonicas,
         'totalInternet'     => $totalInternet,
         'totalGeneral'      => $totalGeneral,
