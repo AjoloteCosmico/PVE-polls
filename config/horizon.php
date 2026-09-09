@@ -213,20 +213,76 @@ return [
     ],
 
     'environments' => [
-        'production' => [
-            'supervisor-1' => [
-                'maxProcesses' => 10,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
-            ],
+
+    'local' => [
+
+        'supervisor-high' => [
+            'connection' => 'redis',
+            'queue' => ['high'],
+            'balance' => 'simple',
+            'processes' => 2,
+            'tries' => 3,
+            'timeout' => 60,
+            'memory' => 256,
         ],
 
-        'local' => [
-            'supervisor-1' => [
-                'maxProcesses' => 3,
-            ],
+        'supervisor-emails' => [
+            'connection' => 'redis',
+            'queue' => ['emails'],
+            'balance' => 'simple',
+            'processes' => 2,
+            'tries' => 3,
+            'timeout' => 120,
+            'memory' => 256,
         ],
+
+        'supervisor-default' => [
+            'connection' => 'redis',
+            'queue' => ['default'],
+            'balance' => 'simple',
+            'processes' => 1,
+            'tries' => 3,
+            'timeout' => 60,
+            'memory' => 256,
+        ],
+
     ],
+
+    'production' => [
+
+        'supervisor-high' => [
+            'connection' => 'redis',
+            'queue' => ['high'],
+            'balance' => 'simple',
+            'processes' => 2,
+            'tries' => 3,
+            'timeout' => 60,
+            'memory' => 256,
+        ],
+
+        'supervisor-emails' => [
+            'connection' => 'redis',
+            'queue' => ['emails'],
+            'balance' => 'simple',
+            'processes' => 2,
+            'tries' => 3,
+            'timeout' => 120,
+            'memory' => 256,
+        ],
+
+        'supervisor-default' => [
+            'connection' => 'redis',
+            'queue' => ['default'],
+            'balance' => 'simple',
+            'processes' => 1,
+            'tries' => 3,
+            'timeout' => 60,
+            'memory' => 256,
+        ],
+
+    ],
+
+],
 
     /*
     |--------------------------------------------------------------------------

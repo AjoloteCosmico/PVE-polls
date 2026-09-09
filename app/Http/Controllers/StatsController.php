@@ -322,4 +322,8 @@ class StatsController extends Controller
     ));
 }
 
+public function weeklyReportSeg(){
+    
+}
+
 }
