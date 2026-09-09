@@ -41,4 +41,5 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         return in_array(app()->environment(), ['local', 'staging', 'production']);
     });
 }
+
 }
