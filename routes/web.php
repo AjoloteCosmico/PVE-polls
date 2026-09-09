@@ -305,6 +305,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/switch', [ConfigController::class, 'switch_mode'])->name('switch_mode');
     /**Conteo estadístico bueno */
     Route::get('/stats', [StatsController::class,'optimized_stats'])->name('stats');
+    
+    Route::get('/mail_stats', [StatsController::class,'weeklyReportSeg'])->name('weeklyReportSeg');
     /** Reactivos, Opciones y Llamadas */
     Route::post('/reactivos_update/{id}', [ReactivosController::class, 'update'])->name('reactivos.update_re');
     Route::post('/opciones_update/{id}', [OpcionesController::class, 'update'])->name('options.update_re');

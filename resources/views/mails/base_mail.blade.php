@@ -38,6 +38,30 @@
     .interest-section img {
         -ms-interpolation-mode: bicubic;
     }
+    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; }
+        h1 { color: #2c3e50; text-align: center; }
+    .periodo { text-align: center; color: #7f8c8d; margin-bottom: 30px; }
+    .cards { display: flex; justify-content: space-around; margin-bottom: 30px; flex-wrap: wrap; }
+    .card { background: #f8f9fa; border-radius: 8px; padding: 15px; min-width: 120px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin: 5px; flex: 1; }
+    .card-number { font-size: 28px; font-weight: bold; color: #2c3e50; }
+    .card-label { font-size: 14px; color: #7f8c8d; }
+    .card-blue .card-number { color: #2980b9; }
+    .card-green .card-number { color: #27ae60; }
+    .card-orange .card-number { color: #e67e22; }
+
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th { background: #173d83; color: white; padding: 10px; text-align: center; }
+    td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .footer-row td { background: #173d83; color: white; font-weight: bold; }
+
+    /* Gráfico de barras horizontal */
+    .chart-container { margin: 30px 0; }
+    .chart-bar { display: flex; align-items: center; margin-bottom: 6px; }
+    .chart-label { width: 160px; font-size: 13px; text-align: right; padding-right: 10px; }
+    .chart-bar-bg { flex: 1; background: #e9ecef; height: 24px; border-radius: 4px; overflow: hidden; }
+    .chart-bar-fill { height: 100%; background: #2980b9; border-radius: 4px; transition: width 0.3s; }
+    .chart-value { width: 40px; text-align: center; font-size: 13px; font-weight: bold; margin-left: 5px; }
 </style>
 </head>
 <body style="background-color: #f4f4f4; margin: 0; padding: 20px;">

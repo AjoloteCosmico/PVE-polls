@@ -56,7 +56,7 @@ class SendMailController extends Controller
         'extra_items' => $intereses 
     ];
 
-    Mail::to('marthaunamivyanalitycs@gmail.com')->queue(new AvisoPrivacidadMail($data));
+    Mail::to('ejemplos@gmail.com')->queue(new AvisoPrivacidadMail($data));
 }
 
 public function send_prioritary_mail(Request $request) {
