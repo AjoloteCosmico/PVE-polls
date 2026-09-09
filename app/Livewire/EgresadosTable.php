@@ -156,7 +156,7 @@ class EgresadosTable extends Component
                                 ['A', 'E', 'I', 'O', 'U', 'U'], 
                                 $parte
                             );
-                            $buscarSegmento = "TRANSLATE(UPPER(??), 'ÁÉÍÓÚÜ', 'AEEIOUU') LIKE ?";
+                            $buscarSegmento = "TRANSLATE(UPPER(??), 'ÁÉÍÓÚÜ', 'AEIOUU') LIKE ?";
     
                             $sub->whereRaw(str_replace('??', 'egresados.nombre', $buscarSegmento), ["%{$parteLimpia}%"])
                                 ->orWhereRaw(str_replace('??', 'egresados.paterno', $buscarSegmento), ["%{$parteLimpia}%"])
