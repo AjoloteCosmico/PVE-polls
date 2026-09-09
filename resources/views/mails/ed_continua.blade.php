@@ -8,7 +8,7 @@
 
 @section('content')
     <p style="margin: 0 0 12px; line-height: 1.8; color: #333;">
-        Estimado egresado
+        &nbsp;&nbsp;Estimado egresado
         <span style="color: #B7812C; font-weight: 700;">{{ $payload['nombre'] }}</span>,
         con No. Cuenta:
         <span style="color: #B7812C; font-weight: 700;">{{ $payload['cuenta'] }}</span>.

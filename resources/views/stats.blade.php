@@ -5,7 +5,7 @@
     <div>
         <h1>Bienvenid@!!  {{Auth::user()->name }} {{Auth::user()->emojis }} dev version</h1>
         <div>-----------------------------------------
-            <br><br><br> 
+            <br><br><br>
             
             <a href="{{ route('report','reporte_individual_act2016')}}">
                 <button class="boton-azul">
