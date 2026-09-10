@@ -441,18 +441,21 @@ public function weeklyReportSeg()
     $totalGeneral     = array_sum(array_column($rows, 'total'));
 
 
-    $correo='ivyanalitycs@gmail.com';
-    // $correo='felmiquiztli@gmail.com';
-    // marthaunam@hotmail.com
+    $emails = [
+        ['correo' => 'ivyanalitycs@gmail.com', 'nombre' => 'Analytics Team'],
+        ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel'],
+        ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'],
+    ];
 
+   
     // ========== 5. Preparar datos para el correo ==========
     $data = [
         'start'             => $start->toDateString(),
         'end'               => $end->toDateString(),
         'rows'              => $rows,
-        'correo'            => $correo,
+        'correo'            => ' ',
         'correo_id'         => '0',
-        'nombre'            => 'Fel',
+        'nombre'            => ' ',
         'extra_items' =>[],
         'totalTelefonicas'  => $totalTelefonicas,
         'totalInternet'     => $totalInternet,
@@ -461,8 +464,12 @@ public function weeklyReportSeg()
     ];
 
     // ========== 6. Enviar correo ==========
-     Mail::to($correo)->queue((new ReportMail($data))->onQueue('high'));
-
+     foreach ($emails as $recipient) {
+        $data['correo'] = $recipient['correo'];
+        $data['nombre'] = $recipient['nombre'];
+        Mail::to($recipient['correo'])->queue((new ReportMail($data))->onQueue('high'));
+    }
+     
     // Opcional: también puedes enviar a varios destinatarios
     // $emails = ['admin@ejemplo.com', 'reportes@ejemplo.com'];
     // foreach ($emails as $email) {
