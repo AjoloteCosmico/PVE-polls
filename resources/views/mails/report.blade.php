@@ -99,30 +99,33 @@
             margin-bottom: 12px;
         }
         .chart-bar-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
+            display: block;
+            margin-bottom: 8px;
             font-size: 12px;
+            clear: both;
         }
         .chart-label {
             width: 140px;
             text-align: right;
             padding-right: 8px;
-            flex-shrink: 0;
+            float: left;
             color: #333;
         }
         .chart-bar-track {
-            flex: 1;
+            display: block;
             background: #e9ecef;
             height: 20px;
             border-radius: 4px;
             overflow: hidden;
+            margin-left: 148px;
+            margin-right: 36px;
         }
         .chart-bar-fill {
             height: 100%;
             background: #2980b9;
             border-radius: 4px;
             width: 0%;
+            display: block;
         }
         .chart-value {
             width: 32px;
@@ -130,6 +133,7 @@
             font-weight: bold;
             margin-left: 4px;
             color: #2c3e50;
+            float: right;
         }
 
         /* Enlaces de acción */
@@ -250,17 +254,24 @@
             $maxTotal = max(array_column($payload['rows'], 'total'));
             $maxTotal = $maxTotal > 0 ? $maxTotal : 1;
         @endphp
-        <div class="chart-container">
-            <div class="chart-title">Distribución por tipo de encuesta</div>
+        <div class="chart-container" style="margin:20px 0 10px;">
+            <div class="chart-title" style="text-align:center; font-size:16px; color:#015190; margin-bottom:12px;">Distribución por tipo de encuesta</div>
             @foreach($payload['rows'] as $row)
                 @php $width = round(($row['total'] / $maxTotal) * 100, 1); @endphp
-                <div class="chart-bar-row">
-                    <span class="chart-label">{{ $row['generacion'] }}</span>
-                    <div class="chart-bar-track">
-                        <div class="chart-bar-fill" style="width: {{ $width }}%;"></div>
-                    </div>
-                    <span class="chart-value">{{ $row['total'] }}</span>
-                </div>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 0 8px 0;">
+                    <tr>
+                        <td width="120" align="right" style="font-size:12px; color:#333; padding:0 8px 0 0; white-space:nowrap;">{{ $row['generacion'] }}</td>
+                        <td style="padding:0;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#e9ecef; border-radius:4px; overflow:hidden;">
+                                <tr>
+                                    <td width="{{ $width }}%" height="20" bgcolor="#2980b9" style="border-radius:4px; font-size:0; line-height:0;">&nbsp;</td>
+                                    <td style="font-size:0; line-height:0;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="32" align="center" style="font-size:12px; font-weight:bold; color:#2c3e50; padding-left:6px;">{{ $row['total'] }}</td>
+                    </tr>
+                </table>
             @endforeach
         </div>
 
@@ -269,13 +280,14 @@
             <a href="http://encuestas.pve.unam.local/stats" style="display:inline-block; background:#015190; color:#fff; padding:12px 20px; text-decoration:none; border-radius:6px; font-weight:bold;">Ver dashboard</a>
         </div>
         <div style="text-align:center; margin:10px 0;">
-            <a href="http://encuestas.pve.unam.local/muestras22/index/0" style="color:#015190; font-size:13px;">👉 Revisa avance muestras 2022</a><br>
-            <a href="http://encuestas.pve.unam.local/muestras18/planteles" style="color:#015190; font-size:13px;">👉 Revisa avance muestras 2018</a><br>
-            <a href="http://encuestas.pve.unam.local/muestra_posgrado/programas" style="color:#015190; font-size:13px;">👉 Revisa avance muestras posgrado</a>
-        </div>
+         </div>
 
         <div class="report-footer-note">
             Reporte generado automáticamente por {{ config('app.name') }}
         </div>
     </div>
+    <a href="http://encuestas.pve.unam.local/muestras22/index/0" style="color:#015190; font-size:13px;">👉 Revisa avance muestras 2022</a><br>
+    <a href="http://encuestas.pve.unam.local/muestras18/planteles" style="color:#015190; font-size:13px;">👉 Revisa avance muestras 2018</a><br>
+    <a href="http://encuestas.pve.unam.local/muestra_posgrado/programas" style="color:#015190; font-size:13px;">👉 Revisa avance muestras posgrado</a>
+
 @endsection

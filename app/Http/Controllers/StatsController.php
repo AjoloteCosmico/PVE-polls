@@ -441,8 +441,10 @@ public function weeklyReportSeg()
     $totalGeneral     = array_sum(array_column($rows, 'total'));
 
 
+    $correo='ivyanalitycs@gmail.com';
+    // $correo='felmiquiztli@gmail.com';
+    // marthaunam@hotmail.com
 
-    $correo='felmiquiztli@gmail.com';
     // ========== 5. Preparar datos para el correo ==========
     $data = [
         'start'             => $start->toDateString(),
