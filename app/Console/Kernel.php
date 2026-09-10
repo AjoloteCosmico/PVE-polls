@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->everyMinute();
+        $schedule->command('report:send-weekly')->weekly()->fridays()->at('00:15');
+        $schedule->command('report:send-weekly')->weekly()->fridays()->at('13:00');
         $schedule->command('report:send-weekly')->weekly()->mondays()->at('13:00'); //en hora del servidor deberían ser 7am del lunes
     }
 
