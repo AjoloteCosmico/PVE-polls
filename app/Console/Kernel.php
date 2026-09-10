@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('inspire')->everyMinute();
-        $schedule->command('report:send-weekly')->everyFiveMinutes();
+        $schedule->command('report:send-weekly')->everyMinute();
     }
 
     /**

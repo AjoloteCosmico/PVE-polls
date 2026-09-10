@@ -22,6 +22,13 @@ use App\Mail\ReportMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Command;
 
+use App\Models\User;
+use App\Models\Estudio;
+use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
+use App\Models\Muestra;
+use Carbon\Carbon;
+
 class SendWeeklyReport extends Command
 {
     /**
@@ -160,7 +167,11 @@ class SendWeeklyReport extends Command
     $emails = [
         ['correo' => 'ivyanalitycs@gmail.com', 'nombre' => 'Analytics Team'],
         ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel'],
-        ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'],
+        // ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'],
+        
+        // ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'], aki hay q poner el de mcnava
+        
+        // ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'], maulx
     ];
 
    
