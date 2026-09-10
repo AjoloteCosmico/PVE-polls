@@ -9,11 +9,12 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+
 class ReportMail extends BaseMail
 {
     use Queueable, SerializesModels;
     protected function defineSubject(): string {
-        return "SEGUIMIENTO PVEAJU Reporte Semanal Encuestas ";
+        return "SEGUIMIENTO PVEAJU Reporte Semanal Encuestas";
     }
 
     protected function defineView(): string {
