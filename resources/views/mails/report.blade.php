@@ -6,9 +6,8 @@
     'intereses' => $payload['extra_items'] ?? []
 ])
 
-@section('content')
-    {{-- Estilos específicos para el reporte (conviven con los de base_mail) --}}
-    <style>
+@section('css')
+<style>
         /* Contenedor general del reporte */
         .report-container {
             max-width: 560px;
@@ -190,6 +189,11 @@
         }
     </style>
 
+@endsection
+
+@section('content')
+    {{-- Estilos específicos para el reporte (conviven con los de base_mail) --}}
+    
     {{-- CONTENIDO DEL REPORTE --}}
     <div class="report-container">
         <h2 class="report-title">{{ $payload['title'] ?? 'Reporte Semanal' }}</h2>
