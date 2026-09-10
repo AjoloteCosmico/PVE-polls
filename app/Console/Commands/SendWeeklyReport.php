@@ -29,7 +29,7 @@ use App\Models\EgresadoPosgrado;
 use App\Models\Muestra;
 use Carbon\Carbon;
 
-use App\Services\ReportEncuestasService;
+use App\Services\ReportEncuestaService;
 
 class SendWeeklyReport extends Command
 {
@@ -50,7 +50,7 @@ class SendWeeklyReport extends Command
     /**
      * Execute the console command.
      */
-    public function handle(ReportEncuestasService $reporteService)
+    public function handle(ReportEncuestaService $reporteService)
     {
         $this->info('Enviando reporte semanal...');
         

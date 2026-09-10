@@ -32,7 +32,7 @@ use App\Models\Muestra;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\ChartDataProcessor;
-use App\Services\ReportEncuestasService;
+use App\Services\ReportEncuestaService;
 
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
@@ -328,7 +328,7 @@ class StatsController extends Controller
     ));
 }
 
-public function weeklyReportSeg(ReportEncuestasService $reporteService)
+public function weeklyReportSeg(ReportEncuestaService $reporteService)
 {
    $start = Carbon::yesterday()->startOfDay();
    $end=Carbon::now()->endOfDay();
