@@ -1,7 +1,7 @@
 <?php
 namespace App\Services;
 
-class ReporteEncuestasService
+class ReporteEncuestaService
 {   
 
     public function ReportSeg($start = null, $end = null)
