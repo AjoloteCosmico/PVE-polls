@@ -1,6 +1,30 @@
 <?php
 namespace App\Services;
+use App\Models\respuestas16;
 
+use App\Models\respuestas20;
+use App\Models\respuestas14;
+
+use App\Models\respuestas_verdes;
+use App\Models\respuestasPosgrado;
+use App\Models\respuestasEspecialidad;
+use App\Models\RespuestasContinua;
+use App\Models\RespuestasVerdes;
+use App\Models\Carrera;
+use App\Models\Correo;
+use App\Models\Event;
+use App\Models\Recado;
+use App\Models\EmailTracking;
+use DB;
+
+use App\Mail\ReportMail;
+use Illuminate\Support\Facades\Mail;
+
+use App\Models\User;
+use App\Models\Estudio;
+use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
+use App\Models\Muestra;
 class ReportEncuestaService
 {   
 
@@ -151,7 +175,6 @@ class ReportEncuestaService
         Mail::to($recipient['correo'])->queue((new ReportMail($data))->onQueue('high'));
     }
         
-        $this->info('Reporte semanal enviado correctamente.');
         
         return 0;
     }
