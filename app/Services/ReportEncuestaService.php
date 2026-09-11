@@ -1,8 +1,8 @@
 <?php
 namespace App\Services;
 
-use App\Models\Respuestas16;
-use App\Models\Respuestas20;
+use App\Models\respuestas16;
+use App\Models\respuestas20;
 use App\Models\RespuestasPosgrado;
 use App\Models\RespuestasEspecialidad;
 use App\Models\RespuestasContinua;
@@ -25,28 +25,28 @@ class ReportEncuestaService
 
         // ========== 1. Construir consultas base ==========
         // Gen 2022
-        $query22 = Respuestas20::where('completed', 1)
+        $query22 = respuestas20::where('completed', 1)
             ->whereNull('aplica2')
             ->where('gen_dgae', 2022)
             ->where('fec_capt', '>', $start)
             ->where('fec_capt', '<=', $end);
 
         // Todas las generaciones (aplica2 = '1')
-        $queryRG = Respuestas20::where('completed', 1)
+        $queryRG = respuestas20::where('completed', 1)
             ->where('aplica2', '1')
             ->where('fec_capt', '>', $start)
             ->where('fec_capt', '<=', $end);
 
         // Act 2016
         $cuentas16 = Egresado::where('act_suvery', 1)->pluck('cuenta');
-        $query16 = Respuestas16::where('completed', 1)
+        $query16 = respuestas16::where('completed', 1)
             ->whereIn('cuenta', $cuentas16)
             ->where('fec_capt', '>', $start)
             ->where('fec_capt', '<=', $end);
 
         // Act 2018
         $cuentas18 = Egresado::where('act_suvery', 2)->pluck('cuenta');
-        $query18 = Respuestas16::where('completed', 1)
+        $query18 = respuestas16::where('completed', 1)
             ->whereIn('cuenta', $cuentas18)
             ->where('created_at', '>', $start)
             ->where('created_at', '<=', $end);
@@ -145,7 +145,7 @@ class ReportEncuestaService
 
         // ========== 6. Datos específicos por tipo de encuesta para gráficas individuales ==========
         // Solo respuestas20, respuestas16, respuestas_posgrado y respuestas_especialidad
-        $chartRespuestas20 = [
+        $chartrespuestas20 = [
             'titulo' => 'Respuestas 20 (Gen 2022 & General)',
             'total' => $query22->count() + $queryRG->count(),
             'datos' => [
@@ -154,7 +154,7 @@ class ReportEncuestaService
             ]
         ];
 
-        $chartRespuestas16 = [
+        $chartrespuestas16 = [
             'titulo' => 'Respuestas 16 (Act 2016 & 2018)',
             'total' => $query16->count() + $query18->count(),
             'datos' => [
@@ -191,8 +191,8 @@ class ReportEncuestaService
             'end'                   => $end->toDateString(),
             'rows'                  => $rows,
             'telefonicasPorUsuario' => $telefonicasPorUsuario,
-            'chartRespuestas20'         => $chartRespuestas20,
-            'chartRespuestas16'         => $chartRespuestas16,
+            'chartrespuestas20'         => $chartrespuestas20,
+            'chartrespuestas16'         => $chartrespuestas16,
             'chartRespuestasPosgrado'   => $chartRespuestasPosgrado,
             'chartRespuestasEspecialidad' => $chartRespuestasEspecialidad,
             'correo'                => ' ',
