@@ -3,8 +3,8 @@ namespace App\Services;
 
 use App\Models\respuestas16;
 use App\Models\respuestas20;
-use App\Models\RespuestasPosgrado;
-use App\Models\RespuestasEspecialidad;
+use App\Models\respuestasPosgrado;
+use App\Models\respuestasEspecialidad;
 use App\Models\RespuestasContinua;
 use App\Models\RespuestasVerdes;
 use App\Models\Egresado;
@@ -52,19 +52,19 @@ class ReportEncuestaService
             ->where('created_at', '<=', $end);
 
         // Posgrado (generaciones 2019-2022)
-        $queryPos = RespuestasPosgrado::where('completed', '1')
+        $queryPos = respuestasPosgrado::where('completed', '1')
             ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
             ->where('fec_capt', '>', $start)
             ->where('fec_capt', '<=', $end);
 
         // Posgrado (otras generaciones)
-        $queryPosg = RespuestasPosgrado::where('completed', '1')
+        $queryPosg = respuestasPosgrado::where('completed', '1')
             ->whereNotIn('anio_egreso', [2019, 2020, 2021, 2022])
             ->where('fec_capt', '>', $start)
             ->where('fec_capt', '<=', $end);
 
         // Especialidad
-        $queryEsp = RespuestasEspecialidad::where('completed', '1')
+        $queryEsp = respuestasEspecialidad::where('completed', '1')
             ->where('fec_capt', '>', $start)
             ->where('fec_capt', '<=', $end);
 
@@ -163,7 +163,7 @@ class ReportEncuestaService
             ]
         ];
 
-        $chartRespuestasPosgrado = [
+        $chartrespuestasPosgrado = [
             'titulo' => 'Respuestas Posgrado',
             'total' => $queryPos->count() + $queryPosg->count(),
             'datos' => [
@@ -172,7 +172,7 @@ class ReportEncuestaService
             ]
         ];
 
-        $chartRespuestasEspecialidad = [
+        $chartrespuestasEspecialidad = [
             'titulo' => 'Respuestas Especialidad',
             'total' => $queryEsp->count(),
             'datos' => [
@@ -193,8 +193,8 @@ class ReportEncuestaService
             'telefonicasPorUsuario' => $telefonicasPorUsuario,
             'chartrespuestas20'         => $chartrespuestas20,
             'chartrespuestas16'         => $chartrespuestas16,
-            'chartRespuestasPosgrado'   => $chartRespuestasPosgrado,
-            'chartRespuestasEspecialidad' => $chartRespuestasEspecialidad,
+            'chartrespuestasPosgrado'   => $chartrespuestasPosgrado,
+            'chartrespuestasEspecialidad' => $chartrespuestasEspecialidad,
             'correo'                => ' ',
             'correo_id'             => '0',
             'nombre'                => ' ',
