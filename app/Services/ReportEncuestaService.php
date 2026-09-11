@@ -181,8 +181,11 @@ class ReportEncuestaService
         ];
 
         $emails = [
+            //Fel
             ['correo' => 'ivyanalitycs@gmail.com', 'nombre' => 'Analytics Team'],
             ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel'],
+            //Malu
+            ['correo' => 'malu2806@gmail.com', 'nombre' => 'Malu'],
         ];
 
         // ========== 7. Preparar datos para el correo ==========
