@@ -25,14 +25,15 @@ use App\Models\Estudio;
 use App\Models\Egresado;
 use App\Models\EgresadoPosgrado;
 use App\Models\Muestra;
+use Carbon\Carbon;
 class ReportEncuestaService
 {   
 
     public function ReportSeg($start = null, $end = null)
     {
         // Fecha del reporte: semana anterior (lunes a domingo)
-        $this->start = $start ?? Carbon::now()->subWeek()->startOfWeek();
-        $this->end   = $end ?? Carbon::now()->subWeek()->endOfWeek();
+        $start = $start ?? Carbon::now()->subWeek()->startOfWeek();
+        $end   = $end ?? Carbon::now()->subWeek()->endOfWeek();
 
         // ========== 1. Construir consultas base ==========
     // Gen 2022
