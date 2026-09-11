@@ -303,10 +303,10 @@
         {{-- Gráficas Individuales para Respuestas específicas (Solo si tienen encuestas > 0) --}}
         @php
             $specificCharts = [
-                $payload['chartRespuestas20'],
-                $payload['chartRespuestas16'],
-                $payload['chartRespuestasPosgrado'],
-                $payload['chartRespuestasEspecialidad']
+                $payload['chartRespuestas20'] ?? ['total' => 0, 'datos' => [], 'titulo' => 'Respuestas 20'],
+                $payload['chartRespuestas16'] ?? ['total' => 0, 'datos' => [], 'titulo' => 'Respuestas 16'],
+                $payload['chartRespuestasPosgrado'] ?? ['total' => 0, 'datos' => [], 'titulo' => 'Respuestas Posgrado'],
+                $payload['chartRespuestasEspecialidad'] ?? ['total' => 0, 'datos' => [], 'titulo' => 'Respuestas Especialidad'],
             ];
         @endphp
 
