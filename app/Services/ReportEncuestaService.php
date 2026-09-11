@@ -1,34 +1,21 @@
 <?php
 namespace App\Services;
-use App\Models\respuestas16;
 
-use App\Models\respuestas20;
-use App\Models\respuestas14;
-
-use App\Models\respuestas_verdes;
-use App\Models\respuestasPosgrado;
-use App\Models\respuestasEspecialidad;
+use App\Models\Respuestas16;
+use App\Models\Respuestas20;
+use App\Models\RespuestasPosgrado;
+use App\Models\RespuestasEspecialidad;
 use App\Models\RespuestasContinua;
 use App\Models\RespuestasVerdes;
-use App\Models\Carrera;
-use App\Models\Correo;
-use App\Models\Event;
-use App\Models\Recado;
-use App\Models\EmailTracking;
-use DB;
-
+use App\Models\Egresado;
+use App\Models\User;
+use Carbon\Carbon;
 use App\Mail\ReportMail;
 use Illuminate\Support\Facades\Mail;
+use DB;
 
-use App\Models\User;
-use App\Models\Estudio;
-use App\Models\Egresado;
-use App\Models\EgresadoPosgrado;
-use App\Models\Muestra;
-use Carbon\Carbon;
 class ReportEncuestaService
-{   
-
+{ 
     public function ReportSeg($start = null, $end = null)
     {
         // Fecha del reporte: semana anterior (lunes a domingo)
@@ -36,148 +23,194 @@ class ReportEncuestaService
         $end   = $end ?? Carbon::now()->subWeek()->endOfWeek();
 
         // ========== 1. Construir consultas base ==========
-    // Gen 2022
-    $query22 = Respuestas20::where('completed', 1)
-        ->whereNull('aplica2')
-        ->where('gen_dgae', 2022)
-        ->where('fec_capt', '>', $start)
-        ->where('fec_capt', '<=', $end);
+        // Gen 2022
+        $query22 = Respuestas20::where('completed', 1)
+            ->whereNull('aplica2')
+            ->where('gen_dgae', 2022)
+            ->where('fec_capt', '>', $start)
+            ->where('fec_capt', '<=', $end);
 
-    // Todas las generaciones (aplica2 = '1')
-    $queryRG = Respuestas20::where('completed', 1)
-        ->where('aplica2', '1')
-        ->where('fec_capt', '>', $start)
-        ->where('fec_capt', '<=', $end);
+        // Todas las generaciones (aplica2 = '1')
+        $queryRG = Respuestas20::where('completed', 1)
+            ->where('aplica2', '1')
+            ->where('fec_capt', '>', $start)
+            ->where('fec_capt', '<=', $end);
 
-    // Act 2016
-    $cuentas16 = Egresado::where('act_suvery', 1)->pluck('cuenta');
-    $query16 = Respuestas16::where('completed', 1)
-        ->whereIn('cuenta', $cuentas16)
-        ->where('fec_capt', '>', $start)
-        ->where('fec_capt', '<=', $end);
+        // Act 2016
+        $cuentas16 = Egresado::where('act_suvery', 1)->pluck('cuenta');
+        $query16 = Respuestas16::where('completed', 1)
+            ->whereIn('cuenta', $cuentas16)
+            ->where('fec_capt', '>', $start)
+            ->where('fec_capt', '<=', $end);
 
-    // Act 2018 (usa created_at según el script Python)
-    $cuentas18 = Egresado::where('act_suvery', 2)->pluck('cuenta');
-    $query18 = Respuestas16::where('completed', 1)
-        ->whereIn('cuenta', $cuentas18)
-        ->where('created_at', '>', $start)
-        ->where('created_at', '<=', $end);
+        // Act 2018
+        $cuentas18 = Egresado::where('act_suvery', 2)->pluck('cuenta');
+        $query18 = Respuestas16::where('completed', 1)
+            ->whereIn('cuenta', $cuentas18)
+            ->where('created_at', '>', $start)
+            ->where('created_at', '<=', $end);
 
-    // Posgrado (generaciones 2019-2022)
-    $queryPos = RespuestasPosgrado::where('completed', '1')
-        ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
-        ->where('fec_capt', '>', $start)
-        ->where('fec_capt', '<=', $end);
+        // Posgrado (generaciones 2019-2022)
+        $queryPos = RespuestasPosgrado::where('completed', '1')
+            ->whereIn('anio_egreso', [2019, 2020, 2021, 2022])
+            ->where('fec_capt', '>', $start)
+            ->where('fec_capt', '<=', $end);
 
-    // Posgrado (otras generaciones)
-    $queryPosg = RespuestasPosgrado::where('completed', '1')
-        ->whereNotIn('anio_egreso', [2019, 2020, 2021, 2022])
-        ->where('fec_capt', '>', $start)
-        ->where('fec_capt', '<=', $end);
+        // Posgrado (otras generaciones)
+        $queryPosg = RespuestasPosgrado::where('completed', '1')
+            ->whereNotIn('anio_egreso', [2019, 2020, 2021, 2022])
+            ->where('fec_capt', '>', $start)
+            ->where('fec_capt', '<=', $end);
 
-    // Especialidad
-    $queryEsp = RespuestasEspecialidad::where('completed', '1')
-        ->where('fec_capt', '>', $start)
-        ->where('fec_capt', '<=', $end);
+        // Especialidad
+        $queryEsp = RespuestasEspecialidad::where('completed', '1')
+            ->where('fec_capt', '>', $start)
+            ->where('fec_capt', '<=', $end);
 
-    // Continua (usa updated_at)
-    $queryCont = RespuestasContinua::where('updated_at', '>', $start)
-        ->where('updated_at', '<=', $end);
+        // Continua
+        $queryCont = RespuestasContinua::where('updated_at', '>', $start)
+            ->where('updated_at', '<=', $end);
 
-    // Verde (vr1 not null)
-    $queryVerde = RespuestasVerdes::whereNotNull('vr1')
-        ->where('updated_at', '>', $start)
-        ->where('updated_at', '<=', $end);
+        // Verde
+        $queryVerde = RespuestasVerdes::whereNotNull('vr1')
+            ->where('updated_at', '>', $start)
+            ->where('updated_at', '<=', $end);
 
-    // ========== 2. Función auxiliar para conteos (por defecto internet = '111') ==========
-    $countTelefonicasInternet = function ($query, $internetValues = ['111']) {
-        $internet = (clone $query)->whereIn('aplica', $internetValues)->count();
-        $telefonicas = (clone $query)->whereNotIn('aplica', $internetValues)->count();
-        return ['telefonicas' => $telefonicas, 'internet' => $internet, 'total' => $telefonicas + $internet];
-    };
+        // ========== 2. Función auxiliar para conteos ==========
+        $countTelefonicasInternet = function ($query, $internetValues = ['111']) {
+            $internet = (clone $query)->whereIn('aplica', $internetValues)->count();
+            $telefonicas = (clone $query)->whereNotIn('aplica', $internetValues)->count();
+            return ['telefonicas' => $telefonicas, 'internet' => $internet, 'total' => $telefonicas + $internet];
+        };
 
-    // ========== 3. Generar filas ==========
-    $rows = [];
+        // ========== 3. Generar filas principales ==========
+        $rows = [];
 
-    // Gen 2022
-    $data = $countTelefonicasInternet($query22);
-    $rows[] = ['generacion' => 'Gen 2022', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($query22);
+        $rows[] = ['generacion' => 'Gen 2022', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Todas las generaciones
-    $data = $countTelefonicasInternet($queryRG);
-    $rows[] = ['generacion' => 'Todas las generaciones', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($queryRG);
+        $rows[] = ['generacion' => 'Todas las generaciones', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Act 2016
-    $data = $countTelefonicasInternet($query16);
-    $rows[] = ['generacion' => 'Act 2016', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($query16);
+        $rows[] = ['generacion' => 'Act 2016', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Act 2018
-    $data = $countTelefonicasInternet($query18);
-    $rows[] = ['generacion' => 'Act 2018', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($query18);
+        $rows[] = ['generacion' => 'Act 2018', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Posgrado
-    $data = $countTelefonicasInternet($queryPos);
-    $rows[] = ['generacion' => 'Posgrado', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($queryPos);
+        $rows[] = ['generacion' => 'Posgrado', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Posgrado (otras generaciones)
-    $data = $countTelefonicasInternet($queryPosg);
-    $rows[] = ['generacion' => 'Posgrado (otras generaciones)', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($queryPosg);
+        $rows[] = ['generacion' => 'Posgrado (otras generaciones)', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Especialidad
-    $data = $countTelefonicasInternet($queryEsp);
-    $rows[] = ['generacion' => 'Especialidad', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $data = $countTelefonicasInternet($queryEsp);
+        $rows[] = ['generacion' => 'Especialidad', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
-    // Continua (telefónicas = '30', internet ≠ '30')
-    $contTelefonicas = (clone $queryCont)->where('aplica', '30')->count();
-    $contInternet    = (clone $queryCont)->where('aplica', '!=', '30')->count();
-    $rows[] = ['generacion' => 'Continua', 'telefonicas' => $contTelefonicas, 'internet' => $contInternet, 'total' => $contTelefonicas + $contInternet];
+        $contTelefonicas = (clone $queryCont)->where('aplica', '30')->count();
+        $contInternet    = (clone $queryCont)->where('aplica', '!=', '30')->count();
+        $rows[] = ['generacion' => 'Continua', 'telefonicas' => $contTelefonicas, 'internet' => $contInternet, 'total' => $contCont = $contTelefonicas + $contInternet];
 
-    // Verde (igual que Continua)
-    $verdeTelefonicas = (clone $queryVerde)->where('aplica', '30')->count();
-    $verdeInternet    = (clone $queryVerde)->where('aplica', '!=', '30')->count();
-    $rows[] = ['generacion' => 'Verde', 'telefonicas' => $verdeTelefonicas, 'internet' => $verdeInternet, 'total' => $verdeTelefonicas + $verdeInternet];
+        $verdeTelefonicas = (clone $queryVerde)->where('aplica', '30')->count();
+        $verdeInternet    = (clone $queryVerde)->where('aplica', '!=', '30')->count();
+        $rows[] = ['generacion' => 'Verde', 'telefonicas' => $verdeTelefonicas, 'internet' => $verdeInternet, 'total' => $verdeTelefonicas + $verdeInternet];
 
-    // ========== 4. Totales ==========
-    $totalTelefonicas = array_sum(array_column($rows, 'telefonicas'));
-    $totalInternet    = array_sum(array_column($rows, 'internet'));
-    $totalGeneral     = array_sum(array_column($rows, 'total'));
+        // ========== 4. Conteo de Telefónicas por Usuario (Modelo User -> clave vs aplica) ==========
+        $users = User::whereNotNull('clave')->get();
+        $telefonicasPorUsuario = [];
 
+        // Agrupamos las consultas base de encuestas para evaluar el campo 'aplica' contra la 'clave' del usuario
+        $allQueryBuilders = [$query22, $queryRG, $query16, $query18, $queryPos, $queryPosg, $queryEsp, $queryCont, $queryVerde];
 
-    $emails = [
-        ['correo' => 'ivyanalitycs@gmail.com', 'nombre' => 'Analytics Team'],
-        ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel'],
-        // ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'],
-        
-        // ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Martha'], aki hay q poner el de mcnava
-        
-        //  ['correo' => 'malu2806@gmail.com', 'nombre' => 'Malu'], 
-    ];
+        foreach ($users as $user) {
+            $userCount = 0;
+            foreach ($allQueryBuilders as $qBuilder) {
+                $userCount += (clone $qBuilder)->where('aplica', $user->clave)->count();
+            }
 
-   
-    // ========== 5. Preparar datos para el correo ==========
-    $data = [
-        'start'             => $start->toDateString(),
-        'end'               => $end->toDateString(),
-        'rows'              => $rows,
-        'correo'            => ' ',
-        'correo_id'         => '0',
-        'nombre'            => ' ',
-        'extra_items' =>[],
-        'totalTelefonicas'  => $totalTelefonicas,
-        'totalInternet'     => $totalInternet,
-        'totalGeneral'      => $totalGeneral,
-        'title'             => 'REPORTE SEMANAL DE ENCUESTAS',
-    ];
+            if ($userCount > 0) {
+                $telefonicasPorUsuario[] = [
+                    'usuario' => $user->name ?? 'Usuario ' . $user->clave,
+                    'clave' => $user->clave,
+                    'total' => $userCount
+                ];
+            }
+        }
 
-    // ========== 6. Enviar correo ==========
-     foreach ($emails as $recipient) {
-        $data['correo'] = $recipient['correo'];
-        $data['nombre'] = $recipient['nombre'];
-        Mail::to($recipient['correo'])->queue((new ReportMail($data))->onQueue('high'));
-    }
-        
-        
+        // ========== 5. Totales generales ==========
+        $totalTelefonicas = array_sum(array_column($rows, 'telefonicas'));
+        $totalInternet    = array_sum(array_column($rows, 'internet'));
+        $totalGeneral     = array_sum(array_column($rows, 'total'));
+
+        // ========== 6. Datos específicos por tipo de encuesta para gráficas individuales ==========
+        // Solo respuestas20, respuestas16, respuestas_posgrado y respuestas_especialidad
+        $chartRespuestas20 = [
+            'titulo' => 'Respuestas 20 (Gen 2022 & General)',
+            'total' => $query22->count() + $queryRG->count(),
+            'datos' => [
+                ['label' => 'Gen 2022', 'val' => (clone $query22)->count()],
+                ['label' => 'Todas las gen.', 'val' => (clone $queryRG)->count()],
+            ]
+        ];
+
+        $chartRespuestas16 = [
+            'titulo' => 'Respuestas 16 (Act 2016 & 2018)',
+            'total' => $query16->count() + $query18->count(),
+            'datos' => [
+                ['label' => 'Act 2016', 'val' => (clone $query16)->count()],
+                ['label' => 'Act 2018', 'val' => (clone $query18)->count()],
+            ]
+        ];
+
+        $chartRespuestasPosgrado = [
+            'titulo' => 'Respuestas Posgrado',
+            'total' => $queryPos->count() + $queryPosg->count(),
+            'datos' => [
+                ['label' => 'Gen 2019-2022', 'val' => (clone $queryPos)->count()],
+                ['label' => 'Otras gen.', 'val' => (clone $queryPosg)->count()],
+            ]
+        ];
+
+        $chartRespuestasEspecialidad = [
+            'titulo' => 'Respuestas Especialidad',
+            'total' => $queryEsp->count(),
+            'datos' => [
+                ['label' => 'Especialidad', 'val' => (clone $queryEsp)->count()],
+            ]
+        ];
+
+        $emails = [
+            ['correo' => 'ivyanalitycs@gmail.com', 'nombre' => 'Analytics Team'],
+            ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel'],
+        ];
+
+        // ========== 7. Preparar datos para el correo ==========
+        $data = [
+            'start'                 => $start->toDateString(),
+            'end'                   => $end->toDateString(),
+            'rows'                  => $rows,
+            'telefonicasPorUsuario' => $telefonicasPorUsuario,
+            'chartRespuestas20'         => $chartRespuestas20,
+            'chartRespuestas16'         => $chartRespuestas16,
+            'chartRespuestasPosgrado'   => $chartRespuestasPosgrado,
+            'chartRespuestasEspecialidad' => $chartRespuestasEspecialidad,
+            'correo'                => ' ',
+            'correo_id'             => '0',
+            'nombre'                => ' ',
+            'extra_items'           => [],
+            'totalTelefonicas'      => $totalTelefonicas,
+            'totalInternet'         => $totalInternet,
+            'totalGeneral'          => $totalGeneral,
+            'title'                 => 'REPORTE SEMANAL DE ENCUESTAS',
+        ];
+
+        // ========== 8. Enviar correo ==========
+        foreach ($emails as $recipient) {
+            $data['correo'] = $recipient['correo'];
+            $data['nombre'] = $recipient['nombre'];
+            Mail::to($recipient['correo'])->queue((new ReportMail($data))->onQueue('high'));
+        }
+            
         return 0;
     }
-   
 }

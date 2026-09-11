@@ -219,7 +219,7 @@
             </span>
         </div>
 
-        {{-- Tabla --}}
+        {{-- Tabla Principal --}}
         <div class="report-table-wrap">
             <table class="report-table">
                 <thead>
@@ -249,12 +249,37 @@
             </table>
         </div>
 
-        {{-- Gráfico de barras --}}
+        {{-- Tabla de Telefónicas por Usuario (si existen registros) --}}
+        @if(!empty($payload['telefonicasPorUsuario']))
+            <div class="report-table-wrap" style="margin-top: 25px;">
+                <h3 style="font-size:15px; color:#015190; margin-bottom:8px;">Encuestas Telefónicas por Agente (Usuario)</h3>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Agente</th>
+                            <th>Clave</th>
+                            <th>Total Telefónicas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($payload['telefonicasPorUsuario'] as $userRow)
+                            <tr>
+                                <td>{{ $userRow['usuario'] }}</td>
+                                <td>{{ $userRow['clave'] }}</td>
+                                <td>{{ $userRow['total'] }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+
+        {{-- Gráfico General de barras --}}
         @php
             $maxTotal = max(array_column($payload['rows'], 'total'));
             $maxTotal = $maxTotal > 0 ? $maxTotal : 1;
         @endphp
-        <div class="chart-container" style="margin:20px 0 10px;">
+        <div class="chart-container" style="margin:25px 0 15px;">
             <div class="chart-title" style="text-align:center; font-size:16px; color:#015190; margin-bottom:12px;">Distribución por tipo de encuesta</div>
             @foreach($payload['rows'] as $row)
                 @php $width = round(($row['total'] / $maxTotal) * 100, 1); @endphp
@@ -274,6 +299,46 @@
                 </table>
             @endforeach
         </div>
+
+        {{-- Gráficas Individuales para Respuestas específicas (Solo si tienen encuestas > 0) --}}
+        @php
+            $specificCharts = [
+                $payload['chartRespuestas20'],
+                $payload['chartRespuestas16'],
+                $payload['chartRespuestasPosgrado'],
+                $payload['chartRespuestasEspecialidad']
+            ];
+        @endphp
+
+        @foreach($specificCharts as $chart)
+            @if($chart['total'] > 0)
+                @php
+                    $maxSubTotal = max(array_column($chart['datos'], 'val'));
+                    $maxSubTotal = $maxSubTotal > 0 ? $maxSubTotal : 1;
+                @endphp
+                <div class="chart-container" style="margin:25px 0 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <div class="chart-title" style="text-align:center; font-size:15px; color:#015190; margin-bottom:10px;">{{ $chart['titulo'] }} (Total: {{ $chart['total'] }})</div>
+                    @foreach($chart['datos'] as $item)
+                        @php $subWidth = round(($item['val'] / $maxSubTotal) * 100, 1); @endphp
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin:0 0 6px 0;">
+                            <tr>
+                                <td width="140" align="right" style="font-size:12px; color:#333; padding:0 8px 0 0; white-space:nowrap;">{{ $item['label'] }}</td>
+                                <td style="padding:0;">
+                                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#e9ecef; border-radius:4px; overflow:hidden;">
+                                        <tr>
+                                            <td width="{{ $subWidth }}%" height="16" bgcolor="#27ae60" style="border-radius:4px; font-size:0; line-height:0;">&nbsp;</td>
+                                            <td style="font-size:0; line-height:0;">&nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="32" align="center" style="font-size:12px; font-weight:bold; color:#2c3e50; padding-left:6px;">{{ $item['val'] }}</td>
+                            </tr>
+                        </table>
+                    @endforeach
+                </div>
+            @endif
+        @endforeach
+    </div>
 
         {{-- Botones de acción --}}
         <div class="report-links">
