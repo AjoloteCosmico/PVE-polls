@@ -14,7 +14,7 @@ class ReportMail extends BaseMail
 {
     use Queueable, SerializesModels;
     protected function defineSubject(): string {
-        return "SEGUIMIENTO PVEAJU Reporte Semanal Encuestas";
+        return "SEGUIMIENTO Reporte Semanal Encuestas PVEAJU UNAM";
     }
 
     protected function defineView(): string {

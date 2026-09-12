@@ -73,9 +73,7 @@
                 <!-- CONTENIDO DINÁMICO -->
                 <div style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
                     @yield('content')
-
-                    <br>
-                    <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM"> 👉🏾 visita la página del seguimiento</a>
+                    <a href="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM"> 👉🏾 Visita la página del seguimiento</a>
                 </div>
 
                 <!-- SECCIÓN: PODRÍA INTERESARTE -->

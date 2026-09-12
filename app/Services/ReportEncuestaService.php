@@ -186,8 +186,13 @@ class ReportEncuestaService
             ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel el hechicero arcano'],
             //Malu
             ['correo' => 'malu280596@gmail.com', 'nombre' => 'Malu'],
-            ['correo' => 'david1956@ciencias.unam.mx', 'nombre' => 'Davo']
-        ];
+            //Davo 
+            ['correo' => 'david1956@ciencias.unam.mx', 'nombre' => 'Davo'],
+            //Martha  
+            ['correo' => 'marthaunam@hotmail.com', 'nombre' => 'Lic. Martha Nava'],
+            ['correo' => 'mcnava@unam.mx', 'nombre' => 'Lic. Martha Nava']
+       
+            ];
 
         // ========== 7. Preparar datos para el correo ==========
         $data = [

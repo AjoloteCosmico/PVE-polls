@@ -351,8 +351,8 @@
             Reporte generado automáticamente por {{ config('app.name') }}
         </div>
     </div>
-    <a href="http://encuestas.pve.unam.local/muestras22/index/0" style="color:#015190; font-size:13px;">👉 Revisa avance muestras 2022</a><br>
-    <a href="http://encuestas.pve.unam.local/muestras18/planteles" style="color:#015190; font-size:13px;">👉 Revisa avance muestras 2018</a><br>
-    <a href="http://encuestas.pve.unam.local/muestra_posgrado/programas" style="color:#015190; font-size:13px;">👉 Revisa avance muestras posgrado</a>
+    <a href="http://encuestas.pve.unam.local/muestras22/index/0" style="color:#015190; font-size:13px;">👉🏾 Revisa avance muestras 2022</a><br>
+    <a href="http://encuestas.pve.unam.local/muestras18/planteles" style="color:#015190; font-size:13px;">👉🏾 Revisa avance muestras 2018</a><br>
+    <a href="http://encuestas.pve.unam.local/muestra_posgrado/programas" style="color:#015190; font-size:13px;">👉🏾 Revisa avance muestras posgrado</a>
 
 @endsection
