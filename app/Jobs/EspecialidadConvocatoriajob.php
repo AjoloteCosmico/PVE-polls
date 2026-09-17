@@ -44,7 +44,7 @@ class EspecialidadConvocatoriajob implements ShouldQueue
                   ->orWhere('respuestas_especialidad.espf1', '=', '2');
         })
         ->select('egresados_especialidad.id', 'egresados_especialidad.cuenta', 'egresados_especialidad.nombre', 'egresados_especialidad.paterno')
-        ->orderByDesc('egresados.id')
+        ->orderByDesc('egresados_especialidad.id')
         ->lazy(100)
         ->each(function ($eg) {
             try {
