@@ -85,7 +85,7 @@ class EspecialidadConvocatoriajob implements ShouldQueue
                     $specific = $data + ['correo' => $email, 'correo_id' => $correo->id];
                     
                     // Encolar de manera segura sabiendo que el correo es 100% válido
-                    Mail::to($email)->queue((new EdContinuaMail($specific))->onQueue('emails'));
+                    Mail::to($email)->queue((new EspecialidadConvocatoriaMail($specific))->onQueue('emails'));
                 }
             } catch (\Exception $e) {
                 Log::error('SendEspecialidadConvocatoriaJob error cuenta '.$eg->cuenta.' : '.$e->getMessage());
