@@ -370,6 +370,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/test_mail_base', [App\Http\Controllers\SendMailController::class, 'send_test'])->name('send_mail.base_test');
     Route::get('/send_continua', [App\Http\Controllers\SendMailController::class, 'send_continua'])->name('send_mail.send_continua');
+    Route::get('/send_convocatoria_especialidad', [App\Http\Controllers\SendMailController::class, 'send_convocatoria_especialidad'])->name('send_mail.convocatoria_especialidad');
 
     Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
 
