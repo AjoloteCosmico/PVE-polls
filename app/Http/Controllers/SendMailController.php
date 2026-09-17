@@ -137,7 +137,7 @@ public function send_convocatoria_especialidad(){
             ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
         ];
     // Despacha job en background y responde inmediatamente
-    dispatch(new \App\Jobs\SendConvocaoriaEspecialidadJob($intereses));
+    dispatch(new \App\Jobs\EspecialidadConvocatoriajob($intereses));
 
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
