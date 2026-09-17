@@ -36,7 +36,7 @@ class EspecialidadConvocatoriajob implements ShouldQueue
    public function handle()
 {
     DB::table('egresados_especialidad')
-        ->leftJoin('respuestas_esecialidad', 'respuestas_especialidad.cuenta', '=', 'egresados_especialidad.cuenta')
+        ->leftJoin('respuestas_especialidad', 'respuestas_especialidad.cuenta', '=', 'egresados_especialidad.cuenta')
         ->whereIN('egresados_especialidad.anio_egreso', [2020,2021,2022,2023])
         ->where(function ($query) {
             $query->whereNull('respuestas_especialidad.sec_espf')
