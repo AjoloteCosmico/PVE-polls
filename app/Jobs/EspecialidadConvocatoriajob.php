@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\EdContinuaMail;
+use App\Mail\EspecialidadConvocatoriaMail;
 use App\Models\Correo;
 
 class EspecialidadConvocatoriajob implements ShouldQueue
