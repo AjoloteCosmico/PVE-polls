@@ -6,91 +6,137 @@ use Livewire\Component;
 use App\Models\Egresado;
 use App\Models\Telefono;
 use App\Models\Correo;
+use Illuminate\Support\Collection;
 
 class PersonalData extends Component
 {
-    public $typeStudy; // 'esp', '22', 'posgrado', 'actualizacion', 'continua'
+    // Datos del modelo principal
     public $egresado;
     public $encuesta;
+    public $typeStudy; // 'esp', 'pos', 'seg', 'act', etc.
     public $carrera;
     public $plantel;
-    public $section;
+    public $section = null; // null si es encuesta SIN secciones
+    public $tieneSecciones = false;
 
-    // Estado para modales
+
+    public $telefonos = [];
+    public $correos = [];
+
+    // Propiedades reactive para Modals de Teléfono
     public $showPhoneModal = false;
+    public $phoneId = null;
+    public $telefonoInput = '';
+    public $telefonoDescripcion = '';
+
+    // Propiedades reactive para Modals de Correo
     public $showEmailModal = false;
-    
-    // Formulario reactivo para Teléfono
-    public $phone_id = null;
-    public $nuevo_telefono = '';
-    public $descripcion_telefono = '';
+    public $emailId = null;
+    public $correoInput = '';
+    public $correoStatus = '13'; // Default 'En uso'
+    public $correoDescripcion = '';
 
-    // Formulario reactivo para Correo
-    public $email_id = null;
-    public $nuevo_correo = '';
-    public $descripcion_correo = '';
-    public $status_correo = '';
 
-    public function mount($typeStudy=null, $egresado=null, $encuesta=null, $carrera = null, $plantel = null, $section = null)
+
+   public function mount($egresado, $encuesta, $typeStudy, $carrera = null, $plantel = null, $section = null, $tieneSecciones = false)
     {
-        $this->typeStudy = $typeStudy;
         $this->egresado = $egresado;
         $this->encuesta = $encuesta;
+        $this->typeStudy = $typeStudy;
         $this->carrera = $carrera;
         $this->plantel = $plantel;
         $this->section = $section;
+        $this->tieneSecciones = $tieneSecciones;
+
+
     }
 
-    // --- ACCIONES REPACTIVAS ---
-    
-    public function openCreatePhone()
+   
+
+    // --- ACCIONES REACTIVAS: TELÉFONO ---
+
+    public function abrirModalTelefono($id = null)
     {
-        $this->reset(['phone_id', 'nuevo_telefono', 'descripcion_telefono']);
+        $this->resetValidation();
+        if ($id) {
+            $tel = \App\Models\Telefono::findOrFail($id);
+            $this->phoneId = $tel->id;
+            $this->telefonoInput = $tel->telefono;
+            $this->telefonoDescripcion = $tel->descripcion;
+        } else {
+            $this->phoneId = null;
+            $this->telefonoInput = '';
+            $this->telefonoDescripcion = '';
+        }
         $this->showPhoneModal = true;
     }
 
-    public function editPhone($id, $telefono, $descripcion = '')
-    {
-        $this->phone_id = $id;
-        $this->nuevo_telefono = $telefono;
-        $this->descripcion_telefono = $descripcion;
-        $this->showPhoneModal = true;
-    }
-
-    public function savePhone()
+    public function guardarTelefono()
     {
         $this->validate([
-            'nuevo_telefono' => 'required|numeric'
+            'telefonoInput' => 'required|numeric',
         ]);
 
-        if ($this->phone_id) {
-            Telefono::where('id', $this->phone_id)->update([
-                'telefono' => $this->nuevo_telefono,
-                'descripcion' => $this->descripcion_telefono
-            ]);
-        } else {
-            Telefono::create([
+        \App\Models\Telefono::updateOrCreate(
+            ['id' => $this->phoneId],
+            [
                 'cuenta' => $this->egresado->cuenta,
-                'telefono' => $this->nuevo_telefono,
-                'descripcion' => $this->descripcion_telefono
-            ]);
-        }
+                'telefono' => $this->telefonoInput,
+                'descripcion' => $this->telefonoDescripcion,
+            ]
+        );
 
         $this->showPhoneModal = false;
-        // Refresca la relación en memoria sin recargar la página
-        $this->egresado->refresh(); 
+        $this->cargarContactos();
+        $this->dispatch('swal:success', message: 'Teléfono guardado correctamente');
+    }
+
+    // --- ACCIONES REACTIVAS: CORREO ---
+
+    public function abrirModalCorreo($id = null)
+    {
+        $this->resetValidation();
+        if ($id) {
+            $c = \App\Models\Correo::findOrFail($id);
+            $this->emailId = $c->id;
+            $this->correoInput = $c->correo;
+            $this->correoStatus = $c->status ?? '13';
+            $this->correoDescripcion = $c->descripcion;
+        } else {
+            $this->emailId = null;
+            $this->correoInput = '';
+            $this->correoStatus = '13';
+            $this->correoDescripcion = '';
+        }
+        $this->showEmailModal = true;
+    }
+
+    public function guardarCorreo()
+    {
+        $this->validate([
+            'correoInput' => 'required|email',
+        ]);
+
+        \App\Models\Correo::updateOrCreate(
+            ['id' => $this->emailId],
+            [
+                'cuenta' => $this->egresado->cuenta,
+                'correo' => $this->correoInput,
+                'status' => $this->correoStatus,
+                'descripcion' => $this->correoDescripcion,
+            ]
+        );
+
+        $this->showEmailModal = false;
+        $this->cargarContactos();
+        $this->dispatch('swal:success', message: 'Correo guardado correctamente');
     }
 
     public function render()
     {
-        // Construcción unificada de secciones según tipo de estudio
-        $secciones = $this->obtenerSecciones();
+        $secciones = $this->tieneSecciones ? $this->obtenerSecciones() : [];
 
-        return view('livewire.personal-data', [
-            'telefonos' => $this->egresado->telefonos ?? [], 
-            'correos'   => $this->egresado->correos ?? [],
-            'secciones' => $secciones
-        ]);
+        return view('livewire.personal-data');
     }
 
     private function obtenerSecciones()

@@ -5,6 +5,8 @@ use \App\Http\Controllers\ComponentController;
 @endphp
 {{-- {{session('logs')}} --}}
 
+
+{{--
 @include('encuesta.seg20.modal_create_telefono')
 @include('components.create_email', [
                         'cuenta'        => $Egresado->cuenta,
@@ -20,12 +22,30 @@ use \App\Http\Controllers\ComponentController;
                         'carrera' => $Egresado->carrera,
                         'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
                     ])
+
 @include('empresas.modal_create', ['typeStudy' => 'act'])
+--}}
+
 <div> 
         <div class="titulos">
             <h1>ENCUESTA DE ACTUALIZACION GEN 2018 UNAM</h1>
         </div>
-    <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
+
+
+    {{--<div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div> --}}
+    {{-- SECCIÓN DE DATOS PERSONALES Y MODALES UNIFICADOS EN LIVEWIRE --}}
+    
+    <div style="position: sticky; top: 0; z-index: 1020;  width: 100%;">  
+        <livewire:personal-data
+            typeStudy='act'
+            :egresado="$Egresado"
+            :carrera="$Carrera"
+            :plantel="$Plantel"
+            :encuesta="$Encuesta"
+    />
+    </div>  
+
+
     <form action="{{ url('encuestas/2018/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">
