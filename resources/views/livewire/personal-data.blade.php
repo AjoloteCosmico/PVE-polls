@@ -10,16 +10,16 @@
 
             <th>
                 Teléfonos: <br><br>
-                <button class="btn boton-dorado" wire:click="openCreatePhone" type="button">
+                <button type="button" class="btn boton-dorado" wire:click="nuevoTelefono">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono
                 </button>
             </th>
             <td style="width:15vw">
                 @foreach($telefonos as $t)
-                    <button class="btn btn-link contact_data" style="color: #002b7a; text-decoration: none;"
-                            wire:click="editPhone({{ $t->id }}, '{{ $t->telefono }}', '{{ $t->descripcion }}')">
+                    <button type="button" class="contact_data" style="color: #002b7a;"
+                            wire:click="editarTelefono({{ $t->id }})">
                         {{ $t->telefono }}
-                    </button>, &nbsp;
+                    </button>  &nbsp;
                 @endforeach
             </td>
 
@@ -78,16 +78,16 @@
             @endif
 
             <th>Correos: <br><br>
-                <button class="btn boton-dorado" wire:click="openCreateEmail" type="button">
+                <button type="button" class="btn boton-dorado" wire:click="abrirModalCorreo()" type="button">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo
                 </button>
             </th>
             <td>
                 @foreach($correos as $c)
-                    <button class="contact_data" style="color: #002b7a;"
+                    <button type="button" class="contact_data" style="color: #002b7a;"
                             wire:click="editEmail({{ $c->id }}, '{{ $c->correo }}')">
                         {{ $c->correo }}
-                    </button>, &nbsp;
+                    </button> &nbsp;
                 @endforeach
             </td>
 
@@ -148,53 +148,80 @@
 
     </table>
 
-    {{-- MODALES --}}
+    <!-- MODAL DE TELÉFONO -->
     @if($showPhoneModal)
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ $phone_id ? 'Editar' : 'Agregar' }} Teléfono</h5>
-                    <button type="button" class="close" wire:click="$set('showPhoneModal', false)">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Teléfono</label>
-                        <input type="text" class="form-control" wire:model="nuevo_telefono">
+        <div class="modal fade show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" style="font-size: 120%;">
+                <div class="modal-content" style="background-color: #131931; color: white;">
+                    
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color:white;">
+                            {{ $phoneId ? 'Editar Teléfono' : 'Nuevo Teléfono' }}
+                        </h5>
+                        <button type="button" class="close btn btn-danger" style="background-color:red;" wire:click="cerrarModal">
+                            <i class="fa fa-times fa-xl" aria-hidden="true"></i>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <input type="text" class="form-control" wire:model="descripcion_telefono">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="$set('showPhoneModal', false)">Cancelar</button>
-                    <button type="button" class="btn btn-primary" wire:click="savePhone">Guardar</button>
+
+                    <form wire:submit.prevent="guardarTelefono">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label style="color:white;">Teléfono</label>
+                                <input type="text" class="form-control modal-input" style="font-size: 120%;" wire:model="telefonoInput" required>
+                                @error('telefonoInput')
+                                    <span class="text-danger" style="font-size: 0.9rem;">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label style="color:white;">Descripción</label>
+                                <input type="text" class="form-control modal-input" style="font-size: 120%;" wire:model="telefonoDescripcion">
+                                @error('telefonoDescripcion')
+                                    <span class="text-danger" style="font-size: 0.9rem;">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" wire:click="cerrarModal">Cancelar</button>
+                            <button type="submit" class="btn btn-success text-lg">
+                                <i class="fas fa-save fa-xlg"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
+    <!-- MODAL DE CORREO -->
     @if($showEmailModal)
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ $email_id ? 'Editar' : 'Agregar' }} Correo</h5>
-                    <button type="button" class="close" wire:click="$set('showEmailModal', false)">&times;</button>
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.8); z-index: 1050;">
+        <div class="modal-dialog" style="font-size: 110%;">
+            <form wire:submit.prevent="guardarCorreo" class="modal-content">
+                <div class="modal-header" style="background-color: #131931; color: white;">
+                    <h5 class="modal-title">{{ $emailId ? 'Editar' : 'Agregar' }} Correo</h5>
+                    <button type="button" class="btn btn-danger btn-sm" wire:click="$set('showEmailModal', false)">
+                        <i class="fa fa-times"></i>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Correo</label>
-                        <input type="email" class="form-control" wire:model="nuevo_correo">
+                <div class="modal-body" style="background-color: #1a2238; color: white;">
+                    <div class="mb-3">
+                        <label>Correo Electrónico</label>
+                        <input type="email" class="form-control" wire:model="correoInput">
+                        @error('correoInput') <span class="text-danger" style="font-size:0.85rem;">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label>Descripción</label>
+                        <input type="text" class="form-control" wire:model="correoDescripcion">
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="background-color: #131931;">
                     <button type="button" class="btn btn-secondary" wire:click="$set('showEmailModal', false)">Cancelar</button>
-                    <button type="button" class="btn btn-primary" wire:click="saveEmail">Guardar</button>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar y Notificar</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     @endif

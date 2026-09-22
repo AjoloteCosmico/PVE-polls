@@ -8,15 +8,16 @@ use App\Models\Telefono;
 use App\Models\Correo;
 use Illuminate\Support\Collection;
 
+
 class PersonalData extends Component
 {
     // Datos del modelo principal
     public $egresado;
     public $encuesta;
-    public $typeStudy; // 'esp', 'pos', 'seg', 'act', etc.
+    public $typeStudy; 
     public $carrera;
     public $plantel;
-    public $section = null; // null si es encuesta SIN secciones
+    public $section = null; 
     public $tieneSecciones = false;
 
 
@@ -48,56 +49,75 @@ class PersonalData extends Component
         $this->section = $section;
         $this->tieneSecciones = $tieneSecciones;
 
+        $this->cargarContactos();
 
+
+    }
+
+    public function cargarContactos()
+    {
+        $this->telefonos = Telefono::where('cuenta', $this->egresado->cuenta)->get();
+        $this->correos = Correo::where('cuenta', $this->egresado->cuenta)->get();
     }
 
    
 
-    // --- ACCIONES REACTIVAS: TELÉFONO ---
+    // --- TELÉFONO ---
 
-    public function abrirModalTelefono($id = null)
+    public function nuevoTelefono()
     {
         $this->resetValidation();
-        if ($id) {
-            $tel = \App\Models\Telefono::findOrFail($id);
-            $this->phoneId = $tel->id;
-            $this->telefonoInput = $tel->telefono;
-            $this->telefonoDescripcion = $tel->descripcion;
-        } else {
-            $this->phoneId = null;
-            $this->telefonoInput = '';
-            $this->telefonoDescripcion = '';
-        }
+        $this->phoneId = null;
+        $this->telefonoInput = '';
+        $this->telefonoDescripcion = '';
+        $this->showPhoneModal = true;
+    }
+
+    public function editarTelefono($id)
+    {
+        $this->resetValidation();
+        $tel = Telefono::findOrFail($id);
+        $this->phoneId = $tel->id;
+        $this->telefonoInput = $tel->telefono;
+        $this->telefonoDescripcion = $tel->descripcion;
         $this->showPhoneModal = true;
     }
 
     public function guardarTelefono()
     {
-        $this->validate([
-            'telefonoInput' => 'required|numeric',
-        ]);
 
-        \App\Models\Telefono::updateOrCreate(
-            ['id' => $this->phoneId],
-            [
-                'cuenta' => $this->egresado->cuenta,
-                'telefono' => $this->telefonoInput,
-                'descripcion' => $this->telefonoDescripcion,
-            ]
-        );
+
+        if ($this->phoneId) {
+            // Edición
+            $tel = Telefono::find($this->phoneId);
+            $tel->telefono = $this->telefonoInput;
+            $tel->descripcion = $this->telefonoDescripcion;
+            $tel->save();
+            $mensaje = 'Teléfono editado correctamente';
+        } else {
+            // Nuevo registro
+            $tel = new Telefono();
+            $tel->cuenta = $this->egresado->cuenta;
+            $tel->telefono = $this->telefonoInput;
+            $tel->descripcion = $this->telefonoDescripcion;
+            $tel->status = 0;
+            $tel->save();
+            $mensaje = 'Teléfono agregado correctamente';
+        }
+
 
         $this->showPhoneModal = false;
         $this->cargarContactos();
         $this->dispatch('swal:success', message: 'Teléfono guardado correctamente');
     }
 
-    // --- ACCIONES REACTIVAS: CORREO ---
+    // --- CORREO ---
 
     public function abrirModalCorreo($id = null)
     {
         $this->resetValidation();
         if ($id) {
-            $c = \App\Models\Correo::findOrFail($id);
+            $c = Correo::findOrFail($id);
             $this->emailId = $c->id;
             $this->correoInput = $c->correo;
             $this->correoStatus = $c->status ?? '13';
@@ -114,10 +134,16 @@ class PersonalData extends Component
     public function guardarCorreo()
     {
         $this->validate([
-            'correoInput' => 'required|email',
+            'correoInput' => 'required|email|max:255|unique:correos,correo,' . $this->emailId,
+        ], [
+            'correoInput.required' => 'El correo es obligatorio.',
+            'correoInput.email' => 'Ingrese una dirección de correo válida.',
+            'correoInput.unique' => 'Este correo ya está registrado.',
         ]);
 
-        \App\Models\Correo::updateOrCreate(
+        $correoOriginal = $this->emailId ? Correo::find($this->emailId)->correo : null;
+
+        $correoObj = Correo::updateOrCreate(
             ['id' => $this->emailId],
             [
                 'cuenta' => $this->egresado->cuenta,
@@ -127,10 +153,16 @@ class PersonalData extends Component
             ]
         );
 
+
+
         $this->showEmailModal = false;
         $this->cargarContactos();
-        $this->dispatch('swal:success', message: 'Correo guardado correctamente');
+        $this->dispatch('swal:success', message: 'Correo guardado y aviso enviado correctamente');
+
     }
+
+   
+
 
     public function render()
     {
