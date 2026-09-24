@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use DateTimeInterface;
 
 abstract class AbstractEgresadoMailJob implements ShouldQueue
 {
@@ -22,7 +23,7 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
     public $tries = 3;
 
     protected array $intereses;
-    protected date $IdempotenceDate;
+    protected DateTimeInterface $IdempotenceDate;
 //al construir, solo cambia el arreglo de intereses y la fecha para validar no duplicidad
     public function __construct(?array $intereses = null,$IdempotenceDate)
     {
