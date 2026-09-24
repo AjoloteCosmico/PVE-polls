@@ -78,14 +78,14 @@
             @endif
 
             <th>Correos: <br><br>
-                <button type="button" class="btn boton-dorado" wire:click="abrirModalCorreo()" type="button">
+                <button type="button" class="btn boton-dorado" wire:click="nuevoCorreo" type="button">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo
                 </button>
             </th>
             <td>
                 @foreach($correos as $c)
                     <button type="button" class="contact_data" style="color: #002b7a;"
-                            wire:click="editEmail({{ $c->id }}, '{{ $c->correo }}')">
+                            wire:click="editarCorreo({{ $c->id }})">
                         {{ $c->correo }}
                     </button> &nbsp;
                 @endforeach
@@ -150,8 +150,8 @@
 
     <!-- MODAL DE TELÉFONO -->
     @if($showPhoneModal)
-        <div class="modal fade show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" style="font-size: 120%;">
+        <div class="modal show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
+            <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
                 <div class="modal-content" style="background-color: #131931; color: white;">
                     
                     <div class="modal-header">
@@ -197,29 +197,36 @@
 
     <!-- MODAL DE CORREO -->
     @if($showEmailModal)
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.8); z-index: 1050;">
-        <div class="modal-dialog" style="font-size: 110%;">
+    <div class="modal show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
+        <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
+
             <form wire:submit.prevent="guardarCorreo" class="modal-content">
-                <div class="modal-header" style="background-color: #131931; color: white;">
-                    <h5 class="modal-title">{{ $emailId ? 'Editar' : 'Agregar' }} Correo</h5>
-                    <button type="button" class="btn btn-danger btn-sm" wire:click="$set('showEmailModal', false)">
-                        <i class="fa fa-times"></i>
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:white;">
+                        {{ $emailId ? 'Editar Correo' : 'Agregar Correo' }}
+                    </h5>
+                    <button type="button" class="close btn btn-danger" style="background-color:red;" wire:click="cerrarModal">
+                        <i class="fa fa-times fa-xl" aria-hidden="true"></i>
                     </button>
                 </div>
-                <div class="modal-body" style="background-color: #1a2238; color: white;">
+                <div class="modal-body">
                     <div class="mb-3">
-                        <label>Correo Electrónico</label>
-                        <input type="email" class="form-control" wire:model="correoInput">
-                        @error('correoInput') <span class="text-danger" style="font-size:0.85rem;">{{ $message }}</span> @enderror
+                        <label style="color:white;">Correo Electrónico</label>
+                        <input type="email" class="form-control modal-input" style="font-size: 120%;" wire:model="correoInput" required>
+                        @error('correoInput') 
+                            <span class="text-danger" style="font-size:0.9rem;">{{ $message }}</span> 
+                        @enderror
                     </div>
+                    @if($emailId)                    
                     <div class="mb-3">
-                        <label>Descripción</label>
-                        <input type="text" class="form-control" wire:model="correoDescripcion">
+                        <label style="color:white;">Descripción</label>
+                        <input type="text" class="form-control modal-input" style="font-size: 120%;" wire:model="correoDescripcion">
                     </div>
+                    @endif
                 </div>
                 <div class="modal-footer" style="background-color: #131931;">
-                    <button type="button" class="btn btn-secondary" wire:click="$set('showEmailModal', false)">Cancelar</button>
-                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Guardar y Notificar</button>
+                    <button type="button" class="btn btn-secondary" wire:click="cerrarModal">Cancelar</button>
+                    <button type="submit" class="btn btn-success text-lg"><i class="fas fa-save fa-xlg"></i> Guardar</button>
                 </div>
             </form>
         </div>
