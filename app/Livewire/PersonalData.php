@@ -86,16 +86,24 @@ class PersonalData extends Component
     public function guardarTelefono()
     {
 
+        $this->validate([
+            'telefonoInput' => 'required|string|max:20|unique:telefonos,telefono,' . ($this->phoneId ?? 'NULL'),
+            'telefonoDescripcion' => 'nullable|string|max:255',
+        ], [
+            'telefonoInput.required' => 'El campo teléfono es obligatorio.',
+            'telefonoInput.unique' => 'Este número ya está registrado.',
+        ]);
+
 
         if ($this->phoneId) {
-            // Edición
+            // Editar tel
             $tel = Telefono::find($this->phoneId);
             $tel->telefono = $this->telefonoInput;
             $tel->descripcion = $this->telefonoDescripcion;
             $tel->save();
             $mensaje = 'Teléfono editado correctamente';
         } else {
-            // Nuevo registro
+            // Nuevo tel
             $tel = new Telefono();
             $tel->cuenta = $this->egresado->cuenta;
             $tel->telefono = $this->telefonoInput;
@@ -108,50 +116,66 @@ class PersonalData extends Component
 
         $this->showPhoneModal = false;
         $this->cargarContactos();
-        $this->dispatch('swal:success', message: 'Teléfono guardado correctamente');
+        $this->dispatch('swal:success', message: $mensaje);
     }
 
+
+
+    
     // --- CORREO ---
 
-    public function abrirModalCorreo($id = null)
+
+    public function nuevoCorreo()
     {
         $this->resetValidation();
-        if ($id) {
-            $c = Correo::findOrFail($id);
-            $this->emailId = $c->id;
-            $this->correoInput = $c->correo;
-            $this->correoStatus = $c->status ?? '13';
-            $this->correoDescripcion = $c->descripcion;
-        } else {
-            $this->emailId = null;
-            $this->correoInput = '';
-            $this->correoStatus = '13';
-            $this->correoDescripcion = '';
-        }
+        $this->emailId = null;
+        $this->correoInput = '';
+        $this->correoStatus = '13';
+        $this->correoDescripcion = '';
         $this->showEmailModal = true;
     }
 
+
+    public function editarCorreo($id)
+    {
+        $this->resetValidation();
+        $correo = Correo::findOrFail($id);
+        $this->emailId = $correo->id;
+        $this->correoInput = $correo->correo;
+        $this->correoStatus = $correo->status;
+        $this->correoDescripcion = $correo->descripcion;
+        $this->showEmailModal = true;
+    }
+
+
     public function guardarCorreo()
     {
+        
         $this->validate([
-            'correoInput' => 'required|email|max:255|unique:correos,correo,' . $this->emailId,
+            'correoInput' => 'required|email|max:40|unique:correos,correo,' . ($this->emailId ?? 'NULL'),
         ], [
             'correoInput.required' => 'El correo es obligatorio.',
             'correoInput.email' => 'Ingrese una dirección de correo válida.',
             'correoInput.unique' => 'Este correo ya está registrado.',
         ]);
 
-        $correoOriginal = $this->emailId ? Correo::find($this->emailId)->correo : null;
-
-        $correoObj = Correo::updateOrCreate(
-            ['id' => $this->emailId],
-            [
-                'cuenta' => $this->egresado->cuenta,
-                'correo' => $this->correoInput,
-                'status' => $this->correoStatus,
-                'descripcion' => $this->correoDescripcion,
-            ]
-        );
+        if($this->emailId) {
+            // Editar correo
+            $correo = Correo::find($this->emailId);
+            $correo->correo = $this->correoInput;
+            $correo->status = $this->correoStatus;
+            $correo->descripcion = $this->correoDescripcion;
+            $correo->enviado = 0;
+            $correo->save();
+        } else {
+            // Nuevo correo
+            $correo = new Correo();
+            $correo->cuenta = $this->egresado->cuenta;
+            $correo->correo = $this->correoInput;
+            $correo->status = $this->correoStatus;
+            $correo->descripcion = 'en Uso';
+            $correo->save();
+        }
 
 
 
@@ -161,14 +185,28 @@ class PersonalData extends Component
 
     }
 
-   
+
+
+
+
+    // Método  para cerrar modals
+    public function cerrarModal()
+    {
+        $this->showPhoneModal = false;
+        $this->showEmailModal = false;
+        $this->resetValidation();
+    }
+
+
 
 
     public function render()
     {
         $secciones = $this->tieneSecciones ? $this->obtenerSecciones() : [];
 
-        return view('livewire.personal-data');
+        return view('livewire.personal-data', [
+            'secciones' => $secciones,
+        ]);
     }
 
     private function obtenerSecciones()
