@@ -121,7 +121,7 @@ public function send_continua(){
     $idempotenceDate = now()->subDay(); // o now()->startOfDay(), etc.
 
     // Intereses por defecto (null) + fecha obligatoria
-    SendContinuaJob::dispatch(null, $idempotenceDate);
+    dispatch(new \App\Jobs\SendContinuaJob(null, $idempotenceDate));
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
 
