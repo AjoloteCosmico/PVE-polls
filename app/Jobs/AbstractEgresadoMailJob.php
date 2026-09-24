@@ -16,12 +16,14 @@ use Illuminate\Support\Facades\Mail;
 abstract class AbstractEgresadoMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    //por defecto sin tiempo limite
     public $timeout = 0;
+    //maximo 3 intentos
     public $tries = 3;
 
     protected array $intereses;
-
+    protected date $IdempotenceDate;
+//al construir, solo cambia el arreglo de intereses y la fecha para validar no duplicidad
     public function __construct(?array $intereses = null,$IdempotenceDate)
     {
         $this->intereses = $intereses ?? $this->getDefaultIntereses();
@@ -35,6 +37,7 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
 
     abstract protected function getDefaultIntereses(): array;
 
+    //todo este rollo solo es para traer de la clase Mail el type que graba en email_Tracking al enviarse
     protected function getTrackingType(): string
     {
         $mailClass = $this->getMailClass();
@@ -51,9 +54,10 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
 
         return (string) $reflectionMethod->invoke($mailInstance);
     }
-
+//logica en que se procesa el envio
     public function handle()
     {
+        //aqui en cada clase especifica se define elq uery para encontrar los egresados
         $this->buildQuery()
             ->lazy(100)
             ->each(function ($eg) {
@@ -73,11 +77,12 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
                     foreach ($correos as $correo) {
                         $email = trim(strtolower($correo->correo));
 
+                       //validacion de formato, aqui se podria agregar la logica para reparar
                         if (empty($email) || $email === 'nan' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                             Log::warning("Correo inválido omitido para la cuenta {$eg->cuenta}: " . $correo->correo);
                             continue;
                         }
-
+                       // chekeo de no duplicidad (idempotencia de la operación)
                         $already = DB::table('email_tracking')
                             ->where('recipient_email', $email)
                             ->where('type', $this->getTrackingType())
@@ -94,7 +99,7 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
                         Mail::to($email)->queue((new $mailClass($specific))->onQueue('emails'));
                     }
                 } catch (\Exception $e) {
-                    Log::error('AbstractEgresadoMailJob error cuenta ' . $eg->cuenta . ' : ' . $e->getMessage());
+                    Log::error('AbstractEgresadoMailJob error cuenta ' . $eg->cuenta . ' : ' . $e->getMessage() . $this->getTrackingType());
                 }
             });
     }

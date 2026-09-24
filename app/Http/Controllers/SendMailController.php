@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Egresado;
+use App\Models\EgresadoEspecialidad;
 use App\Models\Correo;
 use App\Mail\testingMail;
 use App\Mail\InvMail;
@@ -20,7 +21,7 @@ use DB;
 class SendMailController extends Controller
 {
     public function test($id){
-        $Egresado=Egresado::find($id);
+        $Egresado=EgresadoEspecialidad::find($id);
         $Correos=Correo::where('cuenta',$Egresado->cuenta)->get();
         //INTERESES ESPECIALIDAD
         $intereses = [
@@ -40,7 +41,7 @@ class SendMailController extends Controller
             $specific_data=$data + ['correo' => $correo->correo, 'correo_id'=>$correo->id];
             Mail::to($correo->correo)->queue(new EspecialidadConvocatoriaMail($specific_data));
         }
-        return 'Correo enviado'.$Correos->pluck('correo');
+        return 'Correo enviado conv esp'.$Correos->pluck('correo');
     }
 
     public function send_test() {
@@ -116,15 +117,11 @@ public function send_prioritary_mail(Request $request) {
     
 }
 public function send_continua(){
-    $intereses = [
-        ['text' => 'Trámita tu credencial de egresado', 'link' => 'https://www.pveaju.unam.mx/credencial/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/credencial.png'],
-        ['text' => 'Bolsa de trabajo UNAM', 'link' => 'https://but.unam.mx/siiabut/public/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/entrevista.png'],
-        ['text' => '¿Problemas para titularte? Primer Feria de titulación 2026', 'link' => 'https://titulacion.unam.mx/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/feria_tit.png'],
-        ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
-    ];
-    // Despacha job en background y responde inmediatamente
-    dispatch(new \App\Jobs\SendContinuaJob($intereses));
+// Fecha de idempotencia: no reenviar correos trackeados desde esta fecha en adelante
+    $idempotenceDate = now()->subDay(); // o now()->startOfDay(), etc.
 
+    // Intereses por defecto (null) + fecha obligatoria
+    SendContinuaJob::dispatch(null, $idempotenceDate);
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
 
@@ -136,6 +133,7 @@ public function send_convocatoria_especialidad(){
             ['text' => 'Bolsa de trabajo UNAM', 'link' => 'https://but.unam.mx/siiabut/public/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/entrevista.png'],
             ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
         ];
+        
     // Despacha job en background y responde inmediatamente
     dispatch(new \App\Jobs\EspecialidadConvocatoriajob($intereses));
 

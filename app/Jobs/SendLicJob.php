@@ -16,10 +16,10 @@ class SendLicJob  extends AbstractEgresadoMailJob
             ->leftJoin('respuestas20', 'respuestas20', '=', 'egresados.cuenta')
             ->where('egresados.muestra','=','5')
             ->where(function ($query) {
-                $query->whereNull('respuestas_especialidad.completed')
+                $query->whereNull('respuestas20.completed')
                     ->orWhere('respuestas20.completed', '!=', '1');
             })
-            ->select('egresados.id', 'egresados.cuenta', 'egresados.nombre', 'egresados.paterno')
+            ->select('egresados.id', 'egresados.cuenta', 'egresados.nombre', 'egresados.paterno','egresados.carrera')
             ->orderByDesc('egresados.id');
     }
 
