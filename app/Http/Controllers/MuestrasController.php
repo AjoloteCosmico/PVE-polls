@@ -948,6 +948,7 @@ public function show_unificado($carrera, $plantel, $muestra_id){
         'egresado_muestra.llamadas as llamadas_continua', //LAMADAS VERDES
         'codigos.code as codigo_status'
     )
+    ->limit(600)
     ->get();
 
   $Codigos = DB::table('codigos')
