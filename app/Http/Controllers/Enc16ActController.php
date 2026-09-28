@@ -25,6 +25,7 @@ use App\Traits\LogEvents;
 class Enc16ActController extends Controller
 {
     use LogEvents;
+   
 
     public function comenzar($correo, $cuenta, $carrera)
     {

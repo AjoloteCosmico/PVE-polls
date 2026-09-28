@@ -5,18 +5,30 @@ use \App\Http\Controllers\ComponentController;
 @endphp
 {{-- {{session('logs')}} --}}
 
-@include('encuesta.seg20.modal_create_telefono')
-@include('encuesta.seg20.modal_create_correo')
 @include('empresas.modal_create', ['typeStudy' => 'ed_continua'])
 
 <div class="container-fluid">
     <br><br><br>
 <div>
-    <div class="titulos">
-            <h1>ENCUESTA DE EDUCACION CONTINUA UNAM {{session('status') }}</h1>
-    </div>
+        <div class="titulos">
+                <h1>ENCUESTA DE EDUCACION CONTINUA UNAM </h1>
+        </div>
+
+        {{-- SECCIÓN DE DATOS PERSONALES Y MODALES UNIFICADOS EN LIVEWIRE --}}
     
-    <div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div>
+    <div style="position: sticky; top: 0; z-index: 1020;  width: 100%;">  
+        <livewire:personal-data
+            typeStudy='ed_continua'
+            :egresado="$Egresado"
+            :carrera="$Carrera"
+            :plantel="$Plantel"
+            :encuesta="$Encuesta"
+    />
+    </div>  
+    
+    
+   
+   
     <form action="{{ url('encuestas/continua/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>
     @csrf
     <input type="hidden" value="" name="btn_pressed" id="btn-pressed">

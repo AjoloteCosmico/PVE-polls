@@ -9,41 +9,22 @@ $reactivosEnTablas=array();
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
 @include('empresas.modal_create', ['typeStudy' => 'esp'])
-@include('components.create_phone', [
-                        'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => $Encuesta->registro,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $Egresado->carrera,
-                   ])
-@include('components.edit_email', [
-                        'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => $Encuesta->registro,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $Egresado->carrera,
-                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
-                   ])
-                   @include('components.edit_phone', [
-                        'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => $Encuesta->registro,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $Egresado->carrera,
-                   ])
-@include('components.create_email', [
-                        'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => $Encuesta->registro,
-                        'typeStudy'  => 'esp',
-                        'carrera' => $Egresado->carrera,
-                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
-                   ])
-<div>
-    <div class="titulos">
-        <h1>ENCUESTA DE SEGUIMIENTO GEN 2022 UNAM</h1>
-    </div>
 
-    {{-- Sección de datos personales --}}
-    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 1000;">
-        @include('especialidad.personal_data')
-    </div>
+<div>
+        <div class="titulos">
+            <h1>ENCUESTA DE ESPECIALIDAD UNAM</h1>
+        </div>
+
+         {{-- SECCIÓN DE DATOS PERSONALES Y MODALES UNIFICADOS EN LIVEWIRE --}}
+    
+    <div style="position: sticky; top: 0; z-index: 1020;  width: 100%;">  
+        <livewire:personal-data
+            typeStudy='esp'
+            :egresado="$Egresado"
+            :encuesta="$Encuesta"
+            :tieneSecciones="true"
+    />
+    </div>  
     <br>
     <br>
 

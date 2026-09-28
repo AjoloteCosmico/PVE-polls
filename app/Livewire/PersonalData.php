@@ -6,15 +6,19 @@ use Livewire\Component;
 use App\Models\Egresado;
 use App\Models\Telefono;
 use App\Models\Correo;
+use App\Traits\EnviaAvisoPrivacidad;
 use Illuminate\Support\Collection;
 
 
 class PersonalData extends Component
 {
+    use EnviaAvisoPrivacidad;
     // Datos del modelo principal
     public $egresado;
     public $encuesta;
-    public $typeStudy; 
+    public $typeStudy;
+    public $plan;
+    public $programa; 
     public $carrera;
     public $plantel;
     public $section = null; 
@@ -185,6 +189,27 @@ class PersonalData extends Component
 
     }
 
+    public function enviarAvisoPrivacidad()
+    {
+        $correo = Correo::findOrFail($this->emailId);
+
+        try {
+
+            $this->enviarAviso($correo->id, $correo->correo, $this->egresado->nombre, $this->egresado->cuenta);
+            $correo->enviado = 1;
+            $correo->save();
+            $this->dispatch('swal:success', message: 'Aviso de privacidad enviado correctamente');
+        } catch (\Exception $e) {
+            
+            $correo->enviado = 2;
+            $correo->save();
+            $this->dispatch('swal:error', message: 'Error al enviar el aviso de privacidad: ' . $e->getMessage());
+        }
+        $this->cargarContactos();
+        $this->cerrarModal();
+
+    }
+
 
 
 
@@ -213,13 +238,20 @@ class PersonalData extends Component
     {
         // Mapea las secciones según el tipo de estudio sin enredar la vista Blade
         return match($this->typeStudy) {
-            '22' => [
+            'seg' => [
                 ['clave' => 'A', 'etiqueta' => 'Sección A', 'completada' => $this->encuesta->sec_a == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'A'])],
                 ['clave' => 'E', 'etiqueta' => 'Sección E', 'completada' => $this->encuesta->sec_e == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'E'])],
                 ['clave' => 'F', 'etiqueta' => 'Sección F', 'completada' => $this->encuesta->sec_f == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'F'])],
                 ['clave' => 'C', 'etiqueta' => 'Sección C', 'completada' => $this->encuesta->sec_c == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'C'])],
                 ['clave' => 'D', 'etiqueta' => 'Sección D', 'completada' => $this->encuesta->sec_d == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'D'])],
                 ['clave' => 'G', 'etiqueta' => 'Sección G', 'completada' => $this->encuesta->sec_g == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'G'])],
+            ],
+            'posgrado' => [
+                ['clave' => 'pA', 'etiqueta' => 'Sección A', 'completada' => ($this->encuesta->sec_pa ?? 0) == 1, 'url' => route('posgrado.show', ['pA', $this->encuesta->registro])],
+                ['clave' => 'pB', 'etiqueta' => 'Sección B', 'completada' => ($this->encuesta->sec_pb ?? 0) == 1, 'url' => route('posgrado.show', ['pB', $this->encuesta->registro])],
+                ['clave' => 'pC', 'etiqueta' => 'Sección C', 'completada' => ($this->encuesta->sec_pc ?? 0) == 1, 'url' => route('posgrado.show', ['pC', $this->encuesta->registro])],
+                ['clave' => 'pD', 'etiqueta' => 'Sección D', 'completada' => ($this->encuesta->sec_pd ?? 0) == 1, 'url' => route('posgrado.show', ['pD', $this->encuesta->registro])],
+                ['clave' => 'pE', 'etiqueta' => 'Sección E', 'completada' => ($this->encuesta->sec_pe ?? 0) == 1, 'url' => route('posgrado.show', ['pE', $this->encuesta->registro])],
             ],
             'esp' => [
                 ['clave' => 'espA', 'etiqueta' => 'Sección A', 'completada' => $this->encuesta->sec_espa == 1, 'url' => route('especialidad.show', ['espA', $this->encuesta->registro])],

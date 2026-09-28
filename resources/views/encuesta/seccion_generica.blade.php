@@ -8,17 +8,28 @@ use \App\Http\Controllers\ComponentController;
 
 {{-- Incluye tu modal si es necesario, adaptando el nombre del archivo --}}
 @include('empresas.modal_create', ['typeStudy' => 'seg'])
-@include('encuesta.seg20.modal_create_telefono')
-@include('encuesta.seg20.modal_create_correo')
-<div>
-    <div class="titulos">
-        <h1>ENCUESTA DE SEGUIMIENTO GEN 2022 UNAM</h1>
-    </div>
 
-    {{-- Sección de datos personales --}}
-    <div id='datos' style="position: fixed; top: 0px; left: flex;z-index: 200;">
-        @include('encuesta.personal_data_22')
-    </div>
+
+<div>
+        <div class="titulos">
+            <h1>ENCUESTA DE SEGUIMIENTO GEN 2022 UNAM</h1>
+        </div>
+
+         {{-- SECCIÓN DE DATOS PERSONALES Y MODALES UNIFICADOS EN LIVEWIRE --}}
+    
+    <div style="position: sticky; top: 0; z-index: 1020;  width: 100%;">  
+        <livewire:personal-data
+            typeStudy='seg'
+            :egresado="$Egresado"
+            :carrera="$Carrera"
+            :plantel="$Plantel"
+            :encuesta="$Encuesta"
+            :tieneSecciones="true"
+    />
+    </div>  
+
+
+    
     <br>
     <br>
 

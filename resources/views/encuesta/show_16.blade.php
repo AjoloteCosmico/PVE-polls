@@ -4,27 +4,8 @@
 use \App\Http\Controllers\ComponentController; 
 @endphp
 {{-- {{session('logs')}} --}}
-
-
-{{--
-@include('encuesta.seg20.modal_create_telefono')
-@include('components.create_email', [
-                        'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => $Encuesta->registro,
-                        'typeStudy'  => 'act',
-                        'carrera' => $Egresado->carrera,
-                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
-                    ])
-@include('components.edit_email', [
-                        'cuenta'        => $Egresado->cuenta,
-                        'respuestasKey'         => $Encuesta->registro,
-                        'typeStudy'  => 'act',
-                        'carrera' => $Egresado->carrera,
-                        'EgName'=> $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
-                    ])
-
 @include('empresas.modal_create', ['typeStudy' => 'act'])
---}}
+
 
 <div> 
         <div class="titulos">
@@ -32,7 +13,6 @@ use \App\Http\Controllers\ComponentController;
         </div>
 
 
-    {{--<div  id='datos' style=" position: fixed; top: 0px; left: flex ">  @include('encuesta.personal_data_16') </div> --}}
     {{-- SECCIÓN DE DATOS PERSONALES Y MODALES UNIFICADOS EN LIVEWIRE --}}
     
     <div style="position: sticky; top: 0; z-index: 1020;  width: 100%;">  
