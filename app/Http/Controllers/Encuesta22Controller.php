@@ -162,7 +162,7 @@ class Encuesta22Controller extends Controller
 
         //Modificacion 1
 
-        // TODO: CARGAR SOLOR EACTIVOS DE LAS SECCIONES DE SEGUIMIENTO LICENCIATURA Y NO TODA LA TABLA
+        /*
         $AllBloqueos = Bloqueo::all();
         $AllAnswers = $Encuesta->toArray();
 
@@ -185,7 +185,46 @@ class Encuesta22Controller extends Controller
                     }
                 }
             }
-            
+        }
+         */
+
+        // TODO: CARGAR SOLOR EACTIVOS DE LAS SECCIONES DE SEGUIMIENTO LICENCIATURA Y NO TODA LA TABLA
+        $AllBloqueos = Bloqueo::all();
+        $AllAnswers = $Encuesta->toArray();
+
+       // Pre-cargamos todos los reactivos bloqueantes en un mapa clave→reactivo
+        $clavesReactivosBloqueantes = $AllBloqueos->pluck('clave_reactivo')->unique();
+        $reactivosBloqueantesMap = Reactivo::whereIn('clave', $clavesReactivosBloqueantes)
+            ->get()
+            ->keyBy('clave');
+
+        // Pre-cargamos las respuestas múltiples
+        $clavesMultiple = $clavesReactivosBloqueantes->filter(function ($clave) use ($reactivosBloqueantesMap) {
+            return isset($reactivosBloqueantesMap[$clave]) &&
+                $reactivosBloqueantesMap[$clave]->type === 'multiple_option';
+        });
+
+        $answersMultipleMap = multiple_option_answer::where('encuesta_id', $Encuesta->registro)
+            ->whereIn('reactivo', $clavesMultiple)
+            ->get()
+            ->groupBy('reactivo');
+
+        $BloqueosActivos = collect();
+        foreach ($AllBloqueos as $bloqueo) {
+            $reactivoBloqueante = $reactivosBloqueantesMap[$bloqueo->clave_reactivo] ?? null;
+            if (!$reactivoBloqueante) continue;
+            if ($reactivoBloqueante->section === $section) continue;
+
+            if ($reactivoBloqueante->type === 'multiple_option') {
+                $respuestasDelReactivo = $answersMultipleMap->get($bloqueo->clave_reactivo, collect());
+                if ($respuestasDelReactivo->where('clave_opcion', $bloqueo->valor)->isNotEmpty()) {
+                    $BloqueosActivos->push($bloqueo);
+                }
+            } else {
+                if (($AllAnswers[$bloqueo->clave_reactivo] ?? null) == $bloqueo->valor) {
+                    $BloqueosActivos->push($bloqueo);
+                }
+            }
         }
 
 
