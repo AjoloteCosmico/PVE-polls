@@ -189,7 +189,7 @@ class Encuesta22Controller extends Controller
          */
 
         // TODO: CARGAR SOLOR EACTIVOS DE LAS SECCIONES DE SEGUIMIENTO LICENCIATURA Y NO TODA LA TABLA
-        $AllBloqueos = Bloqueo::all();
+        $AllBloqueos = Bloqueo::where('clave_reactivo','like','%n%r%')->get();
         $AllAnswers = $Encuesta->toArray();
 
        // Pre-cargamos todos los reactivos bloqueantes en un mapa clave→reactivo
