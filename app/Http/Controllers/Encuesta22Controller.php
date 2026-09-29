@@ -111,7 +111,6 @@ class Encuesta22Controller extends Controller
         $Encuesta = respuestas20::where("registro", $id)->first();
         $Egresado = Egresado::where('anio_egreso',2022)
                     ->orWhere("muestra", 5)
-                    ->get()
                     ->where("cuenta", $Encuesta->cuenta)
                     ->first();
                     
@@ -564,8 +563,5 @@ class Encuesta22Controller extends Controller
             return redirect()->route("muestras22.index", $Encuesta->nbr3);
         }
     }
-
-
-
     
 }
