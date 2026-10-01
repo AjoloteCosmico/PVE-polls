@@ -110,7 +110,7 @@ class Encuesta22Controller extends Controller
         $this->recordEvent($id, 'edit_22', $section);
         $Encuesta = respuestas20::where("registro", $id)->first();
         $Egresado = Egresado::where('anio_egreso',2022)
-                    ->orWhere("muestra", 5)
+                    ->where("muestra", 5)
                     ->where("cuenta", $Encuesta->cuenta)
                     ->first();
                     
