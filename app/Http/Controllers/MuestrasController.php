@@ -20,6 +20,7 @@ use App\Models\respuestas20;
 use App\Models\respuestas16;
 use App\Models\respuestas14;
 use App\Models\respuestasPosgrado;
+use App\Models\respuestasEspecialidad;
 
 use App\Traits\LogEvents;
 
@@ -774,7 +775,37 @@ public function revision_posgrado(){
     }
 
     return view('muestras.posgrado.revision_posgrado', compact('Encuestas'));
-  }
+}
+
+public function revision_especialidad(){
+
+    $Encuestas = respuestasEspecialidad::leftJoin('egresados_especialidad', function($join) {
+              $join->on(DB::raw('CAST(egresados_especialidad.cuenta AS TEXT)'), '=', DB::raw('CAST(respuestas_especialidad.cuenta AS TEXT)'));
+              $join->on('egresados_especialidad.especialidad', '=', 'respuestas_especialidad.especialidad');
+    })
+    ->leftJoin('users', function($join) {
+        $join->on(DB::raw('CAST(users.clave AS TEXT)'), '=', DB::raw('CAST(respuestas_especialidad.aplica AS TEXT)'));
+    })
+
+    ->select('respuestas_especialidad.*',
+        'egresados_especialidad.nombre', 
+        'egresados_especialidad.paterno', 
+        'egresados_especialidad.materno',
+        'egresados_especialidad.especialidad as especialidad_nombre', 
+        'users.name as aplicador_nombre', 
+    )
+    ->where('respuestas_especialidad.completed', 1)
+    ->whereBetween('egresados_especialidad.anio_egreso', [2020, 2023])
+    ->get();
+
+    if(Auth::user()->confidential < 2){
+        $Encuestas = $Encuestas->where('aplica', Auth::user()->clave);
+    }
+
+    return view('muestras.especialidad.revision_especialidad', compact('Encuestas'));
+    
+}
+
 
 
 
