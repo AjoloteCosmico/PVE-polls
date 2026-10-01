@@ -218,7 +218,7 @@ public function index_general($gen,$id){
     // Encuestas requeridas
     $c->requeridas = $queryBase
     ->count();
-
+//avisar sobre telefonos nuevos, se que se ve poco optimo, pero puse un indice en cuenta,telefono en la base
     $c->nuevos_telefonos = DB::table('egresados as e')
         ->join('telefonos as t', 'e.cuenta', '=', 't.cuenta')
         ->whereIn('t.status', ['0','13','en uso','from destacados'])
