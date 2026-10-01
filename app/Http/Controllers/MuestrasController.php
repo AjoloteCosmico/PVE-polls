@@ -227,8 +227,8 @@ public function index_general($gen,$id){
         ->where('e.carrera', $c->c)
         ->where('e.plantel', $c->p)
         ->count('e.cuenta');
-
   }
+  
   return view('muestras.act16.index',compact('carreras','gen'));
   
   //CHECA GENERACION 2020

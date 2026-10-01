@@ -11,7 +11,6 @@ use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-
 use App\traits\EnviaAvisoPrivacidad;
 use App\Mail\InvMail;
 use App\Mail\EspMail;

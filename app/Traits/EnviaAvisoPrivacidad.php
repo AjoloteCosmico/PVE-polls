@@ -6,6 +6,7 @@ use App\Models\Correo;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AvisoPrivacidadMail;
 
+
 trait EnviaAvisoPrivacidad
 {
     protected function enviarAviso($emailId, $recipientEmail, $nombreEgresado, $cuenta)
