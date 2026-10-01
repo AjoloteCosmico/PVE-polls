@@ -93,7 +93,7 @@
                 style="background-color: {{$telefono->color_rgb}}"  
                 data-target="{{'#demo'.$telefono->id}}">
 
-                <h3 class="text-white-40"> {{$telefono->telefono}}</h3>
+                <h3 class="text-white-40"> {{$telefono->telefono}}</h3> &nbsp; {{$telefono->descripcion}}
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno" >
                 <br>

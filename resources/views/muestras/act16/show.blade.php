@@ -58,7 +58,9 @@
                 @if($carrera==0)
             <td> {{$e->name_carrera}} </td>
             @endif
-               <td>{{$e->llamadas}} </td>
+               <td data-warning-phone
+                  data-num-telefonos="{{ (int) $e->num_telefonos }}"
+                  data-status="{{ $e->status }}">{{$e->llamadas}} </td>
                <td @if($e->description=='') class='focoso' @endif> {{$e->description}}</td>
                 <td> 
                 <p hidden> {{$e->orden}}</p>
@@ -105,6 +107,28 @@
 <script src="https://cdn.datatables.net/fixedheader/4.0.0/js/fixedHeader.dataTables.js"></script>
 
 <script>
+  
+// agregar el aviso de telefonos sin recados
+  document.addEventListener('DOMContentLoaded', function () {
+    requestAnimationFrame(function () {
+      const warningCells = document.querySelectorAll('[data-warning-phone]');
+
+      warningCells.forEach(function (cell) {
+        if (cell.dataset.warningApplied === 'true') return;
+
+        const numTelefonos = Number(cell.dataset.numTelefonos || 0);
+        const status = String(cell.dataset.status || '');
+        const shouldWarn = numTelefonos > 0 && !['1', '2'].includes(status);
+
+        if (shouldWarn) {
+          const text = document.createTextNode(` (⚠️ ${numTelefonos} telefonos sin recados)`);
+          cell.appendChild(text);
+          cell.dataset.warningApplied = 'true';
+        }
+      });
+    });
+  });
+
   new DataTable('#myTable', {
     fixedHeader: true,
     @if($carrera>0)

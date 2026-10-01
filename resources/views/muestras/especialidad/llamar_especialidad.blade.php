@@ -58,7 +58,7 @@
 
     <div>
         <div class="elementos-centrados titulos">
-            <h3 class="text-white-35" id="layer"> NUMEROS DE TELEFONO </h3>
+            <h3 class="text-white-35" id="layer"> NUMEROS DE TELEFONO </h3> 
         </div>
         @foreach($Telefonos as $telefono)
         <center>
@@ -70,7 +70,7 @@
                 style="background-color: {{$telefono->color_rgb}}"  
                 data-target="{{'#demo'.$telefono->id}}">
 
-                <h3 class="text-white-40"> {{$telefono->telefono}}</h3>
+                <h3 class="text-white-40"> {{$telefono->telefono}}</h3> &nbsp; {{$telefono->descripcion}}
             </button>
             <div id="{{'demo'.$telefono->id}}" class="collapse elementos-centrados tel-contorno">
                 <br>

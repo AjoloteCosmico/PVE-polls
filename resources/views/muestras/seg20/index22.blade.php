@@ -34,7 +34,7 @@
                 <td> {{number_format((($c->nencuestas_tel+$c->nencuestas_int) *100)/$c->requeridas_5,2)}} %</td>
                 <th> - </th>
                 <td><a href="{{route('muestras22.show22',[$c->c,$c->p])}}" > <button class="boton-oscuro" >Ver Muestra </button></a></td>
-                <td></td>
+                <td> @if($c->nuevos_telefonos) <i class="fa-solid fa-phone"></i> <p style="font-size: 10px;">{{$c->nuevos_telefonos}}  egresados con telefonos sin recados</p> @endif</td>
               </tr>
             @endforeach
           </tbody>

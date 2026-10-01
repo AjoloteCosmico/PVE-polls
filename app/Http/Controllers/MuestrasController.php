@@ -177,7 +177,6 @@ public function plantel_index_16(){
 */
 
 public function index_general($gen,$id){
-
   //CHECA GENERACION 2018
   if ($gen==18){
     $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
@@ -218,6 +217,16 @@ public function index_general($gen,$id){
     // Encuestas requeridas
     $c->requeridas = $queryBase
     ->count();
+
+    $c->nuevos_telefonos = DB::table('egresados as e')
+        ->join('telefonos as t', 'e.cuenta', '=', 't.cuenta')
+        ->whereIn('t.status', ['0','13','en uso','from destacados'])
+        ->where('e.act_suvery', '2')
+        ->whereNotIn('e.status',['1','2'])
+        ->where('e.carrera', $c->c)
+        ->where('e.plantel', $c->p)
+        ->count('e.cuenta');
+
   }
   return view('muestras.act16.index',compact('carreras','gen'));
   
@@ -433,7 +442,17 @@ public function index_22($id){
     $c->nencuestas_int = $queryBase
     ->where('status', 2)
     ->count();
-     if($id==0){
+
+    $c->nuevos_telefonos = DB::table('egresados as e')
+        ->join('telefonos as t', 'e.cuenta', '=', 't.cuenta')
+        ->whereIn('t.status', ['0','13','en uso','from destacados'])
+        ->where('e.muestra', '5')
+        ->whereNotIn('e.status',['1','2'])
+        ->where('e.carrera', $c->c)
+        ->where('e.plantel', $c->p)
+        ->count('e.cuenta');
+
+    if($id==0){
       $c->pob=Egresado::where('anio_egreso', '2022')
     ->where('carrera', $c->c)
     ->where('plantel', $c->p)
@@ -612,9 +631,17 @@ public function show_20($carrera,$plantel){
 
 public function show_16($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
+  //join optimizado para localizar egresados con telefonos
+  $subTelefonos = DB::table('telefonos')
+    ->select('cuenta', DB::raw('COUNT(DISTINCT cuenta) AS num_telefonos'))
+    ->whereIn('status', ['0','13','en uso','from destacados'])
+    ->groupBy('cuenta');
   $muestra=DB::table('egresados')->where('act_suvery','=','2')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
     ->leftJoin('codigos','codigos.code','=','egresados.status')
-    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+    ->leftJoinSub($subTelefonos, 'tel', 'tel.cuenta', '=', 'egresados.cuenta')
+    ->select('egresados.*',
+             'codigos.color_rgb','codigos.description','codigos.orden',
+              DB::raw('COALESCE(tel.num_telefonos, 0) AS num_telefonos'))
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
@@ -624,13 +651,26 @@ public function show_16($carrera,$plantel){
   
 }
 
-
-
 public function show_22($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
-  $muestra=DB::table('egresados')->where('muestra','=','5')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
-    ->leftJoin('codigos','codigos.code','=','egresados.status')
-    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+  $subTelefonos = DB::table('telefonos')
+    ->select('cuenta', DB::raw('COUNT(DISTINCT cuenta) AS num_telefonos'))
+    ->whereIn('status', ['0','13','en uso','from destacados'])
+    ->groupBy('cuenta');
+
+$muestra = DB::table('egresados')
+    ->where('muestra', '=', '5')
+    ->where('egresados.carrera', '=', $carrera)
+    ->where('plantel', '=', $plantel)
+    ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+    ->leftJoinSub($subTelefonos, 'tel', 'tel.cuenta', '=', 'egresados.cuenta')
+    ->select(
+        'egresados.*',
+        'codigos.color_rgb',
+        'codigos.description',
+        'codigos.orden',
+        DB::raw('COALESCE(tel.num_telefonos, 0) AS num_telefonos')
+    )
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
