@@ -12,8 +12,7 @@
             <th>Num. Cuenta</th>
             <th>Aplicador</th>
             <th>fecha</th>
-            <th>programa</th>
-            <th>plan</th>
+            <th>especialidad</th>
             <th> </th>
           </tr>
           </thead>
@@ -24,10 +23,9 @@
                 <td>{{$e->cuenta}} </td>
                 <td>{{$e->aplicador_nombre}}  </td>
                 <td>{{$e->updated_at}} </td>
-                <td> {{$e->programa_nombre}}</td>
-                <td> {{$e->plan}}</td>
+                <td> {{$e->especialidad_nombre}}</td>
                 <td>
-                  <a href="{{route('posgrado.show',['SEARCH',$e->registro])}}"> <button class="boton-oscuro"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button>
+                  <a href="{{route('especialidad.show',['SEARCH',$e->registro])}}"> <button class="boton-oscuro"> <i class="fa fa-eye" aria-hidden="true"> </i> &nbsp; Revisar </button>
                 </a>
               </td>
             </tr>
