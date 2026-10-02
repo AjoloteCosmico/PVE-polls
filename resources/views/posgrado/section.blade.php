@@ -21,6 +21,7 @@ use \App\Http\Controllers\ComponentController;
             :egresado="$Egresado"
             :encuesta="$Encuesta"
             :tieneSecciones="true"
+            :section="$section"
     />
     </div>  
 

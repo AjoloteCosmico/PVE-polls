@@ -23,6 +23,7 @@ $reactivosEnTablas=array();
             :egresado="$Egresado"
             :encuesta="$Encuesta"
             :tieneSecciones="true"
+            :section="$section"
     />
     </div>  
     <br>

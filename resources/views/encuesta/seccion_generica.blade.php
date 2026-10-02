@@ -25,6 +25,7 @@ use \App\Http\Controllers\ComponentController;
             :plantel="$Plantel"
             :encuesta="$Encuesta"
             :tieneSecciones="true"
+            :section="$section"
     />
     </div>  
 
