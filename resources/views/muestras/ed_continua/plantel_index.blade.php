@@ -19,8 +19,10 @@
 
                 @if($muestra_id == 897)
                   <td><a href="{{route('muestras_ed_continua.index',[$p->clave_plantel,$muestra_id])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
-                @else
+                @elseif($muestra_id == 898)
                   <td><a href="{{route('muestras_verde.index',[$p->clave_plantel,$muestra_id])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
+                @else
+                  <td><a href="{{route('muestras_credencial.index',[$p->clave_plantel,$muestra_id])}}"> <button class="boton-oscuro" >Ver Muestra </button></a></td>
                 @endif
               </tr>
             @endforeach

@@ -228,7 +228,7 @@ public function index_general($gen,$id){
         ->where('e.plantel', $c->p)
         ->count('e.cuenta');
   }
-  
+
   return view('muestras.act16.index',compact('carreras','gen'));
   
   //CHECA GENERACION 2020
@@ -526,7 +526,7 @@ public function index_ed_continua($id){
 
 public function index_unificado($id,$muestra_id){
 
-  if (!in_array($muestra_id, [897, 898])) {
+  if (!in_array($muestra_id, [897, 898, 899])) {
         abort(404, 'Muestra no encontrada');
       }
 
@@ -587,7 +587,7 @@ public function index_unificado($id,$muestra_id){
 
   //return view('muestras.ed_continua.index', $data);
 
-  $vista = ($muestra_id == 897) ? 'muestras.ed_continua.index' : 'muestras.verde.index';
+  $vista = ($muestra_id == 897) ? 'muestras.ed_continua.index' : (($muestra_id == 898) ? 'muestras.verde.index' :'muestras.credencial.index');
   
   return view($vista, $data);
   
@@ -949,7 +949,7 @@ public function enc_verde_plantel_index(){
 //Prubeaaaaaa
 
 public function plantel_gen($muestra_id){
-  if (!in_array($muestra_id, [897, 898])) {
+  if (!in_array($muestra_id, [897, 898,899])) {
         abort(404, 'Muestra no encontrada');
       }
 
@@ -965,7 +965,7 @@ public function plantel_gen($muestra_id){
     //$view = ($muestra_id == 897) ? 'muestras.ed_continua.plantel_index' : 'muestras.enc_verde.plantel_index';
 
   $data = [
-    'titulo' => ($muestra_id == 897) ? 'ENCUESTA DE EDUCACIÓN CONTINUA' : 'ENCUESTA DE EMPLEABILIDAD VERDE  ',
+    'titulo' => ($muestra_id == 897) ? 'ENCUESTA DE EDUCACIÓN CONTINUA' :( ($muestra_id == 897) ? 'ENCUESTA DE EMPLEABILIDAD VERDE  ': 'ENCUESTA CREDENCIAL'),
     'Planteles' => $Planteles,
     'muestra_id' => $muestra_id
   ];
@@ -996,7 +996,7 @@ public function show_continua($carrera,$plantel){
 */
 
 public function show_unificado($carrera, $plantel, $muestra_id){
-  if (!in_array($muestra_id, [897, 898])) {
+  if (!in_array($muestra_id, [897, 898, 899])) {
         abort(404, 'Muestra no encontrada');
       }
 
@@ -1009,7 +1009,7 @@ public function show_unificado($carrera, $plantel, $muestra_id){
     ->where('plantel', '=', $plantel)
     ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
     ->where('egresado_muestra.muestra_id', '=', $muestra_id) // ID de muestra específico
-
+    ->whereNotNull('egresados.anio_egreso')
     ->leftJoin('codigos', 'codigos.code', '=', 'egresado_muestra.status')
     ->select(
         'egresados.*',
@@ -1029,8 +1029,8 @@ public function show_unificado($carrera, $plantel, $muestra_id){
 
   $vista = ($muestra_id == 897) 
         ? 'muestras.ed_continua.show' 
-        : 'muestras.verde.show';
-
+        : (($muestra_id == 898) ? 'muestras.verde.show': 'muestras.credencial.show');
+  
   $this->recordEvent($muestra_id, 'show_unificado', ' '.$carrera.' '.$plantel);
   return view($vista, compact('muestra', 'Carrera', 'Codigos', 'carrera', 'plantel', 'muestra_id'));
 }

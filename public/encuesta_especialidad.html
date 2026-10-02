@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta de Especialidad</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --text-color: #333333;
+            --bg-color: #f9f9f9;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.5;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .survey-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.4rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .question-block {
+            margin-bottom: 1.5rem;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .question-header {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-key {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-family: monospace;
+            margin-right: 0.5rem;
+        }
+
+        .question-type {
+            font-size: 0.75rem;
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding-left: 1.5rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .option-item {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: #555555;
+        }
+
+        .option-key {
+            font-family: monospace;
+            color: #95a5a6;
+            margin-right: 0.5rem;
+        }
+
+        /* --- Optimizaciones para Impresión (Ctrl + P) --- */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .survey-container {
+                max-width: 100%;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            /* Evita que una pregunta se corte mal entre páginas */
+            .question-block {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .section-title {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="survey-container">
+<div class="section-title">Sección: espA</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espa1]</span>¿En qué plantel cursó su especialidad?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Facultad de Derecho (Presencial vía remota)</li>
+    <li class="option-item"><span class="option-key">2.</span> Facultad de Derecho (Escuela Nacional de Jurisprudencia)</li>
+    <li class="option-item"><span class="option-key">1.</span> Facultad de Derecho (Presencial Ciudad Universitaria)</li>
+    <li class="option-item"><span class="option-key">4.</span> FES Acatlán (Presencial)</li>
+    <li class="option-item"><span class="option-key">5.</span> FES Acatlán (Presencial vía remota)</li>
+    <li class="option-item"><span class="option-key">6.</span> FES Aragón (Presencial)</li>
+    <li class="option-item"><span class="option-key">7.</span> FES Aragón (Presencial vía remota)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espa2]</span>¿Cuál es su estado civil?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">4.</span> Unión Libre</li>
+    <li class="option-item"><span class="option-key">5.</span> Viudo(a)</li>
+    <li class="option-item"><span class="option-key">2.</span> Casado(a)</li>
+    <li class="option-item"><span class="option-key">3.</span> Divorciado(a)</li>
+    <li class="option-item"><span class="option-key">1.</span> Soltero(a)</li>
+  </ul>
+</div>
+<div class="section-title">Sección: espC</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc1]</span>¿Actualmente está trabajando?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí (permanente)</li>
+    <li class="option-item"><span class="option-key">2.</span> Sí (eventual)</li>
+    <li class="option-item"><span class="option-key">3.</span> No (sin buscar trabajo)</li>
+    <li class="option-item"><span class="option-key">4.</span> No (en búsqueda de trabajo)</li>
+    <li class="option-item"><span class="option-key">5.</span> Residente (Médico)</li>
+    <li class="option-item"><span class="option-key">6.</span> Nunca he trabajado (sin buscar)</li>
+    <li class="option-item"><span class="option-key">8.</span> Nunca he trabajado (en búsqueda)</li>
+    <li class="option-item"><span class="option-key">7.</span> Becario</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc2]</span>¿Cuántos trabajos tiene? <span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Uno</li>
+    <li class="option-item"><span class="option-key">2.</span> Dos</li>
+    <li class="option-item"><span class="option-key">3.</span> Tres o más</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc2label]</span>Si actualmente cuenta con más de un empleo, las siguientes preguntas se responderán con base en su trabajo principal.<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc3]</span>¿En qué sector labora?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Social</li>
+    <li class="option-item"><span class="option-key">2.</span> Privado</li>
+    <li class="option-item"><span class="option-key">1.</span> Público</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc4]</span>¿Cuál es el nombre de la empresa o institución donde trabaja?<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc5]</span>¿Cuál es la actividad económica a la que se dedica la empresa o institución?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">20.</span> Actividades de gobierno, organismos internacionales y extraterritoriales</li>
+    <li class="option-item"><span class="option-key">13.</span> Dirección de corporativos y empresas</li>
+    <li class="option-item"><span class="option-key">23.</span> Editorial</li>
+    <li class="option-item"><span class="option-key">10.</span> Servicios financieros y de seguros</li>
+    <li class="option-item"><span class="option-key">21.</span> Otro</li>
+    <li class="option-item"><span class="option-key">5.</span> Industrias manufactureras o de la transformación</li>
+    <li class="option-item"><span class="option-key">6.</span> Comercio al por mayor</li>
+    <li class="option-item"><span class="option-key">7.</span> Comercio al por menor</li>
+    <li class="option-item"><span class="option-key">8.</span> Transporte, correos y almacenamiento</li>
+    <li class="option-item"><span class="option-key">9.</span> Información en medios masivos</li>
+    <li class="option-item"><span class="option-key">11.</span> Servicio inmobiliario y de alquiler de bienes muebles e intangibles</li>
+    <li class="option-item"><span class="option-key">12.</span> Servicios profesionales, científicos y técnicos</li>
+    <li class="option-item"><span class="option-key">14.</span> Servicios de apoyo a los negocios, manejo de desecho y servicios de remediación</li>
+    <li class="option-item"><span class="option-key">15.</span> Servicios de salud</li>
+    <li class="option-item"><span class="option-key">16.</span> Servicios educativos</li>
+    <li class="option-item"><span class="option-key">17.</span> Servicios de esparcimiento cultural, deportivos y otros centros recreativos</li>
+    <li class="option-item"><span class="option-key">18.</span> Servicios de alojamiento temporal, de preparación de alimentos y bebidas (hotel, restaurante, bar)</li>
+    <li class="option-item"><span class="option-key">19.</span> Asociaciones y agrupaciones</li>
+    <li class="option-item"><span class="option-key">22.</span> Telecomunicaciones</li>
+    <li class="option-item"><span class="option-key">24.</span> Servicios personales</li>
+    <li class="option-item"><span class="option-key">25.</span> Servicios de reparacion y mantenimiento</li>
+    <li class="option-item"><span class="option-key">1.</span> Agricultura, ganadería, aprovechamiento forestal, caza y pesca</li>
+    <li class="option-item"><span class="option-key">2.</span> Minería</li>
+    <li class="option-item"><span class="option-key">3.</span> Electricidad, agua y suministro de gas</li>
+    <li class="option-item"><span class="option-key">4.</span> Construcción</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc5otro]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc6]</span>¿Cuántas personas laboran en la empresa aproximadamente?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Hasta 15 empleados</li>
+    <li class="option-item"><span class="option-key">2.</span> Entre 16 y 100 empleados</li>
+    <li class="option-item"><span class="option-key">3.</span> Entre 101 y 250 empleados</li>
+    <li class="option-item"><span class="option-key">4.</span> Más de 251 empleados</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc7]</span>¿Cuál es su condición en el trabajo?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">6.</span> Trabajador(a) independiente (No ejerce)</li>
+    <li class="option-item"><span class="option-key">3.</span> Profesional independiente</li>
+    <li class="option-item"><span class="option-key">2.</span> Propietario(a) o socio(a)</li>
+    <li class="option-item"><span class="option-key">4.</span> Empleado(a)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc8]</span>¿Cuál es su puesto?<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc9]</span>¿Las labores que desempeña actualmente tienen relación con sus estudios de esta especialidad?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> No relacionadas</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco relacionadas</li>
+    <li class="option-item"><span class="option-key">3.</span> Medianamente relacionadas</li>
+    <li class="option-item"><span class="option-key">2.</span> Relacionadas</li>
+    <li class="option-item"><span class="option-key">1.</span> Totalmente relacionadas</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc10]</span>¿Cuál es su grado de satisfacción con su trabajo actual?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Muy satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">2.</span> Satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">3.</span> Medianamente satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada satisfecho(a)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc11]</span>¿Cuál ha sido el principal beneficio alcanzado en su vida laboral a raíz de haber realizado sus estudios de esta especialidad?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">7.</span> Aplicación de mayores conocimientos en lo laboral </li>
+    <li class="option-item"><span class="option-key">4.</span> Mayor prestigio profesional </li>
+    <li class="option-item"><span class="option-key">2.</span> Estímulo económico (aumento salarial o bono) </li>
+    <li class="option-item"><span class="option-key">1.</span> Alcanzar un nivel más alto en el trabajo </li>
+    <li class="option-item"><span class="option-key">6.</span> Otro (especifique)</li>
+    <li class="option-item"><span class="option-key">5.</span> Ninguno</li>
+    <li class="option-item"><span class="option-key">11.</span> Conseguir mejores ofertas laborales </li>
+    <li class="option-item"><span class="option-key">10.</span> Relaciones profesionales</li>
+    <li class="option-item"><span class="option-key">9.</span> Cambiar de campo profesional</li>
+    <li class="option-item"><span class="option-key">8.</span> Emprender un negocio, despacho o consultorio propio </li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc11otro]</span>Especifique<span class="question-type">text</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Muy relacionado</li>
+    <li class="option-item"><span class="option-key">2.</span> Medianamente relacionado</li>
+    <li class="option-item"><span class="option-key">3.</span> No está relacionado</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc12]</span>¿En cuál de los siguientes rangos están sus ingresos mensuales? (Incluyendo SNII y otros estímulos económicos, excepto becas)<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">4.</span> De $20,001 a $30,000</li>
+    <li class="option-item"><span class="option-key">5.</span> De $30,001  a $40,000</li>
+    <li class="option-item"><span class="option-key">6.</span> De $40,001 a $60,000</li>
+    <li class="option-item"><span class="option-key">7.</span> De $60,001 a $80,000</li>
+    <li class="option-item"><span class="option-key">8.</span> Más de $80,001</li>
+    <li class="option-item"><span class="option-key">1.</span> Menos de $12,000</li>
+    <li class="option-item"><span class="option-key">2.</span> De $12,001 a $15,000</li>
+    <li class="option-item"><span class="option-key">3.</span> De $15,001 a $20,000</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc13]</span>¿Considera que sus ingresos corresponden con su nivel de estudios de posgrado?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Totalmente de acuerdo</li>
+    <li class="option-item"><span class="option-key">2.</span> De acuerdo</li>
+    <li class="option-item"><span class="option-key">3.</span> Medianamente de acuerdo</li>
+    <li class="option-item"><span class="option-key">4.</span> En desacuerdo</li>
+    <li class="option-item"><span class="option-key">5.</span> Totalmente en desacuerdo</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc14]</span>¿Cuándo obtuvo su empleo actual?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> A menos de 6 meses de egresar </li>
+    <li class="option-item"><span class="option-key">1.</span> Antes de iniciar la especialidad</li>
+    <li class="option-item"><span class="option-key">2.</span> Desde que la estaba estudiando</li>
+    <li class="option-item"><span class="option-key">5.</span> A más de 1 año después de egresar</li>
+    <li class="option-item"><span class="option-key">4.</span> Entre 6 meses y 1 año después de egresar</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc15]</span>¿Cuál es la razón principal por la que usted no está trabajando?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Estar estudiando</li>
+    <li class="option-item"><span class="option-key">4.</span> Obligaciones familiares</li>
+    <li class="option-item"><span class="option-key">6.</span> Las ofertas eran poco atractivas en relación a las actividades profesionales</li>
+    <li class="option-item"><span class="option-key">7.</span> Falta de experiencia laboral</li>
+    <li class="option-item"><span class="option-key">12.</span> Perdí o dejé el trabajo (¿por qué?)</li>
+    <li class="option-item"><span class="option-key">17.</span> Cambio de residencia</li>
+    <li class="option-item"><span class="option-key">18.</span> En proceso de emprender un negocio o empresa propia</li>
+    <li class="option-item"><span class="option-key">14.</span> Otra</li>
+    <li class="option-item"><span class="option-key">2.</span> Falta de ofertas de trabajo</li>
+    <li class="option-item"><span class="option-key">3.</span> No tenía las competencias necesarias para el trabajo al que aspiraba</li>
+    <li class="option-item"><span class="option-key">5.</span> Las ofertas eran poco atractivas en relación al salario</li>
+    <li class="option-item"><span class="option-key">10.</span> No me interesaba trabajar</li>
+    <li class="option-item"><span class="option-key">11.</span> Razones de salud</li>
+    <li class="option-item"><span class="option-key">13.</span> Embarazo</li>
+    <li class="option-item"><span class="option-key">15.</span> Hacer la tesis o trámites de titulación</li>
+    <li class="option-item"><span class="option-key">19.</span> Motivos personales</li>
+    <li class="option-item"><span class="option-key">22.</span> Acabo de terminar mis estudios</li>
+    <li class="option-item"><span class="option-key">21.</span> En espera de la convocatoria de otros estudios </li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc15otro]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espc15porque]</span>Perdí o dejé el trabajo (¿por qué?)<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Cerró la empresa</li>
+    <li class="option-item"><span class="option-key">2.</span> Liquidación</li>
+    <li class="option-item"><span class="option-key">3.</span> Término de contrato o proyecto</li>
+    <li class="option-item"><span class="option-key">4.</span> Renuncia</li>
+    <li class="option-item"><span class="option-key">5.</span> Otra</li>
+    <li class="option-item"><span class="option-key">9.</span> Jubilarme o pensionarme</li>
+  </ul>
+</div>
+<div class="section-title">Sección: espE</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe1]</span>¿Ha realizado actividades formales de actualización? (Cursos, diplomados, seminarios, certificaciones, etc.)<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe2]</span>¿En qué modalidad las ha cursado?<span class="question-type">multiple_option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Híbrido</li>
+    <li class="option-item"><span class="option-key">2.</span> En línea</li>
+    <li class="option-item"><span class="option-key">1.</span> Presencial</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe3label]</span>Otra licenciatura<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe3]</span>¿Tiene una segunda licenciatura?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> No</li>
+    <li class="option-item"><span class="option-key">2.</span> Sí, la estoy cursando</li>
+    <li class="option-item"><span class="option-key">3.</span> Sí, ya la concluí</li>
+    <li class="option-item"><span class="option-key">4.</span> Sí, inconclusa</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe4label]</span>Posgrado<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe4]</span>¿Ha realizado otros estudios de posgrado?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe5label]</span>Especializaciones<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe5]</span>¿Otra especialización?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe6]</span>¿Ya se graduó?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">4.</span> No, la estoy estudiando</li>
+    <li class="option-item"><span class="option-key">3.</span> No, quedó inconclusa</li>
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe7]</span>¿En dónde la hizo?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> En la UNAM</li>
+    <li class="option-item"><span class="option-key">2.</span> En otra institución pública</li>
+    <li class="option-item"><span class="option-key">3.</span> En otra institución privada</li>
+    <li class="option-item"><span class="option-key">4.</span> En el extranjero</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe7a]</span>Extranjero (especifique país)<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe7b]</span>Nombre de la institución<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe7c]</span>Sede UNAM<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe8label]</span>Maestrías<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe8]</span>¿Maestría?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe9]</span>¿Ya se graduó?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">3.</span> No, quedó inconclusa</li>
+    <li class="option-item"><span class="option-key">4.</span> No, la estoy estudiando</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe10]</span>¿En dónde los hizo?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> En la UNAM</li>
+    <li class="option-item"><span class="option-key">2.</span> En otra institución pública</li>
+    <li class="option-item"><span class="option-key">3.</span> En otra institución privada</li>
+    <li class="option-item"><span class="option-key">4.</span> En el extranjero</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe10a]</span>Extranjero (especifique país)<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe10b]</span>Nombre de la institución<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe10c]</span>Sede UNAM<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe11label]</span>Doctorados<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe11]</span>¿Doctorado?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe12]</span>¿Ya se graduó?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">3.</span> No, quedó inconcluso</li>
+    <li class="option-item"><span class="option-key">4.</span> No, lo estoy estudiando</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe13]</span>¿En dónde los hizo?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> En la UNAM</li>
+    <li class="option-item"><span class="option-key">2.</span> En otra institución pública</li>
+    <li class="option-item"><span class="option-key">3.</span> En otra institución privada</li>
+    <li class="option-item"><span class="option-key">4.</span> En el extranjero</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe13a]</span>Extranjero (especifique país)<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe13b]</span>Nombre de la institución<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe13c]</span>Sede UNAM<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[especomentario]</span>Otros posgrados o cursos (en caso de tener más de uno del mismo tipo/grado)<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe14label]</span>Posdoctorado<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe14]</span>¿Posdoctorado?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe16]</span>¿En dónde los hizo?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> En la UNAM</li>
+    <li class="option-item"><span class="option-key">2.</span> En otra institución pública</li>
+    <li class="option-item"><span class="option-key">3.</span> En otra institución privada</li>
+    <li class="option-item"><span class="option-key">4.</span> En el extranjero</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe16a]</span>Extranjero (especifique país)<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe16b]</span>Nombre de la institución<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe16c]</span>Sede UNAM<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe17label]</span>Sistema Nacional de Investigadores (SNII)<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe17]</span>¿Ha participado en convocatorias de ingreso y/o es miembro del Sistema Nacional de Investigadoras e Investigadores (SNII)?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> He participado y soy miembro</li>
+    <li class="option-item"><span class="option-key">2.</span> No he participado</li>
+    <li class="option-item"><span class="option-key">3.</span> He participado pero no he ingresado</li>
+    <li class="option-item"><span class="option-key">4.</span> Ya no soy miembro</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espe18]</span>¿Cuál es su nivel actual en el Sistema Nacional de Investigadoras e Investigadores (SNII)?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Candidato</li>
+    <li class="option-item"><span class="option-key">2.</span> Nivel I</li>
+    <li class="option-item"><span class="option-key">3.</span> Nivel II</li>
+    <li class="option-item"><span class="option-key">4.</span> Nivel III</li>
+  </ul>
+</div>
+<div class="section-title">Sección: espF</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf1]</span>¿Ya obtuvo su título de la especialidad?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+    <li class="option-item"><span class="option-key">3.</span> No, estoy en trámite</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf2]</span>¿Cuál es la razón principal por la cual no ha obtenido su título?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Trámites engorrosos y difíciles</li>
+    <li class="option-item"><span class="option-key">2.</span> No he tenido tiempo por estar trabajando</li>
+    <li class="option-item"><span class="option-key">3.</span> No he tenido tiempo por obligaciones familiares</li>
+    <li class="option-item"><span class="option-key">6.</span> No me interesa hacerlo</li>
+    <li class="option-item"><span class="option-key">7.</span> Por estar estudiando</li>
+    <li class="option-item"><span class="option-key">10.</span> No acreditar el o los idiomas</li>
+    <li class="option-item"><span class="option-key">11.</span> Económicas</li>
+    <li class="option-item"><span class="option-key">13.</span> Problemas con el asesor</li>
+    <li class="option-item"><span class="option-key">16.</span> Motivos de salud</li>
+    <li class="option-item"><span class="option-key">8.</span> No deseo contestar</li>
+    <li class="option-item"><span class="option-key">19.</span> Desconozco las opciones de titulación</li>
+    <li class="option-item"><span class="option-key">9.</span> Otra</li>
+    <li class="option-item"><span class="option-key">5.</span> No he hecho la tesis/tesina o presentado el examen de conocimientos</li>
+    <li class="option-item"><span class="option-key">4.</span> No he podido concluir la tesis o tesina</li>
+    <li class="option-item"><span class="option-key">24.</span> Por motivos personales </li>
+    <li class="option-item"><span class="option-key">23.</span> Tengo pendiente la entrega de documentación requerida </li>
+    <li class="option-item"><span class="option-key">22.</span> No haber aprobado la tesis, tesina o examen de conocimientos </li>
+    <li class="option-item"><span class="option-key">17.</span> Cambio de residencia</li>
+    <li class="option-item"><span class="option-key">25.</span> Desconozco los trámites de titulación</li>
+    <li class="option-item"><span class="option-key">20.</span> Pocas opciones de titulación</li>
+    <li class="option-item"><span class="option-key">21.</span> Problemas administrativos</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf2otro]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf3]</span>¿Cuál fue la modalidad por la que obtuvo el título?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Examen de conocimientos </li>
+    <li class="option-item"><span class="option-key">2.</span> Otro tipo de trabajo de grado</li>
+    <li class="option-item"><span class="option-key">1.</span> Tesis o tesina</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf4]</span>¿Cuánto tiempo después de egresar obtuvo su título?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Durante el primer año después de egresar</li>
+    <li class="option-item"><span class="option-key">2.</span> Dos años después de egresar</li>
+    <li class="option-item"><span class="option-key">3.</span> Tres años o más después de egresar</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf5table]</span>Desde su punto de vista, evalúe los siguientes aspectos relacionados con su formación en el Programa Único de Especializaciones en Derecho:<span class="question-type">table</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf5label]</span>Plan de estudios<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf5]</span>Contenido teórico<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf6]</span>Contenido práctico<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf7]</span>Actualización de los contenidos del plan<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf8label]</span>Planta docente<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf8]</span>Preparación académica<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf9]</span>Conocimientos de la materia<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf10]</span>Conocimientos actualizados<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf11label]</span>Proceso de enseñanza aprendizaje<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf11]</span>Comunicación entre profesor(a) y estudiante<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf12]</span>Vinculación teoría-práctica<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf13]</span>Forma de evaluación del aprendizaje<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf14]</span>Técnicas de enseñanza aprendizaje<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf16table]</span>Para cada pregunta, proporcione la respuesta según la escala<span class="question-type">table</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf15]</span>Fomento a la investigación<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Deficiente</li>
+    <li class="option-item"><span class="option-key">1.</span> Excelente</li>
+    <li class="option-item"><span class="option-key">4.</span> Malo</li>
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">2.</span> Bueno</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf16]</span>¿Qué tan satisfecho(a) está con la asesoría que recibe/recibió para desarrollar su tesis, tesina o trabajo de grado?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Medianamente satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">2.</span> Satisfecho(a)        _</li>
+    <li class="option-item"><span class="option-key">1.</span> Muy satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada satisfecho(a)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf17]</span>¿Qué tan satisfecho(a) está con la calidad del programa de estudios?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Medianamente satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">2.</span> Satisfecho(a)        _</li>
+    <li class="option-item"><span class="option-key">1.</span> Muy satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada satisfecho(a)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf18]</span>¿Qué tan satisfecho(a) está con la accesibilidad y el apoyo de la coordinación del programa de especialidad para resolver sus inquietudes académicas o administrativas?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Medianamente satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">2.</span> Satisfecho(a)        _</li>
+    <li class="option-item"><span class="option-key">1.</span> Muy satisfecho(a)</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada satisfecho(a)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf19]</span>¿Considera que esta especialidad está cumpliendo sus expectativas para su desarrollo profesional?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Totalmente de acuerdo</li>
+    <li class="option-item"><span class="option-key">5.</span> Totalmente en desacuerdo</li>
+    <li class="option-item"><span class="option-key">4.</span> En desacuerdo</li>
+    <li class="option-item"><span class="option-key">3.</span> Medianamente de acuerdo</li>
+    <li class="option-item"><span class="option-key">2.</span> De acuerdo</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf20]</span>¿Considera que esta especialidad le está ayudando a crear una red de contactos valiosa?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Totalmente de acuerdo</li>
+    <li class="option-item"><span class="option-key">5.</span> Totalmente en desacuerdo</li>
+    <li class="option-item"><span class="option-key">4.</span> En desacuerdo</li>
+    <li class="option-item"><span class="option-key">3.</span> Medianamente de acuerdo</li>
+    <li class="option-item"><span class="option-key">2.</span> De acuerdo</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf25]</span>¿Cuál es la razón más importante por la que realizó estos estudios de especialidad?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">15.</span> Otro (especifique)</li>
+    <li class="option-item"><span class="option-key">14.</span> Por convenio con la UNAM 
+</li>
+    <li class="option-item"><span class="option-key">13.</span> Obtener un grado académico de posgrado</li>
+    <li class="option-item"><span class="option-key">10.</span> Aplicación de mayores conocimientos en lo laboral</li>
+    <li class="option-item"><span class="option-key">9.</span> Conseguir mejores ofertas laborales </li>
+    <li class="option-item"><span class="option-key">6.</span> Alcanzar un nivel más alto en el trabajo</li>
+    <li class="option-item"><span class="option-key">4.</span> Falta de oportunidades de empleo en la carrera</li>
+    <li class="option-item"><span class="option-key">2.</span> Interés en profundizar en la disciplina</li>
+    <li class="option-item"><span class="option-key">8.</span> Titularme de la licenciatura</li>
+    <li class="option-item"><span class="option-key">11.</span> Por el prestigio de la UNAM</li>
+    <li class="option-item"><span class="option-key">12.</span> Complementar o ampliar mi formación profesional</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf25otro]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf21]</span>Tomando en cuenta sus experiencias posteriores a la conclusión de su especialidad, ¿volvería a elegir la misma?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf22]</span>¿Por qué no la elegiría?<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf23]</span>¿Volvería a estudiar en la UNAM?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf24]</span>¿Recomendaría la escuela o facultad donde realizó sus estudios de especialización?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espf24a]</span>¿Por qué?<span class="question-type">text</span></div>
+</div>
+<div class="section-title">Sección: espG</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg1table]</span>A continuación, indique el grado de mejora o dominio obtenido durante la especialidad en cada una de las habilidades.<span class="question-type">table</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg1]</span>Desarrollar el pensamiento crítico<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg2]</span>Fortalecer la capacidad de análisis<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg3]</span>Resolver problemas<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg4]</span>Desarrollar una actitud de liderazgo<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg5]</span>Actuar en el ámbito laboral conforme a la ética profesional<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg6]</span>Usar modelos y/o métodos matemáticos para analizar datos<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg7]</span>Formular argumentos lógicos<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espg8]</span>Formular ideas o pensamientos originales o innovadores<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Regular</li>
+    <li class="option-item"><span class="option-key">1.</span> Muchísimo</li>
+    <li class="option-item"><span class="option-key">2.</span> Mucho</li>
+    <li class="option-item"><span class="option-key">4.</span> Poco</li>
+    <li class="option-item"><span class="option-key">5.</span> Nada</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[espcomentario]</span>¿Desea agregar un comentario?<span class="question-type">text</span></div>
+</div>
+
+</div>
+</body>
+</html>

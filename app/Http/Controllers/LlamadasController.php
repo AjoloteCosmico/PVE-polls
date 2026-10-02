@@ -9,6 +9,7 @@ use App\Models\respuestasEspecialidad;
 use App\Models\respuestas_continua;
 use App\Models\respuestas3;
 use App\Models\respuestas_verdes;
+use App\Models\respuestas_credencial;
 use App\Models\respuestas16;
 use App\Models\Correo;
 use App\Models\Egresado;
@@ -127,9 +128,12 @@ class LlamadasController extends Controller
          if($muestra_id == 897){
             $Encuesta= respuestas_continua::where('cuenta','=',$Egresado->cuenta)->first();
             $vista = 'muestras.ed_continua.llamar_continua';
-         } else {
+         } elseif ($muestra_id == 898) {
             $Encuesta= respuestas_verdes::where('cuenta','=',$Egresado->cuenta)->first();
             $vista = 'muestras.verde.llamar_verde';
+         } else {
+            $Encuesta= respuestas_credencial::where('cuenta','=',$Egresado->cuenta)->first();
+            $vista = 'muestras.credencial.llamar_credencial';
          }
         $Telefonos=DB::table('telefonos')->where('cuenta','=',$Egresado->cuenta)
         ->leftJoin('codigos','codigos.code','=','telefonos.status')
@@ -314,6 +318,46 @@ class LlamadasController extends Controller
         $this->recordEvent($telefono_id, 'act_data_verde', 'cuenta'.$cuenta.' carr'.$carrera);
         return view(
             "muestras.verde.actualizar_datos_verde",
+            compact(
+                "TelefonoEnLlamada",
+                "Egresado",
+                "Telefonos",
+                "Correos",
+                "Carrera",
+                "Plantel",
+                "gen"
+            )
+        );
+
+    }
+
+    public function act_data_credencial($cuenta, $carrera, $gen,$telefono_id){
+
+    Session::put('telefono_encuesta',$telefono_id);
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Egresado = Egresado::where("cuenta", $cuenta)
+            ->where("carrera", $carrera)
+            ->first();
+        $Telefonos = DB::table("telefonos")
+            ->where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
+            ->get();
+        $Correos = Correo::where("cuenta", "=", $cuenta)
+            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
+            ->get();
+        $Carrera = Carrera::where(
+            "clave_carrera",
+            "=",
+            $Egresado->carrera
+        )->first()->carrera;
+        $Plantel = Carrera::where(
+            "clave_plantel",
+            "=",
+            $Egresado->plantel
+        )->first()->plantel;
+        $this->recordEvent($telefono_id, 'act_data_credencial', 'cuenta'.$cuenta.' carr'.$carrera);
+        return view(
+            "muestras.credencial.actualizar_datos_credencial",
             compact(
                 "TelefonoEnLlamada",
                 "Egresado",
@@ -597,23 +641,20 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         $query = Egresado::where('egresados.carrera', '=', $egresadoActual->carrera)
             ->where('plantel', '=', $egresadoActual->plantel)
             ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
-            ->where('egresado_muestra.muestra_id', '=', $muestra_id) // ID de muestra específico
+            ->where('egresado_muestra.muestra_id', '=', $muestra_id)
             ->leftJoin('codigos', 'codigos.code', '=', 'egresado_muestra.status')
             ->select(
                 'egresados.*',
                 'codigos.color_rgb',
                 'codigos.description',
                 'codigos.orden',
-                'egresado_muestra.llamadas as llamadas_continua', //LAMADAS VERDES
+                'egresado_muestra.llamadas as llamadas_continua',
                 'codigos.code as codigo_status'
             );
-        
+
         $query->orderBy('codigos.orden', 'asc')
                 ->orderBy('egresados.paterno', 'asc')
                 ->orderBy('egresados.materno', 'asc');
-        
-    
-
 
     $todos = $query->get();
 
@@ -626,15 +667,20 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         $siguiente = $todos[$index + 1];
     }
 
-    // Devolver los datos necesarios para el botón (o un mensaje si no hay)
     if ($siguiente) {
+        $routeName = match ($muestra_id) {
+            '897' => 'llamar_continua',
+            '899' => 'llamar_credencial',
+            '898' => 'llamar_verde',
+        };
+
         return response()->json([
             'siguiente' => true,
             'eg_id' => $siguiente->id,
             'cuenta' => $siguiente->cuenta,
             'carrera' => $siguiente->carrera,
             'nombre_completo' => $siguiente->nombre . ' ' . $siguiente->paterno,
-            'url' => route('llamar_verde', [$siguiente->anio_egreso, $siguiente->cuenta, $siguiente->carrera, $muestra_id])
+            'url' => route($routeName, [$siguiente->anio_egreso, $siguiente->cuenta, $siguiente->carrera, $muestra_id])
         ]);
     } else {
         return response()->json([
