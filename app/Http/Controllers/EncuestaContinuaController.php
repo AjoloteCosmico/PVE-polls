@@ -359,10 +359,7 @@ use  LogEvents;
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
           
-        
             $Encuesta->save();
-                
-         
             return back();
 
         }
