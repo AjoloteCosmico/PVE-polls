@@ -275,6 +275,9 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/invitacion14/{registro}', 'invitacion')->name('invitacion14');
         Route::get('/invitacion19/{id}', 'invitacion19')->name('invitacion19');
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
+
+        
+
         Route::post('/enviar_invitacion_conteo', 'enviar_invitacion_conteo')->name('enviar_invitacion_conteo');
         Route::post('/enviar_invitacion_posgrado', 'enviar_invitacion_posgrado')->name('enviar_invitacion_posgrado');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{extra?}', 'enviar_encuesta')->name('enviar_encuesta');
@@ -380,6 +383,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/test_mail_base', [App\Http\Controllers\SendMailController::class, 'send_test'])->name('send_mail.base_test');
 
     Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
+    Route::get('/enviar_correo_encuesta', [App\Http\Controllers\SendMailController::class, 'enviar_correo_encuesta'])->name('send_mail.enviar_correo_encuesta');
+
 
     Route::get('/debug-permissions', function() {
     $user = auth()->user();

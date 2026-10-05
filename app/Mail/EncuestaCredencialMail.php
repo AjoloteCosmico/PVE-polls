@@ -9,45 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EncuestaCredencialMail extends Mailable
+class EncuestaCredencialMail extends BaseMail
 {
     use Queueable, SerializesModels;
-
-    /**
-     * Create a new message instance.
-     */
-    public function __construct()
-    {
-        //
+    protected function defineSubject(): string {
+        return "Satisfacción con la Credencial de Egresado UNAM Invitación a Encuesta";
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Encuesta Credencial Mail',
-        );
+    protected function defineView(): string {
+        return 'mails.credencial'; 
     }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+    
+    protected function defineType(): string {
+        return 'credencial'; 
     }
 }

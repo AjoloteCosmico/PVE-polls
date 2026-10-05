@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('content')
+
+@include('components.send_emai',[
+      'cuenta'         => $Egresado->cuenta,
+      'respuestasKey'  => 0,
+      'typeStudy'      => 'credencial', 
+      'carrera'        => $Egresado->carrera,
+      'EgName'         => $Egresado->nombre.' '.$Egresado->paterno.' '.$Egresado->materno
+                ])
+
 <div class="numero_telefonico">
   Estas en una llamada con el numero: {{$TelefonoEnLlamada->telefono}}  
 </div>
@@ -105,11 +114,9 @@
           </td>
 
               <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id, 899])}}">
-                  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
+                  <button class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="{{$Carrera }}" data-mail_type ="credencial"> 
                     <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br> POR CORREO
                   </button>
-                </a>
               </td>
           
               <td>
@@ -151,6 +158,12 @@
 
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script>
+
+  
+$(document).on('click', '.send-email-btn', function() {
+    let btn = $(this);
+    sendEmail(btn.data('correo_id'), btn.data('correo'),btn.data('prog_acad'), btn.data('mail_type'));
+});
   console.log('script jalando ¿?');
   $(document).ready(function() {
     $('#myTable').DataTable();

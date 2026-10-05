@@ -12,6 +12,7 @@ use App\Mail\EspMail;
 use App\Mail\PosMail;
 use App\Mail\ActMail;
 use App\Mail\EdContinuaMail;
+use App\Mail\EncuestaCredencialMail;
 use App\Mail\AvisoPrivacidadMail;
 use Illuminate\Support\Facades\Mail;
 use DB;
@@ -69,7 +70,7 @@ public function send_prioritary_mail(Request $request) {
     $intereses = [
         ['text' => 'Trámita tu credencial de egresado', 'link' => 'https://www.pveaju.unam.mx/credencial/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/credencial.png'],
         ['text' => 'Bolsa de trabajo UNAM', 'link' => 'https://but.unam.mx/siiabut/public/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/entrevista.png'],
-        ['text' => '¿Problemas para titularte? Primer Feria de titulación 2026', 'link' => 'https://titulacion.unam.mx/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/feria_tit.png'],
+        ['text' => 'Conoce las asociaciones Egresados UNAM de tu estado', 'link' => 'https://encuestas.pveaju.unam.mx/pveaju/resource/asociaciones', 'image' => 'https://www.pveaju.unam.mx/wp-content/uploads/2025/05/page_title_asociaciones.png'],
         ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
     ];
 
@@ -104,14 +105,18 @@ public function send_prioritary_mail(Request $request) {
         case 'continua': 
             Mail::to($correo)->queue((new EdContinuaMail($data))->onQueue('high'));
         break;
+        case 'credencial': 
+            Mail::to($correo)->queue((new EncuestaCredencialMail($data))->onQueue('high'));
+        break;
     }
 
     return response()->json([
                 'success' => true, 
                 'type' => $data['cuenta'].$data['nombre'].$data['correo'].$type,
-                'message' => 'Correo encuado correctamente',
+                'message' => 'Correo enviado correctamente',
             ]);
     
 }
+
 
 }
