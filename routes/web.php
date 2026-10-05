@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth']], function(){
         //encuesta educación continua
         Route::get('muestras_ed_continua/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado');
         Route::get('muestras_verde/show/{carrera}/{plantel}/{muestra_id}', 'show_unificado')->name('muestras.show_unificado_verde');
+        
         //Route::get('muestras_ed_continua/show/{carrera}/{plantel}','show_continua')->name('muestras_ed_continua.show');
         //Route::get('muestras_verde/show/{carrera}/{plantel}', 'show_verde')->name('muestras_verde.show');
         Route::get('muestrasv_ed_continua/planteles','ed_continua_plantel_index')->name('muestras_ed_continua.plantel_index');
@@ -92,9 +93,12 @@ Route::group(['middleware' => ['auth']], function(){
         //Route::get('planteles/enc_verde', 'enc_verde_plantel_index')->name('enc_verde.planteles');
         Route::get('planteles/ed_continua/{muestra_id}','plantel_gen')->name('ed_continua.planteles');
         Route::get('planteles/enc_verde/{muestra_id}', 'plantel_gen')->name('enc_verde.planteles');
+        Route::get('planteles/credencial/{muestra_id}', 'plantel_gen')->name('credencial.planteles');
+        
         //Route::get('index_ed_continua/{id}','index_ed_continua')->name('muestras_ed_continua.index');
         Route::get('index_ed_continua/{id}/{muestra_id}','index_unificado')->name('muestras_ed_continua.index');
         Route::get('index_verde/{id}/{muestra_id}', 'index_unificado')->name('muestras_verde.index');
+        Route::get('index_credencial/{id}/{muestra_id}', 'index_unificado')->name('muestras_credencial.index');
 
         Route::get('revision_continua', 'revision_continua')->name('muestras_ed_continua.revision');
 
@@ -271,6 +275,9 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/invitacion14/{registro}', 'invitacion')->name('invitacion14');
         Route::get('/invitacion19/{id}', 'invitacion19')->name('invitacion19');
         Route::post('/enviar_invitacion', 'enviar_invitacion')->name('enviar_invitacion');
+
+        
+
         Route::post('/enviar_invitacion_conteo', 'enviar_invitacion_conteo')->name('enviar_invitacion_conteo');
         Route::post('/enviar_invitacion_posgrado', 'enviar_invitacion_posgrado')->name('enviar_invitacion_posgrado');
         Route::get('/enviar_encuesta/{id_correo}/{id_egresado}/{telefono}/{extra?}', 'enviar_encuesta')->name('enviar_encuesta');
@@ -315,12 +322,14 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/encuestas/llamar_continua/{gen}/{id}/{carrera}/{muestra_id}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_continua');
     //Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}', [LlamadasController::class, 'llamar_verde'])->name('llamar_verde');
     Route::get('/encuestas/llamar_verde/{gen}/{id}/{carrera}/{muestra_id}/{siguiente?}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_verde');
+    Route::get('/encuestas/llamar_credencial/{gen}/{id}/{carrera}/{muestra_id}/{siguiente?}', [LlamadasController::class, 'llamar_unificado'])->name('llamar_credencial');
 
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}/{siguiente?}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/encuestas/llamar_especialidad/{id}/{especialidad}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
     Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
     Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
     Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
+    Route::get('/actualizar_credencial/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_credencial'])->name('act_data_credencial');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
     //ruta para cargar sig egresado con ajax
@@ -360,10 +369,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/update_continua/{id}', 'update')->name('continua.update');
         Route::get('encuesta_continua_completar_encuesta/{id}','edit')->name('completar_encuesta_continua');
         Route::get('encuesta_verde_completar_encuesta/{id}','edit_verde')->name('completar_encuesta_verde');
+        Route::get('encuesta_credencial_completar_encuesta/{id}','edit_credencial')->name('completar_encuesta_credencial');
+
         Route::post('/encuestas/continua/update/{id}', 'update')->name('encuesta_continua.update');
         Route::post('/encuestas/verde/update/{id}', 'update_verde')->name('encuesta_verde.update');
+        Route::post('/encuestas/credencial/update/{id}', 'update_credencial')->name('encuesta_credencial.update');
+
         Route::get('/comenzar_encuesta_continua/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_continua');
         Route::get('/comenzar_encuesta_verde/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_verde');
+        Route::get('/comenzar_encuesta_credencial/{correo}/{cuenta}/{carrera}/{muestra_id}', 'comenzar')->name('comenzar_encuesta_credencial');
     });
     
     Route::get('/test_mail_sending/{id}', [App\Http\Controllers\SendMailController::class, 'test'])->name('send_mail.test');
@@ -373,6 +387,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/send_convocatoria_especialidad', [App\Http\Controllers\SendMailController::class, 'send_convocatoria_especialidad'])->name('send_mail.convocatoria_especialidad');
 
     Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
+    Route::get('/enviar_correo_encuesta', [App\Http\Controllers\SendMailController::class, 'enviar_correo_encuesta'])->name('send_mail.enviar_correo_encuesta');
+
 
     Route::get('/debug-permissions', function() {
     $user = auth()->user();

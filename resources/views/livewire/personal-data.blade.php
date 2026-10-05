@@ -34,7 +34,7 @@
                 @endif
                 </th>
                 <th>fec. nac.: <br> {{ $egresado->fec_nac }}</th>
-            @elseif(in_array($typeStudy, ['act', 'ed_continua', 'encuesta_verde']))
+            @elseif(in_array($typeStudy, ['act', 'ed_continua', 'encuesta_verde','credencial']))
                 <th>Sistema:
                     <br>
                     @if($egresado->sistema === 'E')
@@ -66,7 +66,7 @@
         <tr>
            
             @if($typeStudy === 'posgrado')
-                <th>Plan:</th> <td>{{ $egresado->plan }}</td>
+                <th>Plan:</th> <td>{{ $encuesta->plan }}</td>
             @elseif($typeStudy === 'esp')
                 <th>Especialidad:</th> <td style="color: #1c1d23;">{{ $egresado->especialidad ?? 'S/E'}}</td>
             @else
@@ -122,6 +122,12 @@
                     @if(isset($encuesta->vr1))
                         <button class="btn boton-dorado" onclick="send_form('terminar')"> Terminar Encuesta</button>            
                     @endif
+                </th>
+            @elseif($typeStudy === 'credencial')
+                <th>                    
+                    <button class="btn boton-dorado" onclick="send_form('{{ $encuesta->completed == 1 ? 'terminar' : 'inconclusa' }}')">
+                        {{ $encuesta->completed == 1 ? 'Terminar Encuesta' : 'Guardar Encuesta' }}
+                    </button>
                 </th>
             @else
                 <th colspan="2"></th>

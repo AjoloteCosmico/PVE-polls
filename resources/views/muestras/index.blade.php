@@ -52,7 +52,8 @@
     </button>
     </a>
     </div>
-    @endcan
+@endcan
+
 @can('ver_muestra_ed_continua')
        <div>
         <a href="{{route('ed_continua.planteles', ['muestra_id' => 897]) }}">
@@ -62,7 +63,19 @@
           </button>
         </a>
       </div>
-      @endcan
+@endcan
+
+@can('ver_muestra_ed_continua')
+       <div>
+        <a href="{{route('credencial.planteles', ['muestra_id' => 899]) }}">
+          <button class='boton-muestras' >
+            <br><br>ENCUESTA DE SATISFACCIÓN CREDENCIAL  <br><br><br>
+            <img src="{{ asset('img/credencial_icon.png') }}" alt="educacion continua" class="icono-boton" height="250px">
+          </button>
+        </a>
+      </div>
+@endcan
+
 @can('ver_muestra_ed_continua')
        <div >
         <a href="{{route('enc_verde.planteles', ['muestra_id' => 898]) }}">

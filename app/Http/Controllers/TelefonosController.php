@@ -139,6 +139,9 @@ use  LogEvents;
         if($muestra_id == 898){
             return route('act_data_verde', [$egresado->cuenta, $egresado->carrera, $encuesta, $telefono_id]);
         }
+        if($muestra_id == 899){
+            return route('act_data_credencial', [$egresado->cuenta, $egresado->carrera, $encuesta, $telefono_id]);
+        }
 
         $identificador = isset($egresado->programa) ? $egresado->programa : $egresado->carrera;
 
