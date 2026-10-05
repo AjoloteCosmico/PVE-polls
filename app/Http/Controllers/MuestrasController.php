@@ -20,6 +20,7 @@ use App\Models\respuestas20;
 use App\Models\respuestas16;
 use App\Models\respuestas14;
 use App\Models\respuestasPosgrado;
+use App\Models\respuestasEspecialidad;
 
 use App\Traits\LogEvents;
 
@@ -177,7 +178,6 @@ public function plantel_index_16(){
 */
 
 public function index_general($gen,$id){
-
   //CHECA GENERACION 2018
   if ($gen==18){
     $carreras=Egresado::where('act_suvery','2')->leftJoin('carreras', function($join){
@@ -218,7 +218,17 @@ public function index_general($gen,$id){
     // Encuestas requeridas
     $c->requeridas = $queryBase
     ->count();
+//avisar sobre telefonos nuevos, se que se ve poco optimo, pero puse un indice en cuenta,telefono en la base
+    $c->nuevos_telefonos = DB::table('egresados as e')
+        ->join('telefonos as t', 'e.cuenta', '=', 't.cuenta')
+        ->whereIn('t.status', ['0','13','en uso','from destacados'])
+        ->where('e.act_suvery', '2')
+        ->whereNotIn('e.status',['1','2'])
+        ->where('e.carrera', $c->c)
+        ->where('e.plantel', $c->p)
+        ->count('e.cuenta');
   }
+  
   return view('muestras.act16.index',compact('carreras','gen'));
   
   //CHECA GENERACION 2020
@@ -433,7 +443,17 @@ public function index_22($id){
     $c->nencuestas_int = $queryBase
     ->where('status', 2)
     ->count();
-     if($id==0){
+
+    $c->nuevos_telefonos = DB::table('egresados as e')
+        ->join('telefonos as t', 'e.cuenta', '=', 't.cuenta')
+        ->whereIn('t.status', ['0','13','en uso','from destacados'])
+        ->where('e.muestra', '5')
+        ->whereNotIn('e.status',['1','2'])
+        ->where('e.carrera', $c->c)
+        ->where('e.plantel', $c->p)
+        ->count('e.cuenta');
+
+    if($id==0){
       $c->pob=Egresado::where('anio_egreso', '2022')
     ->where('carrera', $c->c)
     ->where('plantel', $c->p)
@@ -612,9 +632,17 @@ public function show_20($carrera,$plantel){
 
 public function show_16($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
+  //join optimizado para localizar egresados con telefonos
+  $subTelefonos = DB::table('telefonos')
+    ->select('cuenta', DB::raw('COUNT(DISTINCT cuenta) AS num_telefonos'))
+    ->whereIn('status', ['0','13','en uso','from destacados'])
+    ->groupBy('cuenta');
   $muestra=DB::table('egresados')->where('act_suvery','=','2')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
     ->leftJoin('codigos','codigos.code','=','egresados.status')
-    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+    ->leftJoinSub($subTelefonos, 'tel', 'tel.cuenta', '=', 'egresados.cuenta')
+    ->select('egresados.*',
+             'codigos.color_rgb','codigos.description','codigos.orden',
+              DB::raw('COALESCE(tel.num_telefonos, 0) AS num_telefonos'))
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
@@ -624,13 +652,26 @@ public function show_16($carrera,$plantel){
   
 }
 
-
-
 public function show_22($carrera,$plantel){
   $Carrera= Carrera::where('clave_carrera',$carrera)->where('clave_plantel',$plantel)->first();
-  $muestra=DB::table('egresados')->where('muestra','=','5')->where('egresados.carrera','=',$carrera)->where('plantel','=',$plantel)
-    ->leftJoin('codigos','codigos.code','=','egresados.status')
-    ->select('egresados.*','codigos.color_rgb','codigos.description','codigos.orden')
+  $subTelefonos = DB::table('telefonos')
+    ->select('cuenta', DB::raw('COUNT(DISTINCT cuenta) AS num_telefonos'))
+    ->whereIn('status', ['0','13','en uso','from destacados'])
+    ->groupBy('cuenta');
+
+$muestra = DB::table('egresados')
+    ->where('muestra', '=', '5')
+    ->where('egresados.carrera', '=', $carrera)
+    ->where('plantel', '=', $plantel)
+    ->leftJoin('codigos', 'codigos.code', '=', 'egresados.status')
+    ->leftJoinSub($subTelefonos, 'tel', 'tel.cuenta', '=', 'egresados.cuenta')
+    ->select(
+        'egresados.*',
+        'codigos.color_rgb',
+        'codigos.description',
+        'codigos.orden',
+        DB::raw('COALESCE(tel.num_telefonos, 0) AS num_telefonos')
+    )
     ->get();
 
   $Codigos=DB::table('codigos')->where('internet','=',0)
@@ -734,7 +775,37 @@ public function revision_posgrado(){
     }
 
     return view('muestras.posgrado.revision_posgrado', compact('Encuestas'));
-  }
+}
+
+public function revision_especialidad(){
+
+    $Encuestas = respuestasEspecialidad::leftJoin('egresados_especialidad', function($join) {
+              $join->on(DB::raw('CAST(egresados_especialidad.cuenta AS TEXT)'), '=', DB::raw('CAST(respuestas_especialidad.cuenta AS TEXT)'));
+              $join->on('egresados_especialidad.especialidad', '=', 'respuestas_especialidad.especialidad');
+    })
+    ->leftJoin('users', function($join) {
+        $join->on(DB::raw('CAST(users.clave AS TEXT)'), '=', DB::raw('CAST(respuestas_especialidad.aplica AS TEXT)'));
+    })
+
+    ->select('respuestas_especialidad.*',
+        'egresados_especialidad.nombre', 
+        'egresados_especialidad.paterno', 
+        'egresados_especialidad.materno',
+        'egresados_especialidad.especialidad as especialidad_nombre', 
+        'users.name as aplicador_nombre', 
+    )
+    ->where('respuestas_especialidad.completed', 1)
+    ->whereBetween('egresados_especialidad.anio_egreso', [2020, 2023])
+    ->get();
+
+    if(Auth::user()->confidential < 2){
+        $Encuestas = $Encuestas->where('aplica', Auth::user()->clave);
+    }
+
+    return view('muestras.especialidad.revision_especialidad', compact('Encuestas'));
+    
+}
+
 
 
 
@@ -948,6 +1019,7 @@ public function show_unificado($carrera, $plantel, $muestra_id){
         'egresado_muestra.llamadas as llamadas_continua', //LAMADAS VERDES
         'codigos.code as codigo_status'
     )
+    ->limit(600)
     ->get();
 
   $Codigos = DB::table('codigos')

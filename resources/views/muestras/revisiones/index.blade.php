@@ -2,44 +2,61 @@
 
 @section('content')
 <div class="container-fluid">
+
   <div  class="padding div">
     <h1>Hola  {{Auth::user()->name }} {{Auth::user()->emojis }}</h1>
     <h1> Estas son tus revisiones:</h1>
   </div>
+
   <div class="container-muestras">
-    
-  
-  @can('ver_muestra_actualizacion')
+    @can('ver_muestra_actualizacion')
+    <div>
+      <a href="{{route('muestras.act16.revision')}}">
+        <button class='boton-muestras' >
+          <br><br>ENCUESTA DE ACTUALIZACION 2018 &nbsp; <br><br><br>
+          <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
+        </button>
+      </a>
+    </div>
+  @endcan
+
+
+
+  @can('ver_muestra_seguimiento')
   <div>
-    <a href="{{route('muestras.act16.revision')}}">
+    <a href="{{route('muestras.seg20.revision22')}}">
       <button class='boton-muestras' >
-        <br><br>ENCUESTA DE ACTUALIZACION 2018 &nbsp; <br><br><br>
-        <img src="{{ asset('img/actualizacion.png') }}" alt="actuaizacion" class="icono-boton">
+        <br><br>ENCUESTA DE SEGUIMIENTO 2022 <br><br><br>
+        <img src="{{ asset('img/encuesta.png') }}" alt="encuesta" class="icono-boton">
       </button>
     </a>
   </div>
   @endcan
 
-    @can('ver_muestra_seguimiento')
-    
-    <div>
-  <a href="{{route('muestras.seg20.revision22')}}">
-  <button class='boton-muestras' >
-      <br><br>ENCUESTA DE SEGUIMIENTO 2022 <br><br><br>
-      <img src="{{ asset('img/encuesta.png') }}" alt="encuesta" class="icono-boton">
-  </button></a>
+
+
+  @can('ver_muestra_posgrado')
+  <div>
+    <a href="{{route('muestras.posgrado.revision_posgrado')}}">
+    <button class='boton-muestras' style="background-color:#cc9b39">
+      <br><br>ENCUESTA DE POSGRADO <br><br><br>
+      <img src="{{ asset('img/posgrado.png') }}" alt="encuesta" class="icono-boton">
+    </button>
+  </a>
   </div>
   @endcan
 
   @can('ver_muestra_posgrado')
   <div>
-  <a href="{{route('muestras.posgrado.revision_posgrado')}}">
-  <button class='boton-muestras' style="background-color:#cc9b39">
-      <br><br>ENCUESTA DE POSGRADO <br><br><br>
-      <img src="{{ asset('img/posgrado.png') }}" alt="encuesta" class="icono-boton">
-  </button></a>
+    <a href="{{route('muestras.especialidad.revision_especialidad')}}">
+      <button class='boton-muestras' style="background-color:#cc9b39">
+        <br><br> ENCUESTA DE ESPECIALIDAD <br><br><br>
+        <img src="{{ asset('img/posgrado.png') }}" alt="especialidad" class="icono-boton">
+      </button>
+    </a>
   </div>
   @endcan
+
   @can('ver_muestra_ed_continua')
        <div>
         <a href="{{route('muestras_ed_continua.revision')}}">
@@ -52,7 +69,7 @@
       @endcan
   </div>  
 </div>
-    @endsection
+  @endsection
 
     @push('css')
     <style>

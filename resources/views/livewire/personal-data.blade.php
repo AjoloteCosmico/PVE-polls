@@ -1,150 +1,265 @@
 <div>
-    <table class="table text-lg table-personal">
-        {{-- FILA 1: DATOS PERSONALES --}}
+    <table class="table text-lg table-personal" style="width: 100%; table-layout: fixed;">
+        {{-- FILA 1 --}}
         <tr>
-            <th>Egresad@:</th>
-            <td>{{ $egresado->nombre ?? '' }} {{ $egresado->paterno ?? '' }} {{ $egresado->materno ?? '' }}</td>
+            <th> Egresad@:</th>
+            <td style="color: #1c1d23">{{ $egresado->nombre }} {{ $egresado->paterno }} {{ $egresado->materno }}</td>
 
             <th>Número de Cuenta:</th>
-            <td>{{ $egresado->cuenta ?? '' }}</td>
+            <td style="color: #1c1d23">{{ $egresado->cuenta }}</td>
 
             <th>
                 Teléfonos: <br><br>
-                <button class="btn boton-dorado" wire:click="openCreatePhone" type="button">
+                <button type="button" class="btn boton-dorado" wire:click="nuevoTelefono">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono
                 </button>
             </th>
-            <td style="width:25vw">
+            <td style="width:15vw">
                 @foreach($telefonos as $t)
-                    <button class="btn btn-link contact_data" style="color: #002b7a; text-decoration: none;" 
-                            wire:click="editPhone({{ $t->id }}, '{{ $t->telefono }}', '{{ $t->descripcion ?? '' }}')">
+                    <button type="button" class="contact_data" style="color: #002b7a;"
+                            wire:click="editarTelefono({{ $t->id }})">
                         {{ $t->telefono }}
-                    </button>, &nbsp;
+                    </button>  &nbsp;
                 @endforeach
             </td>
 
-            @if($typeStudy === '22')
-                <th>Promedio: <br> {{ isset($egresado->promedio) && $egresado->promedio > 10 ? $egresado->promedio / 100 : ($egresado->promedio ?? '') }}</th>
-                <th>fec. nac.: <br> {{ $egresado->fec_nac ?? '' }}</th>
+
+            @if($typeStudy === 'seg')
+                <th>Promedio: <br> {{ $egresado->promedio > 10 ? $egresado->promedio / 100 : $egresado->promedio }}</th>
+                <th>fec. nac.: <br> {{ $egresado->fec_nac }}</th>
             @elseif(in_array($typeStudy, ['esp', 'posgrado']))
-                <th>fec. grado: <br> {{ $egresado->fec_grad ?? '' }}</th>
-                <th>fec. nac.: <br> {{ $egresado->fec_nac ?? '' }}</th>
-            @else
-                <th>Sistema: 
-                    @if(($egresado->sistema ?? '') == 'E') ESCOLARIZADO 
-                    @elseif(($egresado->sistema ?? '') == 'A') ABIERTO 
-                    @else A DISTANCIA @endif
-                </th> 
-                <th>
-                    @if(($egresado->titulado ?? 0) == 1) EN TRAMITES 
-                    @elseif(($egresado->titulado ?? 0) == 2) TITULADO 
-                    @else SIN TITULO @endif <br><small>según encuesta anterior</small>
+                <th>fec. grado: <br> {{ $egresado->fec_grad }} <br> 
+                @if($egresado->carrera)
+                    Licenciatura: {{ $carrera }} <br>
+                @endif
                 </th>
+                <th>fec. nac.: <br> {{ $egresado->fec_nac }}</th>
+            @elseif(in_array($typeStudy, ['act', 'ed_continua', 'encuesta_verde']))
+                <th>Sistema:
+                    <br>
+                    @if($egresado->sistema === 'E')
+                        ESCOLARIZADO
+                    @elseif($egresado->sistema === 'A')
+                        ABIERTO
+                    @else
+                        A DISTANCIA
+                    @endif
+                </th>
+                <th>Status:
+                    <br>
+                    @if($egresado->titulado === 1)
+                        EN TRÁMITES
+                    @elseif($egresado->titulado === 2)
+                        TITULADO
+                    @else
+                        SIN TÍTULO
+                    @endif
+                    <br> 
+                    segun la encuesta anterior
+                </th>
+            @else
+                <th colspan="2"></th>
             @endif
         </tr>
 
-        {{-- FILA 2: DATOS ACADÉMICOS Y CORREOS --}}
+        {{-- FILA 2  --}}
         <tr>
+           
             @if($typeStudy === 'posgrado')
-                <th>Plan:</th> <td>{{ $egresado->plan ?? '' }}</td>
-                <th>Programa:</th> <td>{{ $egresado->programa ?? '' }}</td>
+                <th>Plan:</th> <td>{{ $egresado->plan }}</td>
             @elseif($typeStudy === 'esp')
-                <th>Especialidad:</th> <td>{{ $egresado->especialidad ?? '' }}</td>
-                <th>Plantel:</th> <td>Fac. de Derecho</td>
+                <th>Especialidad:</th> <td style="color: #1c1d23;">{{ $egresado->especialidad ?? 'S/E'}}</td>
             @else
                 <th>Carrera:</th> <td>{{ $carrera }}</td>
+            @endif
+
+            @if($typeStudy === 'posgrado')
+                <th>Programa:</th> <td>{{ $egresado->programa }}</td>
+            @elseif($typeStudy === 'esp')
+                <th>Plantel:</th> <td style="color: #1c1d23;"> Fac. de Derecho </td>
+            @else
                 <th>Plantel:</th> <td>{{ $plantel }}</td>
             @endif
 
-            <th>
-                Correos: <br><br>
-                <button class="btn boton-dorado" wire:click="openCreateEmail" type="button">
+            <th>Correos: <br><br>
+                <button type="button" class="btn boton-dorado" wire:click="nuevoCorreo" type="button">
                     <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo
                 </button>
             </th>
             <td>
                 @foreach($correos as $c)
-                    <button class="btn btn-link contact_data" style="color: #002b7a; text-decoration: none;"
-                            wire:click="editEmail({{ $c->id }}, '{{ $c->correo }}', '{{ $c->descripcion ?? '' }}')">
+                    <button type="button" class="contact_data" style="color: #002b7a;"
+                            wire:click="editarCorreo({{ $c->id }})">
                         {{ $c->correo }}
-                    </button>, &nbsp;
+                    </button> &nbsp;
                 @endforeach
             </td>
 
-            @if($typeStudy === '22')
-                <th>Sexo: <br> {{ $egresado->sexo ?? '' }}</th>
-                <th>Bach: <br> @if(($egresado->bach ?? 0) >= 20 && ($egresado->bach ?? 0) < 30) ENP @elseif(($egresado->bach ?? 0) >= 30) CCH @endif</th>
+            @if($typeStudy === 'seg')
+                <th>Sexo: <br> {{ $egresado->sexo }}</th>
+                <th>Bach: <br> @if($egresado->bach >= 20 && $egresado->bach < 30) ENP @elseif($egresado->bach >= 30) CCH @endif</th>
             @elseif(in_array($typeStudy, ['esp', 'posgrado']))
-                <th>Sexo: <br> {{ $egresado->sexo ?? '' }}</th>
-                <th>Año de egreso: <br> {{ $egresado->anio_egreso ?? '' }}</th>
-            @else
-                <th>Fecha en que se encuestó:</th> 
-                <td>
-                    {{ substr($egresado->actualized ?? '', 0, 10) }}
-                    @if(isset($encuesta) && $encuesta->completed == 1)
-                        <button type="button" class="btn btn-sm btn-success" onclick="send_form('terminar')">Terminar Encuesta</button>
-                    @else
-                        <button type="button" class="btn btn-sm btn-warning" onclick="send_form('inconclusa')">Guardar como inconclusa</button>            
+                <th>Sexo: <br> {{ $egresado->sexo }}</th>
+                <th>Año de egreso: <br> {{ $egresado->anio_egreso }}</th>
+            @elseif($typeStudy === 'act')
+                <th>Fecha en que se encuestó:
+                    <br>{{ substr($egresado->actualized, 0, 10) }}
+                </th>
+                <th>                    
+                    <button class="btn boton-dorado" onclick="send_form('{{ $encuesta->completed == 1 ? 'terminar' : 'inconclusa' }}')">
+                        {{ $encuesta->completed == 1 ? 'Terminar Encuesta' : 'Guardar inconclusa' }}
+                    </button>
+    
+                </th>
+            @elseif($typeStudy === 'ed_continua')
+                <th>                    
+                    <button class="btn boton-dorado" onclick="send_form('{{ $encuesta->completed == 1 ? 'terminar' : 'inconclusa' }}')">
+                        {{ $encuesta->completed == 1 ? 'Terminar Encuesta' : 'Guardar Encuesta' }}
+                    </button>
+                </th>
+            @elseif($typeStudy === 'encuesta_verde')
+                <th>                    
+                    @if(isset($encuesta->vr1))
+                        <button class="btn boton-dorado" onclick="send_form('terminar')"> Terminar Encuesta</button>            
                     @endif
-                </td>
+                </th>
+            @else
+                <th colspan="2"></th>
             @endif
         </tr>
+        @if(!empty($secciones))
+        {{-- FILA 3 --}}
+        
+        <tr>
+            <th colspan="8">
+                <div class="row justify-content-center align-items-center">
+            
+                        @foreach($secciones as $sec)
+                            <div class="col">
+                                <a class="btn {{ $sec['completada'] ? 'boton-verde' : 'boton-dorado' }}"
+                                   href="{{ $sec['url'] }}"
+                                   @if($section === $sec['clave']) style="background-color: #002b7a; color: white; border: 2px solid #f7f7f7ff;" @endif>
+                                    @if($sec['completada']) <i class="fas fa-check-circle"></i> @endif
+                                    {{ $sec['etiqueta'] }}
+                                </a>
+                            </div>
+                        @endforeach
+                    
+                    
+                    <div class="col-auto mb-2">
+                        @if($typeStudy === 'seg')
+                            <a href="{{ route('terminar22', $encuesta->registro) }}" class="btn boton-dorado">
+                                {{ $encuesta->completed == 1 ? 'Terminar Encuesta' : 'Guardar como inconclusa' }}
+                            </a>
+                        @elseif($typeStudy === 'posgrado')
+                            <a href="{{ route('posgrado.terminar', $encuesta->registro) }}" class="btn boton-dorado">
+                                {{ $encuesta->completed == 1 ? 'Terminar Encuesta' : 'Guardar como inconclusa' }}
+                            </a>
+                        @elseif($typeStudy === 'esp')
+                            <a href="{{ route('especialidad.terminar', $encuesta->registro) }}" class="btn boton-dorado">
+                                {{ $encuesta->completed == 1 ? 'Terminar Encuesta' : 'Guardar como inconclusa' }}
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                
+            </th>
+        </tr>
+        @endif
+
     </table>
 
-    {{-- MODAL DE TELÉFONO --}}
+    <!-- MODAL DE TELÉFONO -->
     @if($showPhoneModal)
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ $phone_id ? 'Editar' : 'Agregar' }} Teléfono</h5>
-                    <button type="button" class="close" wire:click="$set('showPhoneModal', false)">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Teléfono</label>
-                        <input type="text" class="form-control" wire:model="nuevo_telefono">
-                        @error('nuevo_telefono') <span class="text-danger">{{ $message }}</span> @enderror
+        <div class="modal show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
+            <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
+                <div class="modal-content" style="background-color: #131931; color: white;">
+                    
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color:white;">
+                            {{ $phoneId ? 'Editar Teléfono' : 'Nuevo Teléfono' }}
+                        </h5>
+                        <button type="button" class="close btn btn-danger" style="background-color:red;" wire:click="cerrarModal">
+                            <i class="fa fa-times fa-xl" aria-hidden="true"></i>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <input type="text" class="form-control" wire:model="descripcion_telefono">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="$set('showPhoneModal', false)">Cancelar</button>
-                    <button type="button" class="btn btn-primary" wire:click="savePhone">Guardar</button>
+
+                    <form wire:submit.prevent="guardarTelefono">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label style="color:white;">Teléfono</label>
+                                <input type="text" class="form-control modal-input" style="font-size: 120%;" wire:model="telefonoInput" required>
+                                @error('telefonoInput')
+                                    <span class="text-danger" style="font-size: 0.9rem;">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label style="color:white;">Descripción</label>
+                                <input type="text" class="form-control modal-input" style="font-size: 120%;" wire:model="telefonoDescripcion">
+                                @error('telefonoDescripcion')
+                                    <span class="text-danger" style="font-size: 0.9rem;">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" wire:click="cerrarModal">Cancelar</button>
+                            <button type="submit" class="btn btn-success text-lg">
+                                <i class="fas fa-save fa-xlg"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
-    </div>
     @endif
 
-    {{-- MODAL DE CORREO --}}
+    <!-- MODAL DE CORREO -->
     @if($showEmailModal)
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="modal show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
+        <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">
+
+            <form wire:submit.prevent="guardarCorreo" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ $email_id ? 'Editar' : 'Agregar' }} Correo</h5>
-                    <button type="button" class="close" wire:click="$set('showEmailModal', false)">&times;</button>
+                    <h5 class="modal-title" style="color:white;">
+                        {{ $emailId ? 'Editar Correo' : 'Agregar Correo' }}
+                    </h5>
+                    <button type="button" class="close btn btn-danger" style="background-color:red;" wire:click="cerrarModal">
+                        <i class="fa fa-times fa-xl" aria-hidden="true"></i>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Correo Electrónico</label>
-                        <input type="email" class="form-control" wire:model="nuevo_correo">
-                        @error('nuevo_correo') <span class="text-danger">{{ $message }}</span> @enderror
+                    <div class="mb-3">
+                        <label style="color:white;">Correo Electrónico</label>
+                        <input type="email" class="form-control modal-input" style="font-size: 120%;" wire:model="correoInput" required>
+                        @error('correoInput') 
+                            <span class="text-danger" style="font-size:0.9rem;">{{ $message }}</span> 
+                        @enderror
                     </div>
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <input type="text" class="form-control" wire:model="descripcion_correo">
+                    @if($emailId)                    
+                    <div class="mb-3">
+                        <label style="color:white;">Descripción</label>
+                        <input type="text" class="form-control modal-input" style="font-size: 120%;" wire:model="correoDescripcion">
                     </div>
+                    @endif
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" wire:click="$set('showEmailModal', false)">Cancelar</button>
-                    <button type="button" class="btn btn-primary" wire:click="saveEmail">Guardar</button>
+                <div class="modal-footer" style="background-color: #131931;">
+                    <button type="button" class="btn btn-secondary" wire:click="cerrarModal">
+                        Cancelar
+                    </button>
+                    @if($emailId)
+                        <button type="button" class="btn boton-dorado" wire:click="enviarAvisoPrivacidad">
+                            <i class="fas fa-paper-plane"></i> Enviar Aviso de Privacidad
+                        </button>
+                    @endif
+                    <button type="submit" class="btn btn-success text-lg">
+                        <i class="fas fa-save fa-xlg"></i> 
+                            Guardar
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     @endif

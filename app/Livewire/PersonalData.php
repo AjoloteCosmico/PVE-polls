@@ -6,90 +6,231 @@ use Livewire\Component;
 use App\Models\Egresado;
 use App\Models\Telefono;
 use App\Models\Correo;
+use App\Traits\EnviaAvisoPrivacidad;
+use Illuminate\Support\Collection;
+
 
 class PersonalData extends Component
 {
-    public $typeStudy; // 'esp', '22', 'posgrado', 'actualizacion', 'continua'
+    use EnviaAvisoPrivacidad;
+    // Datos del modelo principal
     public $egresado;
     public $encuesta;
+    public $typeStudy;
+    public $plan;
+    public $programa; 
     public $carrera;
     public $plantel;
-    public $section;
+    public $section = null; 
+    public $tieneSecciones = false;
 
-    // Estado para modales
+
+    public $telefonos = [];
+    public $correos = [];
+
+    // Propiedades reactive para Modals de Teléfono
     public $showPhoneModal = false;
+    public $phoneId = null;
+    public $telefonoInput = '';
+    public $telefonoDescripcion = '';
+
+    // Propiedades reactive para Modals de Correo
     public $showEmailModal = false;
-    
-    // Formulario reactivo para Teléfono
-    public $phone_id = null;
-    public $nuevo_telefono = '';
-    public $descripcion_telefono = '';
+    public $emailId = null;
+    public $correoInput = '';
+    public $correoStatus = '13'; // Default 'En uso'
+    public $correoDescripcion = '';
 
-    // Formulario reactivo para Correo
-    public $email_id = null;
-    public $nuevo_correo = '';
-    public $descripcion_correo = '';
-    public $status_correo = '';
 
-    public function mount($typeStudy=null, $egresado=null, $encuesta=null, $carrera = null, $plantel = null, $section = null)
+
+   public function mount($egresado, $encuesta, $typeStudy, $carrera = null, $plantel = null, $section = null, $tieneSecciones = false)
     {
-        $this->typeStudy = $typeStudy;
         $this->egresado = $egresado;
         $this->encuesta = $encuesta;
+        $this->typeStudy = $typeStudy;
         $this->carrera = $carrera;
         $this->plantel = $plantel;
         $this->section = $section;
+        $this->tieneSecciones = $tieneSecciones;
+
+        $this->cargarContactos();
+
+
     }
 
-    // --- ACCIONES REPACTIVAS ---
-    
-    public function openCreatePhone()
+    public function cargarContactos()
     {
-        $this->reset(['phone_id', 'nuevo_telefono', 'descripcion_telefono']);
+        $this->telefonos = Telefono::where('cuenta', $this->egresado->cuenta)->get();
+        $this->correos = Correo::where('cuenta', $this->egresado->cuenta)->get();
+    }
+
+   
+
+    // --- TELÉFONO ---
+
+    public function nuevoTelefono()
+    {
+        $this->resetValidation();
+        $this->phoneId = null;
+        $this->telefonoInput = '';
+        $this->telefonoDescripcion = '';
         $this->showPhoneModal = true;
     }
 
-    public function editPhone($id, $telefono, $descripcion = '')
+    public function editarTelefono($id)
     {
-        $this->phone_id = $id;
-        $this->nuevo_telefono = $telefono;
-        $this->descripcion_telefono = $descripcion;
+        $this->resetValidation();
+        $tel = Telefono::findOrFail($id);
+        $this->phoneId = $tel->id;
+        $this->telefonoInput = $tel->telefono;
+        $this->telefonoDescripcion = $tel->descripcion;
         $this->showPhoneModal = true;
     }
 
-    public function savePhone()
+    public function guardarTelefono()
     {
+
         $this->validate([
-            'nuevo_telefono' => 'required|numeric'
+            'telefonoInput' => 'required|string|max:20|unique:telefonos,telefono,' . ($this->phoneId ?? 'NULL'),
+            'telefonoDescripcion' => 'nullable|string|max:255',
+        ], [
+            'telefonoInput.required' => 'El campo teléfono es obligatorio.',
+            'telefonoInput.unique' => 'Este número ya está registrado.',
         ]);
 
-        if ($this->phone_id) {
-            Telefono::where('id', $this->phone_id)->update([
-                'telefono' => $this->nuevo_telefono,
-                'descripcion' => $this->descripcion_telefono
-            ]);
+
+        if ($this->phoneId) {
+            // Editar tel
+            $tel = Telefono::find($this->phoneId);
+            $tel->telefono = $this->telefonoInput;
+            $tel->descripcion = $this->telefonoDescripcion;
+            $tel->save();
+            $mensaje = 'Teléfono editado correctamente';
         } else {
-            Telefono::create([
-                'cuenta' => $this->egresado->cuenta,
-                'telefono' => $this->nuevo_telefono,
-                'descripcion' => $this->descripcion_telefono
-            ]);
+            // Nuevo tel
+            $tel = new Telefono();
+            $tel->cuenta = $this->egresado->cuenta;
+            $tel->telefono = $this->telefonoInput;
+            $tel->descripcion = $this->telefonoDescripcion;
+            $tel->status = 0;
+            $tel->save();
+            $mensaje = 'Teléfono agregado correctamente';
         }
 
+
         $this->showPhoneModal = false;
-        // Refresca la relación en memoria sin recargar la página
-        $this->egresado->refresh(); 
+        $this->cargarContactos();
+        $this->dispatch('swal:success', message: $mensaje);
     }
+
+
+
+    
+    // --- CORREO ---
+
+
+    public function nuevoCorreo()
+    {
+        $this->resetValidation();
+        $this->emailId = null;
+        $this->correoInput = '';
+        $this->correoStatus = '13';
+        $this->correoDescripcion = '';
+        $this->showEmailModal = true;
+    }
+
+
+    public function editarCorreo($id)
+    {
+        $this->resetValidation();
+        $correo = Correo::findOrFail($id);
+        $this->emailId = $correo->id;
+        $this->correoInput = $correo->correo;
+        $this->correoStatus = $correo->status;
+        $this->correoDescripcion = $correo->descripcion;
+        $this->showEmailModal = true;
+    }
+
+
+    public function guardarCorreo()
+    {
+        
+        $this->validate([
+            'correoInput' => 'required|email|max:40|unique:correos,correo,' . ($this->emailId ?? 'NULL'),
+        ], [
+            'correoInput.required' => 'El correo es obligatorio.',
+            'correoInput.email' => 'Ingrese una dirección de correo válida.',
+            'correoInput.unique' => 'Este correo ya está registrado.',
+        ]);
+
+        if($this->emailId) {
+            // Editar correo
+            $correo = Correo::find($this->emailId);
+            $correo->correo = $this->correoInput;
+            $correo->status = $this->correoStatus;
+            $correo->descripcion = $this->correoDescripcion;
+            $correo->enviado = 0;
+            $correo->save();
+        } else {
+            // Nuevo correo
+            $correo = new Correo();
+            $correo->cuenta = $this->egresado->cuenta;
+            $correo->correo = $this->correoInput;
+            $correo->status = $this->correoStatus;
+            $correo->descripcion = 'en Uso';
+            $correo->save();
+        }
+
+
+
+        $this->showEmailModal = false;
+        $this->cargarContactos();
+        $this->dispatch('swal:success', message: 'Correo guardado y aviso enviado correctamente');
+
+    }
+
+    public function enviarAvisoPrivacidad()
+    {
+        $correo = Correo::findOrFail($this->emailId);
+
+        try {
+
+            $this->enviarAviso($correo->id, $correo->correo, $this->egresado->nombre, $this->egresado->cuenta);
+            $correo->enviado = 1;
+            $correo->save();
+            $this->dispatch('swal:success', message: 'Aviso de privacidad enviado correctamente');
+        } catch (\Exception $e) {
+            
+            $correo->enviado = 2;
+            $correo->save();
+            $this->dispatch('swal:error', message: 'Error al enviar el aviso de privacidad: ' . $e->getMessage());
+        }
+        $this->cargarContactos();
+        $this->cerrarModal();
+
+    }
+
+
+
+
+
+    // Método  para cerrar modals
+    public function cerrarModal()
+    {
+        $this->showPhoneModal = false;
+        $this->showEmailModal = false;
+        $this->resetValidation();
+    }
+
+
+
 
     public function render()
     {
-        // Construcción unificada de secciones según tipo de estudio
-        $secciones = $this->obtenerSecciones();
+        $secciones = $this->tieneSecciones ? $this->obtenerSecciones() : [];
 
         return view('livewire.personal-data', [
-            'telefonos' => $this->egresado->telefonos ?? [], 
-            'correos'   => $this->egresado->correos ?? [],
-            'secciones' => $secciones
+            'secciones' => $secciones,
         ]);
     }
 
@@ -97,13 +238,20 @@ class PersonalData extends Component
     {
         // Mapea las secciones según el tipo de estudio sin enredar la vista Blade
         return match($this->typeStudy) {
-            '22' => [
+            'seg' => [
                 ['clave' => 'A', 'etiqueta' => 'Sección A', 'completada' => $this->encuesta->sec_a == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'A'])],
                 ['clave' => 'E', 'etiqueta' => 'Sección E', 'completada' => $this->encuesta->sec_e == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'E'])],
                 ['clave' => 'F', 'etiqueta' => 'Sección F', 'completada' => $this->encuesta->sec_f == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'F'])],
                 ['clave' => 'C', 'etiqueta' => 'Sección C', 'completada' => $this->encuesta->sec_c == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'C'])],
                 ['clave' => 'D', 'etiqueta' => 'Sección D', 'completada' => $this->encuesta->sec_d == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'D'])],
                 ['clave' => 'G', 'etiqueta' => 'Sección G', 'completada' => $this->encuesta->sec_g == 1, 'url' => route('edit_22', [$this->encuesta->registro, 'G'])],
+            ],
+            'posgrado' => [
+                ['clave' => 'pA', 'etiqueta' => 'Sección A', 'completada' => ($this->encuesta->sec_pa ?? 0) == 1, 'url' => route('posgrado.show', ['pA', $this->encuesta->registro])],
+                ['clave' => 'pB', 'etiqueta' => 'Sección B', 'completada' => ($this->encuesta->sec_pb ?? 0) == 1, 'url' => route('posgrado.show', ['pB', $this->encuesta->registro])],
+                ['clave' => 'pC', 'etiqueta' => 'Sección C', 'completada' => ($this->encuesta->sec_pc ?? 0) == 1, 'url' => route('posgrado.show', ['pC', $this->encuesta->registro])],
+                ['clave' => 'pD', 'etiqueta' => 'Sección D', 'completada' => ($this->encuesta->sec_pd ?? 0) == 1, 'url' => route('posgrado.show', ['pD', $this->encuesta->registro])],
+                ['clave' => 'pE', 'etiqueta' => 'Sección E', 'completada' => ($this->encuesta->sec_pe ?? 0) == 1, 'url' => route('posgrado.show', ['pE', $this->encuesta->registro])],
             ],
             'esp' => [
                 ['clave' => 'espA', 'etiqueta' => 'Sección A', 'completada' => $this->encuesta->sec_espa == 1, 'url' => route('especialidad.show', ['espA', $this->encuesta->registro])],
