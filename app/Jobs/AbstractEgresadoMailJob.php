@@ -70,8 +70,9 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
                     }
 
                     $data = [
-                        'nombre' => trim($eg->nombre . ' ' . $eg->paterno),
+                        'nombre' => $eg->nombre_completo ?? trim(($eg->nombre ?? '') . ' ' . ($eg->paterno ?? '')),
                         'cuenta' => $eg->cuenta,
+                        'prog_acad' => $eg->prog_acad ?? '',
                         'extra_items' => $this->intereses,
                     ];
 

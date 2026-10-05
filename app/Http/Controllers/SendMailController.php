@@ -139,4 +139,18 @@ public function send_convocatoria_especialidad(){
 
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
+
+public function send_posgrado(){
+    // Fecha de idempotencia
+    $idempotenceDate = now()->subDay();
+
+    
+    dispatch(new \App\Jobs\SendPosgradojob(null, $idempotenceDate));
+    
+    return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);  
 }
+
+
+
+}
+
