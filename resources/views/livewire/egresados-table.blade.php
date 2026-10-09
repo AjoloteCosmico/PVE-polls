@@ -49,6 +49,11 @@
                                  VERDE
                             </button>
                             @endif
+                            @if($eg->es_credencial)
+                            <button wire:click="seleccionarMuestra({{$eg->id}}, 'credencial')" class="boton-oscuro">
+                                 CREDENCIAL
+                            </button>
+                            @endif
                             
                         </div>
                     </td>
@@ -61,6 +66,7 @@
                         if($tipo == 'licenciatura') $bgColor = $eg->color_codigo;
                         elseif($tipo == 'continua') $bgColor = $eg->color_continua;
                         elseif($tipo == 'verde') $bgColor = $eg->color_verde;
+                        elseif($tipo == 'credencial') $bgColor = $eg->color_credencial;
                     @endphp
 
                     {{-- Status Dinámico --}}
@@ -76,6 +82,9 @@
                         @elseif($tipo == 'verde')
                             {{-- Muestra el estado que viene de la tabla 'egresado_muestra' --}}
                             {{ $eg->desc_verde ?? '-----' }}
+                        @elseif($tipo == 'credencial')
+                            {{-- Muestra el estado que viene de la tabla 'egresado_muestra' --}}
+                            {{ $eg->desc_credencial ?? '-----' }}
                         @else
                             <span class="text-muted small">Seleccione una muestra</span>
                         @endif
@@ -165,6 +174,20 @@
                                     <br>
                                     
                             @endif
+                        @elseif($tipo == 'credencial')
+                            @if(in_array($eg->status_credencial,[null,0,3,4,5,6,7,8,9,10,6,11,12,15]))
+                                <a href="{{route('llamar_credencial',[$eg->anio_egreso,$eg->cuenta,$eg->carrera, 899])}}" >
+                                    <button class="boton-oscuro">
+                                        <i class="fa fa-phone" aria-hidden="true"> </i> &nbsp; LLAMAR 
+                                    </button>
+                                </a>
+                                <br>
+                                    <small><strong>Fecha:</strong></small><br>
+                                    <small><strong>Aplicador:</strong></small>
+                                    <br>
+                                    
+                            @endif
+                            
                         @endif
                     </td>
                 </tr>
