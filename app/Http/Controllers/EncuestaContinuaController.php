@@ -407,7 +407,7 @@ use  LogEvents;
             $fileStorePath = public_path("storage/json/" . $fileName);
             File::put($fileStorePath, json_encode($Encuesta));
             $this->recordEvent($Encuesta->getKey(), 'complete_continua',' ');
-            return view("encuesta.saved_continua", compact("Encuesta"));
+            return view("encuesta.saved_credencial", compact("Encuesta"));
             return redirect()->route('',[$Encuesta->nbr2,$Encuesta->nbr3])->with('encuesta','ok');
         } else {
           
@@ -425,7 +425,7 @@ use  LogEvents;
                         ->where('egresado_id',$Egresado->id)
                         ->where('muestra_id',899) //ID de muestra de enc credencial
                         ->update(['status' => 10,'updated_at'=>now()]);
-                return redirect()->route('llamar',['2016',$Egresado->cuenta,$Egresado->carrera]);
+                return redirect()->route('llamar_credencial',[$Egresado->anio_egreso,$Egresado->cuenta,$Egresado->carrera, $EgMuestra]);
             }
             return back();
 

@@ -47,10 +47,10 @@
 
             @endif
             @if($Encuesta)
-            @if(isset($Encuesta->vr1))
+            @if($Encuesta->completed==0)
             <tr>
                 <td colspan="2">
-                 Hay una encuesta existente
+                 Hay una encuesta inconclusa
                 </td>
             </tr>
             @endif
@@ -92,6 +92,15 @@
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
                         </a>
+                    </div>
+                    <div class="col tel-contorno-div">
+                        @if($Encuesta)
+                        <a href="{{route('completar_encuesta_credencial',[$Encuesta->registro])}}">
+                            <button class="boton-dorado" type="button" >
+                               <i class="fas fa-file-pen"></i>  Continuar encuesta Inconclusa
+                            </button>
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
