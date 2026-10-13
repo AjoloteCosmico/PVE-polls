@@ -68,7 +68,7 @@ class SendPosgradojob extends AbstractEgresadoMailJob
                     ->orWhere('rp.completed', '!=', '1');
             })
             ->whereIn('pos.anio_egreso', [2019, 2020, 2021, 2022])
-            ->where('c.fuente', '=', 'base original')
+            ->where('pos.fuente', '=', 'base original')
             ->whereIn('pos.plan', $planes)
             ->select(
                 'c.correo',
@@ -76,7 +76,8 @@ class SendPosgradojob extends AbstractEgresadoMailJob
                 'pos.cuenta',
                 DB::raw("CONCAT(pos.nombre, ' ', pos.paterno, ' ', pos.materno) AS nombre_completo"),
                 'pos.programa as prog_acad'
-            );
+            )
+            ->orderBy('pos.cuenta');
     }
 
     protected function getMailClass(): string
