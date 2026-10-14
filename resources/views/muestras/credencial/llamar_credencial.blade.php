@@ -94,7 +94,7 @@
                         </a>
                     </div>
                     <div class="col tel-contorno-div">
-                        @if($Encuesta)
+                        @if( ($Encuesta) && ($Encuesta-> completed !='1') )
                         <a href="{{route('completar_encuesta_credencial',[$Encuesta->registro])}}">
                             <button class="boton-dorado" type="button" >
                                <i class="fas fa-file-pen"></i>  Continuar encuesta Inconclusa
