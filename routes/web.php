@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('index_credencial/{id}/{muestra_id}', 'index_unificado')->name('muestras_credencial.index');
 
         Route::get('revision_continua', 'revision_continua')->name('muestras_ed_continua.revision');
+        Route::get('revision_credencial', 'revision_credencial')->name('muestras_credencial.revision');
 
 
 
