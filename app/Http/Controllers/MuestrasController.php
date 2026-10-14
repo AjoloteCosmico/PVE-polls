@@ -21,6 +21,7 @@ use App\Models\respuestas16;
 use App\Models\respuestas14;
 use App\Models\respuestasPosgrado;
 use App\Models\respuestasEspecialidad;
+use App\Models\respuestas_credencial;
 
 use App\Traits\LogEvents;
 
@@ -775,6 +776,26 @@ public function revision_posgrado(){
     }
 
     return view('muestras.posgrado.revision_posgrado', compact('Encuestas'));
+}
+
+public function revision_credencial(){
+
+  $Encuestas = respuestas_credencial::leftJoin('carreras', function($join) {
+            $join->on('carreras.clave_carrera', '=', DB::raw('CAST(respuestas_credencial.nbr2 AS VARCHAR)'));
+            $join->on('carreras.clave_plantel', '=', DB::raw('CAST(respuestas_credencial.nbr3 AS VARCHAR)'));
+        })
+        ->leftjoin('users', 'users.clave', '=', 'respuestas_credencial.aplica')
+        ->leftJoin('egresados', 'egresados.cuenta', '=', 'respuestas_credencial.cuenta')
+        
+        ->select('respuestas_credencial.*', 'carreras.carrera', 'carreras.plantel', 'users.name')
+        ->where('respuestas_credencial.completed', 1)
+        ->get();
+
+    if(Auth::user()->confidential < 2){
+        $Encuestas = $Encuestas->where('aplica', Auth::user()->clave);
+    }
+
+    return view('muestras.ed_continua.revision_credencial', compact('Encuestas'));
 }
 
 public function revision_especialidad(){

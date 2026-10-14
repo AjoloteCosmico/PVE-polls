@@ -66,6 +66,14 @@
           </button>
         </a>
       </div>
+      <div>
+        <a href="{{route('muestras_credencial.revision')}}">
+          <button class='boton-muestras' >
+            <br><br>ENCUESTA DE SATISFACCIÓN CREDENCIAL  <br><br><br>
+            <img src="{{ asset('img/credencial_icon.png') }}" alt="educacion continua" class="icono-boton" height="250px">
+          </button>
+        </a>
+      </div>
       @endcan
   </div>  
 </div>
