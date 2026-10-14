@@ -10,7 +10,7 @@
                     <h3>{{$Egresado->nombre}} {{$Egresado->paterno}} {{$Egresado->materno}}</h3>
                 </td>
                 <td>
-                    <h3>{{$Egresado->cuenta}}  </h3>
+                    <h3>{{$Egresado->cuenta}} </h3>
                 </td>
             </tr>
             <tr>
