@@ -15,7 +15,15 @@
     </p>
 <p>Queremos conocer tu experiencia profesional, académica y tu vínculo con la UNAM como egresado de la carrera <span style="color: #015190; font-weight: 800;">{{ $payload['prog_acad'] }}</span></p>
 <p>Responder esta encuesta nos ayudará a mejorar nuestros planes de estudio, fortalecer a nuestra comunidad y orientar a las nuevas generaciones.</p>
-<p><span style="color: #B7812C; font-weight: 700;">Tu experiencia puede hacer la diferencia. ¡Participa! </span></p>
+
+<p style="margin: 22px 0; text-align: center; font-weight: 800; color: #B7812C; line-height: 1.5; font-size: 22px;">
+    ⚠️<br>
+    <span style="display: inline-block; font-size: 22px;">Recoelctar esta información es indispensable para revalidar los programas de estudio de la universidad </span>
+</p>
+
+<p style="text-align: center; margin: 18px 0 10px; font-size: 20px; color: #B7812C; font-weight: 700;">
+    Tu experiencia puede hacer la diferencia. ¡Participa!
+</p>
 
 
     <div style="text-align: center; margin: 30px 0;">

@@ -155,7 +155,15 @@ public function send_posgrado(){
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);  
 }
 
+public function send_peques(){
+    // Fecha de idempotencia
+    $idempotenceDate = now()->subDay();
 
+    
+    dispatch(new \App\Jobs\SendCarrerasPequesjob(null, $idempotenceDate));
+    
+    return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);  
+}
 
 }
 
