@@ -27,7 +27,7 @@ class SendMailController extends Controller
         //INTERESES ESPECIALIDAD
         $intereses = [
             ['text' => 'Trámita tu credencial de egresado', 'link' => 'https://www.pveaju.unam.mx/credencial/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/credencial.png'],
-             ['text' => 'No te pierdas el periódico virtual Egresados UNAM ', 'link' => 'https://www.flipsnack.com/editorialpveu/54', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/periodico.png']|,
+            ['text' => 'No te pierdas el periódico virtual Egresados UNAM ', 'link' => 'https://www.flipsnack.com/editorialpveu/54', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/periodico.png'],
             ['text' => 'Bolsa de trabajo UNAM', 'link' => 'https://but.unam.mx/siiabut/public/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/entrevista.png'],
             ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
         ];
