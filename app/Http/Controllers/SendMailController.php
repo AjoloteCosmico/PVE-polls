@@ -160,7 +160,7 @@ public function send_peques(){
     $idempotenceDate = now()->subDay();
 
     
-    dispatch(new \App\Jobs\SendCarrerasPequesjob(null, $idempotenceDate));
+    dispatch(new \App\Jobs\CarrerasPequesjob(null, $idempotenceDate));
     
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);  
 }
