@@ -2,6 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Mail\InvitacionMail;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
