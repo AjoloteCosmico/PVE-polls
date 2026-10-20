@@ -31,7 +31,6 @@ class CarrerasPequesJob  extends AbstractEgresadoMailJob
             );
     }, 't')
     ->where('t.total_generacion', '<', 60)
-    // 👇 aquí está el cambio clave
     ->whereNotExists(function ($q) {
         $q->select(DB::raw(1))
           ->from('respuestas20 as r')
@@ -39,9 +38,7 @@ class CarrerasPequesJob  extends AbstractEgresadoMailJob
           ->where('r.completed', '1');
     })
     ->select('t.id', 't.cuenta', 't.nombre', 't.paterno', 't.carrera')
-    ->orderByDesc('t.id')
-    ->get();     
-
+    ->orderByDesc('t.id');
     }
 
     protected function getMailClass(): string
