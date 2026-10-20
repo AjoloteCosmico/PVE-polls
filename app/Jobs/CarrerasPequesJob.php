@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendCarrerasPequesJob  extends AbstractEgresadoMailJob
+class CarrerasPequesJob  extends AbstractEgresadoMailJob
 {
  
     protected function buildQuery(): Builder
