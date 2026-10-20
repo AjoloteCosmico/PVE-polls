@@ -22,25 +22,25 @@ use DB;
 class SendMailController extends Controller
 {
     public function test($id){
-        $Egresado=EgresadoEspecialidad::find($id);
+        $Egresado=Egresado::find($id);
         $Correos=Correo::where('cuenta',$Egresado->cuenta)->get();
         //INTERESES ESPECIALIDAD
         $intereses = [
             ['text' => 'Trámita tu credencial de egresado', 'link' => 'https://www.pveaju.unam.mx/credencial/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/credencial.png'],
-            ['text' => 'Responde la encuesta de seguimiento especialidad UNAM', 'link' => 'https://encuestas.pveaju.unam.mx/pveaju/resource/enc_especialidad', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/pos_derecho.png'],
+             ['text' => 'No te pierdas el periódico virtual Egresados UNAM ', 'link' => 'https://www.flipsnack.com/editorialpveu/54', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/periodico.png']|,
             ['text' => 'Bolsa de trabajo UNAM', 'link' => 'https://but.unam.mx/siiabut/public/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/entrevista.png'],
             ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
         ];
         $data = [
                 'nombre' => $Egresado->nombre.' '.$Egresado->paterno,
                 'cuenta' => $Egresado->cuenta,
-                'prog_acad' => 'ESPECIALIDAD PRUEBA',
+                'prog_acad' => 'Programa de  PRUEBA',
                 'extra_items' => $intereses // Aquí ahorita es una constante, pero habra q hacer un algoritomo ->getIntereses()
             ];
         foreach($Correos as $correo){
             //agregar parametros especificos a data
             $specific_data=$data + ['correo' => $correo->correo, 'correo_id'=>$correo->id];
-            Mail::to($correo->correo)->queue(new EspecialidadConvocatoriaMail($specific_data));
+            Mail::to($correo->correo)->queue(new InvMail($specific_data));
         }
         return 'Correo enviado conv esp'.$Correos->pluck('correo');
     }
