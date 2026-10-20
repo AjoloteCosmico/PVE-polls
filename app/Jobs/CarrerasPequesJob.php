@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\InvitacionMail;
+use App\Mail\InvMail;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Bus\Queueable;
@@ -17,11 +17,11 @@ class CarrerasPequesJob  extends AbstractEgresadoMailJob
     protected function buildQuery(): Builder
     {
          return DB::table(function ($sub) {
-        $sub->from('EGRESADOS as e')
+        $sub->from('egresados as e')
             ->whereIn('e.anio_egreso', [2020, 2021, 2022])
             ->whereExists(function ($q) {
                 $q->select(DB::raw(1))
-                  ->from('CARRERAS as c')
+                  ->from('carreras as c')
                   ->whereColumn('c.clave_carrera', 'e.carrera')
                   ->whereColumn('c.clave_plantel', 'e.plantel');
             })
@@ -46,7 +46,7 @@ class CarrerasPequesJob  extends AbstractEgresadoMailJob
 
     protected function getMailClass(): string
     {
-        return InvitacionMail::class;
+        return InvMail::class;
     }
 
     protected function getDefaultIntereses(): array
