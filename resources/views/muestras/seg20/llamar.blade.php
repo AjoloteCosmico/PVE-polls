@@ -19,13 +19,7 @@
                     <h4>{{$Carrera->plantel}}  </h4> 
                 </td>
                 <td>
-                    @if($gen==2020)
-                    <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-                        <button type="button"  class="boton-oscuro">
-                            <i class="fas fa-table"></i> Ir a muestra Carrera 
-                        </button>
-                    </a>
-                    @endif
+                    
                     @if($gen==2018)
                     <a href="{{route('muestras16.show',[$Egresado->carrera,$Egresado->plantel])}}">
                         <button type="button"  class="boton-oscuro">
@@ -105,11 +99,20 @@
                         <br><br>
                 <div class="row  tel-contorno-div">
                     <div class="col tel-contorno-div"> 
+                        @if($gen==2018)
                         <a href="{{route('act_data',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
                             <button type="button" class="boton-dorado">
                                 <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
                             </button>
                         </a>
+                        @else
+                        <a href="{{route('act_data_seg',[ $Egresado->cuenta, $Egresado->carrera,$gen,$telefono->id])}}">
+                            <button type="button" class="boton-dorado">
+                                <i class="fas fa-phone"></i> Actualizar datos de contacto <br>(Llamando a este numero)
+                            </button>
+                        </a>
+                        @endif
+
                     </div>
                    <div class="col tel-contorno-div"> 
                          @if($Encuesta)

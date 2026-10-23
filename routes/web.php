@@ -325,12 +325,17 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/encuestas/llamar_posgrado/{id}/{plan}/{programa}/{siguiente?}', [LlamadasController::class, 'llamar_egresadosPosgrado'])->name('llamar_posgrado');
     Route::get('/encuestas/llamar_especialidad/{id}/{especialidad}', [LlamadasController::class, 'llamar_egresadosEspecialidad'])->name('llamar_especialidad');
-    Route::get('/actualizar/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data'])->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
-    Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_continua'])->name('act_data_continua');
-    Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_verde'])->name('act_data_verde');
-    Route::get('/actualizar_credencial/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_credencial'])->name('act_data_credencial');
+
+
+    Route::get('/actualizar_seguimiento/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_primario'])->defaults('typeStudy', 'seg')->name('act_data_seg');
+    Route::get('/actualizar_actualizacion/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_primario'])->defaults('typeStudy', 'act')->name('act_data'); //Deberiamos separar esta ruta de la clase de Encuestas20
+    Route::get('/actualizar_continua/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_primario'])->defaults('typeStudy', 'ed_continua')->name('act_data_continua');
+    Route::get('/actualizar_verde/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_primario'])->defaults('typeStudy', 'encuesta_verde')->name('act_data_verde');
+    Route::get('/actualizar_credencial/{cuenta}/{carrera}/{gen}/{telefono_id?}', [LlamadasController::class, 'act_data_primario'])->defaults('typeStudy', 'credencial')->name('act_data_credencial');
     Route::get('/actualizar_posgrado/{cuenta}/{programa}/{plan}/{telefono_id?}', [LlamadasController::class, 'act_data_posgrado'])->name('act_data_posgrado'); 
     Route::get('/actualizar_especialidad/{cuenta}/{especialidad}/{telefono_id?}', [LlamadasController::class, 'act_data_especialidad'])->name('act_data_especialidad'); 
+
+    
     //ruta para cargar sig egresado con ajax
     Route::get('/egresado/siguiente/{id}/{gen}', [LlamadasController::class, 'getSiguiente'])->name('llamadas.siguiente_eg');
     Route::get('/verde/siguiente/{id}/{muestra_id}', [LlamadasController::class, 'getSiguienteVerde'])->name('llamadas.siguiente_verde');

@@ -45,6 +45,8 @@
     <h1 style="color:white">{{$Carrera}} {{$Plantel}}   </h1>
     <h2 style="color:white"> Muestra: {{$Egresado->anio_egreso}} </h2> 
   </div>
+
+    
   <div class="row">
     <div class="col">
         @if($gen==2020)

@@ -7,7 +7,7 @@ use App\Models\Correo;
 use App\Traits\EnviaAvisoPrivacidad;
 use Illuminate\Support\Facades\Auth;
 
-class EmailManager extends Component
+class CorreoManager extends Component
 {
     use EnviaAvisoPrivacidad;
 
