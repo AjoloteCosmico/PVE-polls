@@ -6,7 +6,7 @@ use App\Mail\EspecialidadConvocatoriaMail;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
-class EspecialidadConvocatoriajob extends AbstractEgresadoMailJobpai
+class EspecialidadConvocatoriajob extends AbstractEgresadoMailJob
 {
     protected function buildQuery(): Builder
     {

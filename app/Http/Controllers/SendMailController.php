@@ -130,7 +130,7 @@ public function send_continua(){
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
 
-public function send_convocatoria_especialidad(){
+public function send_especialidad(){
      //INTERESES ESPECIALIDAD
         $intereses = [
             ['text' => 'Trámita tu credencial de egresado', 'link' => 'https://www.pveaju.unam.mx/credencial/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/credencial.png'],
@@ -138,9 +138,9 @@ public function send_convocatoria_especialidad(){
             ['text' => 'Bolsa de trabajo UNAM', 'link' => 'https://but.unam.mx/siiabut/public/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/entrevista.png'],
             ['text' => 'Apoyanos en el ranking internacional! encuesta de empleabilidad verde', 'link' => 'https://encuestas.pveaju.unam.mx/encuesta_verde/inicio/', 'image' => 'https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/emp_verde.png'],
         ];
-        
+        $idempotenceDate = now()->subDay();
     // Despacha job en background y responde inmediatamente
-    dispatch(new \App\Jobs\EspecialidadConvocatoriajob($intereses));
+    dispatch(new \App\Jobs\SendEspJob(null, $idempotenceDate));
 
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
