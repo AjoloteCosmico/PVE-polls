@@ -38,6 +38,96 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
 
     abstract protected function getDefaultIntereses(): array;
 
+    /**
+     * Permite depurar el resultado final del filtro sin ejecutar el envío real.
+     *
+     * Ejemplo:
+     *   $job = new SendEspJob(null, now());
+     *   $job->debugQuery([
+     *      'buscar' => '123456',
+     *      'tipo' => 'todos',
+     *      'cuenta' => '123456',
+     *      'correo' => 'juan@ejemplo.com',
+     *   ]);
+     */
+    public function debugQuery(array $filtros = [], bool $dump = true): array
+    {
+        $query = $this->buildQuery();
+
+        $sql = $query->toSql();
+        $bindings = $query->getBindings();
+        $resultados = $query->get()->map(function ($row) {
+            return (array) $row;
+        })->all();
+
+        $filtrados = $this->applyDebugFilters($resultados, $filtros);
+
+        $payload = [
+            'sql' => $sql,
+            'bindings' => $bindings,
+            'total_bruto' => count($resultados),
+            'total_filtrado' => count($filtrados),
+            'cuentas' => array_values(array_unique(array_filter(array_map(function ($row) {
+                $cuenta = $row['cuenta'] ?? $row['numero_cuenta'] ?? null;
+                return is_scalar($cuenta) ? (string) $cuenta : null;
+            }, $filtrados)))),
+            'filtros' => $filtros,
+            'rows' => $filtrados,
+        ];
+
+        Log::info('Debug filtro egresados', $payload);
+
+        if ($dump) {
+            dump($payload);
+        }
+
+        return $payload;
+    }
+
+    protected function applyDebugFilters(array $rows, array $filtros = []): array
+    {
+        $buscar = strtolower(trim((string) ($filtros['buscar'] ?? '')));
+        $cuenta = trim((string) ($filtros['cuenta'] ?? ''));
+        $correo = strtolower(trim((string) ($filtros['correo'] ?? '')));
+        $tipo = strtolower(trim((string) ($filtros['tipo'] ?? '')));
+
+        if ($buscar === '' && $cuenta === '' && $correo === '' && ($tipo === '' || $tipo === 'todos')) {
+            return $rows;
+        }
+
+        return array_values(array_filter($rows, function ($row) use ($buscar, $cuenta, $correo, $tipo) {
+            $row = (array) $row;
+
+            $valorCuenta = strtolower((string) ($row['cuenta'] ?? $row['numero_cuenta'] ?? ''));
+            $valorCorreo = strtolower((string) ($row['correo'] ?? $row['email'] ?? ''));
+            $textoGeneral = strtolower(json_encode($row));
+
+            if ($cuenta !== '' && $valorCuenta !== strtolower($cuenta)) {
+                return false;
+            }
+
+            if ($correo !== '' && !str_contains($valorCorreo, $correo)) {
+                return false;
+            }
+
+            if ($tipo !== '' && $tipo !== 'todos') {
+                $coincideTipo = str_contains($textoGeneral, $tipo)
+                    || str_contains($valorCuenta, $tipo)
+                    || str_contains($valorCorreo, $tipo);
+
+                if (!$coincideTipo) {
+                    return false;
+                }
+            }
+
+            if ($buscar !== '' && !str_contains($textoGeneral, $buscar)) {
+                return false;
+            }
+
+            return true;
+        }));
+    }
+
     //todo este rollo solo es para traer de la clase Mail el type que graba en email_Tracking al enviarse
     protected function getTrackingType(): string
     {

@@ -22,7 +22,7 @@ class SendEspJob  extends AbstractEgresadoMailJob
             ->where('esp.cuenta', '!=', '')
             ->where(function ($query) {
                 $query->whereNull('re.completed')
-                    ->orWhere('re.completed', '!=', '1');
+                    ->orWhere('re.completed', '!=', 1);
             })
             ->whereIn('esp.anio_egreso', [ 2020, 2021, 2022,2023])
             // ->where('pos.fuente', '=', 'base original')

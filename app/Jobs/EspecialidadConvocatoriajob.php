@@ -15,7 +15,7 @@ class EspecialidadConvocatoriajob extends AbstractEgresadoMailJobpai
             ->whereIn('egresados_especialidad.anio_egreso', [2020, 2021, 2022, 2023])
             ->where(function ($query) {
                 $query->whereNull('respuestas_especialidad.sec_espf')
-                    ->orWhere('respuestas_especialidad.sec_espf', '!=', '1')
+                    ->orWhere('respuestas_especialidad.sec_espf', '!=', 1)
                     ->orWhere('respuestas_especialidad.espf1', '=', '2');
             })
             ->select('egresados_especialidad.id', 'egresados_especialidad.cuenta', 'egresados_especialidad.nombre', 'egresados_especialidad.paterno')
