@@ -30,15 +30,18 @@ class TelefonoManager extends Component
         $this->telefonos = Telefono::where('cuenta', $this->cuenta)->get();
     }
 
+    #[On('nuevoTelefono')]
     public function nuevoTelefono()
     {
         $this->resetValidation();
         $this->phoneId = null;
         $this->telefonoInput = '';
         $this->telefonoDescripcion = '';
+        $this->telefonoStatus = 0;
         $this->showPhoneModal = true;
     }
 
+    #[On('editarTelefono')]
     public function editarTelefono($id)
     {
         $this->resetValidation();
@@ -81,6 +84,7 @@ class TelefonoManager extends Component
 
         $this->showPhoneModal = false;
         $this->cargarTelefonos();
+        $this->dispatch('contactoActualizado');
         $this->dispatch('swal:success', message: $mensaje);
 
 

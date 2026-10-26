@@ -97,9 +97,10 @@
     <div class="col"> 
     </div>
   </div>
+
+
   <div class="col-6 col-lg-12 table-responsive">  
   
- 
     <h1> TELEFONOS DEL EGRESADO </h1> 
     <div class="col-sm-12 text-right">
         <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 2.3vw" data-toggle="modal" data-target="#phoneModal">

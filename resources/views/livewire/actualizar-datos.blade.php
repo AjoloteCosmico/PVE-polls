@@ -24,8 +24,8 @@
             @endif
         </div>
         <div class="col">
-            @if($gen)
-                <a href="{{ route('llamar', [$gen, $egresado->cuenta, $egresado->carrera]) }}">
+            @if($config['botonReturn'])
+                <a href="{{ $config['botonReturn'] }}">
                     <button type="button" class="boton-volver">
                         <i class="fa-sharp fa-solid fa-rotate-left"></i>
                     </button>
@@ -34,9 +34,10 @@
         </div>
         <div class="col"></div>
     </div>
+    <br><br>
 
     {{-- TELÉFONOS --}}
-    <div class="col-12 table-responsive text-white">  
+    <div class="col-6 col-lg-12 table-responsive text-white">  
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h1>TELÉFONOS DEL EGRESADO</h1> 
             <button type="button" class="btn" style="background-color: {{ Auth::user()->color }}; color: white;"
@@ -61,7 +62,9 @@
                         <td>{{ $t->cuenta }}</td>
                         <td>{{ $t->telefono }}</td>
                         <td>{{ $t->descripcion }}</td>
-                        <td>{{ $t->description }}</td>
+                        <td style="color: '#ffffff'; font-weight: bold;">
+                            {{ $t->status_description ?? 'Sin estatus' }}
+                        </td>
                         <td>
                             <button type="button" class="btn" style="background-color: {{ Auth::user()->color }}; color: white;"
                                     wire:click="$dispatch('editarTelefono', { id: {{ $t->id }} })">
@@ -100,7 +103,7 @@
                     <tr>
                         <td>{{ $c->cuenta }}</td>
                         <td>{{ $c->correo }}</td>
-                        <td>{{ $c->description }}</td>
+                        <td></td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn" style="background-color: {{ Auth::user()->color }}; color: white; margin-right: 5px;"

@@ -48,13 +48,14 @@ class ActualizarDatos extends Component
                     'permiso'  => 'aplicar_encuesta_actualizacion',
                     'comenzar' => 'comenzar_encuesta_2018',
                     'muestraRoute' => route('muestras16.show', [$this->egresado->carrera, $this->egresado->plantel]),
-                    'botonReturn' => route('llamar')
+                    'botonReturn' => route('llamar', [2018, $this->egresado->cuenta, $this->egresado->carrera])
                 ],
             'seg' => [
                     'mailType' => 'correo_seg_22',
                     'permiso'  => 'aplicar_encuesta_seguimiento',
                     'comenzar' => 'comenzar_encuesta_2022',
                     'muestraRoute' => route('muestras22.show22', [$this->egresado->carrera, $this->egresado->plantel]),
+                    'botonReturn' => route('llamar', [2022, $this->egresado->cuenta, $this->egresado->carrera])
             ],
 
              'ed_continua' => [
@@ -62,6 +63,7 @@ class ActualizarDatos extends Component
                     'permiso'  => 'aplicar_encuesta_seguimiento',
                     'comenzar' => 'comenzar_encuesta_2022',
                     'muestraRoute' => route('muestras.show_unificado', [$this->egresado->carrera, $this->egresado->plantel, 897]),
+                    'botonReturn' => route('llamar_continua', [$this->egresado->anio_egreso, $this->egresado->cuenta, $this->egresado->carrera, 897])
             ],
 
             'encuesta_verde' => [
@@ -69,6 +71,7 @@ class ActualizarDatos extends Component
                     'permiso'  => 'aplicar_encuesta_seguimiento',
                     'comenzar' => 'comenzar_encuesta_2022',
                     'muestraRoute' => route('muestras.show_unificado_verde', [$this->egresado->carrera, $this->egresado->plantel, 898]),
+                    'botonReturn' => route('llamar_verde', [$this->egresado->anio_egreso, $this->egresado->cuenta, $this->egresado->carrera, 898])
             ],
 
             'credencial' => [
@@ -76,6 +79,7 @@ class ActualizarDatos extends Component
                     'permiso'  => 'aplicar_encuesta_seguimiento',
                     'comenzar' => 'comenzar_encuesta_2022',
                     'muestraRoute' => route('muestras.show_unificado', [$this->egresado->carrera, $this->egresado->plantel, 899]),
+                    'botonReturn' => route('llamar_credencial', [$this->egresado->anio_egreso, $this->egresado->cuenta, $this->egresado->carrera, 899])
             ],
 
             'posgrado' => [
