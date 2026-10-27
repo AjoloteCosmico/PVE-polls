@@ -882,6 +882,14 @@ public function programas_index(){
 
 public function index_posgrado($programa){
   $programa = urldecode($programa);
+  if($programa == '0'){
+    $planes=EgresadoPosgrado::whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+    ->where('muestra', '=', 7)
+    ->where('fuente','base original')
+    ->select('plan')
+    ->distinct()
+    ->get();
+  }else{
   $planes = EgresadoPosgrado::where('programa', $programa)
     ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
     ->where('muestra', '=', 7)
@@ -889,13 +897,20 @@ public function index_posgrado($programa){
     ->select('plan')
     ->distinct()
     ->get();
-  
+  }
+
   foreach ($planes as $p) {
     $queryBase = EgresadoPosgrado::where('programa', $programa)
       ->where('plan', $p->plan)
       ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
       ->where('muestra', '=', 7)
       ->where('fuente', 'base original');
+    if($programa=='0'){
+      $queryBase = EgresadoPosgrado::where('plan', $p->plan)
+      ->whereIn('anio_egreso', ['2019', '2020', '2021', '2022'])
+      ->where('muestra', '=', 7)
+      ->where('fuente', 'base original');
+    }
 
     // Encuestas por teléfono
     $p->nencuestas_tel = (clone $queryBase)->where('status', 1)->count();
@@ -908,6 +923,12 @@ public function index_posgrado($programa){
       ->where('programa', $programa)
       ->where('plan', $p->plan)
       ->value('requeridas_5');
+
+    if($programa=='0'){
+        $p->requeridas = Muestra::where('estudio_id', 7)
+        ->where('plan', $p->plan)
+        ->value('requeridas_5');
+    }
   }
   $this->recordEvent(0, 'muestra_posgrado', 'posgrado'.$programa);
   return view('muestras.posgrado.index', compact('planes', 'programa'));
