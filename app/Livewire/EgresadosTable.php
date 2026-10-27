@@ -89,6 +89,14 @@ class EgresadosTable extends Component
             })
             ->leftJoin('codigos as c_continua', 'c_continua.code', '=', 'em_continua.status')
 
+            //credencial
+            ->leftJoin('egresado_muestra as em_credencial', function($join) {
+                $join->on('em_credencial.egresado_id', '=', 'egresados.id')
+                     ->where('em_credencial.muestra_id', '=', 899);
+
+            })
+            ->leftJoin('codigos as c_credencial', 'c_credencial.code', '=', 'em_credencial.status')
+
             //VERDE
             ->leftJoin('egresado_muestra as em_verde', function($join) {
                 $join->on('em_verde.egresado_id', '=', 'egresados.id')
@@ -122,6 +130,12 @@ class EgresadosTable extends Component
                 'c_verde.description as desc_verde',
                 'c_verde.color_rgb as color_verde',
                 'em_verde.egresado_id as es_verde',
+
+                // Campos Muestra Credencial
+                'em_credencial.status as status_credencial',
+                'c_credencial.description as desc_credencial',
+                'c_credencial.color_rgb as color_credencial',
+                'em_credencial.egresado_id as es_credencial',
 
 
 
