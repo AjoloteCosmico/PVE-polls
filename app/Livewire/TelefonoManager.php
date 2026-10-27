@@ -16,6 +16,7 @@ class TelefonoManager extends Component
     public $showPhoneModal = false;
     public $phoneId = null;
     public $telefonoInput = '';
+    public $telefonoStatus = 13; // Valor por defecto para el status del teléfono
     public $telefonoDescripcion = '';
 
 
@@ -37,7 +38,7 @@ class TelefonoManager extends Component
         $this->phoneId = null;
         $this->telefonoInput = '';
         $this->telefonoDescripcion = '';
-        $this->telefonoStatus = 0;
+        $this->telefonoStatus = '13';
         $this->showPhoneModal = true;
     }
 
@@ -49,6 +50,7 @@ class TelefonoManager extends Component
         $this->phoneId = $tel->id;
         $this->telefonoInput = $tel->telefono;
         $this->telefonoDescripcion = $tel->descripcion;
+        $this->telefonoStatus = $tel->status;
         $this->showPhoneModal = true;
     }
 
@@ -68,6 +70,7 @@ class TelefonoManager extends Component
             $tel = Telefono::find($this->phoneId);
             $tel->telefono = $this->telefonoInput;
             $tel->descripcion = $this->telefonoDescripcion;
+            $tel->status = $this->telefonoStatus;
             $tel->save();
             $mensaje = 'Teléfono editado correctamente';
         } else {
@@ -76,7 +79,7 @@ class TelefonoManager extends Component
             $tel->cuenta = $this->cuenta;
             $tel->telefono = $this->telefonoInput;
             $tel->descripcion = $this->telefonoDescripcion;
-            $tel->status = 0;
+            $tel->status = $this->telefonoStatus;
             $tel->save();
             $mensaje = 'Teléfono agregado correctamente';
         }

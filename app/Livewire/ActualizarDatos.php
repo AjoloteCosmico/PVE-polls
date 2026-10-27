@@ -7,6 +7,8 @@ use Livewire\Attributes\On;
 use App\Models\Egresado;
 use App\Models\Telefono;
 use App\Models\Correo;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\DB;
 
 class ActualizarDatos extends Component
 {
@@ -17,8 +19,8 @@ class ActualizarDatos extends Component
     public $gen;
     public $typeStudy;
 
-    public $telefonos = [];
-    public $correos = [];
+    //public $telefonos = [];
+    //public $correos = [];
 
     public function mount($egresado, $telefonoEnLlamada, $carrera = null, $plantel = null, $gen, $typeStudy)
     {
@@ -29,14 +31,42 @@ class ActualizarDatos extends Component
         $this->gen = $gen;
         $this->typeStudy = $typeStudy;
 
-        $this->cargarContactos();
+        //$this->cargarContactos();
     }
 
-    #[On('contactoActualizado')]
-    public function cargarContactos()
+    #[Computed]
+    public function telefonos()
     {
-        $this->telefonos = Telefono::where('cuenta', $this->egresado->cuenta)->get();
-        $this->correos = Correo::where('cuenta', $this->egresado->cuenta)->get();
+        return DB::table('telefonos')
+            ->where('telefonos.cuenta', $this->egresado->cuenta)
+            ->leftJoin('codigos', 'codigos.code', '=', 'telefonos.status')
+            ->select('telefonos.*', 'codigos.description as status_description')
+            ->orderBy('telefonos.id')
+            ->get();
+    }
+
+    #[Computed]
+    public function correos()
+    {
+        return Correo::where('correos.cuenta', $this->egresado->cuenta)
+            ->leftJoin('codigos', 'codigos.code', '=', 'correos.status')
+            ->select('correos.*', 'codigos.description as status_description')
+            ->get();
+    }
+
+    //#[On('contactoActualizado')]
+    //public function cargarContactos()
+    //{
+    //    $this->telefonos = Telefono::where('cuenta', $this->egresado->cuenta)->get();
+    //    $this->correos = Correo::where('cuenta', $this->egresado->cuenta)->get();
+    //}
+
+    #[On('contactoActualizado')]
+    public function refrescar()
+    {
+        unset($this->telefonos);
+        unset($this->correos);
+        // vacío a propósito: el evento fuerza el re-render y las computadas se reconsultan
     }
 
 

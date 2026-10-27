@@ -57,8 +57,8 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($telefonos as $t)
-                    <tr>
+                @forelse($this->telefonos as $t)
+                    <tr wire:key="tel-{{ $t->id }}">
                         <td>{{ $t->cuenta }}</td>
                         <td>{{ $t->telefono }}</td>
                         <td>{{ $t->descripcion }}</td>
@@ -99,11 +99,11 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($correos as $c)
-                    <tr>
+                @forelse($this->correos as $c)
+                    <tr wire:key="mail-{{ $c->id }}">
                         <td>{{ $c->cuenta }}</td>
                         <td>{{ $c->correo }}</td>
-                        <td></td>
+                        <td>{{ $c->status_description }}</td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn" style="background-color: {{ Auth::user()->color }}; color: white; margin-right: 5px;"
