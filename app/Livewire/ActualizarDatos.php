@@ -76,6 +76,7 @@ class ActualizarDatos extends Component
             'act' => [ 
                     'mailType' => 'act_encuesta',
                     'permiso'  => 'aplicar_encuesta_actualizacion',
+                    
                     'comenzar' => 'comenzar_encuesta_2018',
                     'muestraRoute' => route('muestras16.show', [$this->egresado->carrera, $this->egresado->plantel]),
                     'botonReturn' => route('llamar', [2018, $this->egresado->cuenta, $this->egresado->carrera])

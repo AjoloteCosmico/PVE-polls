@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Correo;
 use App\Traits\EnviaAvisoPrivacidad;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
 
 class CorreoManager extends Component
@@ -18,7 +19,7 @@ class CorreoManager extends Component
     public $showEmailModal = false;
     public $emailId = null;
     public $correoInput = '';
-    public $correoStatus = '13'; // Default 'En uso'
+    public $correoStatus = '13';
     public $correoDescripcion = '';
 
     public function mount($cuenta, $egresado){
@@ -32,6 +33,7 @@ class CorreoManager extends Component
         $this->correos = Correo::where('cuenta', $this->cuenta)->get();
     }
 
+    #[On('nuevoCorreo')]
     public function nuevoCorreo()
     {
         $this->resetValidation();
@@ -43,6 +45,7 @@ class CorreoManager extends Component
         
     }
 
+    #[On('editarCorreo')]
     public function editarCorreo($id)
     {
         $this->resetValidation();
@@ -84,6 +87,7 @@ class CorreoManager extends Component
  
         $this->showEmailModal = false;
         $this->cargarCorreos();
+        $this->dispatch('contactoActualizado');
         $this->dispatch('swal:success', message: 'Correo guardado y aviso enviado correctamente');
 
     }

@@ -133,6 +133,8 @@
       </tbody>
     </table>
   </div>
+
+
     <h1> CORREOS DEL EGRESADO</h1>
     <div class="col-sm-12 text-right">
         
@@ -140,6 +142,8 @@
             <i class="fas fa-plus-circle"></i>&nbsp; Nuevo Correo </button>
         
     </div>
+
+
     <table class="table text-xl " style="table-layout:fixed;">
       <thead>
         <tr>
@@ -191,7 +195,7 @@
               <td>
                 <a href="{{route('comenzar_encuesta_2020',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
                   <button class="boton-oscuro" > 
-                    <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO <br> Y ENCUESTAR
+                    <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO<br> Y ENCUESTAR
                   </button>
                 </a>
               </td>

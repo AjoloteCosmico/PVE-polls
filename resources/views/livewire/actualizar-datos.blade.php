@@ -79,8 +79,10 @@
         </table>
     </div>
 
+    <br><br>
+
     {{-- CORREOS --}}
-    <div class="col-12 table-responsive text-white mt-4">
+    <div class="col-6 col-lg-12 table-responsive text-white">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h1>CORREOS DEL EGRESADO</h1>
             <button type="button" class="btn" style="background-color: {{ Auth::user()->color }}; color: white;"
@@ -96,6 +98,8 @@
                     <th style="width: 30%;">Correo</th>
                     <th>Status</th>
                     <th>Acciones</th>
+                    <th>Enviar Encuesta</th>
+                    <th>Encuestar</th>
                 </tr>
             </thead>
             <tbody>
@@ -104,29 +108,33 @@
                         <td>{{ $c->cuenta }}</td>
                         <td>{{ $c->correo }}</td>
                         <td>{{ $c->status_description }}</td>
-                        <td>
-                            <div class="btn-group" role="group">
+                            <td>
+                            
                                 <button type="button" class="btn" style="background-color: {{ Auth::user()->color }}; color: white; margin-right: 5px;"
                                         wire:click="$dispatch('editarCorreo', { id: {{ $c->id }} })">
                                     <i class="fa fa-edit"></i> EDITAR
                                 </button>
+                            </td>
 
+                            <td>
                                 {{-- Envío por Correo --}}
                                 @if($config['mailType'])
                                     <button type="button" class="btn boton-dorado"
                                             wire:click="$dispatch('solicitarEnvioCorreo', { id: {{ $c->id }}, mailType: '{{ $config['mailType'] }}' })">
-                                        <i class="fa fa-paper-plane"></i> ENVIAR ENCUESTA
+                                        <i class="fa fa-paper-plane"></i> ENVIAR ENCUESTA <br>POR CORREO
                                     </button>
                                 @endif
+                            </td>
+
+                            <td>
 
                                 {{-- Permiso para encuestar --}}
                                 @if($config['permiso'] && auth()->user()->can($config['permiso']))
                                     <a href="{{ route($config['comenzar'], [$c->id, $egresado->cuenta, $egresado->carrera]) }}" class="btn boton-oscuro">
-                                        <i class="fas fa-paper-plane"></i> AVISO Y ENCUESTAR
+                                        <i class="fas fa-paper-plane"></i> ENVIAR AVISO  <br> ENCUESTAR
                                     </a>
                                 @endif
-                            </div>
-                        </td>
+                            </td>
                     </tr>
                 @empty
                     <tr><td colspan="4" class="text-center">No hay correos registrados.</td></tr>

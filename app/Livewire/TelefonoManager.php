@@ -16,7 +16,7 @@ class TelefonoManager extends Component
     public $showPhoneModal = false;
     public $phoneId = null;
     public $telefonoInput = '';
-    public $telefonoStatus = 13; // Valor por defecto para el status del teléfono
+    public $telefonoStatus = 13;
     public $telefonoDescripcion = '';
 
 
