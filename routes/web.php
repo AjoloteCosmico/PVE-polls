@@ -311,8 +311,15 @@ Route::group(['middleware' => ['auth']], function(){
     
     /**Dark Mode */
     Route::get('/switch', [ConfigController::class, 'switch_mode'])->name('switch_mode');
-    /**Conteo estadístico bueno */
-    Route::get('/stats', [StatsController::class,'optimized_stats'])->name('stats');
+
+    /** Nueva arquitectura de reportes */
+    Route::get('/stats', [StatsController::class, 'dashboard'])->name('stats');
+    Route::get('/stats/{tab}', [StatsController::class, 'dashboardTab'])
+        ->whereIn('tab', ['general', 'seguimiento', 'actualizacion', 'posgrado', 'especialidad', 'sondeo', 'correos', 'actividad'])
+        ->name('stats.tab');
+
+    /** Legacy */
+    Route::get('/stats-legacy', [StatsController::class, 'optimized_stats'])->name('stats.legacy');
     
     Route::get('/send_mail_stats', [StatsController::class,'weeklyReportSeg'])->name('weeklyReportSeg');
     /** Reactivos, Opciones y Llamadas */

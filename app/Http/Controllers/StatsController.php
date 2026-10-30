@@ -33,6 +33,9 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\ChartDataProcessor;
 use App\Services\ReportEncuestaService;
+use App\Services\Reports\ActivityReportService;
+use App\Services\Reports\EmailTrackingReportService;
+use App\Services\Reports\SurveyReportService;
 
 use Symfony\Component\Process\Process; 
 use Symfony\Component\Process\Exception\ProcessFailedException; 
@@ -40,6 +43,55 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class StatsController extends Controller
 {
    use ChartDataProcessor;
+
+   /**
+    * Dashboard modular de reportes.
+    *
+    * Objetivo final:
+    * - Servir la nueva arquitectura de tabs y reportes centralizados.
+    * - Cargar los payloads estandarizados desde los servicios.
+    *
+    * Contrato actual de fase 1:
+    * - Esta acción prepara el conjunto base del dashboard y deja documentado
+    *   el contrato de cada subreporte.
+    * - La lógica funcional se agregará en la siguiente fase.
+    */
+   public function dashboard()
+   {
+       $reportGeneral = app(SurveyReportService::class)->summary();
+       $reportSeguimiento = app(ActivityReportService::class)->summary(['study' => 'seguimiento']);
+       $reportActualizacion = app(SurveyReportService::class)->summary(['study' => 'actualizacion']);
+       $reportPosgrado = app(SurveyReportService::class)->summary(['study' => 'posgrado']);
+       $reportEspecialidad = app(SurveyReportService::class)->summary(['study' => 'especialidad']);
+       $reportSondeo = app(SurveyReportService::class)->summary(['study' => 'sondeo']);
+       $reportCorreos = app(EmailTrackingReportService::class)->summary();
+       $reportActividad = app(ActivityReportService::class)->summary();
+
+       return view('stats.index', compact(
+           'reportGeneral',
+           'reportSeguimiento',
+           'reportActualizacion',
+           'reportPosgrado',
+           'reportEspecialidad',
+           'reportSondeo',
+           'reportCorreos',
+           'reportActividad'
+       ));
+   }
+
+   /**
+    * Carga una pestaña específica del dashboard.
+    *
+    * @param string $tab
+    * @return \Illuminate\View\View
+    */
+   public function dashboardTab(string $tab)
+   {
+       // El contrato queda documentado aquí para desarrolladores.
+       // Cada tab puede resolver su payload desde el servicio correspondiente.
+       return $this->dashboard();
+   }
+
    public function optimized_stats()
 {
     if (!auth()->user()->can('ver_graficas')) {
