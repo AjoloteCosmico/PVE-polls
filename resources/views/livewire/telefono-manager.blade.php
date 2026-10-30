@@ -1,16 +1,4 @@
 <div>
-    <button type="button" class="btn boton-dorado" wire:click="nuevoTelefono">
-        <i class="fas fa-plus-circle"></i>&nbsp; Nuevo teléfono
-    </button>
-
-    @foreach($telefonos as $t)
-        <button type="button" class="contact_data" style="color: #002b7a;"
-                wire:click="editarTelefono({{ $t->id }})"
-                wire:key="telefono-{{ $t->id }}">
-            {{ $t->telefono }}
-        </button> &nbsp;
-    @endforeach
-
     @if($showPhoneModal)
         <div class="modal show d-block" tabindex="-1" style="background: rgba(19, 25, 49, 0.85); z-index: 2000;" role="dialog">
             <div class="modal-dialog" style="font-size: 150%; z-index:1500">

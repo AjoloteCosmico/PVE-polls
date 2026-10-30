@@ -203,6 +203,49 @@ class LlamadasController extends Controller
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
 
+    private const PERMISOS = [
+        'seg' => ['aplicar_encuesta_seguimiento', 'aplicar_encuesta_actualizacion'],
+        'act' => ['aplicar_encuesta_seguimiento', 'aplicar_encuesta_actualizacion'],
+        'posgrado' => ['aplicar_encuesta_posgrado'],
+        'esp' => ['aplicar_encuesta_posgrado'],
+    ];
+
+
+    public function act_data_primario($cuenta, $carrera, $gen, $telefono_id, $typeStudy = null)
+    {
+        // Validar permisos dinámicamente si la categoría los requiere
+        $permisos = self::PERMISOS[$typeStudy] ?? [];
+        if ($permisos && !collect($permisos)->contains(fn ($p) => auth()->user()->can($p))) {
+            return redirect()->back()->with('error', 'No tienes permisos para aplicar esta encuesta.');
+        }
+
+        Session::put('telefono_encuesta', $telefono_id);
+        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        $Egresado = Egresado::where('cuenta', $cuenta)
+            ->where('carrera', $carrera)
+            ->firstOrFail();
+
+        $infoCarrera = Carrera::where('clave_carrera', $Egresado->carrera)
+            ->where('clave_plantel', $Egresado->plantel)
+            ->first();
+
+        $this->recordEvent($telefono_id, 'act_data_' . $typeStudy, 'cuenta ' . $cuenta . ' carr ' . $carrera);
+
+        return view('encuesta.actualizar_datos', [
+            'typeStudy'          => $typeStudy,
+            'Egresado'           => $Egresado,
+            'TelefonoEnLlamada'  => $TelefonoEnLlamada,
+            'Carrera'            => $infoCarrera->carrera ?? $carrera,
+            'Plantel'            => $infoCarrera->plantel ?? $Egresado->plantel,
+            'gen'                => $gen,
+        ]);
+    }
+
+
+
+
+
+
     public function act_data($cuenta, $carrera, $gen,$telefono_id)
     {
         if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
@@ -226,7 +269,7 @@ class LlamadasController extends Controller
             "=",
             $Egresado->carrera
         )->first()->carrera;
-        $Plantel = Carrera::where(
+        $Plantel = Carrera::where       (
             "clave_plantel",
             "=",
             $Egresado->plantel
