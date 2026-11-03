@@ -4,15 +4,23 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Correo;
+use App\Models\Egresado;
+use Illuminate\Http\Request;
 use App\Traits\EnviaAvisoPrivacidad;
+use App\Http\Controllers\SendMailController;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\Http;
+
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
+
 
 class CorreoManager extends Component
 {
     use EnviaAvisoPrivacidad;
 
     public $cuenta;
+    //public $nombreEgresado;
     public $egresado;
     public $correos = [];
 
@@ -22,11 +30,85 @@ class CorreoManager extends Component
     public $correoStatus = '13';
     public $correoDescripcion = '';
 
+    //envio de  encuesta por correo:
+    public $showSendModal = false;
+    public $sendCorreoId = null;
+    public $sendCorreo = '';
+    public $sendMailType = '';
+    public $sendProgAcad = '';
+
+
     public function mount($cuenta, $egresado){
         $this->cuenta = $cuenta;
         $this->egresado = $egresado;
         $this->cargarCorreos();
     }
+
+    #[Computed]
+    public function nombreEgresado()
+    {
+        if (is_object($this->egresado)) {
+            return trim(($this->egresado->nombre ?? '') . ' ' . ($this->egresado->paterno ?? '') . ' ' . ($this->egresado->materno ?? ''));
+        }
+        return '';
+    }
+
+
+
+    #[On('solicitarEnvioCorreo')]
+    public function solicitarEnvio($id, $mailType, $progAcad = null)
+    {
+        $c = Correo::where('cuenta', $this->cuenta)->findOrFail($id);
+        $this->sendCorreoId = $c->id;
+        $this->sendCorreo = $c->correo;
+        $this->sendMailType = $mailType;
+        $this->sendProgAcad = $progAcad ?? ($this->egresado->carrera ?? '');
+        $this->showSendModal = true;
+    }
+
+
+    public function cerrarEnvio()
+    {
+        $this->showSendModal = false;
+        $this->sendCorreoId = null;
+        $this->sendCorreo = '';
+        $this->sendMailType = '';
+        $this->sendProgAcad = '';
+    }
+
+    public function confirmarEnvio(){
+
+
+        try {
+            
+            $controller = app(SendMailController::class);
+            $request = new Request([
+                'encuesta_id' => 0,
+                'correo_id'   => $this->sendCorreoId,
+                'correo'      => $this->sendCorreo,
+                'prog_acad'   => $this->sendProgAcad,
+                'cuenta'      => $this->cuenta,
+                'nombre'      => $this->nombreEgresado,
+                'mail_type'   => $this->sendMailType,
+            ]);
+
+            $response = $controller->send_prioritary_mail($request);
+            $data = $response->getData(true);
+
+            if (isset($data['success']) && $data['success']) {
+                $this->dispatch('swal:success', message: 'Encuesta enviada correctamente');
+            } else {
+                $this->dispatch('swal:error', message: 'No se pudo procesar el envío de la encuesta.');
+            }
+        } catch (\Exception $e) {
+            $this->dispatch('swal:error', message: 'Error al enviar la encuesta: ' . $e->getMessage());
+        }
+
+        $this->cerrarEnvio();
+        $this->dispatch('contactoActualizado');
+    }
+
+    
 
     public function cargarCorreos()
     {

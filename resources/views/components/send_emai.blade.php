@@ -1,12 +1,4 @@
-{{--
-    Componente: agregar correo
-    Variables recibidas:
-        $cuenta -> la cuenta del egresado
-        $respuestasKey -> id de la tabla de respuestas
-        $typeStudy -> recibe 'pos' o 'seg' o 'act' o 'esp' o 'verde' o 'cont'
-        Estas no cambian según el correo, por eso se insertan directo en el Componente
-        el correo, el id del correo, se cargan segun el boton de la fila correspondiete
---}}
+
 
 <div class="modal fade" id="sendEmailModal" tabindex="-1" aria-labelledby="sendEmailModalLabel" aria-hidden="true"  style="background: #131931;">
   <div class="modal-dialog" style=" font-size: 150%;" style="z-index:1500">

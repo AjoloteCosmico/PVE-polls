@@ -47,4 +47,44 @@
             </div>
         </div>
     @endif
+
+   @if($showSendModal)
+        <div class="modal show d-block" tabindex="-1" role="dialog" style="background: rgba(19,25,49,.85); z-index: 2000;">
+            <div class="modal-dialog" style="font-size:150%;">
+                <div class="modal-content" style="background-color:#131931; color:white;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color:white;">Enviar Correo Electrónico</h5>
+                        <button type="button" class="close btn btn-danger" style="background-color:red;" wire:click="cerrarEnvio">
+                            <i class="fa fa-times fa-xl"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center font-weight-bold lead mb-3" style="color:white;">
+                            ¿Deseas enviar la encuesta al siguiente correo?
+                        </p>
+                        <table class="table table-bordered text-white" style="font-size:15px;">
+                            <tr style="background-color: rgb(0,43,122);">
+                                <td><strong>Egresado:</strong></td>
+                                <td>{{ $this->nombreEgresado }}</td>
+                            </tr>
+                            <tr style="background-color: rgb(0,43,122);">
+                                <td><strong>Cuenta:</strong></td>
+                                <td>{{ $cuenta }}</td>
+                            </tr>
+                            <tr style="background-color: rgb(0,43,122);">
+                                <td><strong>Correo:</strong></td>
+                                <td>{{ $sendCorreo }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="cerrarEnvio">Cancelar</button>
+                        <button type="button" class="btn btn-success" wire:click="confirmarEnvio" wire:loading.attr="disabled">
+                            <i class="fas fa-paper-plane"></i> Enviar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

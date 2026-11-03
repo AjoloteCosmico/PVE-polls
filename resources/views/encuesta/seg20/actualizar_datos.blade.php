@@ -49,13 +49,7 @@
     
   <div class="row">
     <div class="col">
-        @if($gen==2020)
-        <a href="{{route('muestras20.show',[$Egresado->carrera,$Egresado->plantel])}}">
-            <button type="button"  class="boton-oscuro">
-                <i class="fas fa-table"></i> Ir a muestra Carrera 
-            </button>
-        </a>
-        @endif
+       
         @if($gen==2022)
         <a href="{{route('muestras22.show22',[$Egresado->carrera,$Egresado->plantel])}}">
             <button type="button"  class="boton-oscuro">
@@ -72,13 +66,7 @@
         @endif
     </div>
     <div class="col">
-    @if($gen==2020)
-      <a href="{{route('llamar',[2020, $Egresado->cuenta,$Egresado->carrera])}}">
-        <button class="boton-volver">
-            <i class="fa-sharp fa-solid fa-rotate-left"></i>
-          </button>
-      </a>
-    @endif
+
     @if($gen==2022)
       <a href="{{route('llamar',[2022, $Egresado->cuenta,$Egresado->carrera])}}">
         <button class="boton-volver">
@@ -175,32 +163,7 @@
               </button>
           </td>
           @endif
-          @if($gen==2020)
-          <td>
-            <button type="button" class="btn edit-email-btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw" data-id="{{$c->id}}" data-correo="{{ $c->correo }}" data-description="{{ $c->description }}" data-status="{{$c->status}}"> 
-                <i class="fa fa-edit" aria-hidden="true"> </i> &nbsp; EDITAR 
-              </button>
-          </td>
-          @endif
-
-          @if($gen==2020)
-              <td>
-                <a href="{{route('enviar_encuesta',[$c->id,$Egresado->id,$TelefonoEnLlamada->id])}}"> <!-- Definir ruta para selección y envio de encuesta -->
-                  <button class="btn" style="background-color:{{Auth::user()->color}} ; color:white; margin: 0.1vw; align:center;"> 
-                    <i class="fas fa-file" aria-hidden="true"> </i> &nbsp; ENVIAR ENCUESTA <br>{{$gen}} POR CORREO
-                  </button>
-                </a>
-              </td>
-              @can('aplicar_encuesta_seguimiento')
-              <td>
-                <a href="{{route('comenzar_encuesta_2020',[$c->id,$Egresado->cuenta,$Egresado->carrera])}}"> 
-                  <button class="boton-oscuro" > 
-                    <i class="fas fa-paper-plane" aria-hidden="true"> </i> &nbsp; ENVIAR AVISO<br> Y ENCUESTAR
-                  </button>
-                </a>
-              </td>
-              @endcan
-            @endif
+      
             @if($gen==2022)
               <td>
               <button type="button" class="btn send-email-btn boton-dorado"  data-correo_id="{{$c->id}}" data-correo="{{ $c->correo }}"  data-prog_acad ="{{$Carrera}}" data-mail_type ="correo_seg_22" > 

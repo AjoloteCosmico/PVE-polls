@@ -75,9 +75,9 @@ class ActualizarDatos extends Component
         return match ($this->typeStudy) {
             'act' => [ 
                     'mailType' => 'act_encuesta',
-                    'permiso'  => 'aplicar_encuesta_actualizacion',
-                    
+                    'permiso'  => 'aplicar_encuesta_actualizacion',                   
                     'comenzar' => 'comenzar_encuesta_2018',
+                    'muestra_id' => null,
                     'muestraRoute' => route('muestras16.show', [$this->egresado->carrera, $this->egresado->plantel]),
                     'botonReturn' => route('llamar', [2018, $this->egresado->cuenta, $this->egresado->carrera])
                 ],
@@ -85,30 +85,34 @@ class ActualizarDatos extends Component
                     'mailType' => 'correo_seg_22',
                     'permiso'  => 'aplicar_encuesta_seguimiento',
                     'comenzar' => 'comenzar_encuesta_2022',
+                    'muestra_id' => null,
                     'muestraRoute' => route('muestras22.show22', [$this->egresado->carrera, $this->egresado->plantel]),
                     'botonReturn' => route('llamar', [2022, $this->egresado->cuenta, $this->egresado->carrera])
             ],
 
              'ed_continua' => [
-                    'mailType' => 'correo_seg_22',
+                    'mailType' => 'continua',
                     'permiso'  => 'aplicar_encuesta_seguimiento',
-                    'comenzar' => 'comenzar_encuesta_2022',
+                    'comenzar' => 'comenzar_encuesta_continua',
+                    'muestra_id' => 897,
                     'muestraRoute' => route('muestras.show_unificado', [$this->egresado->carrera, $this->egresado->plantel, 897]),
                     'botonReturn' => route('llamar_continua', [$this->egresado->anio_egreso, $this->egresado->cuenta, $this->egresado->carrera, 897])
             ],
 
             'encuesta_verde' => [
-                    'mailType' => 'correo_seg_22',
+                    'mailType' => '',
                     'permiso'  => 'aplicar_encuesta_seguimiento',
-                    'comenzar' => 'comenzar_encuesta_2022',
+                    'comenzar' => 'comenzar_encuesta_verde',
+                    'muestra_id' => 898,
                     'muestraRoute' => route('muestras.show_unificado_verde', [$this->egresado->carrera, $this->egresado->plantel, 898]),
                     'botonReturn' => route('llamar_verde', [$this->egresado->anio_egreso, $this->egresado->cuenta, $this->egresado->carrera, 898])
             ],
 
             'credencial' => [
-                    'mailType' => 'correo_seg_22',
+                    'mailType' => 'credencial',
                     'permiso'  => 'aplicar_encuesta_seguimiento',
-                    'comenzar' => 'comenzar_encuesta_2022',
+                    'comenzar' => 'comenzar_encuesta_credencial',
+                    'muestra_id' => 899,
                     'muestraRoute' => route('muestras.show_unificado', [$this->egresado->carrera, $this->egresado->plantel, 899]),
                     'botonReturn' => route('llamar_credencial', [$this->egresado->anio_egreso, $this->egresado->cuenta, $this->egresado->carrera, 899])
             ],
@@ -117,15 +121,17 @@ class ActualizarDatos extends Component
                 'mailType' => 'posgrado',
                 'permiso'  => 'aplicar_encuesta_posgrado',
                 'comenzar' => 'comenzar_encuesta_posgrado',
+                'muestra_id' => null,
                 'muestraRoute' => '#',
             ],
             'esp' => [
                 'mailType' => 'especialidad',
                 'permiso'  => 'aplicar_encuesta_posgrado',
                 'comenzar' => 'comenzar_encuesta_especialidad',
+                'muestra_id' => null,
                 'muestraRoute' => '#',
             ],
-            default => ['mailType' => null, 'permiso' => null, 'comenzar' => null, 'muestraRoute' => '#'],
+            default => ['mailType' => null, 'permiso' => null, 'comenzar' => null, 'muestra_id' => null, 'muestraRoute' => '#'],
         };
     }
 

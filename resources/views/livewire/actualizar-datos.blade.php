@@ -120,8 +120,8 @@
                                 {{-- Envío por Correo --}}
                                 @if($config['mailType'])
                                     <button type="button" class="btn boton-dorado"
-                                            wire:click="$dispatch('solicitarEnvioCorreo', { id: {{ $c->id }}, mailType: '{{ $config['mailType'] }}' })">
-                                        <i class="fa fa-paper-plane"></i> ENVIAR ENCUESTA <br>POR CORREO
+                                        wire:click="$dispatch('solicitarEnvioCorreo', { id: {{ $c->id }}, mailType: '{{ $config['mailType'] }}', progAcad: '{{ $carrera }}' })">
+                                        <i class="fa fa-paper-plane"></i> ENVIAR ENCUESTA
                                     </button>
                                 @endif
                             </td>
@@ -130,7 +130,14 @@
 
                                 {{-- Permiso para encuestar --}}
                                 @if($config['permiso'] && auth()->user()->can($config['permiso']))
-                                    <a href="{{ route($config['comenzar'], [$c->id, $egresado->cuenta, $egresado->carrera]) }}" class="btn boton-oscuro">
+                                    @php
+                                        $params = [$c->id, $egresado->cuenta, $egresado->carrera];
+                                        if (isset($config['muestra_id']) && !is_null($config['muestra_id'])) {
+                                            $params[] = $config['muestra_id'];
+                                        }
+                                    @endphp
+                                        
+                                    <a href="{{ route($config['comenzar'], $params) }}" class="btn boton-oscuro">
                                         <i class="fas fa-paper-plane"></i> ENVIAR AVISO  <br> ENCUESTAR
                                     </a>
                                 @endif
