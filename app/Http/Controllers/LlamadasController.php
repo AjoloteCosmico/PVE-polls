@@ -203,174 +203,50 @@ class LlamadasController extends Controller
         'Telefonos','Recados','Codigos','Codigos_all','EncuestaPos','plan','programa'));
     }
 
-    public function act_data($cuenta, $carrera, $gen,$telefono_id)
+    private const PERMISOS = [
+        'seg' => ['aplicar_encuesta_seguimiento', 'aplicar_encuesta_actualizacion'],
+        'act' => ['aplicar_encuesta_seguimiento', 'aplicar_encuesta_actualizacion'],
+        'posgrado' => ['aplicar_encuesta_posgrado'],
+        'esp' => ['aplicar_encuesta_posgrado'],
+    ];
+
+
+    public function act_data_primario($cuenta, $carrera, $gen, $telefono_id, $typeStudy = null)
     {
-        if (!auth()->user()->can('aplicar_encuesta_actualizacion') && !auth()->user()->can('aplicar_encuesta_seguimiento')) {
-            return redirect()->back()->with('error', 'No tienes permisos para aplicar la encuesta ' . $gen);
+        // Validar permisos dinámicamente si la categoría los requiere
+        $permisos = self::PERMISOS[$typeStudy] ?? [];
+        if ($permisos && !collect($permisos)->contains(fn ($p) => auth()->user()->can($p))) {
+            return redirect()->back()->with('error', 'No tienes permisos para aplicar esta encuesta.');
         }
 
-        Session::put('telefono_encuesta',$telefono_id);
+        Session::put('telefono_encuesta', $telefono_id);
         $TelefonoEnLlamada=Telefono::find($telefono_id);
-        $Egresado = Egresado::where("cuenta", $cuenta)
-            ->where("carrera", $carrera)
+        $Egresado = Egresado::where('cuenta', $cuenta)
+            ->where('carrera', $carrera)
+            ->firstOrFail();
+
+        $infoCarrera = Carrera::where('clave_carrera', $Egresado->carrera)
+            ->where('clave_plantel', $Egresado->plantel)
             ->first();
-        $Telefonos = DB::table("telefonos")
-            ->where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
-            ->get();
-        $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
-            ->get();
-        $Carrera = Carrera::where(
-            "clave_carrera",
-            "=",
-            $Egresado->carrera
-        )->first()->carrera;
-        $Plantel = Carrera::where(
-            "clave_plantel",
-            "=",
-            $Egresado->plantel
-        )->first()->plantel;
-        $this->recordEvent($telefono_id, 'act_data', 'cuenta'.$cuenta.' carr'.$carrera);
-        return view(
-            "encuesta.seg20.actualizar_datos",
-            compact(
-                "TelefonoEnLlamada",
-                "Egresado",
-                "Telefonos",
-                "Correos",
-                "Carrera",
-                "Plantel",
-                "gen"
-            )
-        );
+
+        $this->recordEvent($telefono_id, 'act_data_' . $typeStudy, 'cuenta ' . $cuenta . ' carr ' . $carrera);
+
+        return view('encuesta.actualizar_datos', [
+            'typeStudy'          => $typeStudy,
+            'Egresado'           => $Egresado,
+            'TelefonoEnLlamada'  => $TelefonoEnLlamada,
+            'Carrera'            => $infoCarrera->carrera ?? $carrera,
+            'Plantel'            => $infoCarrera->plantel ?? $Egresado->plantel,
+            'gen'                => $gen,
+        ]);
     }
 
-    public function act_data_continua($cuenta, $carrera, $gen,$telefono_id)
-    {
-        //if (!auth()->user()->can('aplicar_encuesta_continua')) {
-          //  return redirect()->back()->with('error', 'No tienes permisos para aplicar la encuesta continua');
-        //}
 
-        Session::put('telefono_encuesta',$telefono_id);
-        $TelefonoEnLlamada=Telefono::find($telefono_id);
-        $Egresado = Egresado::where("cuenta", $cuenta)
-            ->where("carrera", $carrera)
-            ->first();
-        $Telefonos = DB::table("telefonos")
-            ->where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
-            ->get();
-        $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
-            ->get();
-        $Carrera = Carrera::where(
-            "clave_carrera",
-            "=",
-            $Egresado->carrera
-        )->first()->carrera;
-        $Plantel = Carrera::where(
-            "clave_plantel",
-            "=",
-            $Egresado->plantel
-        )->first()->plantel;
+
+
+
+
     
-        $this->recordEvent($telefono_id, 'act_data_continua', 'cuenta'.$cuenta.' carr'.$carrera);
-        return view(
-            "muestras.ed_continua.actualizar_datos_continua",
-            compact(
-                "TelefonoEnLlamada",
-                "Egresado",
-                "Telefonos",
-                "Correos",
-                "Carrera",
-                "Plantel",
-                "gen"
-            )
-        );
-    }
-
-
-    public function act_data_verde($cuenta, $carrera, $gen,$telefono_id){
-
-    Session::put('telefono_encuesta',$telefono_id);
-        $TelefonoEnLlamada=Telefono::find($telefono_id);
-        $Egresado = Egresado::where("cuenta", $cuenta)
-            ->where("carrera", $carrera)
-            ->first();
-        $Telefonos = DB::table("telefonos")
-            ->where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
-            ->get();
-        $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
-            ->get();
-        $Carrera = Carrera::where(
-            "clave_carrera",
-            "=",
-            $Egresado->carrera
-        )->first()->carrera;
-        $Plantel = Carrera::where(
-            "clave_plantel",
-            "=",
-            $Egresado->plantel
-        )->first()->plantel;
-        $this->recordEvent($telefono_id, 'act_data_verde', 'cuenta'.$cuenta.' carr'.$carrera);
-        return view(
-            "muestras.verde.actualizar_datos_verde",
-            compact(
-                "TelefonoEnLlamada",
-                "Egresado",
-                "Telefonos",
-                "Correos",
-                "Carrera",
-                "Plantel",
-                "gen"
-            )
-        );
-
-    }
-
-    public function act_data_credencial($cuenta, $carrera, $gen,$telefono_id){
-
-    Session::put('telefono_encuesta',$telefono_id);
-        $TelefonoEnLlamada=Telefono::find($telefono_id);
-        $Egresado = Egresado::where("cuenta", $cuenta)
-            ->where("carrera", $carrera)
-            ->first();
-        $Telefonos = DB::table("telefonos")
-            ->where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
-            ->get();
-        $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
-            ->get();
-        $Carrera = Carrera::where(
-            "clave_carrera",
-            "=",
-            $Egresado->carrera
-        )->first()->carrera;
-        $Plantel = Carrera::where(
-            "clave_plantel",
-            "=",
-            $Egresado->plantel
-        )->first()->plantel;
-        $this->recordEvent($telefono_id, 'act_data_credencial', 'cuenta'.$cuenta.' carr'.$carrera);
-        return view(
-            "muestras.credencial.actualizar_datos_credencial",
-            compact(
-                "TelefonoEnLlamada",
-                "Egresado",
-                "Telefonos",
-                "Correos",
-                "Carrera",
-                "Plantel",
-                "gen"
-            )
-        );
-
-    }
-
     
 
 
@@ -381,11 +257,9 @@ class LlamadasController extends Controller
         }
 
         Session::put('telefono_encuesta',$telefono_id);
-        $TelefonoEnLlamada=Telefono::find($telefono_id);
 
         $EgresadoPos = EgresadoPosgrado::where("cuenta", $cuenta)
             ->where("programa", $programa)
-            //->where("plan", $plan)
             ->first();
         
         if (!$EgresadoPos) {
@@ -393,27 +267,17 @@ class LlamadasController extends Controller
         }
 
         Session::put('plan_posgrado',$EgresadoPos->plan);
-        $Telefonos = DB::table("telefonos")
-            ->where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
-            ->get();
-        $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
-            ->get();
-        $EncuestaInconclusa = respuestasPosgrado::where("cuenta", "=", $cuenta)
-            ->first();
         $this->recordEvent($telefono_id, 'act_data_posgrado', 'cuenta'.$cuenta.' plan'.$plan);
-        return view(
-            "muestras.posgrado.actualizar_datos_posgrado",
-            compact(
-                "TelefonoEnLlamada",
-                "EgresadoPos",
-                "Telefonos",
-                "Correos",
-                "programa",
-                "plan","EncuestaInconclusa"
-            )
-        );
+
+        return view('encuesta.actualizar_datos', [
+            'typeStudy'          => 'posgrado',
+            'Egresado'           => $EgresadoPos,
+            'TelefonoEnLlamada'  => Telefono::find($telefono_id),
+            'Carrera'            => $EgresadoPos->programa ?? $programa,
+            'Plantel'            => $EgresadoPos->plantel ?? '',
+            'gen'                => '',
+
+        ]);
     }
 
 public function llamar_egresadosEspecialidad($id,$especialidad){
@@ -458,38 +322,24 @@ public function llamar_egresadosEspecialidad($id,$especialidad){
         Session::put('telefono_encuesta',$telefono_id);
         $this->recordEvent($telefono_id, 'actualizar_desde_llamada', 'se actualizan datos personales en este tel');
            
-        $TelefonoEnLlamada=Telefono::find($telefono_id);
+        
 
         $EgresadoEsp = EgresadoEspecialidad::where("cuenta", $cuenta)
             ->where("especialidad", $especialidad)
             ->first();
-        
-        if (!$EgresadoEsp) {
-            $EgresadoPos = EgresadoPosgrado::where("cuenta", $cuenta)->firstOrFail();
-        }
 
         Session::put('plan_especialidad',$EgresadoEsp->especialidad);
-        $Telefonos = DB::table("telefonos")
-        ->select('telefonos.*','codigos.color_rgb','codigos.description as status_description')
-            ->where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "telefonos.status")
-            ->get();
-        $Correos = Correo::where("cuenta", "=", $cuenta)
-            ->leftJoin("codigos", "codigos.code", "=", "correos.status")
-            ->get();
-        $EncuestaInconclusa = respuestasEspecialidad::where("cuenta", "=", $cuenta)
-            ->first();
         $this->recordEvent($telefono_id, 'act_data_esp', 'cuenta'.$cuenta.' carr'.$especialidad);
-        return view(
-            "muestras.especialidad.actualizar_datos_especialidad",
-            compact(
-                "TelefonoEnLlamada",
-                "EgresadoEsp",
-                "Telefonos",
-                "Correos",
-                "especialidad","EncuestaInconclusa"
-            )
-        );
+       
+        return view('encuesta.actualizar_datos', [
+            'typeStudy'          => 'esp',
+            'Egresado'           => $EgresadoEsp,
+            'TelefonoEnLlamada'  => Telefono::find($telefono_id),
+            'Carrera'            => $EgresadoEsp->especialidad ?? $especialidad,
+            'Plantel'            => 'Fac de Derecho',
+            'gen'                => '',
+
+        ]);
     }
 
 

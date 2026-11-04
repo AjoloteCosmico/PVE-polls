@@ -16,6 +16,7 @@ class TelefonoManager extends Component
     public $showPhoneModal = false;
     public $phoneId = null;
     public $telefonoInput = '';
+    public $telefonoStatus = 13;
     public $telefonoDescripcion = '';
 
 
@@ -30,15 +31,18 @@ class TelefonoManager extends Component
         $this->telefonos = Telefono::where('cuenta', $this->cuenta)->get();
     }
 
+    #[On('nuevoTelefono')]
     public function nuevoTelefono()
     {
         $this->resetValidation();
         $this->phoneId = null;
         $this->telefonoInput = '';
         $this->telefonoDescripcion = '';
+        $this->telefonoStatus = '13';
         $this->showPhoneModal = true;
     }
 
+    #[On('editarTelefono')]
     public function editarTelefono($id)
     {
         $this->resetValidation();
@@ -46,6 +50,7 @@ class TelefonoManager extends Component
         $this->phoneId = $tel->id;
         $this->telefonoInput = $tel->telefono;
         $this->telefonoDescripcion = $tel->descripcion;
+        $this->telefonoStatus = $tel->status;
         $this->showPhoneModal = true;
     }
 
@@ -65,6 +70,7 @@ class TelefonoManager extends Component
             $tel = Telefono::find($this->phoneId);
             $tel->telefono = $this->telefonoInput;
             $tel->descripcion = $this->telefonoDescripcion;
+            $tel->status = $this->telefonoStatus;
             $tel->save();
             $mensaje = 'Teléfono editado correctamente';
         } else {
@@ -73,7 +79,7 @@ class TelefonoManager extends Component
             $tel->cuenta = $this->cuenta;
             $tel->telefono = $this->telefonoInput;
             $tel->descripcion = $this->telefonoDescripcion;
-            $tel->status = 0;
+            $tel->status = $this->telefonoStatus;
             $tel->save();
             $mensaje = 'Teléfono agregado correctamente';
         }
@@ -81,6 +87,7 @@ class TelefonoManager extends Component
 
         $this->showPhoneModal = false;
         $this->cargarTelefonos();
+        $this->dispatch('contactoActualizado');
         $this->dispatch('swal:success', message: $mensaje);
 
 
