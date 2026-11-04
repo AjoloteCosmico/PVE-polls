@@ -13,6 +13,7 @@
     </div>
 
     {{-- Botones de Navegación  --}}
+    
     <div class="row">
         <div class="col">
             @if($config['muestraRoute'])
