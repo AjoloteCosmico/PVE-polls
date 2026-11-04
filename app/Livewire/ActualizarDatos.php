@@ -119,17 +119,23 @@ class ActualizarDatos extends Component
 
             'posgrado' => [
                 'mailType' => 'posgrado',
+                'prog_acad' => $this->egresado->plan,
                 'permiso'  => 'aplicar_encuesta_posgrado',
                 'comenzar' => 'comenzar_encuesta_posgrado',
+                'comenzarParams' => [$this->egresado->cuenta, $this->egresado->plan],
                 'muestra_id' => null,
-                'muestraRoute' => '#',
+                'muestraRoute'   => route('muestrasposgrado.show', [$this->egresado->programa, $this->egresado->plan]),
+                'botonReturn'    => route('llamar_posgrado', [$this->egresado->cuenta, $this->egresado->plan, $this->egresado->programa]),
             ],
             'esp' => [
                 'mailType' => 'especialidad',
+                'progAcad'       => $this->egresado->especialidad,
                 'permiso'  => 'aplicar_encuesta_posgrado',
                 'comenzar' => 'comenzar_encuesta_especialidad',
+                'comenzarParams' => [$this->egresado->cuenta, $this->egresado->especialidad],
                 'muestra_id' => null,
-                'muestraRoute' => '#',
+                'muestraRoute'   => route('muestras.especialidad.show', [$this->egresado->especialidad]),
+                'botonReturn'    => route('llamar_especialidad', [$this->egresado->cuenta, $this->egresado->especialidad]),
             ],
             default => ['mailType' => null, 'permiso' => null, 'comenzar' => null, 'muestra_id' => null, 'muestraRoute' => '#'],
         };

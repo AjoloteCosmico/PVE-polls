@@ -131,9 +131,16 @@
                                 {{-- Permiso para encuestar --}}
                                 @if($config['permiso'] && auth()->user()->can($config['permiso']))
                                     @php
-                                        $params = [$c->id, $egresado->cuenta, $egresado->carrera];
-                                        if (isset($config['muestra_id']) && !is_null($config['muestra_id'])) {
-                                            $params[] = $config['muestra_id'];
+                                        
+                                        if (isset($config['comenzarParams'])) {
+                                            $params = array_merge([$c->id], $config['comenzarParams']);
+                                        } else {
+                                            // Licenciatura
+                                            $params = [$c->id, $egresado->cuenta, $egresado->carrera ?? ''];
+            
+                                            if (isset($config['muestra_id']) && !is_null($config['muestra_id'])) {
+                                                $params[] = $config['muestra_id'];
+                                            }
                                         }
                                     @endphp
                                         
