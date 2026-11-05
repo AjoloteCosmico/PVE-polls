@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Egresado;
+use App\Models\EgresadoPosgrado;
 use App\Models\EgresadoEspecialidad;
 use App\Models\Correo;
 use App\Mail\testingMail;
 use App\Mail\InvMail;
 use App\Mail\EspMail;
 use App\Mail\PosMail;
+use App\Mail\CompletarPosgradoMail;
 use App\Mail\ActMail;
 use App\Mail\EdContinuaMail;
 use App\Mail\EncuestaCredencialMail;
@@ -22,7 +24,7 @@ use DB;
 class SendMailController extends Controller
 {
     public function test($id){
-        $Egresado=Egresado::find($id);
+        $Egresado=EgresadoPosgrado::find($id);
         $Correos=Correo::where('cuenta',$Egresado->cuenta)->get();
         //INTERESES ESPECIALIDAD
         $intereses = [
@@ -40,7 +42,7 @@ class SendMailController extends Controller
         foreach($Correos as $correo){
             //agregar parametros especificos a data
             $specific_data=$data + ['correo' => $correo->correo, 'correo_id'=>$correo->id];
-            Mail::to($correo->correo)->queue(new InvMail($specific_data));
+            Mail::to($correo->correo)->queue(new CompletarPosgradoMail($specific_data));
         }
         return 'Correo enviado conv esp'.$Correos->pluck('correo');
     }
