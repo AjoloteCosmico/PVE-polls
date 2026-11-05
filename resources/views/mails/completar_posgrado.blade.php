@@ -1,5 +1,5 @@
 @extends('mails.base_mail', [
-    'encabezado' => 'Posgrado UNAM Completa tu Encuesta',
+    'encabezado' => 'Posgrado UNAM completa tu Encuesta',
     'remitente' => 'Seguimiento a Egresados UNAM',
     'header_image' => 'header_completar.png',
     'footer_image' => 'footer_pos.png',
@@ -16,11 +16,11 @@
              style="display: block; width: 60%; max-width: 400px; height: auto; margin: 0 auto; border-radius: 10px; background: rgba(255,255,255,0)">
     </div>
 
-    <p>Para nosotros es vital conocer tu trayectoria profesional como egresado del posgrado <span style="color: #015190; font-weight: 800;">{{ $payload['prog_acad'] }}</span>, así como tu actualización académica y satisfacción con la institución.</p>
-    <p>Porfavor completa la encuesta de seguimeinto a posgrado que iniciasté, de otra forma no se tomara en cuenta para las estadísticas del seguimiento POSGRADO UNAM</p>
-    <p>Accede al 👇🏾👇🏾 link debajo 👇🏾👇🏾 e ingresa tu número de cuenta para continuar la encuesta que dejasté inconclusa.</p>
+    <p>Para nosotros es vital conocer tu trayectoria profesional como egresado del posgrado <span style="color: #015190; font-weight: 800;">{{ $payload['prog_acad'] }}</span>, así como tu actualización académica y satisfacción con la Institución.</p>
+    <p>Por favor completa la encuesta de seguimiento a posgrado que iniciaste, sus respuestas apoyarán a la mejora de tu programa de posgrado. </p>
+    <p>Accede al 👇🏾👇🏾 link debajo 👇🏾👇🏾 e ingresa tu número de cuenta para continuar la encuesta que dejaste inconclusa.</p>
 
-    <h1 style="margin: 0 0 12px; color: #333; font-size: 26px; text-align: center;">Sigues siendo parte de la comunidad UNAM</h1>
+    <h1 style="margin: 0 0 12px; color: #333; font-size: 26px; text-align: center;">La UNAM sigue siendo tu casa</h1>
 
     <div style="text-align: center; margin: 30px 0 24px 0;">
         <a href="https://encuestas.pveaju.unam.mx/pveaju/resource/encuesta_posgrado_correo" style="display: inline-block; background-color: #015190; color: #ffffff; padding: 15px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; min-width: 250px; box-shadow: 0 4px 10px rgba(1, 81, 144, 0.22);">
