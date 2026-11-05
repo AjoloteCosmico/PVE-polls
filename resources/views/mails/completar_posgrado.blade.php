@@ -7,8 +7,9 @@
 ])
 
 @section('content')
-    <p> &nbsp;&nbsp;Estimado egresado <span style="color: #B7812C; font-weight: 700;">{{ $payload['nombre'] }}</span>, con No. cuenta <span style="color: #B7812C; font-weight: 700;">{{ $payload['cuenta'] }}</span>.</p>
-    <p>{{ $payload['prog_acad'] }}</p>
+    <p> &nbsp;&nbsp;Estimado egresado: <br> <span style="color: #B7812C; font-weight: 700;">{{ $payload['nombre'] }}</span> <br>
+    No. cuenta <span style="color: #B7812C; font-weight: 700;">{{ $payload['cuenta'] }}</span>.</p>
+    <br> <p>{{ $payload['prog_acad'] }}</p>
 
     <div style="text-align: center; margin: 18px auto 26px auto;">
         <img src="https://www.pveaju.unam.mx/encuesta/01/seguimiento_egresados_UNAM/img/mail_sources/posgrado_logo.png"
@@ -17,7 +18,7 @@
     </div>
 
     <p>Para nosotros es vital conocer tu trayectoria profesional como egresado del posgrado <span style="color: #015190; font-weight: 800;">{{ $payload['prog_acad'] }}</span>, así como tu actualización académica y satisfacción con la Institución.</p>
-    <p>Por favor completa la encuesta de seguimiento a posgrado que iniciaste, sus respuestas apoyarán a la mejora de tu programa de posgrado. </p>
+    <p>Por favor completa la encuesta de seguimiento a posgrado que iniciaste, tus respuestas apoyarán a la mejora de tu Programa de Posgrado. </p>
     <p>Accede al 👇🏾👇🏾 link debajo 👇🏾👇🏾 e ingresa tu número de cuenta para continuar la encuesta que dejaste inconclusa.</p>
 
     <h1 style="margin: 0 0 12px; color: #333; font-size: 26px; text-align: center;">La UNAM sigue siendo tu casa</h1>

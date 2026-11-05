@@ -132,6 +132,15 @@ public function send_continua(){
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
 
+public function send_completar_posgrado(){
+// Fecha de idempotencia: no reenviar correos trackeados desde esta fecha en adelante
+    $idempotenceDate = now()->subDay(); // o now()->startOfDay(), etc.
+
+    // Intereses por defecto (null) + fecha obligatoria
+    dispatch(new \App\Jobs\SendCompletarPosJob(null, $idempotenceDate));
+    return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
+}
+
 public function send_especialidad(){
      //INTERESES ESPECIALIDAD
         $intereses = [

@@ -400,6 +400,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/send_especialidad', [App\Http\Controllers\SendMailController::class, 'send_especialidad'])->name('send_mail.especialidad');
     Route::get('/send_posgrado', [App\Http\Controllers\SendMailController::class, 'send_posgrado'])->name('send_posgrado');
     Route::get('/send_carreras_peques', [App\Http\Controllers\SendMailController::class, 'send_peques'])->name('send_peques');
+    Route::get('/send_completar_posgrado', [App\Http\Controllers\SendMailController::class, 'send_completar_posgrado'])->name('send_completar_posgrado');
 
     Route::post('/send_prioritary_mail', [App\Http\Controllers\SendMailController::class, 'send_prioritary_mail'])->name('send_prioritary_mail');
     Route::get('/enviar_correo_encuesta', [App\Http\Controllers\SendMailController::class, 'enviar_correo_encuesta'])->name('send_mail.enviar_correo_encuesta');
