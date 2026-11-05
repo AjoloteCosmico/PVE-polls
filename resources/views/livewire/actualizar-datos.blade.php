@@ -130,7 +130,7 @@
                             <td>
 
                                 {{-- Permiso para encuestar --}}
-                                @if($config['permiso'] && auth()->user()->can($config['permiso']))
+                                {{-- @if($config['permiso'] && auth()->user()->can($config['permiso'])) --}}
                                     @php
                                         
                                         if (isset($config['comenzarParams'])) {
@@ -148,7 +148,7 @@
                                     <a href="{{ route($config['comenzar'], $params) }}" class="btn boton-oscuro">
                                         <i class="fas fa-paper-plane"></i> ENVIAR AVISO  <br> ENCUESTAR
                                     </a>
-                                @endif
+                                {{-- @endif --}}
                             </td>
                     </tr>
                 @empty
