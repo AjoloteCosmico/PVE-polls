@@ -75,7 +75,6 @@ public function send_prioritary_mail(Request $request) {
     ];
 
     // proprcion de imagenes 3:4 
-
     $data = [
         'nombre' => $nombre,
         'cuenta' => $cuenta,
