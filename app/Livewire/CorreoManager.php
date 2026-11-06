@@ -154,7 +154,7 @@ class CorreoManager extends Component
             $correo = Correo::find($this->emailId);
             $correo->correo = $this->correoInput;
             $correo->status = $this->correoStatus;
-            $correo->descripcion = $this->correoDescripcion;
+            $correo->descripcion = 'sin Uso';
             $correo->enviado = 0;
             $correo->save();
         } else {
