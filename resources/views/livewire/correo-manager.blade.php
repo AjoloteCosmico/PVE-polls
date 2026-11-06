@@ -28,6 +28,17 @@
                                 <span class="text-danger" style="font-size: 0.9rem;">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label style="color:white;">Status</label>
+                            <select class="form-control modal-input" style="font-size: 120%;" wire:model="correoStatus" required>
+                                <option value="">Selecciona un status</option>
+                                <option value="13">En Uso</option>
+                                <option value="14">Sin usar</option>
+                            </select>
+                            @error('correoStatus')
+                                <span class="text-danger" style="font-size: 0.9rem;">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="modal-footer">
