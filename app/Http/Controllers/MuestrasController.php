@@ -1046,24 +1046,42 @@ public function show_unificado($carrera, $plantel, $muestra_id){
       ->where('clave_plantel', $plantel)
       ->first();
 
-  $muestra = DB::table('egresados')
-    ->where('egresados.carrera', '=', $carrera)
-    ->where('plantel', '=', $plantel)
-    ->join('egresado_muestra', 'egresados.id', '=', 'egresado_muestra.egresado_id')
-    ->where('egresado_muestra.muestra_id', '=', $muestra_id) // ID de muestra específico
-    ->whereNotNull('egresados.anio_egreso')
-    ->leftJoin('codigos', 'codigos.code', '=', 'egresado_muestra.status')
+  $base = DB::table('egresados as e')
+    ->join('egresado_muestra as em', 'e.id', '=', 'em.egresado_id')
+    ->where('e.carrera', '=', $carrera)
+    ->where('e.plantel', '=', $plantel)
+    ->where('em.muestra_id', '=', $muestra_id)
+    ->whereNotNull('e.anio_egreso')
+    ->leftJoin('codigos as c', 'c.code', '=', 'em.status')
     ->select(
-        'egresados.*',
-        'codigos.color_rgb',
-        'codigos.description',
-        'codigos.orden',
-        'egresado_muestra.llamadas as llamadas_continua', //LAMADAS VERDES
-        'codigos.code as codigo_status'
-    )
-    ->limit(600)
+        'e.*',
+        'c.color_rgb',
+        'c.description',
+        'c.orden',
+        'em.llamadas as llamadas_continua',
+        'c.code as codigo_status',
+        DB::raw("CASE
+            WHEN em.status = '1' THEN 0
+            WHEN em.status = '0' THEN 1
+            ELSE 2
+        END as prioridad")
+    );
+
+$statusUno = (clone $base)
+    ->where('em.status', '=', '1')
     ->get();
 
+$restantesDisponibles = max(0, 600 - $statusUno->count());
+
+$restantes = (clone $base)
+    ->where('em.status', '!=', '1')
+    ->limit($restantesDisponibles)
+    ->get();
+
+$muestra = collect($statusUno)
+    ->merge($restantes)
+    ->shuffle()
+    ->all();
   $Codigos = DB::table('codigos')
       ->where('internet', '=', 0)
       ->orderBy('color')
