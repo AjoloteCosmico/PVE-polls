@@ -24,7 +24,10 @@ use \App\Http\Controllers\ComponentController;
             :plantel="$Plantel"
             :encuesta="$Encuesta"
     />
-    </div>  
+    </div>
+    
+    <livewire:telefono-manager :cuenta="$Egresado->cuenta" />
+    <livewire:correo-manager :cuenta="$Egresado->cuenta" :egresado="$Egresado" />  
     
     
    

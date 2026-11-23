@@ -23,7 +23,10 @@ use \App\Http\Controllers\ComponentController;
             :plantel="$Plantel"
             :encuesta="$Encuesta"
     />
-    </div>  
+    </div> 
+
+    <livewire:telefono-manager :cuenta="$Egresado->cuenta" />
+    <livewire:correo-manager :cuenta="$Egresado->cuenta" :egresado="$Egresado" />
 
 
     <form action="{{ url('encuestas/2018/update/'. $Encuesta->registro) }}" method="POST" enctype="multipart/form-data" id='forma_sagrada' name='forma'>

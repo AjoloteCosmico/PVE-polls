@@ -140,7 +140,7 @@ class Enc16ActController extends Controller
                                                 'Reactivos','Opciones', 'Secciones'
                                                 ,'BloqueosSeccion'));
     }
-   
+         
     public function validar($Encuesta){
         $logs="";
         $Reactivos=Reactivo::where('rules','act')->get();
