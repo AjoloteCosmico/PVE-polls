@@ -153,7 +153,18 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
             ->lazy(100)
             ->each(function ($eg) {
                 try {
-                    $correos = Correo::where('cuenta', $eg->cuenta)->get();
+                    if (!empty($eg->correo)) {
+                        $correos = collect([ (object) [
+                            'id' => $eg->correo_id ?? null,
+                            'correo' => $eg->correo,
+                        ] ]);
+                    } else {
+                        $correos = Correo::where(
+                            DB::raw('CAST(cuenta AS BIGINT)'),
+                            '=',
+                            (int) $eg->cuenta
+                        )->get();
+                    }
 
                     if ($correos->isEmpty()) {
                         return;
@@ -162,7 +173,6 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
                     $data = [
                         'nombre' => $eg->nombre_completo ?? trim(($eg->nombre ?? '') . ' ' . ($eg->paterno ?? '')),
                         'cuenta' => $eg->cuenta,
-                        'prog_acad' => $eg->prog_acad ?? '',
                         'extra_items' => $this->intereses,
                     ];
 

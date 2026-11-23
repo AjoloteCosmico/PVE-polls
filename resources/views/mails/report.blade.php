@@ -1,5 +1,5 @@
 @extends('mails.base_mail', [
-    'encabezado' => 'Reporte Semanal',
+    'encabezado' => 'Reporte Mensual',
     'remitente' => 'Reportes Automatizados Seguimiento a Egresados UNAM',
     'header_image' => 'header_reporte.png',
     'footer_image' => 'footer_pos.png',
@@ -200,7 +200,7 @@
     
     {{-- CONTENIDO DEL REPORTE --}}
     <div class="report-container">
-        <h2 class="report-title">{{ $payload['title'] ?? 'Reporte Semanal' }}</h2>
+        <h2 class="report-title">{{ $payload['title'] ?? 'Reporte Mesnsual' }}</h2>
         <p class="report-period">del {{ $payload['start'] }} al {{ $payload['end'] }}</p>
 
         {{-- Tarjetas --}}

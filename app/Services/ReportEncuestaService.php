@@ -88,7 +88,7 @@ class ReportEncuestaService
         $rows = [];
 
         $data = $countTelefonicasInternet($query22);
-        $rows[] = ['generacion' => 'Gen 2022', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
+        $rows[] = ['generacion' => 'Seguimiento 2020 y 2022', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
 
         $data = $countTelefonicasInternet($queryRG);
         $rows[] = ['generacion' => 'Todas las generaciones', 'telefonicas' => $data['telefonicas'], 'internet' => $data['internet'], 'total' => $data['total']];
@@ -184,7 +184,7 @@ class ReportEncuestaService
             //Fel
             ['correo' => 'ivyanalitycs@gmail.com', 'nombre' => 'Analytics Team'],
             ['correo' => 'felmiquiztli@gmail.com', 'nombre' => 'Fel el hechicero arcano'],
-            //Malu
+            // Malu
             ['correo' => 'malu280596@gmail.com', 'nombre' => 'Malu'],
             //Davo 
             ['correo' => 'david1956@ciencias.unam.mx', 'nombre' => 'Davo'],

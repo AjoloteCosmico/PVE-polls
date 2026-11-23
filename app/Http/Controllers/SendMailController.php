@@ -19,12 +19,14 @@ use App\Mail\EncuestaCredencialMail;
 use App\Mail\EspecialidadConvocatoriaMail;
 use App\Mail\AvisoPrivacidadMail;
 use Illuminate\Support\Facades\Mail;
+use App\Services\ReportEncuestaService;
 use DB;
+use Carbon\Carbon;
 
 class SendMailController extends Controller
 {
     public function test($id){
-        $Egresado=EgresadoPosgrado::find($id);
+        $Egresado=Egresado::find($id);
         $Correos=Correo::where('cuenta',$Egresado->cuenta)->get();
         //INTERESES ESPECIALIDAD
         $intereses = [
@@ -42,7 +44,7 @@ class SendMailController extends Controller
         foreach($Correos as $correo){
             //agregar parametros especificos a data
             $specific_data=$data + ['correo' => $correo->correo, 'correo_id'=>$correo->id];
-            Mail::to($correo->correo)->queue(new CompletarPosgradoMail($specific_data));
+            Mail::to($correo->correo)->queue(new EncuestaCredencialMail($specific_data));
         }
         return 'Correo enviado conv esp'.$Correos->pluck('correo');
     }
@@ -63,6 +65,12 @@ class SendMailController extends Controller
     ];
 
     Mail::to('ejemplos@gmail.com')->queue(new AvisoPrivacidadMail($data));
+    // $reporteService=new ReportEncuestaService();
+    // $start = Carbon::parse('2025-07-01');
+    // $end   = Carbon::parse('2025-08-01');
+
+    // $reporteService->ReportSeg($start,$end);
+
 }
 
 public function send_prioritary_mail(Request $request) {
