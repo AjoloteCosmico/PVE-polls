@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->everyMinute();
         $schedule->command('report:send-weekly')->weekly()->mondays()->at('13:00'); //en hora del servidor deberían ser 7am del lunes
+        $schedule->command('app:enviar-correo-credencial')->weekly()->tuesdays()->at('15:00');
     }
 
     /**

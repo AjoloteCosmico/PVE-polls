@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta de Especialidad</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --text-color: #333333;
+            --bg-color: #f9f9f9;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.5;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .survey-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.4rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .question-block {
+            margin-bottom: 1.5rem;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .question-header {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-key {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-family: monospace;
+            margin-right: 0.5rem;
+        }
+
+        .question-type {
+            font-size: 0.75rem;
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .options-list {
+            list-style-type: none;
+            padding-left: 1.5rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .option-item {
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+            color: #555555;
+        }
+
+        .option-key {
+            font-family: monospace;
+            color: #95a5a6;
+            margin-right: 0.5rem;
+        }
+
+        /* --- Optimizaciones para Impresión (Ctrl + P) --- */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .survey-container {
+                max-width: 100%;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            /* Evita que una pregunta se corte mal entre páginas */
+            .question-block {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .section-title {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="survey-container">
+<div class="section-title">Sección: ed_continua</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc1]</span>En una escala del 1 al 5 donde 1 es nada y 5 es suficiente ¿en qué nivel considera que sus conocimientos y habilidades están actualizados conforme a las demandas del mercado laboral?<span class="question-type">rating</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Intermedio</li>
+    <li class="option-item"><span class="option-key">1.</span> Muy alto</li>
+    <li class="option-item"><span class="option-key">2.</span> Alto</li>
+    <li class="option-item"><span class="option-key">4.</span> Bajo</li>
+    <li class="option-item"><span class="option-key">5.</span> Muy bajo</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc14]</span>Desde que egresó de la licenciatura ¿Ha realizado actividades formales de actualización en su campo profesional (cursos, diplomados, seminarios, etc., excepto de titulación)?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc15]</span>¿Dónde  ha realizado sus actualizaciones?<span class="question-type">multiple_option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">2.</span> En institución pública</li>
+    <li class="option-item"><span class="option-key">3.</span> En institución privada</li>
+    <li class="option-item"><span class="option-key">6.</span> En plataformas digitales</li>
+    <li class="option-item"><span class="option-key">1.</span> En la UNAM</li>
+    <li class="option-item"><span class="option-key">4.</span> En la empresa o institución dónde trabaja</li>
+    <li class="option-item"><span class="option-key">5.</span> En una asociación</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc2]</span>¿Cuál es el principal obstáculo que ha enfrentado
+para participar en programas de capacitación o
+actualización?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Falta de tiempo</li>
+    <li class="option-item"><span class="option-key">4.</span> Falta de ofertas académicas</li>
+    <li class="option-item"><span class="option-key">2.</span> Costos</li>
+    <li class="option-item"><span class="option-key">7.</span> Otro (especifique)</li>
+    <li class="option-item"><span class="option-key">3.</span> Falta de información</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc2otra]</span>Especifique:<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc3]</span>¿En qué temas o competencias considera necesaria la actualización para mejorar su desarrollo profesional?<span class="question-type">multiple_option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Tecnología</li>
+    <li class="option-item"><span class="option-key">5.</span> Conocimientos relacionados con su carrera</li>
+    <li class="option-item"><span class="option-key">4.</span> Liderazgo</li>
+    <li class="option-item"><span class="option-key">3.</span> Gestión de proyectos</li>
+    <li class="option-item"><span class="option-key">2.</span> Análisis de datos</li>
+    <li class="option-item"><span class="option-key">6.</span> Otra (especifique)</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc3otra]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc5]</span>¿En cuál de los siguientes rubros de tecnología considera necesaria la capacitación o actualización?<span class="question-type">multiple_option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">6.</span> Otro (especifique)</li>
+    <li class="option-item"><span class="option-key">5.</span> Herramientas digitales para la docencia</li>
+    <li class="option-item"><span class="option-key">4.</span> Seguridad, privacidad  y gobernanza digital</li>
+    <li class="option-item"><span class="option-key">3.</span> Desarrollo de software y web (tecnologías aplicadas)</li>
+    <li class="option-item"><span class="option-key">2.</span> Datos, gestión y automatización</li>
+    <li class="option-item"><span class="option-key">1.</span> Ofimática</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc5otra]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc5a]</span>¿Qué nivel preferiría para recibir capacitación tecnológica?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">3.</span> Avanzado</li>
+    <li class="option-item"><span class="option-key">2.</span> Intermedio</li>
+    <li class="option-item"><span class="option-key">1.</span> Básico</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc4]</span>Requiere el conocimiento de algún idioma para su desempeño profesional,
+en caso afirmativo, señale cuál (es).<span class="question-type">multiple_option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">5.</span> Otro</li>
+    <li class="option-item"><span class="option-key">3.</span> Chino</li>
+    <li class="option-item"><span class="option-key">2.</span> Francés</li>
+    <li class="option-item"><span class="option-key">1.</span> Inglés</li>
+    <li class="option-item"><span class="option-key">4.</span> Alemán</li>
+    <li class="option-item"><span class="option-key">7.</span> No lo requiero</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc4otra]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc6]</span>¿En qué ámbito aplicaría los conocimientos que desea adquirir?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Actividades laborales o profesionales</li>
+    <li class="option-item"><span class="option-key">5.</span> Actividades culturales o recreativas</li>
+    <li class="option-item"><span class="option-key">4.</span> Investigación o gestión institucional</li>
+    <li class="option-item"><span class="option-key">3.</span> Emprendimiento o proyectos personales</li>
+    <li class="option-item"><span class="option-key">6.</span> Otro (especifique)</li>
+    <li class="option-item"><span class="option-key">2.</span> Docencia o tutoría académica</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc6otra]</span>Especifique<span class="question-type">text</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc7]</span>¿Qué modalidad de estudio prefiere para actualizarse profesionalmente?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Presencial</li>
+    <li class="option-item"><span class="option-key">4.</span> Híbrida</li>
+    <li class="option-item"><span class="option-key">3.</span> Videoconferencia</li>
+    <li class="option-item"><span class="option-key">2.</span> En línea</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc9]</span>¿Qué tipo de apoyo le gustaría que la UNAM ofreciera para facilitar el acceso a la educación continua?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Becas</li>
+    <li class="option-item"><span class="option-key">6.</span> Información pertinente</li>
+    <li class="option-item"><span class="option-key">5.</span> Facilidad para acceder a las instalaciones de la UNAM</li>
+    <li class="option-item"><span class="option-key">4.</span> Flexibilidad de Tiempo para realizar los cursos</li>
+    <li class="option-item"><span class="option-key">3.</span> Pagos diferidos</li>
+    <li class="option-item"><span class="option-key">2.</span> Descuentos</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc12label]</span>12.- ¿Cuál considera que sería un rango de precios adecuado para las siguientes
+actividades de educación continua?<span class="question-type">label</span></div>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc12a]</span>Curso breve (10-20 horas) ¿Cuál es un rango de precios aceptable?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Menos de $500</li>
+    <li class="option-item"><span class="option-key">4.</span> Más de $1,500</li>
+    <li class="option-item"><span class="option-key">3.</span> $1,001 – $1,500</li>
+    <li class="option-item"><span class="option-key">2.</span> $501 – $1,000</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc12b]</span>Curso-taller (20-40 horas) ¿Cuál es un rango de precios aceptable?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Menos de $1,000</li>
+    <li class="option-item"><span class="option-key">2.</span> $1,001 – $2,000</li>
+    <li class="option-item"><span class="option-key">3.</span> $2,001 – $3,000</li>
+    <li class="option-item"><span class="option-key">4.</span> Más de $3,000</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc12c]</span>Diplomado (120 horas) ¿Cuál es un rango de precios aceptable?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Menos de $10,000</li>
+    <li class="option-item"><span class="option-key">2.</span> $10,001 – $12,000</li>
+    <li class="option-item"><span class="option-key">3.</span> $12,001 – $14,000</li>
+    <li class="option-item"><span class="option-key">4.</span> Más de $14,000</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc12d]</span>Evento o conferencia (2-4 horas) ¿Cuál es un rango de costos aceptable?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sin costo</li>
+    <li class="option-item"><span class="option-key">2.</span> Hasta $200</li>
+    <li class="option-item"><span class="option-key">3.</span> $201 – $400</li>
+    <li class="option-item"><span class="option-key">4.</span> Más de $400</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc10]</span>¿Le gustaría recibir información sobre la oferta de educación continua de la UNAM?<span class="question-type">option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Sí</li>
+    <li class="option-item"><span class="option-key">2.</span> No</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc11]</span>¿Por cuál medio preferiría recibir esta información?<span class="question-type">multiple_option</span></div>
+  <ul class="options-list">
+    <li class="option-item"><span class="option-key">1.</span> Correo electrónico</li>
+    <li class="option-item"><span class="option-key">4.</span> Redes sociales</li>
+    <li class="option-item"><span class="option-key">3.</span> Página oficial</li>
+    <li class="option-item"><span class="option-key">2.</span> WhatsApp</li>
+  </ul>
+</div>
+<div class="question-block">
+  <div class="question-header"><span class="question-key">[edc16]</span>¿Tiene algún comentario respecto opciones de educación continua y su difusión?<span class="question-type">text</span></div>
+</div>
+
+</div>
+</body>
+</html>

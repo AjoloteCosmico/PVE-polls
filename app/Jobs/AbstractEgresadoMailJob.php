@@ -24,11 +24,11 @@ abstract class AbstractEgresadoMailJob implements ShouldQueue
 
     protected array $intereses;
     protected DateTimeInterface $IdempotenceDate;
-//al construir, solo cambia el arreglo de intereses y la fecha para validar no duplicidad
-    public function __construct(?array $intereses = null,$IdempotenceDate)
+// al construir, solo cambia el arreglo de intereses y la fecha para validar no duplicidad
+    public function __construct(?array $intereses = null, ?DateTimeInterface $IdempotenceDate = null)
     {
         $this->intereses = $intereses ?? $this->getDefaultIntereses();
-        $this->IdempotenceDate=$IdempotenceDate;
+        $this->IdempotenceDate = $IdempotenceDate ?? now();
     }
 
     abstract protected function buildQuery(): Builder;

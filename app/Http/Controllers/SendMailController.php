@@ -128,7 +128,6 @@ public function send_prioritary_mail(Request $request) {
                 'type' => $data['cuenta'].$data['nombre'].$data['correo'].$type,
                 'message' => 'Correo enviado correctamente',
             ]);
-    
 }
 
 public function send_continua(){
@@ -137,6 +136,15 @@ public function send_continua(){
 
     // Intereses por defecto (null) + fecha obligatoria
     dispatch(new \App\Jobs\SendContinuaJob(null, $idempotenceDate));
+    return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
+}
+
+public function send_credencial(){
+// Fecha de idempotencia: no reenviar correos trackeados desde esta fecha en adelante
+    $idempotenceDate = now()->subDay(); // o now()->startOfDay(), etc.
+
+    // Intereses por defecto (null) + fecha obligatoria
+    dispatch(new \App\Jobs\SendCredencialJob(null, $idempotenceDate));
     return response()->json(['success' => true, 'message' => 'Envío encolado y procesado en background']);
 }
 
