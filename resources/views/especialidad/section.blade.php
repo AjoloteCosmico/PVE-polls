@@ -25,7 +25,9 @@ $reactivosEnTablas=array();
             :tieneSecciones="true"
             :section="$section"
     />
-    </div>  
+    </div>
+    <livewire:telefono-manager :cuenta="$Egresado->cuenta" />
+    <livewire:correo-manager :cuenta="$Egresado->cuenta" :egresado="$Egresado" />  
     <br>
     <br>
 

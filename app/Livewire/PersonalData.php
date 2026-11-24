@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use App\Models\Egresado;
 use App\Models\Telefono;
 use App\Models\Correo;
@@ -25,22 +27,6 @@ class PersonalData extends Component
     public $tieneSecciones = false;
 
 
-    public $telefonos = [];
-    public $correos = [];
-
-    // Propiedades reactive para Modals de Teléfono
-    public $showPhoneModal = false;
-    public $phoneId = null;
-    public $telefonoInput = '';
-    public $telefonoDescripcion = '';
-
-    // Propiedades reactive para Modals de Correo
-    public $showEmailModal = false;
-    public $emailId = null;
-    public $correoInput = '';
-    public $correoStatus = '13'; // Default 'En uso'
-    public $correoDescripcion = '';
-
 
 
    public function mount($egresado, $encuesta, $typeStudy, $carrera = null, $plantel = null, $section = null, $tieneSecciones = false)
@@ -53,163 +39,28 @@ class PersonalData extends Component
         $this->section = $section;
         $this->tieneSecciones = $tieneSecciones;
 
-        $this->cargarContactos();
+        //$this->cargarContactos();
 
 
     }
 
-    public function cargarContactos()
+    #[Computed]
+    public function telefonos()
     {
-        $this->telefonos = Telefono::where('cuenta', $this->egresado->cuenta)->get();
-        $this->correos = Correo::where('cuenta', $this->egresado->cuenta)->get();
+        return Telefono::where('cuenta', $this->egresado->cuenta)->get();
     }
 
-   
-
-    // --- TELÉFONO ---
-
-    public function nuevoTelefono()
+    #[Computed]
+    public function correos()
     {
-        $this->resetValidation();
-        $this->phoneId = null;
-        $this->telefonoInput = '';
-        $this->telefonoDescripcion = '';
-        $this->showPhoneModal = true;
+        return Correo::where('cuenta', $this->egresado->cuenta)->get();
     }
 
-    public function editarTelefono($id)
+    #[On('contactoActualizado')]
+    public function refrescar()
     {
-        $this->resetValidation();
-        $tel = Telefono::findOrFail($id);
-        $this->phoneId = $tel->id;
-        $this->telefonoInput = $tel->telefono;
-        $this->telefonoDescripcion = $tel->descripcion;
-        $this->showPhoneModal = true;
+        // vacío: el evento fuerza el render
     }
-
-    public function guardarTelefono()
-    {
-
-        $this->validate([
-            'telefonoInput' => 'required|string|max:20|unique:telefonos,telefono,' . ($this->phoneId ?? 'NULL'),
-            'telefonoDescripcion' => 'nullable|string|max:255',
-        ], [
-            'telefonoInput.required' => 'El campo teléfono es obligatorio.',
-            'telefonoInput.unique' => 'Este número ya está registrado.',
-        ]);
-
-
-        if ($this->phoneId) {
-            // Editar tel
-            $tel = Telefono::find($this->phoneId);
-            $tel->telefono = $this->telefonoInput;
-            $tel->descripcion = $this->telefonoDescripcion;
-            $tel->save();
-            $mensaje = 'Teléfono editado correctamente';
-        } else {
-            // Nuevo tel
-            $tel = new Telefono();
-            $tel->cuenta = $this->egresado->cuenta;
-            $tel->telefono = $this->telefonoInput;
-            $tel->descripcion = $this->telefonoDescripcion;
-            $tel->status = 0;
-            $tel->save();
-            $mensaje = 'Teléfono agregado correctamente';
-        }
-
-
-        $this->showPhoneModal = false;
-        $this->cargarContactos();
-        $this->dispatch('swal:success', message: $mensaje);
-    }
-
-
-
-    
-    // --- CORREO ---
-
-
-    public function nuevoCorreo()
-    {
-        $this->resetValidation();
-        $this->emailId = null;
-        $this->correoInput = '';
-        $this->correoStatus = '13';
-        $this->correoDescripcion = '';
-        $this->showEmailModal = true;
-    }
-
-
-    public function editarCorreo($id)
-    {
-        $this->resetValidation();
-        $correo = Correo::findOrFail($id);
-        $this->emailId = $correo->id;
-        $this->correoInput = $correo->correo;
-        $this->correoStatus = $correo->status;
-        $this->correoDescripcion = $correo->descripcion;
-        $this->showEmailModal = true;
-    }
-
-
-    public function guardarCorreo()
-    {
-        
-        $this->validate([
-            'correoInput' => 'required|email|max:40|unique:correos,correo,' . ($this->emailId ?? 'NULL'),
-        ], [
-            'correoInput.required' => 'El correo es obligatorio.',
-            'correoInput.email' => 'Ingrese una dirección de correo válida.',
-            'correoInput.unique' => 'Este correo ya está registrado.',
-        ]);
-
-        if($this->emailId) {
-            // Editar correo
-            $correo = Correo::find($this->emailId);
-            $correo->correo = $this->correoInput;
-            $correo->status = $this->correoStatus;
-            $correo->descripcion = $this->correoDescripcion;
-            $correo->enviado = 0;
-            $correo->save();
-        } else {
-            // Nuevo correo
-            $correo = new Correo();
-            $correo->cuenta = $this->egresado->cuenta;
-            $correo->correo = $this->correoInput;
-            $correo->status = $this->correoStatus;
-            $correo->descripcion = 'en Uso';
-            $correo->save();
-        }
-
-
-
-        $this->showEmailModal = false;
-        $this->cargarContactos();
-        $this->dispatch('swal:success', message: 'Correo guardado y aviso enviado correctamente');
-
-    }
-
-    public function enviarAvisoPrivacidad()
-    {
-        $correo = Correo::findOrFail($this->emailId);
-
-        try {
-
-            $this->enviarAviso($correo->id, $correo->correo, $this->egresado->nombre, $this->egresado->cuenta);
-            $correo->enviado = 1;
-            $correo->save();
-            $this->dispatch('swal:success', message: 'Aviso de privacidad enviado correctamente');
-        } catch (\Exception $e) {
-            
-            $correo->enviado = 2;
-            $correo->save();
-            $this->dispatch('swal:error', message: 'Error al enviar el aviso de privacidad: ' . $e->getMessage());
-        }
-        $this->cargarContactos();
-        $this->cerrarModal();
-
-    }
-
 
 
 
