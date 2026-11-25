@@ -176,5 +176,5 @@
         @endif
 
     </table>
-
+</div>
    

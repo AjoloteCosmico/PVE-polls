@@ -133,7 +133,7 @@
 
         <!-- Main Footer -->
         <footer class="main-footer">
-            <div class="float-right  >
+            <div class="float-right">
                 <b>Version</b> 3.1.0
             </div>
             <strong>Copyright &copy; 2024-2026 <a href="https://www.pveaju.unam.mx/">PVEAJU-UNAM</a>.</strong> All rights
