@@ -2,6 +2,32 @@
 
 @section('content')
     <div class="contenedor-inicio">
+        @if(config('app.countdown_visible'))
+        <div id="countdown-widget" aria-live="polite">
+            <div class="countdown-title">Faltan para el 11 de diciembre</div>
+            <div class="countdown-digits">
+                <div class="countdown-unit">
+                    <div id="countdown-days" class="digit-group" aria-label="0 días"></div>
+                    <div class="countdown-unit-label">días</div>
+                </div>
+                <div class="digit-separator">:</div>
+                <div class="countdown-unit">
+                    <div id="countdown-hours" class="digit-group" aria-label="0 horas"></div>
+                    <div class="countdown-unit-label">horas</div>
+                </div>
+                <div class="digit-separator">:</div>
+                <div class="countdown-unit">
+                    <div id="countdown-minutes" class="digit-group" aria-label="0 minutos"></div>
+                    <div class="countdown-unit-label">minutos</div>
+                </div>
+                <div class="digit-separator">:</div>
+                <div class="countdown-unit">
+                    <div id="countdown-seconds" class="digit-group" aria-label="0 segundos"></div>
+                    <div class="countdown-unit-label">segundos</div>
+                </div>
+            </div>
+        </div>
+        @endif
         <div>
         <div id="message-div">
     <h1>¡Bienvenid@ {{Auth::user()->name }}!</h1><br>
@@ -159,6 +185,116 @@
     }
 </style>
 <style>
+    #countdown-widget {
+        position: fixed;
+        top: 62px;
+        right: 24px;
+        z-index: 1000;
+        min-width: 210px;
+        padding: 5px 7px 4px;
+        border: 1px solid #1d1d1d;
+        border-radius: 5px;
+        background: linear-gradient(145deg, #343434, #111 75%);
+        box-shadow: 0 4px 9px rgba(0, 0, 0, 0.35), inset 0 0 6px rgba(255, 170, 0, 0.08);
+        color: #ffb000;
+        text-align: center;
+    }
+
+    .countdown-title {
+        margin-bottom: 3px;
+        color: #f1c27d;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .countdown-digits {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 2px;
+    }
+
+    .countdown-unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .digit-group {
+        display: flex;
+        gap: 1.5px;
+        height: 36px;
+    }
+
+    .countdown-unit-label {
+        margin-top: 2px;
+        color: #f1c27d;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+    }
+
+    .digit-separator {
+        height: 36px;
+        color: #ffb000;
+        font-family: Consolas, monospace;
+        font-size: 26px;
+        line-height: 32px;
+        text-shadow: 0 0 4px #ff8a00;
+    }
+
+    .seven-digit {
+        position: relative;
+        width: 20px;
+        height: 36px;
+    }
+
+    .seven-digit span {
+        position: absolute;
+        background: #2a2114;
+        box-shadow: inset 0 0 1px #000;
+        transition: background 120ms, box-shadow 120ms;
+    }
+
+    .seven-digit span.on {
+        background: #ffb000;
+        box-shadow: 0 0 4px #ff8a00, 0 0 6px rgba(255, 176, 0, 0.7);
+    }
+
+    .seven-digit .a, .seven-digit .g, .seven-digit .d {
+        left: 3.5px;
+        width: 13px;
+        height: 3.5px;
+        clip-path: polygon(12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%, 0 50%);
+    }
+    .seven-digit .a { top: 0; }
+    .seven-digit .g { top: 16px; }
+    .seven-digit .d { bottom: 0; }
+
+    .seven-digit .b, .seven-digit .c, .seven-digit .e, .seven-digit .f {
+        width: 3.5px;
+        height: 14.5px;
+        clip-path: polygon(50% 0, 100% 12%, 100% 88%, 50% 100%, 0 88%, 0 12%);
+    }
+    .seven-digit .f { top: 2px; left: 0; }
+    .seven-digit .b { top: 2px; right: 0; }
+    .seven-digit .e { bottom: 2px; left: 0; }
+    .seven-digit .c { bottom: 2px; right: 0; }
+
+    @media (max-width: 768px) {
+        #countdown-widget {
+            top: 58px;
+            right: 8px;
+            min-width: 210px;
+            transform: scale(0.78);
+            transform-origin: top right;
+        }
+    }
+</style>
+<style>
   #message-div {
     position: relative !important; /* Fuerza la posición */
     padding: 40px !important;
@@ -215,4 +351,58 @@
 });
 </script>
 
+ @if(config('app.countdown_visible'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const target = new Date({!! json_encode(str_replace(' ', 'T', config('app.countdown_target'))) !!});
+            const segmentMap = {
+                '0': 'abcdef', '1': 'bc', '2': 'abdeg', '3': 'abcdg',
+                '4': 'bcfg', '5': 'acdfg', '6': 'acdefg', '7': 'abc',
+                '8': 'abcdefg', '9': 'abcdfg'
+            };
+
+            function createDigit(value) {
+                const digit = document.createElement('div');
+                digit.className = 'seven-digit';
+                ['a', 'b', 'c', 'd', 'e', 'f', 'g'].forEach(segment => {
+                    const bar = document.createElement('span');
+                    bar.className = segment;
+                    if ((segmentMap[value] || '').includes(segment)) bar.classList.add('on');
+                    digit.appendChild(bar);
+                });
+                return digit;
+            }
+
+            function renderValue(id, value, length, label) {
+                const group = document.getElementById(id);
+                if (!group) return;
+
+                const text = String(value).padStart(length, '0');
+                group.replaceChildren(...[...text].map(createDigit));
+                group.setAttribute('aria-label', value + ' ' + label);
+            }
+
+            function updateCountdown() {
+                const remainingMilliseconds = target.getTime() - Date.now();
+
+                let days = 0, hours = 0, minutes = 0, seconds = 0;
+                if (Number.isFinite(target.getTime()) && remainingMilliseconds > 0) {
+                    const remainingSeconds = Math.floor(remainingMilliseconds / 1000);
+                    days = Math.floor(remainingSeconds / 86400);
+                    hours = Math.floor((remainingSeconds % 86400) / 3600);
+                    minutes = Math.floor((remainingSeconds % 3600) / 60);
+                    seconds = remainingSeconds % 60;
+                }
+
+                renderValue('countdown-days', days, 2, 'días');
+                renderValue('countdown-hours', hours, 2, 'horas');
+                renderValue('countdown-minutes', minutes, 2, 'minutos');
+                renderValue('countdown-seconds', seconds, 2, 'segundos');
+            }
+
+            updateCountdown();
+            window.setInterval(updateCountdown, 1000);
+        });
+    </script>
+    @endif
  @endpush

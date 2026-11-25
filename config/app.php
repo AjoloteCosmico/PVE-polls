@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Facade;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -70,6 +69,10 @@ return [
     */
 
     'timezone' => 'UTC',
+
+    // Configuración del contador regresivo
+    'countdown_target' => env('COUNTDOWN_TARGET', '2026-12-11 23:59:59'),
+    'countdown_visible' => filter_var(env('COUNTDOWN_VISIBLE', true), FILTER_VALIDATE_BOOLEAN),
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +197,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        
+
         App\Providers\RouteServiceProvider::class,
 
     ],
