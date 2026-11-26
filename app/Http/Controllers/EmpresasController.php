@@ -41,7 +41,8 @@ class EmpresasController extends Controller
             ->select(
                 'empresas.*',
                 'users.name as nombre_usuario',
-                'empresas.created_at as fecha_creacion'
+                'empresas.created_at as fecha_creacion',
+                'empresas.updated_at as fecha_modificacion'
             )
             ->orderBy('empresas.nombre', 'asc')
             ->get();

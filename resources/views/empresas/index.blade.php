@@ -39,6 +39,8 @@
                         <br>
                         <small class="text-muted">
                             Creado: {{ $empresa->fecha_creacion ? \Carbon\Carbon::parse($empresa->fecha_creacion)->format('d/m/Y H:i') : 'N/A' }}
+                            <br>
+                            Modificado: {{ $empresa->fecha_modificacion ? \Carbon\Carbon::parse($empresa->fecha_modificacion)->format('d/m/Y H:i') : 'N/A' }}
                         </small>
                     </td>
                     <td>{{ $empresa->clave_giro }}</td>
