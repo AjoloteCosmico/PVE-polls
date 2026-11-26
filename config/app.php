@@ -71,7 +71,7 @@ return [
     'timezone' => 'UTC',
 
     // Configuración del contador regresivo
-    'countdown_target' => env('COUNTDOWN_TARGET', '2026-12-11 23:59:59'),
+    'countdown_target' => env('COUNTDOWN_TARGET', '2026-12-11 00:00:00'),
     'countdown_visible' => filter_var(env('COUNTDOWN_VISIBLE', true), FILTER_VALIDATE_BOOLEAN),
 
     /*
