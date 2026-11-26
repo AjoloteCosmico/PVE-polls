@@ -40,7 +40,8 @@ class EmpresasController extends Controller
             ->leftJoin('users', 'empresas.usuario', '=', 'users.clave')
             ->select(
                 'empresas.*',
-                'users.name as nombre_usuario'
+                'users.name as nombre_usuario',
+                'empresas.created_at as fecha_creacion'
             )
             ->orderBy('empresas.nombre', 'asc')
             ->get();

@@ -35,7 +35,12 @@
                     </td>
  
  
-                    <td>{{ $empresa->nombre }}</td>
+                    <td>{{ $empresa->nombre }}
+                        <br>
+                        <small class="text-muted">
+                            Creado: {{ $empresa->fecha_creacion ? \Carbon\Carbon::parse($empresa->fecha_creacion)->format('d/m/Y H:i') : 'N/A' }}
+                        </small>
+                    </td>
                     <td>{{ $empresa->clave_giro }}</td>
                     <td>
                         {{ $giros[$empresa->clave_giro] ?? 'Otro (Especifíque)' }}
